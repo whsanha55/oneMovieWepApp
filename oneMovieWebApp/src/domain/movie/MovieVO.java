@@ -3,7 +3,7 @@ package domain.movie;
 public class MovieVO {
 	private int movieNo;
 	private String movieTitle;
-	private String runningTime;
+	private int runningTime;
 	private String director;
 	private String story;
 	private String videoUrl;
@@ -30,11 +30,11 @@ public class MovieVO {
 		this.movieTitle = movieTitle;
 	}
 
-	public String getRunningTime() {
+	public int getRunningTime() {
 		return runningTime;
 	}
 
-	public void setRunningTime(String runningTime) {
+	public void setRunningTime(int runningTime) {
 		this.runningTime = runningTime;
 	}
 
@@ -77,11 +77,12 @@ public class MovieVO {
 	public void setNationNo(int nationNo) {
 		this.nationNo = nationNo;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "MovieVO [movieNo=" + movieNo + ", movieTitle=" + movieTitle + ", runningTime=" + runningTime
 				+ ", director=" + director + ", story=" + story + ", videoUrl=" + videoUrl + ", gradeNo=" + gradeNo
 				+ ", nationNo=" + nationNo + "]";
-	}	
+	}
+
 }
