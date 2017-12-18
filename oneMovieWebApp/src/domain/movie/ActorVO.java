@@ -5,9 +5,9 @@ public class ActorVO {
 	String actorName;
 	String characterName;
 	int actorPhotoNo;
-	String movieNo;
+	int movieNo;
 	int roleNo;
-	
+
 	public ActorVO() {
 		super();
 	}
@@ -44,11 +44,11 @@ public class ActorVO {
 		this.actorPhotoNo = actorPhotoNo;
 	}
 
-	public String getMovieNo() {
+	public int getMovieNo() {
 		return movieNo;
 	}
 
-	public void setMovieNo(String movieNo) {
+	public void setMovieNo(int movieNo) {
 		this.movieNo = movieNo;
 	}
 
@@ -65,8 +65,5 @@ public class ActorVO {
 		return "ActorVO [actorNo=" + actorNo + ", actorName=" + actorName + ", characterName=" + characterName
 				+ ", actorPhotoNo=" + actorPhotoNo + ", movieNo=" + movieNo + ", roleNo=" + roleNo + "]";
 	}
-	
-	
-	
-	
+
 }
