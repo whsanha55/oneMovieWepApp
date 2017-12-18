@@ -8,6 +8,30 @@ public class SeatVO {
 	public SeatVO() {
 		super();
 	}
+
+	public int getSeatNo() {
+		return seatNo;
+	}
+
+	public void setSeatNo(int seatNo) {
+		this.seatNo = seatNo;
+	}
+
+	public int getScreenNo() {
+		return screenNo;
+	}
+
+	public void setScreenNo(int screenNo) {
+		this.screenNo = screenNo;
+	}
+
+	public String getSeatName() {
+		return seatName;
+	}
+
+	public void setSeatName(String seatName) {
+		this.seatName = seatName;
+	}
 	
 	
 }
