@@ -1,15 +1,17 @@
 package domain.booking;
 
+import java.util.List;
+
 public class BookingVO {
 
 	String ticketNo;
 	String memberNo;
 	int turnNo;
-	int paymentCode;
+	String paymentCode;
 	int price;
 	int status;
-	int[] seatNo;
-	BookingRefundVO refundVO;
+	List<BookingSeatVO> bookingSeats;
+	BookingRefundVO bookingRefundVO;
 	// 조회시 필요
 	String memeberName;
 	String theaterName;
@@ -18,7 +20,10 @@ public class BookingVO {
 	String startTime;
 	String endTime;
 	String movieTitle;
+	String withdrawDate;
+	List<String> seatNames;
 
+	
 	public BookingVO() {
 	}
 
@@ -46,11 +51,11 @@ public class BookingVO {
 		this.turnNo = turnNo;
 	}
 
-	public int getPaymentCode() {
+	public String getPaymentCode() {
 		return paymentCode;
 	}
 
-	public void setPaymentCode(int paymentCode) {
+	public void setPaymentCode(String paymentCode) {
 		this.paymentCode = paymentCode;
 	}
 
@@ -70,21 +75,25 @@ public class BookingVO {
 		this.status = status;
 	}
 
-	
-	public int[] getSeatNo() {
-		return seatNo;
+	public List<BookingSeatVO> getBookingSeats() {
+		return bookingSeats;
 	}
 
-	public void setSeatNo(int[] seatNo) {
-		this.seatNo = seatNo;
+	public void setBookingSeats(List<BookingSeatVO> bookingSeats) {
+		this.bookingSeats = bookingSeats;
 	}
 
-	public BookingRefundVO getRefundVO() {
-		return refundVO;
+	public void addBookingSeat(BookingSeatVO bookingSeatVO) {
+		bookingSeats.add(bookingSeatVO);
+
 	}
 
-	public void setRefundVO(BookingRefundVO refundVO) {
-		this.refundVO = refundVO;
+	public BookingRefundVO getBookingRefundVO() {
+		return bookingRefundVO;
+	}
+
+	public void setBookingRefundVO(BookingRefundVO bookingRefundVO) {
+		this.bookingRefundVO = bookingRefundVO;
 	}
 
 	public String getMemeberName() {
@@ -143,4 +152,25 @@ public class BookingVO {
 		this.movieTitle = movieTitle;
 	}
 
+	public String getWithdrawDate() {
+		return withdrawDate;
+	}
+
+	public void setWithdrawDate(String withdrawDate) {
+		this.withdrawDate = withdrawDate;
+	}
+
+	public List<String> getSeatNames() {
+		return seatNames;
+	}
+
+	public void setSeatNames(List<String> seatNames) {
+		this.seatNames = seatNames;
+	}
+	
+	public void addSeatName(String seatName) {
+		seatNames.add(seatName);
+	}
+	
+	
 }
