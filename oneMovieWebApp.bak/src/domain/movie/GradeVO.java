@@ -1,6 +1,7 @@
 package domain.movie;
 
 public class GradeVO {
+	
 	int gradeNo;
 	String gradeAge;
 	
@@ -28,5 +29,9 @@ public class GradeVO {
 	public String toString() {
 		return "GradeVO [gradeNo=" + gradeNo + ", gradeAge=" + gradeAge + "]";
 	}
+
+
+	
+	
 
 }

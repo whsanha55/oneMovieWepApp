@@ -6,13 +6,14 @@ import java.util.List;
 
 
 public class DetailMovieVO {
+
 	private int movieNo;
 	private String movieTitle;
 	private List<GenreVO> genres = new ArrayList<GenreVO>();
 	private List<ActorVO> actors = new ArrayList<ActorVO>();
 	private List<PhotoVO> photos = new ArrayList<PhotoVO>();
 	private String director;
-	private int runningTime;
+	private String runningTime;
 	private int gradeNo;
 	private int nationNo;
 	private String story;
@@ -71,14 +72,14 @@ public class DetailMovieVO {
 		this.director = director;
 	}
 
-	public int getRunningTime() {
+	public String getRunningTime() {
 		return runningTime;
 	}
 
-	public void setRunningTime(int runningTime) {
+	public void setRunningTime(String runningTime) {
 		this.runningTime = runningTime;
 	}
-	
+
 	public int getGradeNo() {
 		return gradeNo;
 	}
