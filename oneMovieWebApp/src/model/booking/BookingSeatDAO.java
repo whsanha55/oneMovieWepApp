@@ -17,7 +17,7 @@ public class BookingSeatDAO {
 	}
 	
 	//예매한 좌석번호 일괄 등록
-	public void insertBookingSeat(int ticketNo, int[] seatNo) throws Exception {
+	public void insertBookingSeat(String ticketNo, int[] seatNo) throws Exception {
 		
 	}
 	
