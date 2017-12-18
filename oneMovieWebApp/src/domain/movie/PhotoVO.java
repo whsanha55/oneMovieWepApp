@@ -1,11 +1,16 @@
 package domain.movie;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PhotoVO {
 	private int moviePhotoNo;
 	private String moviePhotoOriginalFileName;
 	private String moviePhotoSystemFileName;
 	private String moviePhotoUrl;
 	private int movieNo;
+	
+	private List<PhotoVO> photos = new ArrayList<PhotoVO>();
 	
 	public PhotoVO() {
 		super();
@@ -55,6 +60,14 @@ public class PhotoVO {
 	public String toString() {
 		return "PhotoVO [moviePhotoNo=" + moviePhotoNo + ", moviePhotoOriginalFileName=" + moviePhotoOriginalFileName
 				+ ", moviePhotoSystemFileName=" + moviePhotoSystemFileName + ", moviePhotoUrl=" + moviePhotoUrl
-				+ ", movieNo=" + movieNo + "]";
+				+ ", movieNo=" + movieNo + ", photos=" + photos + "]";
+	}
+	
+	public List<PhotoVO> getPhotos() {
+		return photos;
+	}
+
+	public void setPhotos(List<PhotoVO> photos) {
+		this.photos = photos;
 	}
 }

@@ -7,7 +7,7 @@ import conn.DBConn;
 import domain.movie.ActorPhotoVO;
 
 public class ActorPhotoDAO {
-	private static ActorPhotoDAO instance = new ActorPhotoDAO(); // 클래스 변수
+	private static ActorPhotoDAO instance = new ActorPhotoDAO(); 
 
 	private ActorPhotoDAO() {
 
