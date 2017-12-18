@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import conn.DBConn;
+import domain.movie.DetailMovieVO;
 import domain.movie.GradeVO;
 import domain.movie.MovieTitleVO;
 import domain.movie.MovieVO;
@@ -266,5 +267,62 @@ public class MovieDAO {
             conn.close();
       }
       return movies;
+   }
+   
+   // 영화의 상세정보를 조회한다.
+   public DetailMovieVO selectMovie(int movieNo) throws Exception {
+      Connection conn = null;
+      PreparedStatement pstmt = null;
+      ResultSet rs = null;
+      DetailMovieVO detailMovie = new DetailMovieVO();
+      try {
+         conn = DBConn.getConnection();
+
+         StringBuffer sql = new StringBuffer();
+         sql.append("select m1.movie_no, m1.movie_title, m1.director, m1.running_time, m1.grade_no, m1.nation_no, m1.story, m3.role_no, m1.video_url                                             ");
+         sql.append("from movie m1, actor m2                           ");
+         sql.append("where m2.movie_no = m1.movie_no;                           ");
+         sql.append("and m1.movie_no = ?                                         ");
+         pstmt = conn.prepareStatement(sql.toString());
+
+         System.out.println(sql.toString());
+
+         pstmt.setInt(1, movieNo);
+
+         rs = pstmt.executeQuery();
+
+         int count = 1;
+         while (rs.next()) {
+            if (count == 1) {
+               detailMovie.setMovieNo(rs.getInt(1));
+               detailMovie.setMovieTitle(rs.getString(2));
+               detailMovie.setDirector(rs.getString(3));
+               detailMovie.setRunningTime(rs.getInt(4));
+               detailMovie.setGradeNo(rs.getInt(5));
+               detailMovie.setNationNo(rs.getInt(6));
+               detailMovie.setStory(rs.getString(7));
+               detailMovie.setRoleNo(rs.getInt(6));
+               detailMovie.setVideoUrl(rs.getString(7));
+            }
+
+            /*
+             * if (rs.getString(9) != null) { PhotoVO articleFile = new PhotoVO();
+             * articleFile.setNo(rs.getInt(8));
+             * articleFile.setOriginalFileName(rs.getString(9));
+             * articleFile.setSystemFileName(rs.getString(10));
+             * articleFile.setFileSize(rs.getLong(11));
+             * 
+             * article.addArticleFile(articleFile); }
+             */
+            count++;
+         }
+
+      } finally {
+         if (pstmt != null)
+            pstmt.close();
+         if (conn != null)
+            conn.close();
+      }
+      return detailMovie;
    }
 }
