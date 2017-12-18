@@ -36,7 +36,13 @@ public class MovieDAO {
 			
 			StringBuffer sql = new StringBuffer();
 			sql.append("insert into movie(movie_no, movie_title, runningtime, director, grade_no, nation_no)     ");
-			sql.append("values(movie_no_seq.nextval, ?, ?, ?, ?, ?)                           ");
+			sql.append("values(movie_no_seq.nextval, ?, ?, ?,                 										         ");
+			sql.append("(select grade_no                          																 ");
+			sql.append("from grade"																								 );
+			sql.append("where grade_age=?),  																					");
+			sql.append("(select nation_no         															                    ");
+			sql.append("from nation"																		 						 );
+			sql.append("where nation_name=?)); 																				 ");
 			pstmt = conn.prepareStatement(sql.toString());
 			
 			pstmt.setString(1, movie.getMovieTitle());
@@ -204,4 +210,61 @@ public class MovieDAO {
 			if(pstmt != null) pstmt.close();
 		}
 	}
+	// 검색 조건에 해당하는 영화목록을 오름차순으로 조회한다.
+   public List<MovieVO> selectMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
+      ArrayList<MovieVO> movies = new ArrayList<MovieVO>();
+      Connection conn = null;
+      PreparedStatement pstmt = null;
+      ResultSet rs = null;
+      try {
+         conn = DBConn.getConnection();
+
+         StringBuffer sql = new StringBuffer();
+         sql.append("select movieNo, movieTitle, director,  runningTime, gradeNo, nationNo");      //genreNo, actorNo,
+         sql.append("from (select rownum as rn, movie1.*                          ");
+         sql.append("      from (select *                                         ");
+         sql.append("            from movie                                     ");
+         sql.append("            order by no desc) movie1 )                         ");
+
+         if (keyfield.equals("all")) {
+            sql.append("where   ");
+         } else if (keyfield.equals("MovieTitle")) {
+            sql.append("where MovieTitle like '%' || ? ||  '%'  ");
+         } else if (keyfield.equals("Director")) {
+            sql.append("where MovieTitle like '%' || ? ||  '%'  ");
+         }
+
+         sql.append("and rn >= ? and rn <= ?                                             ");
+         pstmt = conn.prepareStatement(sql.toString());
+
+         pstmt.setString(1, keyfield);
+         pstmt.setString(2, keyword);
+         pstmt.setInt(3, startRow);
+         pstmt.setInt(4, endRow);
+
+         rs = pstmt.executeQuery();
+
+         while (rs.next()) {
+            MovieVO movie = new MovieVO();
+            /*GenreVO genre = new GenreVO();
+            ActorVO actor = new ActorVO();*/
+            movie.setMovieNo(rs.getInt(1));
+            movie.setMovieTitle(rs.getString(2));
+            /*genre.setGenreNo(rs.getInt(3));
+            actor.setActorNo(rs.getInt(4));*/
+            movie.setDirector(rs.getString(3));
+            movie.setRunningTime(rs.getInt(4));
+            movie.setGradeNo(rs.getInt(5));
+            movie.setNationNo(rs.getInt(6));
+            movies.add(movie);
+         }
+
+      } finally {
+         if (pstmt != null)
+            pstmt.close();
+         if (conn != null)
+            conn.close();
+      }
+      return movies;
+   }
 }
