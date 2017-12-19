@@ -26,8 +26,7 @@ public class MovieDAO {
 	}
 	
 	//영화 정보를 등록하다.
-	public int insertArticle(MovieVO movie) throws Exception {
-		Connection conn = null;		
+	public int insertArticle(Connection conn, MovieVO movie) throws Exception {	
 		PreparedStatement pstmt = null;
 		Statement stmt = null;
 		int movieNo = 0;

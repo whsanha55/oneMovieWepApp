@@ -25,8 +25,7 @@ public class ActorDAO {
 	}
 
 	// 출연진을 일괄 등록한다.
-	public int insertActorList(List<ActorVO> actors) throws Exception {
-		Connection conn = null;
+	public int insertActorList(Connection conn, List<ActorVO> actors) throws Exception {
 		PreparedStatement pstmt = null;
 		try {
 			conn = DBConn.getConnection();
@@ -142,8 +141,7 @@ public class ActorDAO {
 	}
 
 	// 출연진 정보를 수정한다.
-	public void modifyActorList(ActorVO actor) throws Exception {
-		Connection conn = null;
+	public void modifyActorList(Connection conn, ActorVO actor) throws Exception {
 		PreparedStatement pstmt = null;
 		try {
 			conn = DBConn.getConnection();
@@ -170,30 +168,29 @@ public class ActorDAO {
 		}
 
 	}
-	
+
 	// 게시글 정보를 삭제한다.
-		public void removeActor(int movieNo) throws Exception {
-			Connection conn = null;
-			PreparedStatement pstmt = null;
-			try {
-				conn = DBConn.getConnection();
+	public void removeActor(Connection conn, int movieNo) throws Exception {
+		PreparedStatement pstmt = null;
+		try {
+			conn = DBConn.getConnection();
 
-				StringBuffer sql = new StringBuffer();
-				sql.append("delete from actor     			");
-				sql.append("where movieNo= ?  				");
-				pstmt = conn.prepareStatement(sql.toString());
+			StringBuffer sql = new StringBuffer();
+			sql.append("delete from actor     			");
+			sql.append("where movieNo= ?  				");
+			pstmt = conn.prepareStatement(sql.toString());
 
-				pstmt.setInt(1, movieNo);
+			pstmt.setInt(1, movieNo);
 
-				pstmt.executeUpdate();
+			pstmt.executeUpdate();
 
-			} finally {
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			}
-
+		} finally {
+			if (pstmt != null)
+				pstmt.close();
+			if (conn != null)
+				conn.close();
 		}
+
+	}
 
 }

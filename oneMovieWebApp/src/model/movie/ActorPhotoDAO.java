@@ -18,8 +18,7 @@ public class ActorPhotoDAO {
 	}
 	
 	//출연진 사진을 등록한다.
-	public void insertActorPhoto(ActorPhotoVO actorPhoto) throws Exception {
-		Connection conn = null;		
+	public void insertActorPhoto(Connection conn, ActorPhotoVO actorPhoto) throws Exception {	
 		PreparedStatement pstmt = null;
 		
 		try {			
@@ -44,8 +43,7 @@ public class ActorPhotoDAO {
 	}
 	
 	//출연진 사진 정보를 삭제하다.
-	public void removeActorPhoto(int actorNo) throws Exception {
-		Connection conn = null;		
+	public void removeActorPhoto(Connection conn, int actorNo) throws Exception {	
 		PreparedStatement pstmt = null;
 		try {
 			conn = DBConn.getConnection();
