@@ -95,7 +95,7 @@ public class BookingSeatDAO {
 			StringBuilder sql = new StringBuilder();
 			sql.append("select 1                                      ");
 			sql.append("from screen_schedule                          ");
-			sql.append("where screen_date >= sysdate+ 1/2/24          ");
+			sql.append("where screen_date >= sysdate+ 1/24/2          ");
 			sql.append("  and schedule_no = (select schedule_no       ");
 			sql.append("                    from schedule_turn                    ");
 			sql.append("                    where turn_no = (select turn_no       ");

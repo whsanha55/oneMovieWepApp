@@ -59,7 +59,7 @@ public class ScreenScheduleDAO {
 			
 			while(rs.next()) {
 				ScreenScheduleVO screenScheduleVO = new ScreenScheduleVO();
-				if() {
+				if(true) {
 					screenScheduleVO.setTheaterName(rs.getString(1));
 					screenScheduleVO.setScreenDate(rs.getString(2));
 					screenScheduleVO.setMovieName(rs.getString(3)); 

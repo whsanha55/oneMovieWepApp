@@ -30,7 +30,7 @@ public class ScreenDAO {
 			conn =DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			pstmt = conn.prepareStatement(sql.toString());
-			sql.append("select theater_name")
+			sql.append("select theater_name");
 			
 			
 			
