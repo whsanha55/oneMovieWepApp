@@ -1,6 +1,7 @@
 package model.movie;
 
 import java.sql.Connection;
+import java.util.List;
 
 import conn.DBConn;
 import domain.movie.ActorVO;
@@ -32,8 +33,8 @@ public class MovieService {
 			if (movie.getActors().size() != 0) {
 				ActorDAO actorDAO = ActorDAO.getInstance();
 				for (ActorVO actor : movie.getActors()) {
-					//actor.setArticleNo(articleNo);
-					//articleFileDAO.insertArticleFile(conn, articleFile);//conn이 같아야함
+					actor.setMovieNo(moiveNo);
+					//ActorDAO.insertActorList(conn, actors);//conn이 같아야함
 				}
 			}
 			conn.commit();
