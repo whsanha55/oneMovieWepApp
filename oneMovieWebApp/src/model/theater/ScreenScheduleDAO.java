@@ -49,7 +49,7 @@ public class ScreenScheduleDAO {
 				sql.append("and t1.theater_name like '%' || ? || '%'											");
 			}else if(keyfield.equals("movie_title")) {
 				sql.append("and m1.movie_title like '%' || ? || '%'												");
-			}
+			} 
 			pstmt = conn.prepareStatement(sql.toString());
 
 			pstmt.setInt(1, startRow);

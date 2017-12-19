@@ -22,7 +22,7 @@ public class TheaterDAO {
 	
 	//지점 검색				3
 	public List<TheaterVO> SelectTheaterList() throws Exception{
-
+ 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

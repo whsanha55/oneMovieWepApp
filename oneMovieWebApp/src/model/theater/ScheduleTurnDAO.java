@@ -86,7 +86,36 @@ public class ScheduleTurnDAO {
 	
 	//영화,날짜,지점 선택시 -> 회차 조회	23
 	public List<ScheduleTurnVO> selectScheduleTurn(int screenNo,String screenDate,int movieNo)throws Exception{
-		List<ScheduleTurnVO> list = null;
+		List<ScheduleTurnVO> list = new ArrayList<ScheduleTurnVO>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DBConn.getConnection();
+			StringBuilder sql = new StringBuilder();
+			pstmt = conn.prepareStatement(sql.toString());
+			
+			sql.append("select ss1.schedule_no,s1.screen_name,st1.turn_no,m1.movie_title			");
+			sql.append(",to_char(st1.start_time,'hh24:mi'),to_char(st1.end_time,'hh24:mi')			");
+			sql.append("from screen_schedule ss1,theater t1, screen s1,movie m1,schedule_turn st1	");
+			sql.append("where t1.theater_no = s1.theater_no											");
+			sql.append("and s1.screen_no = ss1.screen_no											");
+			sql.append("and m1.movie_no = ss1.movie_no												");
+			sql.append("and ss1.schedule_no = st1.schedule_no										");
+			sql.append("and s1.screen_no = ?														");
+			sql.append("and m1.movie_no = ?															");
+			sql.append("and to_char(ss1.screen_date,'yyyy/mm/dd') = ?								");
+			
+			pstmt.setInt(1, screenNo);
+			pstmt.setInt(2, movieNo);
+			pstmt.setString(3, screenDate);
+			
+			rs = pstmt.executeQuery();
+		} finally {
+			if(rs!=null)rs.close();
+			if(pstmt!=null)pstmt.close();
+			if(conn!=null)conn.close();
+		}
 		
 		return list;
 	}

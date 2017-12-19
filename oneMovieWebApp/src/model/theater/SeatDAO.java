@@ -27,7 +27,7 @@ public class SeatDAO {
 		ResultSet rs = null;
 		List<SeatVO> list = new ArrayList<SeatVO>();
 		 
-		try {
+		try { 
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			pstmt = conn.prepareStatement(sql.toString());
@@ -38,6 +38,8 @@ public class SeatDAO {
 			sql.append("and s1.screen_no = ? 										");
 			
 			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, screenNo);
+			
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
