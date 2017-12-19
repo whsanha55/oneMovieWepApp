@@ -60,8 +60,12 @@ public class ScreenScheduleDAO {
 			int scheduleNo = 0;
 			while(rs.next()) {
 				ScreenScheduleVO screenScheduleVO = new ScreenScheduleVO();
+<<<<<<< HEAD
+				if(true) {
+=======
 				if(scheduleNo!=rs.getInt(7)) {
 					scheduleNo = rs.getInt(7);
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 					screenScheduleVO.setTheaterName(rs.getString(1));
 					screenScheduleVO.setScreenDate(rs.getString(2));
 					screenScheduleVO.setMovieName(rs.getString(3)); 
