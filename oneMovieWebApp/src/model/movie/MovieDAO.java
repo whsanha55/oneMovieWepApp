@@ -220,21 +220,22 @@ public class MovieDAO {
          conn = DBConn.getConnection();
 
          StringBuffer sql = new StringBuffer();
-         sql.append("select movieNo, movieTitle, director,  runningTime, gradeNo, nationNo");      //genreNo, actorNo,
+         sql.append("select DISTINCT m1.movie_no, m1.movie_title, m2.genre_no, m3.actor_no, m1.director, m1.running_time, m1.grade_no, m1.nation_no					"); 
          sql.append("from (select rownum as rn, movie1.*                          ");
          sql.append("      from (select *                                         ");
-         sql.append("            from movie                                     ");
-         sql.append("            order by no desc) movie1 )                         ");
+         sql.append("            from movie ) movie1 ) , movie m1, movie_genre m2, actor m3                                     ");
+         sql.append("where m1.movie_no = m2.movie_no and m1.movie_no = m3.movie_no ");
 
          if (keyfield.equals("all")) {
-            sql.append("where   ");
+            sql.append(" ");
          } else if (keyfield.equals("MovieTitle")) {
-            sql.append("where MovieTitle like '%' || ? ||  '%'  ");
+            sql.append("and m1.Movie_Title like '%' || ? ||  '%'  ");
          } else if (keyfield.equals("Director")) {
-            sql.append("where MovieTitle like '%' || ? ||  '%'  ");
+            sql.append("and Director like '%' || ? ||  '%'  ");
          }
 
          sql.append("and rn >= ? and rn <= ?                                             ");
+         sql.append("order by 1;                                             ");
          pstmt = conn.prepareStatement(sql.toString());
 
          pstmt.setString(1, keyfield);
