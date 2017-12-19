@@ -22,7 +22,6 @@ public class TheaterDAO {
 	
 	//지점 검색				3
 	public List<TheaterVO> SelectTheaterList() throws Exception{
- 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -31,7 +30,7 @@ public class TheaterDAO {
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			pstmt = conn.prepareStatement(sql.toString());
+			
 			sql.append("select theater_no,theater_name					");
 			sql.append("from theater 									");
 			sql.append("order by theater_name asc						");

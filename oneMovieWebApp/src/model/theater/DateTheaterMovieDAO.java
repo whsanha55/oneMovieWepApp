@@ -31,11 +31,14 @@ public class DateTheaterMovieDAO {
 		try {
 			conn =DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
+			
+			sql.append("select movie_title,movie_no								");
+			sql.append("from movie m1, screen_schedule ss1,screen s1			");
+			sql.append("where movie m1, screen_schedule ss1						");
+			sql.append("and screen_date > sysdate								");
+			
+			
 			pstmt = conn.prepareStatement(sql.toString());
-			
-			sql.append("select movie_title,movie_no					");
-			sql.append("from movie									");
-			
 			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
@@ -66,11 +69,12 @@ public class DateTheaterMovieDAO {
 		try {
 			conn =DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			pstmt = conn.prepareStatement(sql.toString());
-
+			
 			sql.append("select theater_name,theater_no					");
 			sql.append("from theater									");
-
+			sql.append("where screen_date > sysdate						");
+			
+			pstmt = conn.prepareStatement(sql.toString());
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -79,9 +83,7 @@ public class DateTheaterMovieDAO {
 				theaterVO.setTheaterNo(rs.getInt(2));
 				
 				list.add(theaterVO);
-				
 			}
-
 		} finally {
 			if(rs!=null)rs.close();
 			if(pstmt!=null)pstmt.close();
@@ -99,12 +101,12 @@ public class DateTheaterMovieDAO {
 		try {
 			conn =DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			pstmt = conn.prepareStatement(sql.toString());
 			
 			sql.append("select screen_date,schedule_no						");
 			sql.append("from screen_schedule								");
 			sql.append("where screen_date > sysdate							");
 			
+			pstmt = conn.prepareStatement(sql.toString());
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -131,7 +133,6 @@ public class DateTheaterMovieDAO {
 		try {
 			conn =DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			pstmt = conn.prepareStatement(sql.toString());
 			
 			sql.append("select m1.movie_no,m1.movie_title							");
 			sql.append("from movie m1, theater t1,screen s1,screen_schedule	ss1		");
@@ -140,7 +141,7 @@ public class DateTheaterMovieDAO {
 			sql.append("and ss1.movie_no = m1.movie_no								");
 			sql.append("and t1.theater_no = ?										");
 			
-			
+			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, theaterNo);
 			rs = pstmt.executeQuery();
 			
@@ -156,8 +157,6 @@ public class DateTheaterMovieDAO {
 			if(pstmt!=null)pstmt.close();
 			if(conn!=null)conn.close();
 		}
-		
-		
 		return list;
 	}
 
@@ -172,8 +171,7 @@ public class DateTheaterMovieDAO {
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			pstmt = conn.prepareStatement(sql.toString());
-			
+
 			sql.append("select m1.movie_no,m1.movie_title			");
 			sql.append("from movie m1, theater t1,screen s1,screen_schedule	ss1		");
 			sql.append("where t1.theater_no = s1.theater_no							");
@@ -181,7 +179,7 @@ public class DateTheaterMovieDAO {
 			sql.append("and ss1.movie_no = m1.movie_no								");
 			sql.append("and to_char(ss1.screen_date,'yyyy/mm/dd') = ?				");
 			
-			
+			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, date);
 			rs = pstmt.executeQuery();
 			
@@ -210,7 +208,6 @@ public class DateTheaterMovieDAO {
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			pstmt = conn.prepareStatement(sql.toString());
 			
 			sql.append("select t1.theater_no,t1.theater_name								");
 			sql.append("from theater t1,screen s1, screen_schedule ss1						");
@@ -218,7 +215,7 @@ public class DateTheaterMovieDAO {
 			sql.append("and s1.screen_no = ss1.screen_no									");
 			sql.append("and to_char(ss1.screen_date,'yyyy/mm/dd') = to_char(?,'yyyy/mm/dd')	"); 
 			
-			
+			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, date);
 			rs = pstmt.executeQuery();
 			
@@ -234,7 +231,6 @@ public class DateTheaterMovieDAO {
 			if(pstmt!=null)pstmt.close();
 			if(conn!=null)conn.close();
 		}
-		
 		return list;
 	}
 	//영화->지점 조회			17
@@ -247,7 +243,6 @@ public class DateTheaterMovieDAO {
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			pstmt = conn.prepareStatement(sql.toString());
 			
 			sql.append("select t1.theater_no, t1.theater_name								");
 			sql.append("from theater t1,screen s1, screen_schedule ss1,movie m1				");
@@ -256,6 +251,7 @@ public class DateTheaterMovieDAO {
 			sql.append("and ss1.movie_no = m1.movie_no										");
 			sql.append("and m1.movie_no = ?													"); 
 			
+			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, movieNo);
 			
 			rs = pstmt.executeQuery();
@@ -287,7 +283,6 @@ public class DateTheaterMovieDAO {
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			pstmt = conn.prepareStatement(sql.toString());
 			
 			sql.append("select screen_date, schedule_no							");
 			sql.append("from screen_schedule ss1,theater t1, screen s1			");
@@ -295,6 +290,7 @@ public class DateTheaterMovieDAO {
 			sql.append("and s1.screen_no = SS1.screen_no						");
 			sql.append("and t1.theater_no = ?									");
 			
+			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, theaterNO);
 			rs = pstmt.executeQuery();
 			
@@ -304,7 +300,6 @@ public class DateTheaterMovieDAO {
 				screenScheduleVO.setScheduleNo(rs.getInt(2));
 				
 				list.add(screenScheduleVO);
-				
 			}
 			
 		} finally {
@@ -312,8 +307,6 @@ public class DateTheaterMovieDAO {
 			if(pstmt!=null)pstmt.close();
 			if(conn!=null)conn.close();
 		}
-		
-		
 		return list;
 	}
 	//영화->날짜 조회			19
@@ -326,7 +319,6 @@ public class DateTheaterMovieDAO {
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			pstmt = conn.prepareStatement(sql.toString());
 			
 			sql.append("select screen_date, schedule_no							");
 			sql.append("from screen_schedule ss1,theater t1, screen s1,movie m1 ");
@@ -335,6 +327,7 @@ public class DateTheaterMovieDAO {
 			sql.append("and m1.movie_no = SS1.movie_no							");
 			sql.append("and SS1.movie_no = ?									");
 			
+			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, movieNo);
 			rs = pstmt.executeQuery();
 			
@@ -344,15 +337,12 @@ public class DateTheaterMovieDAO {
 				screenScheduleVO.setScheduleNo(rs.getInt(2));
 				
 				list.add(screenScheduleVO);
-				
 			}
-			
 		} finally {
 			if(rs!=null)rs.close();
 			if(pstmt!=null)pstmt.close();
 			if(conn!=null)conn.close();
 		}
-		
 		return list;
 	}
 	
@@ -367,7 +357,6 @@ public class DateTheaterMovieDAO {
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			pstmt = conn.prepareStatement(sql.toString());
 			
 			sql.append("select m1.movie_no,m1.movie_title											");
 			sql.append("from screen_schedule ss1,theater t1, screen s1,movie m1						");
@@ -377,6 +366,7 @@ public class DateTheaterMovieDAO {
 			sql.append("and t1.theater_no = ?														");
 			sql.append("and to_char(ss1.screen_date,'yyyy/mm/dd') = to_char(?,'yyyy/mm/dd')			");
 			
+			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, theaterNo);
 			pstmt.setString(2, date);
 			rs = pstmt.executeQuery();
@@ -394,9 +384,7 @@ public class DateTheaterMovieDAO {
 			if(pstmt!=null)pstmt.close();
 			if(conn!=null)conn.close();
 		}
-		
 		return list;
-		
 	}
 	//영화,날짜 -> 지점조회		21
 	public List<TheaterVO> selectTheater(int movieNo,String date) throws Exception{
@@ -408,7 +396,6 @@ public class DateTheaterMovieDAO {
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			pstmt = conn.prepareStatement(sql.toString());
 			
 			sql.append("select t1.theater_no,t1.theater_name										");
 			sql.append("from screen_schedule ss1,theater t1, screen s1,movie m1						");
@@ -418,6 +405,7 @@ public class DateTheaterMovieDAO {
 			sql.append("and m1.movie_no = ?															");
 			sql.append("and to_char(ss1.screen_date,'yyyy/mm/dd') = to_char(?,'yyyy/mm/dd')			");
 			
+			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, movieNo);
 			pstmt.setString(2, date);
 			rs = pstmt.executeQuery();
@@ -447,7 +435,6 @@ public class DateTheaterMovieDAO {
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			pstmt = conn.prepareStatement(sql.toString());
 			
 			sql.append("select ss1.screen_no,ss1.screen_date										");
 			sql.append("from screen_schedule ss1,theater t1, screen s1,movie m1						");
@@ -457,6 +444,7 @@ public class DateTheaterMovieDAO {
 			sql.append("and m1.movie_no = ?															");
 			sql.append("and t1.theater_no = ?														");
 			
+			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, movieNo);
 			pstmt.setInt(2, theaterNo);
 			

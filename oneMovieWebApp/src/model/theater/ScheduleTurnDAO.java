@@ -4,6 +4,7 @@ package model.theater;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,17 @@ public class ScheduleTurnDAO {
 	}
 	
 	//회차 등록   							8
-	public void insertTurn(List<ScheduleTurnVO> list) throws Exception {
+	public void insertTurn(List<ScheduleTurnVO> list,Connection conn) throws Exception {
+		PreparedStatement pstmt = null;
+		Statement stmt = null;
 		
+		try {
+			StringBuilder sql = new StringBuilder();
+			
+			
+		} finally {
+			// TODO: handle finally clause
+		}
 		
 	}
 	//회차 일정 조회						9
@@ -54,16 +64,16 @@ public class ScheduleTurnDAO {
 			
 			while(rs.next()) {
 				ScheduleTurnVO scheduleTurnVO = new ScheduleTurnVO();
-				ScreenScheduleVO screenScheduleVO = new ScreenScheduleVO();
-				
 				scheduleTurnVO.setTheaterName(rs.getString(1));
 				scheduleTurnVO.setScreenName(rs.getString(4));
 				scheduleTurnVO.setMovieName(rs.getString(5));
 				scheduleTurnVO.setStartTime(rs.getString(6));
 				scheduleTurnVO.setEndTime(rs.getString(7));
 				
+				ScreenScheduleVO screenScheduleVO = new ScreenScheduleVO();
 				screenScheduleVO.setScheduleNo(rs.getInt(2));
 				screenScheduleVO.setScreenDate(rs.getString(3));
+				
 				scheduleTurnVO.addScreenScheduleVO(screenScheduleVO);
 				
 				list.add(scheduleTurnVO); 
@@ -85,8 +95,9 @@ public class ScheduleTurnDAO {
 
 	
 	//영화,날짜,지점 선택시 -> 회차 조회	23
-	public List<ScheduleTurnVO> selectScheduleTurn(int screenNo,String screenDate,int movieNo)throws Exception{
-		List<ScheduleTurnVO> list = new ArrayList<ScheduleTurnVO>();
+	public List<ScreenScheduleVO> selectScheduleTurn(int screenNo,String screenDate,int movieNo)throws Exception{
+		List<ScreenScheduleVO> list = new ArrayList<ScreenScheduleVO>();
+		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -111,16 +122,23 @@ public class ScheduleTurnDAO {
 			pstmt.setString(3, screenDate);
 			
 			rs = pstmt.executeQuery();
-			
+			int turnNo = 0;
 			while(rs.next()) {
-				ScheduleTurnVO scheduleTurnVO = new ScheduleTurnVO();
-				scheduleTurnVO.setScheudleNo(rs.getInt(1));
-				scheduleTurnVO.setScreenName(rs.getString(2));
-				scheduleTurnVO.setMovieName(rs.getString(3));
-				
 				ScreenScheduleVO screenScheduleVO = new ScreenScheduleVO();
+				if(turnNo!=rs.getInt(4)) {
+					screenScheduleVO.setScheduleNo(rs.getInt(1));
+					screenScheduleVO.setScreenName(rs.getString(2));
+					screenScheduleVO.setMovieTitle(rs.getString(3));
+				}
 				
+				ScheduleTurnVO scheduleTurnVO = new ScheduleTurnVO();
+				scheduleTurnVO.setTurnNo(rs.getInt(4));
+				scheduleTurnVO.setStartTime(rs.getString(5));
+				scheduleTurnVO.setEndTime(rs.getString(6));
 				
+				screenScheduleVO.addScheduleTurnVO(scheduleTurnVO);
+				
+				list.add(screenScheduleVO);
 				
 			}
 		} finally {

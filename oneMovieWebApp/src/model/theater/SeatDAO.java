@@ -30,7 +30,6 @@ public class SeatDAO {
 		try { 
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			pstmt = conn.prepareStatement(sql.toString());
 			
 			sql.append("select s1.seat_no,s1.seat_name								");
 			sql.append("from seat s1, screen s2  									");

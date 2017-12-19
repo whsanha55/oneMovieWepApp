@@ -19,6 +19,7 @@ public class ScheduleTurnVO {
 	public void addScreenScheduleVO(ScreenScheduleVO screenScheduleVO) {
 		schedules.add(screenScheduleVO);
 	}
+	 
 	public String getScreenName() {
 		return screenName;
 	}

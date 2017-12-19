@@ -23,7 +23,6 @@ public class ScreenScheduleDAO {
 	
 	//상영일정 조회				2
 	public List<ScreenScheduleVO> selectScreenScheduleList(String keyfield,String keyword,int startRow,int endRow)throws Exception{
-		List<ScreenScheduleVO> list = null;
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -33,7 +32,7 @@ public class ScreenScheduleDAO {
 		try {
 			conn =DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			pstmt = conn.prepareStatement(sql.toString());
+			
 			sql.append("select t1.theater_name,ss1.screen_date,m1.movie_name,st2.turn_no						");
 			sql.append(",to_char(st2.start_time,'hh24:mi'),to_char(st2.end_time,'hh24:mi'),ss1.schedule_no		");		
 			sql.append("from theater t1,screen s1,screen_schedule ss1, movie m1,(select rownum as rn, st1.*		");	
@@ -65,7 +64,7 @@ public class ScreenScheduleDAO {
 					scheduleNo = rs.getInt(7);
 					screenScheduleVO.setTheaterName(rs.getString(1));
 					screenScheduleVO.setScreenDate(rs.getString(2));
-					screenScheduleVO.setMovieName(rs.getString(3)); 
+					screenScheduleVO.setMovieTitle(rs.getString(3)); 
 				}	
 				ScheduleTurnVO scheduleTurnVO = new ScheduleTurnVO();
 				scheduleTurnVO.setTurnNo(rs.getInt(4));

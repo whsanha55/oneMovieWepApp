@@ -13,8 +13,19 @@ public class ScreenScheduleVO {
 	//상영일정 조회시
 
 	String theaterName;	//지점 이름
-	String movieName;	//영화이름
+	String movieTitle;	//영화이름
+	String screenName;	//상영관 이름
  
+
+	public String getScreenName() {
+		return screenName;
+	}
+
+
+	public void setScreenName(String screenName) {
+		this.screenName = screenName;
+	}
+
 
 	public void addScheduleTurnVO(ScheduleTurnVO scheduleTurnVO) {
 		turns.add(scheduleTurnVO);
@@ -81,15 +92,16 @@ public class ScreenScheduleVO {
 	}
 
 
-	public String getMovieName() {
-		return movieName;
+	public String getMovieTitle() {
+		return movieTitle;
 	}
 
 
-	public void setMovieName(String movieName) {
-		this.movieName = movieName;
+	public void setMovieTitle(String movieTitle) {
+		this.movieTitle = movieTitle;
 	}
-	
+
+
 
 
 }
