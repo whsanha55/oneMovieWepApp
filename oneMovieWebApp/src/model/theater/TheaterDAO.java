@@ -22,13 +22,14 @@ public class TheaterDAO {
 	
 	//지점 검색				3
 	public List<TheaterVO> SelectTheaterList() throws Exception{
+
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<TheaterVO> list = new ArrayList<TheaterVO>();
-		
+		 
 		try {
-			conn =DBConn.getConnection();
+			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			pstmt = conn.prepareStatement(sql.toString());
 			sql.append("select theater_no,theater_name					");
@@ -51,6 +52,7 @@ public class TheaterDAO {
 			if(pstmt!=null)pstmt.close();
 			if(conn!=null)conn.close();
 		}
+
 		
 		return list;
 	}

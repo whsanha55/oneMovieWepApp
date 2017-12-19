@@ -25,9 +25,14 @@ public class MovieDAO {
 		return instance;
 	}
 	
+<<<<<<< HEAD
 	//영화 정보를 등록하다.
 	public int insertArticle(MovieVO movie) throws Exception {
 		Connection conn = null;		
+=======
+	//영화 정보를 등록하다.
+	public int insertMovie(Connection conn, MovieVO movie) throws Exception {	
+>>>>>>> refs/remotes/origin/master
 		PreparedStatement pstmt = null;
 		Statement stmt = null;
 		int movieNo = 0;
@@ -179,8 +184,7 @@ public class MovieDAO {
 	}
 	
 	//영화 정보를 수정하다.
-	public void modifyMovieList(MovieVO movie) throws Exception {
-		Connection conn = null;
+	public void modifyMovieList(Connection conn, MovieVO movie) throws Exception {
 		PreparedStatement pstmt = null;
 		try {	
 			StringBuffer sql = new StringBuffer();
@@ -221,21 +225,22 @@ public class MovieDAO {
          conn = DBConn.getConnection();
 
          StringBuffer sql = new StringBuffer();
-         sql.append("select movieNo, movieTitle, director,  runningTime, gradeNo, nationNo");      //genreNo, actorNo,
+         sql.append("select DISTINCT m1.movie_no, m1.movie_title, m2.genre_no, m3.actor_no, m1.director, m1.running_time, m1.grade_no, m1.nation_no					"); 
          sql.append("from (select rownum as rn, movie1.*                          ");
          sql.append("      from (select *                                         ");
-         sql.append("            from movie                                     ");
-         sql.append("            order by no desc) movie1 )                         ");
+         sql.append("            from movie ) movie1 ) , movie m1, movie_genre m2, actor m3                                     ");
+         sql.append("where m1.movie_no = m2.movie_no and m1.movie_no = m3.movie_no ");
 
          if (keyfield.equals("all")) {
-            sql.append("where   ");
+            sql.append(" ");
          } else if (keyfield.equals("MovieTitle")) {
-            sql.append("where MovieTitle like '%' || ? ||  '%'  ");
+            sql.append("and m1.Movie_Title like '%' || ? ||  '%'  ");
          } else if (keyfield.equals("Director")) {
-            sql.append("where MovieTitle like '%' || ? ||  '%'  ");
+            sql.append("and Director like '%' || ? ||  '%'  ");
          }
 
          sql.append("and rn >= ? and rn <= ?                                             ");
+         sql.append("order by 1;                                             ");
          pstmt = conn.prepareStatement(sql.toString());
 
          pstmt.setString(1, keyfield);
@@ -325,4 +330,32 @@ public class MovieDAO {
       }
       return detailMovie;
    }
+<<<<<<< HEAD
+=======
+   
+   //영화 정보를 일괄 삭제하다.
+ 	public void removeMovieList(Connection connn, List<Integer> noList) throws Exception {
+ 		Connection conn = null;		
+ 		PreparedStatement pstmt = null;
+ 		
+ 		try {			
+ 			/////////////////////////////////////////쪼인////////////////////////////////////////////////
+ 			StringBuffer sql = new StringBuffer();
+ 			sql.append("delete from movie      ");
+ 			sql.append("where movie_no = ?       ");
+ 			pstmt = conn.prepareStatement(sql.toString());
+ 			
+ 			MovieVO movie = new MovieVO();
+ 			
+ 			for(int i=0; i<noList.size(); i++) {	
+ 				pstmt.setInt(1, movie.getMovieNo());
+ 				pstmt.addBatch();
+ 			}
+ 			pstmt.executeBatch();			
+ 			
+ 		} finally {
+ 			if(pstmt != null) pstmt.close();
+ 		}
+ 	}
+>>>>>>> refs/remotes/origin/master
 }
