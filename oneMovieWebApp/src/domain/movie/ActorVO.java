@@ -7,6 +7,7 @@ public class ActorVO {
 	int actorPhotoNo;
 	int movieNo;
 	int roleNo;
+	private ActorPhotoVO actorPhoto = new ActorPhotoVO();
 
 	public ActorVO() {
 		super();
@@ -59,11 +60,19 @@ public class ActorVO {
 	public void setRoleNo(int roleNo) {
 		this.roleNo = roleNo;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "ActorVO [actorNo=" + actorNo + ", actorName=" + actorName + ", characterName=" + characterName
-				+ ", actorPhotoNo=" + actorPhotoNo + ", movieNo=" + movieNo + ", roleNo=" + roleNo + "]";
+				+ ", actorPhotoNo=" + actorPhotoNo + ", movieNo=" + movieNo + ", roleNo=" + roleNo + ", actorPhoto="
+				+ actorPhoto + "]";
 	}
 
+	public ActorPhotoVO getActorPhoto() {
+		return actorPhoto;
+	}
+
+	public void setActorPhoto(ActorPhotoVO actorPhoto) {
+		this.actorPhoto = actorPhoto;
+	}
 }

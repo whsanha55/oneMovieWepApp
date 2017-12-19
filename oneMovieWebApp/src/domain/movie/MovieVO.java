@@ -1,5 +1,8 @@
 package domain.movie;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MovieVO {
 	private int movieNo;
 	private String movieTitle;
@@ -9,6 +12,10 @@ public class MovieVO {
 	private String videoUrl;
 	private int gradeNo;
 	private int nationNo;
+	private ActorVO actor = new ActorVO();
+	private List<ActorVO> actors = new ArrayList<ActorVO>();//한 영화에 대해 출연진들은 여러명 존재
+	private List<PhotoVO> photos = new ArrayList<PhotoVO>();//한 영화에 대해 사진은 여러개 존재
+	private MovieGenreVO movieGenre = new MovieGenreVO();
 	
 	public MovieVO() {
 		super();
@@ -78,11 +85,43 @@ public class MovieVO {
 		this.nationNo = nationNo;
 	}
 
+	public List<ActorVO> getActors() {
+		return actors;
+	}
+
+	public void setActors(List<ActorVO> actors) {
+		this.actors = actors;
+	}
+
+	public MovieGenreVO getMovieGenre() {
+		return movieGenre;
+	}
+
+	public void setMovieGenre(MovieGenreVO movieGenre) {
+		this.movieGenre = movieGenre;
+	}
+
+	public List<PhotoVO> getPhotos() {
+		return photos;
+	}
+
+	public void setPhotos(List<PhotoVO> photos) {
+		this.photos = photos;
+	}
+
+	public ActorVO getActor() {
+		return actor;
+	}
+
+	public void setActor(ActorVO actor) {
+		this.actor = actor;
+	}
+
 	@Override
 	public String toString() {
 		return "MovieVO [movieNo=" + movieNo + ", movieTitle=" + movieTitle + ", runningTime=" + runningTime
 				+ ", director=" + director + ", story=" + story + ", videoUrl=" + videoUrl + ", gradeNo=" + gradeNo
-				+ ", nationNo=" + nationNo + "]";
+				+ ", nationNo=" + nationNo + ", actor=" + actor + ", actors=" + actors + ", photos=" + photos
+				+ ", movieGenre=" + movieGenre + "]";
 	}
-
 }
