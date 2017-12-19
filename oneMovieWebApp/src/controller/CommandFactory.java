@@ -8,7 +8,9 @@ public class CommandFactory {
 	private HashMap<String, String> map = new HashMap<String, String>();
 	
 	private CommandFactory() {
-		
+		map.put("/adminBooking1.do", "controller.AdminBooking1Command");
+		map.put("/adminBookingAjax.do", "controller.AdminBookingAjaxCommand");
+		map.put("/adminBookingAjax2.do", "controller.AdminBookingAjax2Command");
 	}
 	
 	

@@ -109,9 +109,9 @@ public class BookingDAO {
 			while (rs.next()) {
 				BookingVO bookingVO = new BookingVO();
 				if (!ticketNo.equals(rs.getString(8))) {
-					ticketNo = rs.getString(1);
+					ticketNo = rs.getString(8);
 					bookingVO.setMemberNo(rs.getString(1));
-					bookingVO.setMemeberName(rs.getString(2));
+					bookingVO.setMemberName(rs.getString(2));
 					bookingVO.setTheaterName(rs.getString(3));
 					bookingVO.setScreenName(rs.getString(4));
 					bookingVO.setScreenDate(rs.getString(5));
@@ -157,7 +157,6 @@ public class BookingDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<BookingVO> list = new ArrayList<BookingVO>();
-
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
@@ -179,14 +178,16 @@ public class BookingDAO {
 			sql.append("         and t8.screen_no = t7.screen_no             ");
 			sql.append("          and t7.theater_no = t6.theater_no          ");
 			sql.append("          and t2.seat_no = t10.seat_no               ");
+			
 			if (keyfield.equals("memberNo")) {
-				sql.append("and t4.member_no = ?                             ");
+				System.out.println(keyfield+1);
+				sql.append("and t4.member_no like '%' || ? || '%'                          ");
 			} else if (keyfield.equals("memberName")) {
-				sql.append("and t4.name = ?                                 ");
+				sql.append("and t4.name like '%' || ? || '%'                               ");
 			}
-
+			
 			if (status == 1) {
-				sql.append("and t1.status = ?          ");
+				sql.append("and t1.status = 1          ");
 			} else if (status == 2) {
 				sql.append(" and to_char(t8.screen_date,'yyyy/mm/dd') || ' '|| to_char(t9.start_time,'HH24:MI')   ");
 				sql.append("> to_char(sysdate,'yyyy/mm/dd hh24:mi')                                               ");
@@ -199,26 +200,24 @@ public class BookingDAO {
 			sql.append("       order by s5 desc ,s6 asc, s1 asc) booking)    ");
 
 			sql.append("   where rn between ? and ?                        ");
-
+			
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, keyword);
-			if (status == 1) {
-				pstmt.setInt(2, status);
-				pstmt.setInt(3, startRow);
-				pstmt.setInt(4, endRow);
-			} else {
-				pstmt.setInt(2, startRow);
-				pstmt.setInt(3, endRow);
-			}
-
+			
+			
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			 
 			rs = pstmt.executeQuery();
-			String memberNo = null;
+			String ticketNo = null;
 			while (rs.next()) {
 				BookingVO bookingVO = new BookingVO();
-				if (!memberNo.equals(rs.getString(1))) {
-					memberNo = rs.getString(1);
+				if (!rs.getString(8).equals(ticketNo)) {
+					ticketNo = rs.getString(8);
+					System.out.println(ticketNo);
 					bookingVO.setMemberNo(rs.getString(1));
-					bookingVO.setMemeberName(rs.getString(2));
+					bookingVO.setMemberName(rs.getString(2));
 					bookingVO.setTheaterName(rs.getString(3));
 					bookingVO.setScreenName(rs.getString(4));
 					bookingVO.setScreenDate(rs.getString(5));

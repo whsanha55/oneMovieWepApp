@@ -5,10 +5,6 @@ public class SeatVO {
 	int screenNo;		//상영관 번호
 	String seatName;	//상영관 좌석 이름
 	
-	public SeatVO() {
-		super();
-	}
-
 	public int getSeatNo() {
 		return seatNo;
 	}
@@ -20,7 +16,7 @@ public class SeatVO {
 	public int getScreenNo() {
 		return screenNo;
 	}
-
+ 
 	public void setScreenNo(int screenNo) {
 		this.screenNo = screenNo;
 	}
@@ -31,6 +27,10 @@ public class SeatVO {
 
 	public void setSeatName(String seatName) {
 		this.seatName = seatName;
+	}
+
+	public SeatVO() {
+		super();
 	}
 	
 	

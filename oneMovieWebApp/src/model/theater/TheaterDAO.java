@@ -26,11 +26,11 @@ public class TheaterDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<TheaterVO> list = new ArrayList<TheaterVO>();
-		
+		 
 		try {
-			conn =DBConn.getConnection();
+			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			pstmt = conn.prepareStatement(sql.toString());
+			
 			sql.append("select theater_no,theater_name					");
 			sql.append("from theater 									");
 			sql.append("order by theater_name asc						");
@@ -51,6 +51,7 @@ public class TheaterDAO {
 			if(pstmt!=null)pstmt.close();
 			if(conn!=null)conn.close();
 		}
+
 		
 		return list;
 	}

@@ -1,5 +1,6 @@
 package domain.booking;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookingVO {
@@ -10,10 +11,10 @@ public class BookingVO {
 	String paymentCode;
 	int price;
 	int status;
-	List<BookingSeatVO> bookingSeats;
+	List<BookingSeatVO> bookingSeats = new ArrayList<BookingSeatVO>();
 	BookingRefundVO bookingRefundVO;
 	// 조회시 필요
-	String memeberName;
+	String memberName;
 	String theaterName;
 	String screenName;
 	String screenDate;
@@ -21,9 +22,8 @@ public class BookingVO {
 	String endTime;
 	String movieTitle;
 	String withdrawDate;
-	List<String> seatNames;
+	List<String> seatNames = new ArrayList<String>();
 
-	
 	public BookingVO() {
 	}
 
@@ -96,12 +96,14 @@ public class BookingVO {
 		this.bookingRefundVO = bookingRefundVO;
 	}
 
-	public String getMemeberName() {
-		return memeberName;
+	
+
+	public String getMemberName() {
+		return memberName;
 	}
 
-	public void setMemeberName(String memeberName) {
-		this.memeberName = memeberName;
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
 	}
 
 	public String getTheaterName() {
@@ -167,10 +169,9 @@ public class BookingVO {
 	public void setSeatNames(List<String> seatNames) {
 		this.seatNames = seatNames;
 	}
-	
+
 	public void addSeatName(String seatName) {
 		seatNames.add(seatName);
 	}
-	
-	
+
 }
