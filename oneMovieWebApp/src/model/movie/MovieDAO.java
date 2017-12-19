@@ -42,7 +42,7 @@ public class MovieDAO {
          sql.append("insert into movie(movie_no, movie_title, runningtime, director, grade_no, nation_no)     ");
          sql.append(
                "values(movie_no_seq.nextval, ?, ?, ?,                                                        ");
-         sql.append(
+         sql.append(	
                "(select grade_no                                                                           ");
          sql.append("from grade");
          sql.append(
