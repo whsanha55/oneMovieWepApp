@@ -34,8 +34,8 @@ public class ScreenScheduleDAO {
 			StringBuilder sql = new StringBuilder();
 			pstmt = conn.prepareStatement(sql.toString());
 			sql.append("select t1.theater_name,ss1.screen_date,m1.movie_name,st2.turn_no						");
-			sql.append(",to_char(st2.start_time,'hh24:mi'),to_char(st2.end_time,'hh24:mi')						");		
-			sql.append("from theater t1,screen s1,screen_schedule ss1, movie m1(select rownum as rn, st1.*		");	
+			sql.append(",to_char(st2.start_time,'hh24:mi'),to_char(st2.end_time,'hh24:mi'),ss1.schedule_no		");		
+			sql.append("from theater t1,screen s1,screen_schedule ss1, movie m1,(select rownum as rn, st1.*		");	
 			sql.append("	 from (select *										 								");
 			sql.append("	 		from schedule_turn 										 					");
 			sql.append("	 		order by turn_no desc) st1)	st2					 							");
@@ -56,21 +56,21 @@ public class ScreenScheduleDAO {
 			pstmt.setString(3, keyword);
 			
 			rs = pstmt.executeQuery();
-			
+			int scheduleNo = 0;
 			while(rs.next()) {
 				ScreenScheduleVO screenScheduleVO = new ScreenScheduleVO();
-				if() {
+				if(scheduleNo!=rs.getInt(7)) {
+					scheduleNo = rs.getInt(7);
 					screenScheduleVO.setTheaterName(rs.getString(1));
 					screenScheduleVO.setScreenDate(rs.getString(2));
 					screenScheduleVO.setMovieName(rs.getString(3)); 
-				}else{	
-					ScheduleTurnVO scheduleTurnVO = new ScheduleTurnVO();
-					scheduleTurnVO.setTurnNo(rs.getInt(4));
-					scheduleTurnVO.setStartTime(rs.getString(5));
-					scheduleTurnVO.setEndTime(rs.getString(6));
-					screenScheduleVO.addScheduleTurnVO(scheduleTurnVO);
-				}
-
+				}	
+				ScheduleTurnVO scheduleTurnVO = new ScheduleTurnVO();
+				scheduleTurnVO.setTurnNo(rs.getInt(4));
+				scheduleTurnVO.setStartTime(rs.getString(5));
+				scheduleTurnVO.setEndTime(rs.getString(6));
+				screenScheduleVO.addScheduleTurnVO(scheduleTurnVO);
+				
 				screenList.add(screenScheduleVO);
 			}
 

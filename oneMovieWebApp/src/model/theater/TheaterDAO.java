@@ -28,7 +28,7 @@ public class TheaterDAO {
 		List<TheaterVO> list = new ArrayList<TheaterVO>();
 		
 		try {
-			conn =DBConn.getConnection();
+			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			pstmt = conn.prepareStatement(sql.toString());
 			sql.append("select theater_no,theater_name					");

@@ -10,27 +10,14 @@ public class ScreenScheduleVO {
 	int screenNo;		//상영관 번호
 	String screenDate;	//상영 날짜
 	int movieNo;		//영화번호
+	List<ScheduleTurnVO> turns = new ArrayList<ScheduleTurnVO>();
 	//상영일정 조회시
-	String keyfield;	//검색조건(지점명,영화명)
-	String keywordl;	//검색어
-	int startRow;		//시작줄
-	int endrow;			//마지막줄
-	ScheduleTurnVO	sceduleTurnVO;
-	int turnNo;			//회차번호
-	String startTime;	//시작시간
-	String endTime;		//종료시간
 	String theaterName;	//지점 이름
 	String movieName;	//영화이름
-	private List<ScheduleTurnVO> scheduleTurnVO;
 	
-	public List<ScheduleTurnVO> getScheduleTurnVO() {
-		return scheduleTurnVO;
+	public void addScheduleTurnVO(ScheduleTurnVO scheduleTurnVO) {
+		turns.add(scheduleTurnVO);
 	}
-
-	public void setScheduleTurnVO(List<ScheduleTurnVO> scheduleTurnVO) {
-		this.scheduleTurnVO = scheduleTurnVO;
-	}
-
 	public String getMovieName() {
 		return movieName;
 	}
@@ -83,73 +70,15 @@ public class ScreenScheduleVO {
 		this.movieNo = movieNo;
 	}
 
-	public String getKeyfield() {
-		return keyfield;
+
+	public List<ScheduleTurnVO> getTurns() {
+		return turns;
 	}
 
-	public void setKeyfield(String keyfield) {
-		this.keyfield = keyfield;
+	public void setTurns(List<ScheduleTurnVO> turns) {
+		this.turns = turns;
 	}
 
-	public String getKeywordl() {
-		return keywordl;
-	}
-
-	public void setKeywordl(String keywordl) {
-		this.keywordl = keywordl;
-	}
-
-	public int getStartRow() {
-		return startRow;
-	}
-
-	public void setStartRow(int startRow) {
-		this.startRow = startRow;
-	}
-
-	public int getEndrow() {
-		return endrow;
-	}
-
-	public void setEndrow(int endrow) {
-		this.endrow = endrow;
-	}
-
-	public ScheduleTurnVO getSceduleTurnVO() {
-		return sceduleTurnVO;
-	}
-
-	public void setSceduleTurnVO(ScheduleTurnVO sceduleTurnVO) {
-		this.sceduleTurnVO = sceduleTurnVO;
-	}
-
-	public int getTurnNo() {
-		return turnNo;
-	}
-
-	public void setTurnNo(int turnNo) {
-		this.turnNo = turnNo;
-	}
-
-	public String getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
-	}
-
-	public String getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
-	}
-	
-	public void addScheduleTurnVO(ScheduleTurnVO scheduleTurnVO) {
-		this.scheduleTurnVO.add(scheduleTurnVO);
-	}
 	
 	
 }
