@@ -25,6 +25,7 @@ public class PhotoDAO {
 	//사진 정보를 일괄 등록한다.
 	public void insertPhotoList(Connection connn, List<PhotoVO> photos) throws Exception {
 		Connection conn = null;		
+
 		PreparedStatement pstmt = null;
 		
 		try {
@@ -52,7 +53,7 @@ public class PhotoDAO {
 	//사진을 조회하다.
 	public List<PhotoVO> selectPhotoList(int movieNo) throws Exception {
 		ArrayList<PhotoVO> photos = new ArrayList<PhotoVO>();
-		Connection conn = null;		
+		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		
@@ -87,8 +88,7 @@ public class PhotoDAO {
 	}
 	
 	//영화 사진 정보를 삭제하다.
-	public void removePhotoList(int movieNo) throws Exception {
-		Connection conn = null;		
+	public void removePhotoList(Connection conn, int movieNo) throws Exception {	
 		PreparedStatement pstmt = null;
 		
 		try {			

@@ -131,8 +131,7 @@ public class ActorDAO {
 	}
 
 	// 출연진 정보를 수정한다.
-	public void modifyActorList(ActorVO actor) throws Exception {
-		Connection conn = null;
+	public void modifyActorList(Connection conn, ActorVO actor) throws Exception {
 		PreparedStatement pstmt = null;
 		try {
 			conn = DBConn.getConnection();
@@ -159,10 +158,9 @@ public class ActorDAO {
 		}
 
 	}
-	
+
 	// 게시글 정보를 삭제한다.
-	public void removeActor(int movieNo) throws Exception {
-		Connection conn = null;
+	public void removeActor(Connection conn, int movieNo) throws Exception {
 		PreparedStatement pstmt = null;
 		try {
 			conn = DBConn.getConnection();
