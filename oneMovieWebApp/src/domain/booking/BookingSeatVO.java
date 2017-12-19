@@ -4,7 +4,6 @@ public class BookingSeatVO {
 	int bookingSeatNo;
 	String ticketNo;
 	int seatNo;
-	String seatName;
 
 	public BookingSeatVO() {
 	}
@@ -32,14 +31,5 @@ public class BookingSeatVO {
 	public void setSeatNo(int seatNo) {
 		this.seatNo = seatNo;
 	}
-
-	public String getSeatName() {
-		return seatName;
-	}
-
-	public void setSeatName(String seatName) {
-		this.seatName = seatName;
-	}
-	
 
 }

@@ -6,11 +6,6 @@ public class ScreenVO {
 	String screenName;	//상영관이름
 	
 	
-	public ScreenVO() {
-		super();
-	}
-
-
 	public int getScreenNo() {
 		return screenNo;
 	}
@@ -38,6 +33,11 @@ public class ScreenVO {
 
 	public void setScreenName(String screenName) {
 		this.screenName = screenName;
+	}
+
+
+	public ScreenVO() {
+		super();
 	}
 	
 	

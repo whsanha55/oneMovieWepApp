@@ -23,6 +23,7 @@ public class ScreenDAO {
 	
 	//지점에 해당하는 상영관 정보 검색				4
 	public List<TheaterVO> SelectScreenList (int[] theaterNo)throws Exception{
+
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -77,6 +78,7 @@ public class ScreenDAO {
 			if(pstmt!=null)pstmt.close();
 			if(conn!=null)conn.close();
 		}
+
 		return list;
 	}
 }

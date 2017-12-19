@@ -23,7 +23,8 @@ public class ScreenScheduleDAO {
 	
 	//상영일정 조회				2
 	public List<ScreenScheduleVO> selectScreenScheduleList(String keyfield,String keyword,int startRow,int endRow)throws Exception{
-		
+		List<ScreenScheduleVO> list = null;
+
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -80,9 +81,9 @@ public class ScreenScheduleDAO {
 			if(conn!=null)conn.close();
 		}
 		return screenList;
-		
+
+
 	}
-	
 	//상영일정 등록 			6
 	public void InsertScreenSchedule(List<ScreenScheduleVO>list) throws Exception{
 		

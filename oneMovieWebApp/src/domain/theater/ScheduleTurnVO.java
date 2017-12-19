@@ -9,6 +9,7 @@ public class ScheduleTurnVO {
 	String endTime;		//종료시간
 	int scheudleNo;		//상영번호
 	
+
 	List<ScreenScheduleVO> schedules = new ArrayList<ScreenScheduleVO>();
 	//회차일정 조회시
 	String theaterName;	//지점 이름
@@ -37,7 +38,7 @@ public class ScheduleTurnVO {
 		this.movieName = movieName;
 	}
 	
-	
+
 	public ScheduleTurnVO() {
 		super();
 	}
@@ -72,5 +73,4 @@ public class ScheduleTurnVO {
 		this.schedules = schedules;
 	}
 
-	
 }

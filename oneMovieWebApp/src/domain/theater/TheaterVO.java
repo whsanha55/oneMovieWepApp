@@ -6,6 +6,22 @@ import java.util.List;
 public class TheaterVO {
 	int theaterNo;		//±ÿ¿Âπ¯»£
 	String theaterName;	//±ÿ¿Â¿Ã∏ß
+	public int getTheaterNo() {
+		return theaterNo;
+	}
+
+	public void setTheaterNo(int theaterNo) {
+		this.theaterNo = theaterNo;
+	}
+
+	public String getTheaterName() {
+		return theaterName;
+	}
+
+	public void setTheaterName(String theaterName) {
+		this.theaterName = theaterName;
+	}
+
 	List<ScreenVO>list = new ArrayList<ScreenVO>();
 	
 	public void addScreenVO(ScreenVO screenVO) {
@@ -22,22 +38,6 @@ public class TheaterVO {
 
 	public TheaterVO() {
 		super();
-	}
-
-	public int getTheaterNo() {
-		return theaterNo;
-	}
-
-	public void setTheaterNo(int theaterNo) {
-		this.theaterNo = theaterNo;
-	}
-
-	public String getTheaterName() {
-		return theaterName;
-	}
-
-	public void setTheaterName(String theaterName) {
-		this.theaterName = theaterName;
 	}
 	
 	
