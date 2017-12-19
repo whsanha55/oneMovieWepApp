@@ -29,7 +29,7 @@ public class ScreenDAO {
 		ResultSet rs = null;
 		List<TheaterVO>list = new ArrayList<TheaterVO>();
 
-		try {
+		try { 
 			conn =DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			pstmt = conn.prepareStatement(sql.toString());

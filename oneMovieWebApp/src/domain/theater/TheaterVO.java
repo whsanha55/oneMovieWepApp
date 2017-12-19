@@ -17,7 +17,7 @@ public class TheaterVO {
 	public String getTheaterName() {
 		return theaterName;
 	}
-
+ 
 	public void setTheaterName(String theaterName) {
 		this.theaterName = theaterName;
 	}

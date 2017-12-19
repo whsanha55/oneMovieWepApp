@@ -26,7 +26,7 @@ public class SeatDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<SeatVO> list = new ArrayList<SeatVO>();
-		
+		 
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();

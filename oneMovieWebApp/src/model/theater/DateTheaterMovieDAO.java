@@ -201,7 +201,7 @@ public class DateTheaterMovieDAO {
 		
 		List<TheaterVO>list = null;
 		
-		return list;
+		return list; 
 	}
 	//영화,지점 -> 날짜조회		22
 	public List<TheaterVO> selectDate(int movieNo, int theaterNo) throws Exception{

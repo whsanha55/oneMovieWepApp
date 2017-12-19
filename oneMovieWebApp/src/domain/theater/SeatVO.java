@@ -16,7 +16,7 @@ public class SeatVO {
 	public int getScreenNo() {
 		return screenNo;
 	}
-
+ 
 	public void setScreenNo(int screenNo) {
 		this.screenNo = screenNo;
 	}

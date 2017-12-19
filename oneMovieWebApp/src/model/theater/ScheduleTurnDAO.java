@@ -66,9 +66,9 @@ public class ScheduleTurnDAO {
 				screenScheduleVO.setScreenDate(rs.getString(3));
 				scheduleTurnVO.addScreenScheduleVO(screenScheduleVO);
 				
-				list.add(scheduleTurnVO);
+				list.add(scheduleTurnVO); 
 				
-			}
+			} 
 		} finally {
 			if(rs!=null)rs.close();
 			if(pstmt!=null)pstmt.close();

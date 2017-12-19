@@ -14,7 +14,7 @@ public class ScheduleTurnVO {
 	//회차일정 조회시
 	String theaterName;	//지점 이름
 	String screenName; //상영관 이름
-	String movieName;	//영화이름
+	String movieName;	//영화이름 
 	
 	public void addScreenScheduleVO(ScreenScheduleVO screenScheduleVO) {
 		schedules.add(screenScheduleVO);

@@ -13,7 +13,7 @@ public class ScreenVO {
 
 	public void setScreenNo(int screenNo) {
 		this.screenNo = screenNo;
-	}
+	} 
 
 
 	public int getTheaterNo() {

@@ -44,7 +44,7 @@ public class ScreenScheduleDAO {
 			sql.append("and m1.movie_no = ss1.movie_no										 					");
 			sql.append("and ss1.schedule_no = st2.schedule_no										 			");
 			sql.append("and rn >= ? and rn <= ?													 				");
-			
+			 
 			if(keyfield.equals("theater_name")) {
 				sql.append("and t1.theater_name like '%' || ? || '%'											");
 			}else if(keyfield.equals("movie_title")) {

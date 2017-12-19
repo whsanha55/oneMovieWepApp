@@ -27,7 +27,7 @@ public class TheaterDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<TheaterVO> list = new ArrayList<TheaterVO>();
-		
+		 
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
