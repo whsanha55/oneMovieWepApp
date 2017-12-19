@@ -27,7 +27,7 @@ public class MovieDAO {
 	}
 	
 	//영화 정보를 등록하다.
-	public int insertArticle(Connection conn, MovieVO movie) throws Exception {	
+	public int insertMovie(Connection conn, MovieVO movie) throws Exception {	
 		PreparedStatement pstmt = null;
 		Statement stmt = null;
 		int movieNo = 0;
@@ -179,8 +179,7 @@ public class MovieDAO {
 	}
 	
 	//영화 정보를 수정하다.
-	public void modifyMovieList(MovieVO movie) throws Exception {
-		Connection conn = null;
+	public void modifyMovieList(Connection conn, MovieVO movie) throws Exception {
 		PreparedStatement pstmt = null;
 		try {	
 			StringBuffer sql = new StringBuffer();
@@ -327,7 +326,7 @@ public class MovieDAO {
    }
    
    //영화 정보를 일괄 삭제하다.
- 	public void removeMovieList(Connection connn, List<String> noList) throws Exception {
+ 	public void removeMovieList(Connection connn, List<Integer> noList) throws Exception {
  		Connection conn = null;		
  		PreparedStatement pstmt = null;
  		

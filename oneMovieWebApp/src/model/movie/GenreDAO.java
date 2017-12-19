@@ -24,8 +24,7 @@ public class GenreDAO {
 	}
 
 	// 영화 장르를 등록한다.
-	public void insertArticle(MovieGenreVO genre) throws Exception {
-		Connection conn = null;
+	public void insertGenreList(Connection conn, MovieGenreVO genre) throws Exception {
 		PreparedStatement pstmt = null;
 		try {
 			conn = DBConn.getConnection();

@@ -1,11 +1,15 @@
 package model.movie;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 import conn.DBConn;
+import domain.movie.ActorPhotoVO;
 import domain.movie.ActorVO;
+import domain.movie.MovieGenreVO;
 import domain.movie.MovieVO;
+import domain.movie.PhotoVO;
 
 public class MovieService {
 	private static MovieService instance = new MovieService();
@@ -20,23 +24,53 @@ public class MovieService {
 	
 	//영화 정보를 등록하다.
 	public void addMovie(MovieVO movie) throws Exception {
+		ArrayList<ActorVO> actors = new ArrayList<ActorVO>();
+		ArrayList<PhotoVO> photos = new ArrayList<PhotoVO>();
+		ActorVO actor = new ActorVO();
 		Connection conn = null;
+		int actorNo = 0;
 		try {
 			conn = DBConn.getConnection();
 
 			// tx.begin(트랜젝션 시작)
 			conn.setAutoCommit(false);
-
+			
+			//영화 등록
 			MovieDAO moiveDAO = MovieDAO.getInstance();
-			int moiveNo = moiveDAO.insertMovie(movie);
-
+			int moiveNo = moiveDAO.insertMovie(conn, movie);
+			
+			//출연진 등록
 			if (movie.getActors().size() != 0) {
 				ActorDAO actorDAO = ActorDAO.getInstance();
-				for (ActorVO actor : movie.getActors()) {
-					actor.setMovieNo(moiveNo);
-					//ActorDAO.insertActorList(conn, actors);//conn이 같아야함
+				for (ActorVO actor1 : movie.getActors()) {
+					actor1.setMovieNo(moiveNo);
+					actors.add(actor1);				
 				}
+				actorNo = actorDAO.insertActorList(conn, actors);
 			}
+			
+			//출연진 사진 등록
+			ActorPhotoDAO actorPhotoDAO = ActorPhotoDAO.getInstance();
+			ActorPhotoVO actorPhoto = actor.getActorPhoto();
+			actorPhoto.setActorNo(actorNo);
+			actorPhotoDAO.insertActorPhoto(conn, actorPhoto);
+			
+			//사진 등록
+			if (movie.getPhotos().size() != 0) {
+				PhotoDAO photoDAO = PhotoDAO.getInstance();
+				for (PhotoVO photo : movie.getPhotos()) {
+					photo.setMovieNo(moiveNo);
+					photos.add(photo);				
+				}
+				photoDAO.insertPhotoList(conn, photos);
+			}
+			
+			//영화 장르 등록
+			GenreDAO genreDAO = GenreDAO.getInstance();
+			MovieGenreVO genre = movie.getMovieGenre();
+			genre.setMovieNo(moiveNo);
+			genreDAO.insertGenreList(conn, genre);
+			
 			conn.commit();
 
 		} catch (Exception ex) {
@@ -48,5 +82,70 @@ public class MovieService {
 		}
 
 	}
-		
+	// 영화 정보를 삭제한다.
+   public void deleteMovie(int movieNo) throws Exception {
+      Connection conn = null;
+      try {
+         conn = DBConn.getConnection();
+
+         // tx.begin
+         conn.setAutoCommit(false);
+         
+         //사진 삭제
+         PhotoDAO photoDao = PhotoDAO.getInstance();
+         photoDao.removePhotoList(conn, movieNo);
+         
+         //출연진 사진 삭제
+         ActorPhotoDAO actorPhotoDao = ActorPhotoDAO.getInstance();
+         actorPhotoDao.removeActorPhoto(conn, movieNo);
+         
+         //영화 삭제     
+         MovieDAO movieDao = MovieDAO.getInstance();
+         List<MovieVO> movies = new ArrayList<MovieVO>();
+         List<Integer>noList = null;
+         for(MovieVO movie : movies) {
+        	 noList.add(movieNo);				
+		 }
+         movieDao.removeMovieList(conn, noList);
+
+         conn.commit();
+
+      } catch (Exception e) {
+         conn.rollback();
+         throw e;
+      } finally {
+         if (conn != null)
+            conn.close();
+      }
+   }
+   
+   //영화 정보를 수정하다.
+   public void updateMovie(MovieVO movie) throws Exception {
+		Connection conn = null;
+		try {
+			conn = DBConn.getConnection();
+
+			// tx.begin(트랜젝션 시작)
+			conn.setAutoCommit(false);
+			
+			//영화 수정
+			MovieDAO moiveDAO = MovieDAO.getInstance();
+			moiveDAO.modifyMovieList(conn, movie);
+			
+			//출연진 수정
+			ActorDAO actorDAO = ActorDAO.getInstance();		
+			ActorVO actor = movie.getActor();
+			actor.setMovieNo(movie.getMovieNo());
+			actorDAO.modifyActorList(conn, actor);
+			
+			conn.commit();
+
+		} catch (Exception ex) {
+			conn.rollback();
+			throw ex;
+		} finally {
+			if (conn != null)
+				conn.close();
+		}
+   }
 }
