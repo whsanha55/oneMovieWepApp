@@ -13,6 +13,7 @@ import domain.movie.GradeVO;
 import domain.movie.MovieTitleVO;
 import domain.movie.MovieVO;
 import domain.movie.NationVO;
+import domain.movie.PhotoVO;
 
 public class MovieDAO {
 	private static MovieDAO instance = new MovieDAO();
@@ -26,7 +27,7 @@ public class MovieDAO {
 	}
 	
 	//영화 정보를 등록하다.
-	public int insertArticle(MovieVO movie) throws Exception {
+	public int insertMovie(MovieVO movie) throws Exception {
 		Connection conn = null;		
 		PreparedStatement pstmt = null;
 		Statement stmt = null;
@@ -325,4 +326,29 @@ public class MovieDAO {
       }
       return detailMovie;
    }
+   
+   //영화 정보를 일괄 삭제하다.
+ 	public void removeMovieList(Connection connn, List<String> noList) throws Exception {
+ 		Connection conn = null;		
+ 		PreparedStatement pstmt = null;
+ 		
+ 		try {			
+ 			/////////////////////////////////////////쪼인////////////////////////////////////////////////
+ 			StringBuffer sql = new StringBuffer();
+ 			sql.append("delete from movie      ");
+ 			sql.append("where movie_no = ?       ");
+ 			pstmt = conn.prepareStatement(sql.toString());
+ 			
+ 			MovieVO movie = new MovieVO();
+ 			
+ 			for(int i=0; i<noList.size(); i++) {	
+ 				pstmt.setInt(1, movie.getMovieNo());
+ 				pstmt.addBatch();
+ 			}
+ 			pstmt.executeBatch();			
+ 			
+ 		} finally {
+ 			if(pstmt != null) pstmt.close();
+ 		}
+ 	}
 }

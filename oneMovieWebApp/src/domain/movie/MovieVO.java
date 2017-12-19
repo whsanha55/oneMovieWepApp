@@ -1,5 +1,8 @@
 package domain.movie;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MovieVO {
 	private int movieNo;
 	private String movieTitle;
@@ -9,6 +12,7 @@ public class MovieVO {
 	private String videoUrl;
 	private int gradeNo;
 	private int nationNo;
+	private List<ActorVO> actors = new ArrayList<ActorVO>();//한 영화에 대해 출연진들은 여러명 존재
 	
 	public MovieVO() {
 		super();
@@ -78,11 +82,19 @@ public class MovieVO {
 		this.nationNo = nationNo;
 	}
 
+	public List<ActorVO> getActors() {
+		return actors;
+	}
+
+	public void setActors(List<ActorVO> actors) {
+		this.actors = actors;
+	}
+
 	@Override
 	public String toString() {
 		return "MovieVO [movieNo=" + movieNo + ", movieTitle=" + movieTitle + ", runningTime=" + runningTime
 				+ ", director=" + director + ", story=" + story + ", videoUrl=" + videoUrl + ", gradeNo=" + gradeNo
-				+ ", nationNo=" + nationNo + "]";
+				+ ", nationNo=" + nationNo + ", actors=" + actors + "]";
 	}
 
 }
