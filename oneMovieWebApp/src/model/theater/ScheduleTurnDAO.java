@@ -95,7 +95,7 @@ public class ScheduleTurnDAO {
 			StringBuilder sql = new StringBuilder();
 			pstmt = conn.prepareStatement(sql.toString());
 			
-			sql.append("select ss1.schedule_no,s1.screen_name,st1.turn_no,m1.movie_title			");
+			sql.append("select ss1.schedule_no,s1.screen_name,m1.movie_title,st1.turn_no			");
 			sql.append(",to_char(st1.start_time,'hh24:mi'),to_char(st1.end_time,'hh24:mi')			");
 			sql.append("from screen_schedule ss1,theater t1, screen s1,movie m1,schedule_turn st1	");
 			sql.append("where t1.theater_no = s1.theater_no											");
@@ -111,6 +111,18 @@ public class ScheduleTurnDAO {
 			pstmt.setString(3, screenDate);
 			
 			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ScheduleTurnVO scheduleTurnVO = new ScheduleTurnVO();
+				scheduleTurnVO.setScheudleNo(rs.getInt(1));
+				scheduleTurnVO.setScreenName(rs.getString(2));
+				scheduleTurnVO.setMovieName(rs.getString(3));
+				
+				ScreenScheduleVO screenScheduleVO = new ScreenScheduleVO();
+				
+				
+				
+			}
 		} finally {
 			if(rs!=null)rs.close();
 			if(pstmt!=null)pstmt.close();

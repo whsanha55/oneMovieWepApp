@@ -33,9 +33,7 @@ public class ScreenDAO {
 			conn =DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			pstmt = conn.prepareStatement(sql.toString());
-<<<<<<< HEAD
-			sql.append("select theater_name");
-=======
+
 			sql.append("select t1.theater_name,s1.screen_no,s1.screen_name			");
 			sql.append("from theater t1, screen s1									");
 			sql.append("where t1.theater_no = s1.theater_no 						");
@@ -49,8 +47,7 @@ public class ScreenDAO {
 					sql.append(")													");
 				}
 			}
->>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
-			
+		
 			/* 위와 동일
 			 * for(int i=0;i<theaterNo.length;i++) {
 			 * 	sql.append("?,");
