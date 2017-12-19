@@ -7,7 +7,9 @@ import java.util.List;
 import conn.DBConn;
 import domain.movie.ActorPhotoVO;
 import domain.movie.ActorVO;
+import domain.movie.DetailMovieVO;
 import domain.movie.MovieGenreVO;
+import domain.movie.MovieTitleVO;
 import domain.movie.MovieVO;
 import domain.movie.PhotoVO;
 
@@ -37,14 +39,9 @@ public class MovieService {
 			
 			//영화 등록
 			MovieDAO moiveDAO = MovieDAO.getInstance();
-<<<<<<< HEAD
-			int moiveNo = moiveDAO.insertArticle(conn, movie);
-
-=======
 			int moiveNo = moiveDAO.insertMovie(conn, movie);
 			
 			//출연진 등록
->>>>>>> refs/remotes/origin/master
 			if (movie.getActors().size() != 0) {
 				ActorDAO actorDAO = ActorDAO.getInstance();
 				for (ActorVO actor1 : movie.getActors()) {
@@ -153,4 +150,30 @@ public class MovieService {
 				conn.close();
 		}
    }
+   // 영화 제목을 조회하다.
+   public List<MovieTitleVO> retriveMovieTitle(String movieTitle) throws Exception {
+	   MovieDAO movieDAO = MovieDAO.getInstance();
+      return movieDAO.selectMovieTitleList(movieTitle);
+   }
+   
+   // 영화 목록을 조회하다.
+   //public List<MovieVO> retriveMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
+   public List<MovieVO> retriveMovieList(String keyfield, String keyword) throws Exception {
+      MovieDAO dao = MovieDAO.getInstance();
+     // return dao.selectMovieList(keyfield, keyword, startRow, endRow);
+      return dao.selectMovieList(keyfield, keyword);
+   }
+
+   // 게시글 상세정보를 조회하다.
+   public DetailMovieVO retriveMovie(int movieNo) throws Exception {
+      MovieDAO movieDao = MovieDAO.getInstance();
+      DetailMovieVO detailMovie = movieDao.selectMovie(movieNo);
+      return detailMovie;
+   }
+   
+   //영화 목록을 전체 조회하다.
+ 	public List<MovieVO> retrieveMovieList() throws Exception {
+ 		MovieDAO dao = MovieDAO.getInstance();
+ 		return dao.selectMovieList();
+ 	}
 }
