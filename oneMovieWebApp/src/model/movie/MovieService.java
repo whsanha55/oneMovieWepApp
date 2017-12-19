@@ -7,7 +7,9 @@ import java.util.List;
 import conn.DBConn;
 import domain.movie.ActorPhotoVO;
 import domain.movie.ActorVO;
+import domain.movie.DetailMovieVO;
 import domain.movie.MovieGenreVO;
+import domain.movie.MovieTitleVO;
 import domain.movie.MovieVO;
 import domain.movie.PhotoVO;
 
@@ -148,4 +150,28 @@ public class MovieService {
             conn.close();
       }
    }
+   // 영화 제목을 조회하다.
+   public List<MovieTitleVO> retriveMovieTitle(String movieTitle) throws Exception {
+	   MovieDAO movieDAO = MovieDAO.getInstance();
+      return movieDAO.selectMovieTitleList(movieTitle);
+   }
+   
+   // 영화 목록을 조회하다.
+   public List<MovieVO> retriveMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
+      MovieDAO dao = MovieDAO.getInstance();
+     return dao.selectMovieList(keyfield, keyword, startRow, endRow);  
+   }
+
+   // 게시글 상세정보를 조회하다.
+   public DetailMovieVO retriveMovie(int movieNo) throws Exception {
+      MovieDAO movieDao = MovieDAO.getInstance();
+      DetailMovieVO detailMovie = movieDao.selectMovie(movieNo);
+      return detailMovie;
+   }
+   
+   //영화 목록을 전체 조회하다.
+ 	public List<MovieVO> retrieveMovieList() throws Exception {
+ 		MovieDAO dao = MovieDAO.getInstance();
+ 		return dao.selectMovieList();
+ 	}
 }
