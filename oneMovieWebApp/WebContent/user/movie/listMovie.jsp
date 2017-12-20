@@ -81,7 +81,7 @@
 			<td>	
 			<a href="${pageScope.url }">
 			${pageScope.movie.movieTitle}</a></td>
-			<td>${pageScope.movie.runningTime}</td>
+			<td>${pageScope.movie.runningTime}분</td>
 			<td>${pageScope.movie.director}</td>
 			<td>${pageScope.movie.grade.gradeAge}</td>
 			<td>${pageScope.movie.nation.nationName}</td>

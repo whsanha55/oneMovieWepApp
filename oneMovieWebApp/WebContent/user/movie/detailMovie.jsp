@@ -25,7 +25,7 @@
  		</tr>
  		<tr>
  			<td>상영시간</td> 			
- 			<td>${requestScope.movie.runningTime }</td>
+ 			<td>${requestScope.movie.runningTime}분</td>
  		</tr>
  		<tr>
  			<td>등급</td>
@@ -48,8 +48,9 @@
  					 <c:if test="${loop.index%3==0}">
  					 		</tr><tr>
  					 </c:if>
+ 					 <td><img src = "${pageContext.request.contextPath}/${contextPath}/image/park2.jpg"></td>
  					<td>${pageScope.actor.role.roleName}, ${pageScope.actor.actorName }, ${pageScope.actor.characterName }</td>
- 					<td><img src = "${pageContext.request.contextPath}/${contextPath}/image/park2.jpg"></td>
+ 					
  			</c:forEach>
  		</tr>
  		</table> 	
