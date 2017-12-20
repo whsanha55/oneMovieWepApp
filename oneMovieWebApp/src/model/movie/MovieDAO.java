@@ -39,19 +39,8 @@ public class MovieDAO {
          conn = DBConn.getConnection();
 
          StringBuffer sql = new StringBuffer();
-         sql.append("insert into movie(movie_no, movie_title, runningtime, director, grade_no, nation_no)     ");
-         sql.append(
-               "values(movie_no_seq.nextval, ?, ?, ?,                                                        ");
-         sql.append(	
-               "(select grade_no                                                                           ");
-         sql.append("from grade");
-         sql.append(
-               "where grade_age=?),                                                                 ");
-         sql.append(
-               "(select nation_no                                                                          ");
-         sql.append("from nation");
-         sql.append(
-               "where nation_name=?));                                                              ");
+         sql.append("insert into movie(movie_no, movie_title, running_time, director, grade_no, nation_no)		  	 ");
+         sql.append("values(10 + Movie_no_seq.nextval, ?, ?, ?, ?, ?)                                                      ");
          pstmt = conn.prepareStatement(sql.toString());
 
          pstmt.setString(1, movie.getMovieTitle());
@@ -76,8 +65,7 @@ public class MovieDAO {
       } finally {
          if (stmt != null)
             stmt.close();
-         if (conn != null)
-            conn.close();
+        
       }
       return movieNo;
    }
@@ -308,7 +296,7 @@ public class MovieDAO {
          sql.append("select m1.movie_no, m1.movie_title, m1.director, m1.running_time, m1.grade_no, m1.nation_no, m1.story, m3.role_no, m1.video_url, m2.genre_no, m3.actor_no, M4.Movie_Photo_No                                             ");
          sql.append("from movie m1, movie_genre m2, actor m3, movie_photo m4                           ");
          sql.append("where m1.movie_no = m2.movie_no and m1.movie_no = m3.movie_no and m1.movie_no = m4.movie_no and m1.movie_no = ?                           ");
-         sql.append("order by 1;                                         ");
+         sql.append("order by 1                                         ");
          pstmt = conn.prepareStatement(sql.toString());
 
          System.out.println(sql.toString());

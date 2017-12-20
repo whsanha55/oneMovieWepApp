@@ -41,7 +41,7 @@ public class MovieService {
          MovieDAO moiveDAO = MovieDAO.getInstance();
          int moiveNo = moiveDAO.insertMovie(conn, movie);
          
-         //출연진 등록
+         /*//출연진 등록
          if (movie.getActors().size() != 0) {
             ActorDAO actorDAO = ActorDAO.getInstance();
             for (ActorVO actor1 : movie.getActors()) {
@@ -71,7 +71,7 @@ public class MovieService {
          GenreDAO genreDAO = GenreDAO.getInstance();
          MovieGenreVO genre = movie.getMovieGenre();
          genre.setMovieNo(moiveNo);
-         genreDAO.insertGenreList(conn, genre);
+         genreDAO.insertGenreList(conn, genre);*/
          
          conn.commit();
 
