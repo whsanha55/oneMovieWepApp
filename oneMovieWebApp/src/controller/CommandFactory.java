@@ -12,6 +12,9 @@ public class CommandFactory {
 		map.put("/adminBookingAjax.do", "controller.AdminBookingAjaxCommand");
 		map.put("/adminBookingAjax2.do", "controller.AdminBookingAjax2Command");
 		map.put("/memberBooking1.do", "controller.memberBookingCommand");
+		map.put("/user/movie/listMovie.do", "controller.movie.ListMovieCommand");
+		map.put("/user/movie/findMovie.do", "controller.movie.FindMovieCommand");
+		map.put("/user/movie/detailMovie.do", "controller.movie.DetailMovieCommand");
 	}
 	
 	

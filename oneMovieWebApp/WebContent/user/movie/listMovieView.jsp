@@ -12,7 +12,7 @@
 		"runningTime": "${pageScope.movie.runningTime }"   ,
 		"gradeNo": "${pageScope.movie.gradeNo }",
 		"nationNo": "${pageScope.movie.nationNo }"	,
-		"genreNo": "${pageScope.movie.genreNo }",
+		
 		"actorNo": "${pageScope.movie.actorNo }"
 	}
 	<c:if test="${loop.index < fn:length(requestScope.movies) - 1  }">

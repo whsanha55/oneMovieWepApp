@@ -29,7 +29,7 @@ public class FindMovieCommand implements Command{
 			req.setAttribute("movies", movies);
 			
 			//4. 게시글 목록(listArticleView.jsp) 페이지로 이동한다.
-			forward.setPath("/listMovieView.jsp");
+			forward.setPath("/user/movie/listMovieView.jsp");
 			forward.setRedirect(false);
 			return forward;
 			
