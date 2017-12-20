@@ -247,7 +247,7 @@ public class MovieDAO {
          } else if (keyfield.equals("MovieTitle")) {
             sql.append("and m1.Movie_Title like '%' || ? ||  '%'  ");
          } else if (keyfield.equals("Director")) {
-            sql.append("and Director like '%' || ? ||  '%'  ");
+            sql.append("and m1.Director like '%' || ? ||  '%'  ");
          }
 
          //sql.append("and rn >= ? and rn <= ?                                             ");
@@ -396,8 +396,9 @@ public class MovieDAO {
              stmt = conn.createStatement();
 
              StringBuffer sql = new StringBuffer();
-             sql.append("select movie_no, movie_title, running_time, director, grade_no, nation_no 			  ");
-             sql.append("from movie                                              ");
+             sql.append("select movie_no, movie_title, running_time, director, grade_age, nation_name 			  ");
+             sql.append("from movie m, grade g, nation n                                            						  ");
+             sql.append("where g.grade_no = m.grade_no and n.nation_no = m.nation_no                            ");
 
              System.out.println(sql.toString());
 
@@ -405,12 +406,19 @@ public class MovieDAO {
 
              while (rs.next()) {
                 MovieVO movie = new MovieVO();
+                GradeVO grade = new GradeVO();
+                NationVO nation = new NationVO();
                 movie.setMovieNo(rs.getInt(1));
                 movie.setMovieTitle(rs.getString(2));
                 movie.setRunningTime(rs.getInt(3));
                 movie.setDirector(rs.getString(4));
-                movie.setGradeNo(rs.getInt(5));
-                movie.setNationNo(rs.getInt(6));
+                
+                grade.setGradeAge(rs.getString(5));
+                movie.setGrade(grade);
+                
+                nation.setNationName(rs.getString(6));
+                movie.setNation(nation);
+                
                 movies.add(movie);
              }
 

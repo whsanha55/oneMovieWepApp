@@ -10,10 +10,8 @@
 		"movieTitle": "${pageScope.movie.movieTitle }" ,
 		"director": "${pageScope.movie.director }"  ,
 		"runningTime": "${pageScope.movie.runningTime }"   ,
-		"gradeNo": "${pageScope.movie.gradeNo }",
-		"nationNo": "${pageScope.movie.nationNo }"	,
-		
-		"actorNo": "${pageScope.movie.actorNo }"
+		"gradeAge": "${pageScope.movie.grade.gradeAge }",
+		"nationName": "${pageScope.movie.nation.nationName }"	
 	}
 	<c:if test="${loop.index < fn:length(requestScope.movies) - 1  }">
 	 	,

@@ -43,12 +43,15 @@
  	<br><br>
  	<c:if test="${fn:length(requestScope.movie.actors) > 0 }">
  		<table border="1">
+ 		<tr> 
  			<c:forEach var="actor" items="${requestScope.movie.actors }" varStatus="loop">
- 				<tr> 
+ 					 <c:if test="${loop.index%3==0}">
+ 					 		</tr><tr>
+ 					 </c:if>
  					<td>${pageScope.actor.role.roleName}, ${pageScope.actor.actorName }, ${pageScope.actor.characterName }</td>
  					<td><img src = "${pageContext.request.contextPath}/${contextPath}/image/park2.jpg"></td>
- 				</tr>
  			</c:forEach>
+ 		</tr>
  		</table> 	
  	</c:if>
  </body>
