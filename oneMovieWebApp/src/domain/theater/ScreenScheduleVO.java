@@ -11,11 +11,22 @@ public class ScreenScheduleVO {
 	int movieNo;		//영화번호
 	List<ScheduleTurnVO> turns = new ArrayList<ScheduleTurnVO>();
 	//상영일정 조회시
-
+	
 	String theaterName;	//지점 이름
 	String movieTitle;	//영화이름
 	String screenName;	//상영관 이름
- 
+	//서비스 
+	int theaterNo;		//영화번호
+
+	public int getTheaterNo() {
+		return theaterNo;
+	}
+
+
+	public void setTheaterNo(int theaterNo) {
+		this.theaterNo = theaterNo;
+	}
+
 
 	public String getScreenName() {
 		return screenName;

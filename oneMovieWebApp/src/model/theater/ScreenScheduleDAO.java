@@ -3,6 +3,7 @@ package model.theater;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,10 +12,12 @@ import domain.theater.ScheduleTurnVO;
 import domain.theater.ScreenScheduleVO;
 
 public class ScreenScheduleDAO {
+	
 	private ScreenScheduleDAO() {
 
 	}
-
+	
+	// 싱글톤 패턴 - 하나의 객체를 여러사람이 공유
 	private static ScreenScheduleDAO instance = new ScreenScheduleDAO();
 
 	public static ScreenScheduleDAO getInstance() {
@@ -59,7 +62,9 @@ public class ScreenScheduleDAO {
 			int scheduleNo = 0;
 			while(rs.next()) {
 				ScreenScheduleVO screenScheduleVO = new ScreenScheduleVO();
-				if(true) {
+
+				if(scheduleNo!=rs.getInt(7)) {
+					scheduleNo = rs.getInt(7);
 					screenScheduleVO.setTheaterName(rs.getString(1));
 					screenScheduleVO.setScreenDate(rs.getString(2));
 					screenScheduleVO.setMovieTitle(rs.getString(3)); 
@@ -82,14 +87,56 @@ public class ScreenScheduleDAO {
 
 
 	}
-	
 	//상영일정 등록 			6
-	public void InsertScreenSchedule(List<ScreenScheduleVO>list) throws Exception{
+	public int InsertScreenSchedule(List<ScreenScheduleVO>list,Connection conn) throws Exception{
+		PreparedStatement pstmt = null;
+		Statement stmt = null;
+		int scheduleNo = 0;
+		try {
+			StringBuffer sql = new StringBuffer();
+			sql.append("insert into screen_schedule(schedule_no,screen_no,screen_date,movie_no)	");
+			sql.append("values(SCREEN_NO_SEQ.NEXTVAL,?,?,?)										");
+			pstmt = conn.prepareStatement(sql.toString());
 		
+			for(ScreenScheduleVO schedule : list) {
+				pstmt.setInt(2, schedule.getScreenNo());
+				pstmt.setString(3, schedule.getScreenDate());
+				pstmt.setInt(4, schedule.getMovieNo());
+				pstmt.addBatch();
+			}
+			pstmt.executeBatch();	
+			pstmt.close();
+			sql.setLength(0);
+			
+			stmt = conn.createStatement();
+			sql.append("select schedule_no_seq.currval from dual ");
+			ResultSet rs = stmt.executeQuery(sql.toString());
+			
+			if (rs.next()) {
+				scheduleNo = rs.getInt(1);
+			}	
+		} finally {
+			if (pstmt != null)pstmt.close();
+		}
+		return scheduleNo;
 	}
+	
 	//상영일정 삭제				7
-	public void removeScreenSchedule(int scheduleNo) throws Exception{
+	public void removeScreenSchedule(int scheduleNo,Connection conn) throws Exception{
+		PreparedStatement pstmt = null;
+		try {
+			StringBuffer sql = new StringBuffer();
+			sql.append("delete from screen_schedule ");
+			sql.append("where schedule_no = ?		");
+			pstmt = conn.prepareStatement(sql.toString());
 		
+			pstmt.setInt(1, scheduleNo);
+
+			pstmt.executeUpdate();			
+
+		} finally {
+			if (pstmt != null)pstmt.close();
+		}
 	}
 	
 }

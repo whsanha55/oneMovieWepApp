@@ -72,13 +72,13 @@ public class DateTheaterMovieDAO {
 			conn =DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			
-			sql.append("select theater_no, theater_name            ");
-			sql.append("from theater                               ");
-			sql.append("where theater_no in(select distinct theater_no            ");
-			sql.append("        from screen                                       ");
-			sql.append("        where screen_no in (select screen_no              ");
-			sql.append("                    from screen_schedule                  ");
-			sql.append("                    where screen_date >= to_char(sysdate,'YYYY/MM/DD')))  ");
+			sql.append("select theater_no, theater_name            														");
+			sql.append("from theater                              														 ");
+			sql.append("where theater_no in(select distinct theater_no           										 ");
+			sql.append("       				 from screen                                      							 ");
+			sql.append("       				 where screen_no in (select screen_no             							 ");
+			sql.append("                   						 from screen_schedule                  					");
+			sql.append("                  						  where screen_date >= to_char(sysdate,'YYYY/MM/DD')))  ");
 			
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
