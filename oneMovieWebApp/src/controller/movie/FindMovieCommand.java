@@ -11,7 +11,7 @@ import controller.ActionForward;
 import controller.Command;
 import domain.movie.MovieVO;
 import model.movie.MovieService;
- 
+  
 public class FindMovieCommand implements Command{
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
 		//게시글 검색 요청 처리		
