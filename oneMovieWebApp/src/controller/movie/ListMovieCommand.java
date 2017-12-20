@@ -11,7 +11,7 @@ import controller.ActionForward;
 import controller.Command;
 import domain.movie.MovieVO;
 import model.movie.MovieService;
-
+ 
 public class ListMovieCommand implements Command{
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
 		//게시글 목록 조회 요청 처리

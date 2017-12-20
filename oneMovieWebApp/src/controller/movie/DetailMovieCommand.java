@@ -10,7 +10,7 @@ import controller.ActionForward;
 import controller.Command;
 import domain.movie.DetailMovieVO;
 import model.movie.MovieService;
-
+ 
 public class DetailMovieCommand implements Command{
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
 		//게시글 상세 조회 요청 처리		

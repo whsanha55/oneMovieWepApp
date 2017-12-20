@@ -1,5 +1,5 @@
 package domain.movie;
-
+ 
 public class ActorVO {
 	int actorNo;
 	String actorName;
