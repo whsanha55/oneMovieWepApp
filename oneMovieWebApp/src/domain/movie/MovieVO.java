@@ -1,5 +1,5 @@
 package domain.movie;
- 
+  
 import java.util.ArrayList;
 import java.util.List;
 
