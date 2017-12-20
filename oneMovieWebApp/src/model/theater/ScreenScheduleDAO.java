@@ -59,9 +59,7 @@ public class ScreenScheduleDAO {
 			int scheduleNo = 0;
 			while(rs.next()) {
 				ScreenScheduleVO screenScheduleVO = new ScreenScheduleVO();
-
-				if(scheduleNo!=rs.getInt(7)) {
-					scheduleNo = rs.getInt(7);
+				if(true) {
 					screenScheduleVO.setTheaterName(rs.getString(1));
 					screenScheduleVO.setScreenDate(rs.getString(2));
 					screenScheduleVO.setMovieTitle(rs.getString(3)); 
@@ -84,6 +82,7 @@ public class ScreenScheduleDAO {
 
 
 	}
+	
 	//상영일정 등록 			6
 	public void InsertScreenSchedule(List<ScreenScheduleVO>list) throws Exception{
 		
