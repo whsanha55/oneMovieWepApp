@@ -1,4 +1,4 @@
-package controller;
+package controller.booking;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,6 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.ActionForward;
+import controller.Command;
 import domain.theater.ScreenVO;
 
 public class AdminBookingAjax2Command implements Command {

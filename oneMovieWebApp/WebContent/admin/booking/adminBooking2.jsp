@@ -13,43 +13,52 @@
 	$(document).ready(function() {
 
 		
-		
+		//지점선택시-> 상영관 
 		$(':checkbox[name=theaterNo]').on('change', function() {
 			var theaterNo = $(this).val();
 			if($(this).prop('checked')) {
-			$.ajax({
-				url : '${pageContext.request.contextPath}/adminBookingAjax2.do' ,
-				method : 'POST',
-				data : {
-					theaterNo : $(this).val()
-					
-				},
-				dataType : 'json',
-				success : function(data) {
-					var text = "";
-					for(var i=0;i<data.screenList.length;i++) {
-						text += " <label><input type='checkbox' name='screenNo' value='" 
-									+ data.screenList[i].screenNo + "'>" + data.screenList[i].screenName + "</label> ";
+				$.ajax({
+					url : '${pageContext.request.contextPath}/adminBookingAjax2.do' ,
+					method : 'POST',
+					data : {
+						theaterNo : $(this).val()
 						
+					},
+					dataType : 'json',
+					success : function(data) {
+						var text = "";
+						for(var i=0;i<data.screenList.length;i++) {
+							text += " <label><input type='checkbox' name='screenNo' value='" 
+										+ data.screenList[i].screenNo + "'>" + data.screenList[i].screenName + "</label> ";
+							
+						}
+						
+							$('#screen').append("<div class='screen' id='theater_" + theaterNo + "'>" + text + "</div> ");
+							
+						
+					},
+					error : function(jqXHR) {
+						alert(jqXHR.status);
+						console.log(jqXHR);
 					}
-					
-						$('#screen').append("<div class='screen' id='theater_" + theaterNo + "'>" + text + "</div> ");
-						
-					
-				},
-				error : function(jqXHR) {
-					alert(jqXHR.status);
-					console.log(jqXHR);
-				}
-			});
+				});
 			} else {
 				
 				$('#screen').find('div[id=theater_' + $(this).val() +']').remove();
 			}
 		});
 		
+		
+		//상영관--> 회차
 		$('#screen').on('change','input[name=screenNo]' ,function() {
-			alert(1);
+			
+				if($(this).prop('checked') {
+					$.ajax() {
+						
+					}
+				} else {
+					
+				}
 		});
 	
 		

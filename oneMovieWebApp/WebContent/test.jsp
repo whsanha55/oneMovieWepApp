@@ -5,8 +5,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+
+
 </head>
 <body>
-hi
+<div id="datePicker"></div>
+
+<script>
+    $('#datepicker').datepicker();
+</script>
+
 </body>
 </html>

@@ -11,6 +11,7 @@ public class CommandFactory {
 		map.put("/adminBooking1.do", "controller.AdminBooking1Command");
 		map.put("/adminBookingAjax.do", "controller.AdminBookingAjaxCommand");
 		map.put("/adminBookingAjax2.do", "controller.AdminBookingAjax2Command");
+		map.put("/memberBooking1.do", "controller.memberBookingCommand");
 	}
 	
 	

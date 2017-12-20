@@ -1,4 +1,4 @@
-package controller;
+package controller.booking;
 
 import java.io.IOException;
 
@@ -6,6 +6,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.ActionForward;
+import controller.Command;
 import model.booking.BookingService;
 
 public class AdminBooking1Command implements Command{

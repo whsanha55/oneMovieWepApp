@@ -180,7 +180,7 @@ public class BookingDAO {
 			sql.append("          and t2.seat_no = t10.seat_no               ");
 			
 			if (keyfield.equals("memberNo")) {
-				System.out.println(keyfield+1);
+				
 				sql.append("and t4.member_no like '%' || ? || '%'                          ");
 			} else if (keyfield.equals("memberName")) {
 				sql.append("and t4.name like '%' || ? || '%'                               ");
@@ -215,7 +215,6 @@ public class BookingDAO {
 				BookingVO bookingVO = new BookingVO();
 				if (!rs.getString(8).equals(ticketNo)) {
 					ticketNo = rs.getString(8);
-					System.out.println(ticketNo);
 					bookingVO.setMemberNo(rs.getString(1));
 					bookingVO.setMemberName(rs.getString(2));
 					bookingVO.setTheaterName(rs.getString(3));

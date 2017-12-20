@@ -3,6 +3,7 @@ package model.theater;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,22 +25,23 @@ public class DateTheaterMovieDAO {
 	//영화조회					11
 	public List<MovieVO> selectMovieAll()throws Exception{
 		Connection conn = null;
-		PreparedStatement pstmt = null;
+		Statement stmt = null;
 		ResultSet rs = null;
 		List<MovieVO>list = new ArrayList<MovieVO>();
 		
 		try {
 			conn =DBConn.getConnection();
+			stmt = conn.createStatement();
+			
 			StringBuilder sql = new StringBuilder();
 			
-			sql.append("select movie_title,movie_no								");
-			sql.append("from movie m1, screen_schedule ss1,screen s1			");
-			sql.append("where movie m1, screen_schedule ss1						");
-			sql.append("and screen_date > sysdate								");
+			sql.append("select distinct t1.movie_no, t1.movie_title      ");
+			sql.append("from movie t1, screen_schedule t2       ");
+			sql.append("where t1.movie_no = t2.movie_no         ");
+			sql.append("and t2.screen_date >= to_char(sysdate,'YYYY/MM/DD')  ");
 			
 			
-			pstmt = conn.prepareStatement(sql.toString());
-			rs = pstmt.executeQuery();
+			rs = stmt.executeQuery(sql.toString());
 
 			while(rs.next()) {
 				MovieVO movieVO = new MovieVO();
@@ -51,7 +53,7 @@ public class DateTheaterMovieDAO {
 			
 		} finally {
 			if(rs!=null)rs.close();
-			if(pstmt!=null)pstmt.close();
+			if(stmt!=null)stmt.close();
 			if(conn!=null)conn.close();
 		}
 		
@@ -61,7 +63,7 @@ public class DateTheaterMovieDAO {
 	//지점조회					12
 	public List<TheaterVO> selectTheaterAll()throws Exception{
 		Connection conn = null;
-		PreparedStatement pstmt = null;
+		Statement stmt = null;
 		ResultSet rs = null;
 		List<TheaterVO>	list = new ArrayList<TheaterVO>();
 		
@@ -70,23 +72,28 @@ public class DateTheaterMovieDAO {
 			conn =DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			
-			sql.append("select theater_name,theater_no					");
-			sql.append("from theater									");
-			sql.append("where screen_date > sysdate						");
+			sql.append("select theater_no, theater_name            ");
+			sql.append("from theater                               ");
+			sql.append("where theater_no in(select distinct theater_no            ");
+			sql.append("        from screen                                       ");
+			sql.append("        where screen_no in (select screen_no              ");
+			sql.append("                    from screen_schedule                  ");
+			sql.append("                    where screen_date >= to_char(sysdate,'YYYY/MM/DD')))  ");
 			
-			pstmt = conn.prepareStatement(sql.toString());
-			rs = pstmt.executeQuery();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql.toString());
+			
 			
 			while(rs.next()) {
 				TheaterVO theaterVO = new TheaterVO();
-				theaterVO.setTheaterName(rs.getString(1));
-				theaterVO.setTheaterNo(rs.getInt(2));
+				theaterVO.setTheaterNo(rs.getInt(1));
+				theaterVO.setTheaterName(rs.getString(2));
 				
 				list.add(theaterVO);
 			}
 		} finally {
 			if(rs!=null)rs.close();
-			if(pstmt!=null)pstmt.close();
+			if(stmt!=null)stmt.close();
 			if(conn!=null)conn.close();
 		}
 		return list;
