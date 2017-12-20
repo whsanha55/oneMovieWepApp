@@ -1,15 +1,9 @@
 <%-- listArticle.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="domain.movie.MovieVO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
-<%--
-	//request영역에 바인딩된 게시글 목록을 조회하다.
-	ArrayList<ArticleVO> articles = (ArrayList<ArticleVO>)request.getAttribute("articles");
---%>
-
+  
 <!doctype html>
 <html>
  <head>
@@ -18,12 +12,21 @@
  </head>
  <body>
  <h3>영화 목록 조회 화면</h3>
-<script src="js/jquery-3.2.1.min.js"></script> 
- <script>
+ <script src="../../js/jquery-3.2.1.min.js"></script> 
+<script>
 	    $(document).ready(function() {
+	    	
+	    	$(':checkbox[name=all]').on('change', function() {		
+	    		if($(this).prop('checked'))  {
+					$(':checkbox[name=selected]').prop('checked', true)
+				} else {
+					$(':checkbox[name=selected]').prop('checked', false)
+				}
+	    	});
+	    	
 			$('#sendBtn').on('click', function() {
 				$.ajax({
-					url: '${pageContext.request.contextPath}/findMovie.do'
+					url: '${pageContext.request.contextPath}/user/movie/findMovie.do'
 					,
 					method: 'GET'
 					,
@@ -38,12 +41,10 @@
 							htmlStr += "<tr>";
 							htmlStr += "<td>" + data[i].movieNo + "</td>";
 							htmlStr += "<td>" + data[i].movieTitle + "</td>";
-							htmlStr += "<td>" + data[i].director + "</td>";
 							htmlStr += "<td>" + data[i].runningTime + "</td>";
-							htmlStr += "<td>" + data[i].gradeNo + "</td>";
-							htmlStr += "<td>" + data[i].nationNo + "</td>";
-							htmlStr += "<td>" + data[i].genreNo + "</td>";
-							htmlStr += "<td>" + data[i].actorNo + "</td>";
+							htmlStr += "<td>" + data[i].director + "</td>";
+							htmlStr += "<td>" + data[i].gradeAge+ "</td>";
+							htmlStr += "<td>" + data[i].nationName+ "</td>";
 							htmlStr += "</tr>";
 							
 							$(htmlStr).appendTo('#table');
@@ -59,30 +60,31 @@
 			});
 		});
   </script>
-
 	<table border="1" id="table">
-		<tr>
-			<th>번호</th>
-			<th>제목</th>
-			<th>상영시간</th>
-			<th>감독</th>
-			<th>등급</th>
-			<th>국가</th>
-		</tr>
+      <tr>
+         <th><input type='checkbox' name="all"></th>
+         <th>번호</th>
+         <th>제목</th>
+         <th>상영시간</th>
+         <th>감독</th>
+         <th>등급</th>
+         <th>국가</th>
+      </tr>
 
 	<c:forEach var="movie" items="${requestScope.movies }" varStatus="loop">
-		<c:url var="url" value="/detailArticle.do" scope="page" >
+		<c:url var="url" value="/user/movie/detailMovie.do" scope="page" >
 		<c:param name="movieNo" value="${pageScope.movie.movieNo}"/>
 		</c:url>
 		<tr>
+			<td><input type="checkbox" name="selected" value="${pageScope.movie.movieNo}"></td>
 			<td>${fn:length(requestScope.movies) - pageScope.loop.index}</td>
 			<td>	
 			<a href="${pageScope.url }">
 			${pageScope.movie.movieTitle}</a></td>
-			<td>${pageScope.movie.runningTime}</td>
+			<td>${pageScope.movie.runningTime}분</td>
 			<td>${pageScope.movie.director}</td>
-			<td>${pageScope.movie.gradeNo}</td>
-			<td>${pageScope.movie.nationNo}</td>
+			<td>${pageScope.movie.grade.gradeAge}</td>
+			<td>${pageScope.movie.nation.nationName}</td>
 		</tr>
 	
 </c:forEach>
@@ -99,6 +101,5 @@
    					&nbsp;&nbsp;
    					<button id="sendBtn" type="button">검색</button>
    </form>
-
  </body>
 </html>

@@ -11,7 +11,7 @@ import controller.ActionForward;
 import controller.Command;
 import domain.movie.MovieVO;
 import model.movie.MovieService;
-
+  
 public class ListMovieCommand implements Command{
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
 		//게시글 목록 조회 요청 처리
@@ -24,7 +24,7 @@ public class ListMovieCommand implements Command{
 			//2. request영역에 "articles"라는 속성이름으로 바인딩한다.
 			req.setAttribute("movies", movies);
 			
-			forward.setPath("/listMovie.jsp");
+			forward.setPath("/user/movie/listMovie.jsp");
 			forward.setRedirect(false);
 			return forward;
 		} catch (Exception e) {

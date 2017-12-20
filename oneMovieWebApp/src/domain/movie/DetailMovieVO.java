@@ -1,16 +1,18 @@
 package domain.movie;
-
+  
 import java.util.ArrayList;
 import java.util.List;
 
 
 
 public class DetailMovieVO {
-   private int movieNo;
+private int movieNo;
    private String movieTitle;
    private List<GenreVO> genres = new ArrayList<GenreVO>();
    private List<ActorVO> actors = new ArrayList<ActorVO>();
    private List<PhotoVO> photos = new ArrayList<PhotoVO>();
+   private GradeVO grade = new GradeVO();
+   private NationVO nation = new NationVO();
    private String director;
    private int runningTime;
    private int gradeNo;
@@ -131,14 +133,30 @@ public class DetailMovieVO {
       this.videoUrl = videoUrl;
    }
 
-   @Override
-   public String toString() {
-      return "DetailMovieVO [movieNo=" + movieNo + ", movieTitle=" + movieTitle + ", actors=" + actors + ", director="
-            + director + ", runningTime=" + runningTime + ", gradeNo=" + gradeNo + ", nationNo=" + nationNo
-            + ", story=" + story + ", roleNo=" + roleNo + ", videoUrl=" + videoUrl + "]";
-   }
-   
-   
-   
+   public GradeVO getGrade() {
+		return grade;
+	}
+
+	public void setGrade(GradeVO grade) {
+		this.grade = grade;
+	}
+
+	public NationVO getNation() {
+		return nation;
+	}
+
+	public void setNation(NationVO nation) {
+		this.nation = nation;
+	}
+
+	@Override
+	public String toString() {
+		return "DetailMovieVO [movieNo=" + movieNo + ", movieTitle=" + movieTitle + ", genres=" + genres + ", actors="
+				+ actors + ", photos=" + photos + ", grade=" + grade + ", nation=" + nation + ", director=" + director
+				+ ", runningTime=" + runningTime + ", gradeNo=" + gradeNo + ", nationNo=" + nationNo + ", story="
+				+ story + ", roleNo=" + roleNo + ", videoUrl=" + videoUrl + "]";
+	}
+
+
 
 }
