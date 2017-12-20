@@ -225,7 +225,8 @@ public class MovieDAO {
    }
 
    // 검색 조건에 해당하는 영화목록을 오름차순으로 조회한다.
-   public List<MovieVO> selectMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
+  // public List<MovieVO> selectMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
+   public List<MovieVO> selectMovieList(String keyfield, String keyword) throws Exception {
       ArrayList<MovieVO> movies = new ArrayList<MovieVO>();
       Connection conn = null;
       PreparedStatement pstmt = null;
@@ -251,17 +252,13 @@ public class MovieDAO {
             sql.append("and Director like '%' || ? ||  '%'  ");
          }
 
-         sql.append("and rn >= ? and rn <= ?                                             ");
-         sql.append("order by 1;                                             ");
-         pstmt = conn.prepareStatement(sql.toString());
+         //sql.append("and rn >= ? and rn <= ?                                             ");
+         //sql.append("order by 1;                                             ");
+     	pstmt = conn.prepareStatement(sql.toString());
 
-         pstmt.setString(1, keyfield);
-         pstmt.setString(2, keyword);
-         pstmt.setInt(3, startRow);
-         pstmt.setInt(4, endRow);
+		pstmt.setString(1, keyword);
 
-         rs = pstmt.executeQuery();
-
+		rs = pstmt.executeQuery();
          int count = 1;
          while (rs.next()) {
             if (count == 1) {               
@@ -402,9 +399,8 @@ public class MovieDAO {
              stmt = conn.createStatement();
 
              StringBuffer sql = new StringBuffer();
-             sql.append("select movie_no, movie_title, running_time, director, grade_no, nation_no   ");
+             sql.append("select movie_no, movie_title, running_time, director, grade_no, nation_no 			  ");
              sql.append("from movie                                              ");
-             sql.append("order by no desc                                           ");
 
              System.out.println(sql.toString());
 
