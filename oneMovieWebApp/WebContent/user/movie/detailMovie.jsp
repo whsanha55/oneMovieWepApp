@@ -1,5 +1,5 @@
 <%-- detailArticle.jsp --%>
-<%@ page contentType="text/html; charset=utf-8" %>
+<%@ page contentType="text/plain; charset=utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
  
@@ -9,35 +9,54 @@
   <meta charset="UTF-8">
   <title>게시글 상세조회 화면</title>
  </head>
- <body>
- 	<table border="1">
+ <body> <script src="../../js/jquery-3.2.1.min.js"></script> 
+<script>
+	    $(document).ready(function() {
+	    	
+			$('#sendBtn').on('click', function() {
+				$.ajax({
+					url: '${pageContext.request.contextPath}/user/movie/findMovie.do'
+					,
+					method: 'GET'
+					,
+					data: $('#form').serialize()
+					, 
+					dataType: 'json'
+					,
+					success: function(data) {
+						$('#table').find('tr:not(:first)').remove();
+						var htmlStr ="";
+						for(var i=0; i<data.length; i++) {
+							htmlStr += "<tr>";
+							htmlStr += "<td>" + data[i].movieTitle + "</td>";
+							htmlStr += "<td>" + data[i].runningTime + "</td>";
+							htmlStr += "<td>" + data[i].director + "</td>";
+							htmlStr += "<td>" + data[i].gradeAge+ "</td>";
+							htmlStr += "<td>" + data[i].nationName+ "</td>";
+							htmlStr += "</tr>";
+							
+							$(htmlStr).appendTo('#table');
+							htmlStr = "";
+						}
+					}
+					, 
+					error: function(jqXHR) {
+						alert('Error : ' + jqXHR.status);							
+					}				
+					
+				});
+			});
+		});
+  </script>
+ 	<table border="1" id="table">
  		<tr>
- 			<td>번호</td>
- 			<td>${requestScope.movie.movieNo }</td>
- 		</tr>
- 		<tr>
- 			<td>이름</td> 			
+ 			<td>이름</td> 	
+ 			<td>감독</td>	
+ 			<td>상영시간</td> 
+ 			<td>등급</td>	
+ 			<td>국가</td>	
+ 			<td>줄거리</td>		
  			<td>${requestScope.movie.movieTitle }</td>
- 		</tr>
- 		<tr>
- 			<td>감독</td>
- 			<td>${requestScope.movie.director}</td>
- 		</tr>
- 		<tr>
- 			<td>상영시간</td> 			
- 			<td>${requestScope.movie.runningTime}분</td>
- 		</tr>
- 		<tr>
- 			<td>등급</td>
- 			<td>${requestScope.movie.grade.gradeAge }</td>
- 		</tr>
- 		<tr>
- 			<td>국가</td>
- 			<td>${requestScope.movie.nation.nationName }</td>
- 		</tr>
- 		<tr height="100">
- 			<td>줄거리</td> 		 			
- 			<td colspan="3">${requestScope.movie.story}</td> 			
  		</tr>
  	</table> 		
  	<br><br>
@@ -49,7 +68,7 @@
  					 		</tr><tr>
  					 </c:if>
  					 <td><img src = "${pageContext.request.contextPath}/${contextPath}/image/park2.jpg"></td>
- 					<td>${pageScope.actor.role.roleName}, ${pageScope.actor.actorName }, ${pageScope.actor.characterName }</td>
+ 					<td>${pageScope.actor.actorName }<br>${pageScope.actor.role.roleName} | ${pageScope.actor.characterName }역</td>
  					
  			</c:forEach>
  		</tr>
@@ -57,18 +76,3 @@
  	</c:if>
  </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

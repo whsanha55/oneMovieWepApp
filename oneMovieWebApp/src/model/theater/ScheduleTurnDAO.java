@@ -4,6 +4,7 @@ package model.theater;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class ScheduleTurnDAO {
 		try {
 			StringBuilder sql = new StringBuilder();
 			sql.append("insert into schedule_turn(turn_no,start_time,end_time,schedule_no)			");	
-			sql.append("values(TURN_NO_SEQ.NEXTVAL,to_char(?,'hh24:mi'),to_char(?,'hh24:mi'),?)		");	
+			sql.append("values(TURN_NO_SEQ.NEXTVAL,to_date(?,'hh24:mi'),to_date(?,'hh24:mi'),?)		");	
 			
 			pstmt = conn.prepareStatement(sql.toString());
 			for(ScheduleTurnVO turn : list) {
@@ -58,7 +59,7 @@ public class ScheduleTurnDAO {
 			pstmt = conn.prepareStatement(sql.toString());
 			
 			sql.append("select t1.theater_name,ss1.schedule_no,ss1.screen_date,s1.screen_name,m1.movie_title	");
-			sql.append(",to_char(t1.start_time,'hh24:mi'),to_char(t1.end_time,'hh24:mi')						");		
+			sql.append(",to_char(t1.start_time,'hh24:mi'),to_char(t1.end_time,'hh24:mi'),t1.turn_no				");		
 			sql.append("from theater t1,screen s1,screen_schedule ss1, movie m1,schedule_turn t1				");	
 			sql.append("where t1.theater_no = s1.theater_no										 				");
 			sql.append("and m1.movie_no = ss1.movie_no										 					");
@@ -78,6 +79,7 @@ public class ScheduleTurnDAO {
 				scheduleTurnVO.setMovieName(rs.getString(5));
 				scheduleTurnVO.setStartTime(rs.getString(6));
 				scheduleTurnVO.setEndTime(rs.getString(7));
+				scheduleTurnVO.setTurnNo(rs.getInt(8));
 				
 				ScreenScheduleVO screenScheduleVO = new ScreenScheduleVO();
 				screenScheduleVO.setScheduleNo(rs.getInt(2));
@@ -226,5 +228,33 @@ public class ScheduleTurnDAO {
 		}
 
 		return list;
+	}
+	
+	//총게시글 수를 구한다.
+	public int selectTotalPost() throws Exception{
+		int totalPost = 0;
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DBConn.getConnection();
+			stmt = conn.createStatement();
+			StringBuffer sql = new StringBuffer();
+			
+			sql.append("select count(*)								 		");
+			sql.append("from schedule_turn									");
+			
+			rs = stmt.executeQuery(sql.toString());
+			
+			if(rs.next()) {
+				totalPost = rs.getInt(1);
+			}
+			
+		} finally {
+			if(rs!=null)rs.close();
+			if(stmt!=null)stmt.close();
+			if(conn!=null)conn.close();
+		}
+		return totalPost;
 	}
 }

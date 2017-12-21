@@ -84,15 +84,59 @@ public class MovieService {
       }
 
    }
+   /*
+   //영화를 삭제하다.
+ 	public void deleteMovie(int movieNo) throws Exception {
+ 		Connection conn = null;
+ 		try {
+ 			conn = DBConn.getConnection();
+ 			
+ 			//tx.begin
+ 			conn.setAutoCommit(false);
+ 		
+ 			MovieDAO articleDao = MovieDAO.getInstance();
+ 			articleDao.removeMovie(conn, movieNo);
+ 			
+ 			conn.commit();
+ 			
+ 		} catch (Exception e) {
+ 			conn.rollback();
+ 			throw e;
+ 		} finally {
+ 			if(conn != null) conn.close();
+ 		}
+ 	}
+ 	*/
+   //영화를 삭제하다.
+ 	public void deleteMovie(int[] noList) throws Exception {
+ 		Connection conn = null;
+ 		try {
+ 			conn = DBConn.getConnection();
+ 			
+ 			//tx.begin
+ 			conn.setAutoCommit(false);
+ 		
+ 			MovieDAO articleDao = MovieDAO.getInstance();
+ 			articleDao.removeMovie(conn, noList);
+ 			
+ 			conn.commit();
+ 			
+ 		} catch (Exception e) {
+ 			conn.rollback();
+ 			throw e;
+ 		} finally {
+ 			if(conn != null) conn.close();
+ 		}
+ 	}
    // 영화 정보를 삭제한다.
-   public void deleteMovie(int movieNo) throws Exception {
+   public void deleteMovieList(int movieNo) throws Exception {
       Connection conn = null;
       try {
          conn = DBConn.getConnection();
 
          // tx.begin
          conn.setAutoCommit(false);
-         
+         /*
          //사진 삭제
          PhotoDAO photoDao = PhotoDAO.getInstance();
          photoDao.removePhotoList(conn, movieNo);
@@ -100,14 +144,14 @@ public class MovieService {
          //출연진 사진 삭제
          ActorPhotoDAO actorPhotoDao = ActorPhotoDAO.getInstance();
          actorPhotoDao.removeActorPhoto(conn, movieNo);
-         
+         */
          //영화 삭제     
          MovieDAO movieDao = MovieDAO.getInstance();
          List<MovieVO> movies = new ArrayList<MovieVO>();
          List<Integer>noList = null;
          for(MovieVO movie : movies) {
             noList.add(movieNo);            
-       }
+         }
          movieDao.removeMovieList(conn, noList);
 
          conn.commit();

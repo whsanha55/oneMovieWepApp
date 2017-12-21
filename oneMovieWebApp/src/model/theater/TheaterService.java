@@ -64,9 +64,10 @@ public class TheaterService {
 			// tx.begin(트랜젝션 시작)
 			conn.setAutoCommit(false);
 			
+			
 			ScreenScheduleDAO screenScheduleDAO = ScreenScheduleDAO.getInstance();
 			int scheduleNo = screenScheduleDAO.InsertScreenSchedule(list, conn);
-			
+			System.out.println("test");
 			ScheduleTurnDAO scheduleTurnDAO = ScheduleTurnDAO.getInstance();
 			scheduleTurnDAO.insertTurn(turnList, conn, scheduleNo);
 			
@@ -193,4 +194,10 @@ public class TheaterService {
 		ScheduleTurnDAO scheduleTurnDao = ScheduleTurnDAO.getInstance();
 		return scheduleTurnDao.selectScheduleTurnByScreen(screenNo, screenDate, movieNo);
 	} 
+	
+	//총 게시글 수를 구한다.
+	public int retrieveTotalPost() throws Exception{
+		ScheduleTurnDAO scheduleTurnDao = ScheduleTurnDAO.getInstance();
+		return scheduleTurnDao.selectTotalPost();
+	}
 }//TheaterService

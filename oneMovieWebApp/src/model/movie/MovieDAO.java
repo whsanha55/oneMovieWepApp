@@ -229,25 +229,19 @@ public class MovieDAO {
       Connection conn = null;
       PreparedStatement pstmt = null;
       ResultSet rs = null;
-      MovieVO movie = new MovieVO();
+      
       try {
          conn = DBConn.getConnection();
 
          StringBuffer sql = new StringBuffer();
-         sql.append(
-               "select DISTINCT m1.movie_no, m1.movie_title, m1.director, m1.running_time, m1.grade_no, m1.nation_no, m3.actor_no               ");
-         sql.append("from (select rownum as rn, movie1.*                          ");
-         sql.append("      from (select *                                         ");
-         sql.append(
-               "            from movie ) movie1 ) , movie m1,  actor m3                                     ");
-         sql.append("where m1.movie_no = m3.movie_no ");
+         sql.append( "select  m1.movie_no, m1.movie_title, m1.director, m1.running_time, g.grade_age, n.nation_name               ");
+         sql.append("from movie m1, grade g, nation n	                         ");
+         sql.append(" where g.grade_no = m1.grade_no and n.nation_no = m1.nation_no                                        ");
 
-         if (keyfield.equals("all")) {
-            sql.append(" ");
-         } else if (keyfield.equals("MovieTitle")) {
-            sql.append("and m1.Movie_Title like '%' || ? ||  '%'  ");
+         if (keyfield.equals("MovieTitle")) {
+            sql.append("and m1.movie_title like '%' || ? ||  '%'  ");
          } else if (keyfield.equals("Director")) {
-            sql.append("and m1.Director like '%' || ? ||  '%'  ");
+            sql.append("and m1.director like '%' || ? ||  '%'  ");
          }
 
          //sql.append("and rn >= ? and rn <= ?                                             ");
@@ -257,32 +251,22 @@ public class MovieDAO {
 		pstmt.setString(1, keyword);
 
 		rs = pstmt.executeQuery();
-         int count = 1;
-         while (rs.next()) {
-            if (count == 1) {               
-               movie.setMovieNo(rs.getInt(1));
-               movie.setMovieTitle(rs.getString(2));
-               movie.setDirector(rs.getString(3));
-               movie.setRunningTime(rs.getInt(4));
-               movie.setGradeNo(rs.getInt(5));
-               movie.setNationNo(rs.getInt(6));
-               /*movies.add(movie);*/
-            }
-            /*
-            if (rs.getInt(7) != 0) {
-               MovieGenreVO genre = new MovieGenreVO();
-               genre.setGenreNo(rs.getInt(7));
-               movie.setMovieGenre(genre);                     //수정
-            }
-            */
-
-            if (rs.getInt(7) != 0) {
-               ActorVO actor = new ActorVO();
-               actor.setActorNo(rs.getInt(7));
-               movie.addActor(actor);
-            }
-            movies.add(movie);                              //수정
-            count++;
+         while (rs.next()) {   
+           MovieVO movie = new MovieVO();
+           GradeVO grade = new GradeVO();
+           NationVO nation = new NationVO();
+            
+           movie.setMovieNo(rs.getInt(1));
+           movie.setMovieTitle(rs.getString(2));
+           movie.setDirector(rs.getString(3));
+           movie.setRunningTime(rs.getInt(4));
+           
+           grade.setGradeAge(rs.getString(5));
+           movie.setGrade(grade);
+           
+           nation.setNationName(rs.getString(6));
+           movie.setNation(nation);
+           movies.add(movie);         
          }
 
       } finally {
@@ -356,7 +340,43 @@ public class MovieDAO {
       }
       return detailMovie;
    }
+   // 영화 정보를 삭제하다.
+   public void removeMovie(Connection conn, int[] noList) throws Exception {
+	   PreparedStatement pstmt = null;
+		try {
+			StringBuffer sql = new StringBuffer();
+			sql.append("delete from movie                     ");
+			sql.append("where movie_no = ?                                 ");
+			pstmt = conn.prepareStatement(sql.toString());
+			
+			for (int i = 0; i < noList.length; i++) {
+	            pstmt.setInt(1, noList[i]);
+	         }
 
+			pstmt.executeUpdate();
+
+		} finally {
+			if (pstmt != null) pstmt.close();
+		}
+   }
+   
+   // 영화 정보를 삭제하다.
+   public void removeMovie(Connection conn, int movieNo) throws Exception {
+	   PreparedStatement pstmt = null;
+		try {
+			StringBuffer sql = new StringBuffer();
+			sql.append("delete from movie                     ");
+			sql.append("where movie_no = ?                                 ");
+			pstmt = conn.prepareStatement(sql.toString());
+
+			pstmt.setInt(1, movieNo);
+
+			pstmt.executeUpdate();
+
+		} finally {
+			if (pstmt != null) pstmt.close();
+		}
+   }
    // 영화 정보를 일괄 삭제하다.
    public void removeMovieList(Connection connn, List<Integer> noList) throws Exception {
       Connection conn = null;
@@ -378,8 +398,7 @@ public class MovieDAO {
          pstmt.executeBatch();
 
       } finally {
-         if (pstmt != null)
-            pstmt.close();
+    	  
       }
    }
    
