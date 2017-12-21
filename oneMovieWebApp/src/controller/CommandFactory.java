@@ -27,6 +27,8 @@ public class CommandFactory {
 		map.put("/user/movie/listMovie.do", "controller.movie.ListMovieCommand");
 		map.put("/user/movie/findMovie.do", "controller.movie.FindMovieCommand");
 		map.put("/user/movie/detailMovie.do", "controller.movie.DetailMovieCommand");
+		map.put("/user/movie/removeMovie.do", "controller.movie.RemoveMovieCommand");
+		map.put("/user/movie/listAllMovie.do", "controller.movie.ListAllMovieCommand");
 
 	}
 	

@@ -6,10 +6,11 @@
 [
 	<c:forEach var="movie" items="${requestScope.movies }" varStatus="loop">
 	{
+		"selected": ${pageScope.movie.movieNo},
 		"movieNo": ${pageScope.movie.movieNo} ,
 		"movieTitle": "${pageScope.movie.movieTitle }" ,
 		"director": "${pageScope.movie.director }"  ,
-		"runningTime": "${pageScope.movie.runningTime}"   ,
+		"runningTime": ${pageScope.movie.runningTime}   ,
 		"gradeAge": "${pageScope.movie.grade.gradeAge }",
 		"nationName": "${pageScope.movie.nation.nationName }"	
 	}
