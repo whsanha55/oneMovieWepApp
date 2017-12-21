@@ -129,7 +129,7 @@ public class MovieService {
  			conn.setAutoCommit(false);
  		
  			MovieDAO articleDao = MovieDAO.getInstance();
- 			articleDao.removeMovie(conn, noList);
+ 			//articleDao.removeMovie(conn, noList);
  			
  			conn.commit();
  			
