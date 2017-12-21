@@ -12,31 +12,29 @@ import controller.Command;
 import domain.booking.BookingVO;
 import model.booking.BookingService;
 
-public class AdminBookingAjaxCommand implements Command {
+public class MemberBookingListCurrCommand implements Command {
 
 	@Override
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
-
-		String keyfield = req.getParameter("keyfield");
-		String keyword = req.getParameter("keyword");
-		System.out.println(keyword);
 		ActionForward forward = new ActionForward();
 		try {
-			BookingService bookingService = BookingService.getInstance();
-			List<BookingVO> bookingList= bookingService.retrieveBookingList(keyfield, keyword, 0, 1, 10);
-			req.setAttribute("bookingList", bookingList);
-			forward.setPath("/admin/booking/adminBookingView.jsp");
-			forward.setRedirect(false);
+			//수정필요
+			//String memberNo = (String) req.getSession().getAttribute("memberNo");
+			String memberNo = "17121500004";
 			
+			BookingService bookingService = BookingService.getInstance();
+			List<BookingVO> bookingList = bookingService.retrieveBookingList("memberNo",memberNo,2,0,10);
+			req.setAttribute("bookingList", bookingList);
+			forward.setPath("/user/booking/memberBookingListCurr.jsp");
+			forward.setRedirect(false);
+			return forward;
 		} catch (Exception e) {
-			req.setAttribute("exception", e);
 			forward.setPath("/error.jsp");
 			forward.setRedirect(false);
-
+			return forward;
 		}
-
-		return forward;
+	
 	}
 
 }

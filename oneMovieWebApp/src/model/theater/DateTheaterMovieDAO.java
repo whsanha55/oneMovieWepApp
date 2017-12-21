@@ -38,7 +38,8 @@ public class DateTheaterMovieDAO {
 			sql.append("select distinct t1.movie_no, t1.movie_title      ");
 			sql.append("from movie t1, screen_schedule t2       ");
 			sql.append("where t1.movie_no = t2.movie_no         ");
-			sql.append("and t2.screen_date >= to_char(sysdate,'YYYY/MM/DD')  ");
+			sql.append("and t2.screen_date >= sysdate        ");
+			sql.append("order by t1.movie_title asc           ");
 			
 			
 			rs = stmt.executeQuery(sql.toString());
@@ -78,7 +79,9 @@ public class DateTheaterMovieDAO {
 			sql.append("       				 from screen                                      							 ");
 			sql.append("       				 where screen_no in (select screen_no             							 ");
 			sql.append("                   						 from screen_schedule                  					");
-			sql.append("                  						  where screen_date >= to_char(sysdate,'YYYY/MM/DD')))  ");
+			sql.append("                  						  where screen_date > sysdate))  ");
+			sql.append("order by theater_name asc                                        ");
+			
 			
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql.toString());
@@ -102,30 +105,29 @@ public class DateTheaterMovieDAO {
 	//날짜조회					13
 	public List<ScreenScheduleVO> selectDateAll()throws Exception{
 		Connection conn = null;
-		PreparedStatement pstmt = null;
+		Statement stmt = null;
 		ResultSet rs = null;
 		List<ScreenScheduleVO> list = new ArrayList<ScreenScheduleVO>();
 		try {
 			conn =DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			
-			sql.append("select screen_date,schedule_no						");
+			sql.append("select distinct to_char(screen_date,'YYYY/MM/DD') s1						");
 			sql.append("from screen_schedule								");
-			sql.append("where screen_date > sysdate							");
+			sql.append("where screen_date > to_char(sysdate,'YYYY/MM/DD')						");
+			sql.append("order by s1 asc             ");
 			
-			pstmt = conn.prepareStatement(sql.toString());
-			rs = pstmt.executeQuery();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql.toString());
 			
 			while(rs.next()) {
 				ScreenScheduleVO screenScheduleVO = new ScreenScheduleVO();
-				screenScheduleVO.setScreenDate(rs.getString(1));
-				screenScheduleVO.setScheduleNo(rs.getInt(2));
-				
+				screenScheduleVO.setScreenDate(rs.getString(1));				
 				list.add(screenScheduleVO);
 			}
 		} finally {
 			if(rs!=null)rs.close();
-			if(pstmt!=null)pstmt.close();
+			if(stmt!=null)stmt.close();
 			if(conn!=null)conn.close();
 		}
 		return list;
@@ -141,12 +143,16 @@ public class DateTheaterMovieDAO {
 			conn =DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			
-			sql.append("select m1.movie_no,m1.movie_title							");
-			sql.append("from movie m1, theater t1,screen s1,screen_schedule	ss1		");
-			sql.append("where t1.theater_no = s1.theater_no							");
-			sql.append("and s1.screen_no = ss1.screen_no							");
-			sql.append("and ss1.movie_no = m1.movie_no								");
-			sql.append("and t1.theater_no = ?										");
+			sql.append("select  distinct t1.movie_no, t1.movie_title             ");
+			sql.append("from movie t1, screen_schedule t2                 ");
+			sql.append("where t1.movie_no = t2.movie_no                   ");
+			sql.append("and t2.screen_date > sysdate                  ");
+			sql.append("and screen_no in(select screen_no                ");
+			sql.append("        from screen                        ");
+			sql.append("        where theater_no =(select theater_no            ");
+			sql.append("                  from theater                    ");
+			sql.append("                  where theater_no = ?))              ");
+			sql.append("order by t1.movie_title asc           ");
 			
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, theaterNo);
@@ -179,7 +185,7 @@ public class DateTheaterMovieDAO {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 
-			sql.append("select m1.movie_no,m1.movie_title			");
+			sql.append("select distinct m1.movie_no,m1.movie_title			");
 			sql.append("from movie m1, theater t1,screen s1,screen_schedule	ss1		");
 			sql.append("where t1.theater_no = s1.theater_no							");
 			sql.append("and s1.screen_no = ss1.screen_no							");
@@ -216,11 +222,12 @@ public class DateTheaterMovieDAO {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			
-			sql.append("select t1.theater_no,t1.theater_name								");
+			sql.append("select distinct t1.theater_no,t1.theater_name								");
 			sql.append("from theater t1,screen s1, screen_schedule ss1						");
 			sql.append("where t1.theater_no = s1.theater_no									");
 			sql.append("and s1.screen_no = ss1.screen_no									");
-			sql.append("and to_char(ss1.screen_date,'yyyy/mm/dd') = to_char(?,'yyyy/mm/dd')	"); 
+			sql.append("and to_char(ss1.screen_date,'yyyy/mm/dd') = ?	"); 
+			sql.append("order by t1.theater_name asc                                        ");
 			
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, date);
@@ -230,6 +237,7 @@ public class DateTheaterMovieDAO {
 				TheaterVO theaterVO = new TheaterVO();
 				theaterVO.setTheaterNo(rs.getInt(1));
 				theaterVO.setTheaterName(rs.getString(2));
+				
 				list.add(theaterVO);
 			}
 			
@@ -251,12 +259,13 @@ public class DateTheaterMovieDAO {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			
-			sql.append("select t1.theater_no, t1.theater_name								");
+			sql.append("select distinct t1.theater_no, t1.theater_name								");
 			sql.append("from theater t1,screen s1, screen_schedule ss1,movie m1				");
 			sql.append("where t1.theater_no = s1.theater_no									");
 			sql.append("and s1.screen_no = ss1.screen_no									");
 			sql.append("and ss1.movie_no = m1.movie_no										");
-			sql.append("and m1.movie_no = ?													"); 
+			sql.append("and m1.movie_no = ?													");
+			sql.append("order by t1.theater_name asc                                        ");
 			
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, movieNo);
@@ -267,7 +276,6 @@ public class DateTheaterMovieDAO {
 				TheaterVO theaterVO = new TheaterVO();
 				theaterVO.setTheaterNo(rs.getInt(1));
 				theaterVO.setTheaterName(rs.getString(2));
-				
 				list.add(theaterVO);
 			}
 			
@@ -291,11 +299,13 @@ public class DateTheaterMovieDAO {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			
-			sql.append("select screen_date, schedule_no							");
+			sql.append("select distinct to_char(ss1.screen_date,'YYYY/MM/DD') c1							");
 			sql.append("from screen_schedule ss1,theater t1, screen s1			");
 			sql.append("where t1.theater_no = s1.theater_no						");
-			sql.append("and s1.screen_no = SS1.screen_no						");
+			sql.append("and s1.screen_no = ss1.screen_no						");
+			sql.append("and ss1.screen_date > to_char(sysdate,'YYYY/MM/DD')						");
 			sql.append("and t1.theater_no = ?									");
+			sql.append("order by c1 asc             ");
 			
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, theaterNO);
@@ -304,7 +314,6 @@ public class DateTheaterMovieDAO {
 			while(rs.next()) {
 				ScreenScheduleVO screenScheduleVO = new ScreenScheduleVO();
 				screenScheduleVO.setScreenDate(rs.getString(1));
-				screenScheduleVO.setScheduleNo(rs.getInt(2));
 				
 				list.add(screenScheduleVO);
 			}
@@ -327,12 +336,14 @@ public class DateTheaterMovieDAO {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			
-			sql.append("select screen_date, schedule_no							");
+			sql.append("select distinct to_char(ss1.screen_date,'YYYY/MM/DD') c1							");
 			sql.append("from screen_schedule ss1,theater t1, screen s1,movie m1 ");
 			sql.append("where t1.theater_no = s1.theater_no						");
 			sql.append("and s1.screen_no = SS1.screen_no						");
 			sql.append("and m1.movie_no = SS1.movie_no							");
+			sql.append("and ss1.screen_date > to_char(sysdate,'YYYY/MM/DD')						");
 			sql.append("and SS1.movie_no = ?									");
+			sql.append("order by c1 asc             ");
 			
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, movieNo);
@@ -341,7 +352,6 @@ public class DateTheaterMovieDAO {
 			while(rs.next()) {
 				ScreenScheduleVO screenScheduleVO = new ScreenScheduleVO();
 				screenScheduleVO.setScreenDate(rs.getString(1));
-				screenScheduleVO.setScheduleNo(rs.getInt(2));
 				
 				list.add(screenScheduleVO);
 			}
@@ -411,6 +421,7 @@ public class DateTheaterMovieDAO {
 			sql.append("and m1.movie_no = ss1.movie_no												");
 			sql.append("and m1.movie_no = ?															");
 			sql.append("and to_char(ss1.screen_date,'yyyy/mm/dd') = to_char(?,'yyyy/mm/dd')			");
+			sql.append("order by t1.theater_name asc                                        ");
 			
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, movieNo);
@@ -443,13 +454,17 @@ public class DateTheaterMovieDAO {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			
-			sql.append("select ss1.screen_no,ss1.screen_date										");
+			sql.append("select distinct to_char(ss1.screen_date,'YYYY/MM/DD') c1										");
 			sql.append("from screen_schedule ss1,theater t1, screen s1,movie m1						");
 			sql.append("where t1.theater_no = s1.theater_no											");
 			sql.append("and s1.screen_no = ss1.screen_no											");
 			sql.append("and m1.movie_no = ss1.movie_no												");
 			sql.append("and m1.movie_no = ?															");
 			sql.append("and t1.theater_no = ?														");
+			sql.append("and ss1.screen_date > to_char(sysdate,'YYYY/MM/DD')						");
+			sql.append("order by c1 asc             ");
+			
+			
 			
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, movieNo);
@@ -459,8 +474,7 @@ public class DateTheaterMovieDAO {
 			
 			while(rs.next()) {
 				ScreenScheduleVO screenScheduleVO = new ScreenScheduleVO();
-				screenScheduleVO.setScreenNo(rs.getInt(1));
-				screenScheduleVO.setScreenDate(rs.getString(2));
+				screenScheduleVO.setScreenDate(rs.getString(1));
 				
 				list.add(screenScheduleVO);
 			}

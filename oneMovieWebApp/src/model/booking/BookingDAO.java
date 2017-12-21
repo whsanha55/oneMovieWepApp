@@ -45,7 +45,7 @@ public class BookingDAO {
 			sql.setLength(0);
 
 			stmt = conn.createStatement();
-			sql.append("select ticket_no_seq.currval from dual ");
+			sql.append("select to_char(sysdate,'YYMMDD') || lpad(ticket_no_seq.currval,5,0) from dual  ");
 
 			ResultSet rs = stmt.executeQuery(sql.toString());
 			if (rs.next()) {

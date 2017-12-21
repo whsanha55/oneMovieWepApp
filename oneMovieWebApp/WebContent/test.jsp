@@ -5,17 +5,22 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
+<link rel="stylesheet" href="js/jquery-ui.min.css">
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/jquery-ui.min.js"></script>
 
 
 </head>
 <body>
-<div id="datePicker"></div>
-
 <script>
-    $('#datepicker').datepicker();
+  $(function() {
+    $("#datepicker1").datepicker({
+    	dateFormat: 'yy-mm-dd'
+    });
+  });
+  console.log($('#a').val());
 </script>
 
+<div id='datepicker1'></div>
 </body>
 </html>

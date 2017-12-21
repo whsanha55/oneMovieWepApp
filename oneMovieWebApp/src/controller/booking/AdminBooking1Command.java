@@ -18,7 +18,7 @@ public class AdminBooking1Command implements Command{
 		ActionForward forward = new ActionForward();
 		
 			BookingService bookingService = BookingService.getInstance();
-			forward.setPath("/adminBooking1.jsp");
+			forward.setPath("/admin/booking/adminBooking1.jsp");
 			forward.setRedirect(false);			
 				
 		
