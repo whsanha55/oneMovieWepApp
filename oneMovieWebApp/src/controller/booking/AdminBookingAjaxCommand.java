@@ -26,7 +26,7 @@ public class AdminBookingAjaxCommand implements Command {
 			BookingService bookingService = BookingService.getInstance();
 			List<BookingVO> bookingList= bookingService.retrieveBookingList(keyfield, keyword, 0, 1, 10);
 			req.setAttribute("bookingList", bookingList);
-			forward.setPath("/adminBookingView.jsp");
+			forward.setPath("/admin/booking/adminBookingView.jsp");
 			forward.setRedirect(false);
 			
 		} catch (Exception e) {

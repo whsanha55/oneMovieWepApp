@@ -1,5 +1,5 @@
-package model.movie;
-
+ package model.movie;
+ 
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -157,9 +157,12 @@ public class MovieService {
    }
    
    // 영화 목록을 조회하다.
-   public List<MovieVO> retriveMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
+  // public List<MovieVO> retriveMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
+   public List<MovieVO> retriveMovieList(String keyfield, String keyword) throws Exception {
       MovieDAO dao = MovieDAO.getInstance();
-     return dao.selectMovieList(keyfield, keyword, startRow, endRow);  
+     //return dao.selectMovieList(keyfield, keyword, startRow, endRow);  
+      return dao.selectMovieList(keyfield, keyword);  
+
    }
 
    // 게시글 상세정보를 조회하다.

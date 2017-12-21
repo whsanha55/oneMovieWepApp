@@ -12,10 +12,8 @@ public class CommandFactory {
 		map.put("/adminBookingAjax.do", "controller.booking.AdminBookingAjaxCommand");
 		map.put("/adminBookingAjax2.do", "controller.AdminBookingAjax2Command");
 		map.put("/memberBooking1.do", "controller.memberBookingCommand");
-		
-		
-		
-		//theater part
+			
+		//start theater part
 		map.put("/admin/theater/adminTheaterForm.do","controller.theater.AdminTheaterFormCommand");
 		map.put("/admin/theater/listScheduleTurnForm.do", "controller.theater.ListScheduleTurnCommand");
 		map.put("/admin/theater/addTurnForm.do", "controller.theater.AddTurnFormCommand");
@@ -23,6 +21,13 @@ public class CommandFactory {
 		map.put("/admin/theater/addSchedule.do", "controller.theater.AddScheduleTurnCommand");
 		
 		map.put("/admin/theater/adminTheaterView.do", "controller.theater.AdminTheaterSearchAjaxCommand");
+		
+		//end theater part
+
+		map.put("/user/movie/listMovie.do", "controller.movie.ListMovieCommand");
+		map.put("/user/movie/findMovie.do", "controller.movie.FindMovieCommand");
+		map.put("/user/movie/detailMovie.do", "controller.movie.DetailMovieCommand");
+
 	}
 	
 	
