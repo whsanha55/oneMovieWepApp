@@ -10,7 +10,7 @@ public class CommandFactory {
 	private CommandFactory() {
 		
 		
-		//start theater part
+		//극장 시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		map.put("/admin/theater/adminTheaterForm.do","controller.theater.AdminTheaterFormCommand");
 		map.put("/admin/theater/listScheduleTurnForm.do", "controller.theater.ListScheduleTurnCommand");
 		map.put("/admin/theater/addTurnForm.do", "controller.theater.AddTurnFormCommand");
@@ -18,8 +18,7 @@ public class CommandFactory {
 		map.put("/admin/theater/addSchedule.do", "controller.theater.AddScheduleTurnCommand");
 		
 		map.put("/admin/theater/adminTheaterView.do", "controller.theater.AdminTheaterSearchAjaxCommand");
-		
-		//end theater part
+		//극장 끝====================================================
 
 		map.put("/user/movie/listMovie.do", "controller.movie.ListMovieCommand");
 		map.put("/user/movie/findMovie.do", "controller.movie.FindMovieCommand");
@@ -28,7 +27,7 @@ public class CommandFactory {
 		map.put("/user/movie/listAllMovie.do", "controller.movie.ListAllMovieCommand");
 
 		
-		//start bookng part
+		//예약 시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		
 		map.put("/adminBooking1.do", "controller.booking.AdminBooking1Command");
 		map.put("/adminBookingAjax.do", "controller.booking.AdminBookingAjaxCommand");
@@ -43,8 +42,7 @@ public class CommandFactory {
 		map.put("/memberBookingListCurr.do", "controller.booking.MemberBookingListCurrCommand");
 		map.put("/memberBookingListPast.do", "controller.booking.MemberBookingListPastCommand");
 		map.put("/memberBookingListCancel.do", "controller.booking.MemberBookingListCancelCommand");
-		
-		//end booking part
+		//예약 끝====================================================
 	}
 	
 	
