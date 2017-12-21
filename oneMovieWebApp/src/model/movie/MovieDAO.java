@@ -206,12 +206,26 @@ public class MovieDAO {
 
 			pstmt.executeUpdate();
 
+<<<<<<< HEAD
 		} finally {
 			if (pstmt != null)
 				pstmt.close();
 		}
 	}
+=======
+   // 검색 조건에 해당하는 영화목록을 오름차순으로 조회한다.
+  // public List<MovieVO> selectMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
+   public List<MovieVO> selectMovieList(String keyfield, String keyword) throws Exception {
+      ArrayList<MovieVO> movies = new ArrayList<MovieVO>();
+      Connection conn = null;
+      PreparedStatement pstmt = null;
+      ResultSet rs = null;
+      
+      try {
+         conn = DBConn.getConnection();
+>>>>>>> refs/remotes/origin/master
 
+<<<<<<< HEAD
 	// 검색 조건에 해당하는 영화목록을 오름차순으로 조회한다.
 	// public List<MovieVO> selectMovieList(String keyfield, String keyword, int
 	// startRow, int endRow) throws Exception {
@@ -223,7 +237,14 @@ public class MovieDAO {
 		MovieVO movie = new MovieVO();
 		try {
 			conn = DBConn.getConnection();
+=======
+         StringBuffer sql = new StringBuffer();
+         sql.append( "select  m1.movie_no, m1.movie_title, m1.director, m1.running_time, g.grade_age, n.nation_name               ");
+         sql.append("from movie m1, grade g, nation n	                         ");
+         sql.append(" where g.grade_no = m1.grade_no and n.nation_no = m1.nation_no                                        ");
+>>>>>>> refs/remotes/origin/master
 
+<<<<<<< HEAD
 			StringBuffer sql = new StringBuffer();
 			sql.append(
 					"select DISTINCT m1.movie_no, m1.movie_title, m1.director, m1.running_time, m1.grade_no, m1.nation_no, m3.actor_no               ");
@@ -231,6 +252,13 @@ public class MovieDAO {
 			sql.append("      from (select *                                         ");
 			sql.append("            from movie ) movie1 ) , movie m1,  actor m3                                     ");
 			sql.append("where m1.movie_no = m3.movie_no ");
+=======
+         if (keyfield.equals("MovieTitle")) {
+            sql.append("and m1.movie_title like '%' || ? ||  '%'  ");
+         } else if (keyfield.equals("Director")) {
+            sql.append("and m1.director like '%' || ? ||  '%'  ");
+         }
+>>>>>>> refs/remotes/origin/master
 
 			if (keyfield.equals("all")) {
 				sql.append(" ");
@@ -244,6 +272,7 @@ public class MovieDAO {
 			// sql.append("order by 1; ");
 			pstmt = conn.prepareStatement(sql.toString());
 
+<<<<<<< HEAD
 			pstmt.setString(1, keyword);
 
 			rs = pstmt.executeQuery();
@@ -262,6 +291,26 @@ public class MovieDAO {
 				 * if (rs.getInt(7) != 0) { MovieGenreVO genre = new MovieGenreVO();
 				 * genre.setGenreNo(rs.getInt(7)); movie.setMovieGenre(genre); //수정 }
 				 */
+=======
+		rs = pstmt.executeQuery();
+         while (rs.next()) {   
+           MovieVO movie = new MovieVO();
+           GradeVO grade = new GradeVO();
+           NationVO nation = new NationVO();
+            
+           movie.setMovieNo(rs.getInt(1));
+           movie.setMovieTitle(rs.getString(2));
+           movie.setDirector(rs.getString(3));
+           movie.setRunningTime(rs.getInt(4));
+           
+           grade.setGradeAge(rs.getString(5));
+           movie.setGrade(grade);
+           
+           nation.setNationName(rs.getString(6));
+           movie.setNation(nation);
+           movies.add(movie);         
+         }
+>>>>>>> refs/remotes/origin/master
 
 				if (rs.getInt(7) != 0) {
 					ActorVO actor = new ActorVO();
@@ -306,6 +355,7 @@ public class MovieDAO {
 
 			rs = pstmt.executeQuery();
 
+<<<<<<< HEAD
 			int count = 1;
 			while (rs.next()) {
 				if (count == 1) {
@@ -315,9 +365,94 @@ public class MovieDAO {
 					detailMovie.setMovieTitle(rs.getString(2));
 					detailMovie.setDirector(rs.getString(3));
 					detailMovie.setRunningTime(rs.getInt(4));
+=======
+         int count = 1;
+         while (rs.next()) {
+            if (count == 1) {   
+               GradeVO grade = new GradeVO();
+               NationVO nation = new NationVO();
+               detailMovie.setMovieNo(rs.getInt(1));
+               detailMovie.setMovieTitle(rs.getString(2));
+               detailMovie.setDirector(rs.getString(3));
+               detailMovie.setRunningTime(rs.getInt(4));
+               
+               grade.setGradeAge(rs.getString(5));
+               detailMovie.setGrade(grade);
+               
+               nation.setNationName(rs.getString(6));
+               detailMovie.setNation(nation);
+               
+               detailMovie.setStory(rs.getString(7));
+              
+            }
+            
+            if(rs.getString(9) != null) {
+            	  ActorVO actor = new ActorVO();
+            	  RoleVO role = new RoleVO();
+            	  role.setRoleName(rs.getString(8));
+            	  actor.setRole(role);
+                  actor.setActorName(rs.getString(9));
+                  actor.setCharacterName(rs.getString(10));
+                  detailMovie.addActor(actor);
+            }
+            count++;
+         }
+         
+      } finally {
+         if (pstmt != null)
+            pstmt.close();
+         if (conn != null)
+            conn.close();
+      }
+      return detailMovie;
+   }
+   // 영화 정보를 삭제하다.
+   public void removeMovie(Connection conn, int[] noList) throws Exception {
+	   PreparedStatement pstmt = null;
+		try {
+			StringBuffer sql = new StringBuffer();
+			sql.append("delete from movie                     ");
+			sql.append("where movie_no = ?                                 ");
+			pstmt = conn.prepareStatement(sql.toString());
+			
+			for (int i = 0; i < noList.length; i++) {
+	            pstmt.setInt(1, noList[i]);
+	         }
+>>>>>>> refs/remotes/origin/master
 
+<<<<<<< HEAD
 					grade.setGradeAge(rs.getString(5));
 					detailMovie.setGrade(grade);
+=======
+			pstmt.executeUpdate();
+
+		} finally {
+			if (pstmt != null) pstmt.close();
+		}
+   }
+   
+   // 영화 정보를 삭제하다.
+   public void removeMovie(Connection conn, int movieNo) throws Exception {
+	   PreparedStatement pstmt = null;
+		try {
+			StringBuffer sql = new StringBuffer();
+			sql.append("delete from movie                     ");
+			sql.append("where movie_no = ?                                 ");
+			pstmt = conn.prepareStatement(sql.toString());
+
+			pstmt.setInt(1, movieNo);
+
+			pstmt.executeUpdate();
+
+		} finally {
+			if (pstmt != null) pstmt.close();
+		}
+   }
+   // 영화 정보를 일괄 삭제하다.
+   public void removeMovieList(Connection connn, List<Integer> noList) throws Exception {
+      Connection conn = null;
+      PreparedStatement pstmt = null;
+>>>>>>> refs/remotes/origin/master
 
 					nation.setNationName(rs.getString(6));
 					detailMovie.setNation(nation);
@@ -326,6 +461,7 @@ public class MovieDAO {
 
 				}
 
+<<<<<<< HEAD
 				if (rs.getString(9) != null) {
 					ActorVO actor = new ActorVO();
 					RoleVO role = new RoleVO();
@@ -337,6 +473,21 @@ public class MovieDAO {
 				}
 				count++;
 			}
+=======
+      } finally {
+    	  
+      }
+   }
+   
+   //영화 목록을 전체 조회하다.
+    public List<MovieVO> selectMovieList() throws Exception {
+          ArrayList<MovieVO> movies = new ArrayList<MovieVO>();
+          Connection conn = null;
+          Statement stmt = null;
+          ResultSet rs = null;
+          try {
+             conn = DBConn.getConnection();
+>>>>>>> refs/remotes/origin/master
 
 		} finally {
 			if (pstmt != null)

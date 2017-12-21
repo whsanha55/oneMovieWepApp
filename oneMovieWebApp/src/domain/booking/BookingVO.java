@@ -174,4 +174,15 @@ public class BookingVO {
 		seatNames.add(seatName);
 	}
 
+	@Override
+	public String toString() {
+		return "BookingVO [ticketNo=" + ticketNo + ", memberNo=" + memberNo + ", turnNo=" + turnNo + ", paymentCode="
+				+ paymentCode + ", price=" + price + ", status=" + status + ", bookingSeats=" + bookingSeats
+				+ ", bookingRefundVO=" + bookingRefundVO + ", memberName=" + memberName + ", theaterName=" + theaterName
+				+ ", screenName=" + screenName + ", screenDate=" + screenDate + ", startTime=" + startTime
+				+ ", endTime=" + endTime + ", movieTitle=" + movieTitle + ", withdrawDate=" + withdrawDate
+				+ ", seatNames=" + seatNames + "]";
+	}
+
+	
 }

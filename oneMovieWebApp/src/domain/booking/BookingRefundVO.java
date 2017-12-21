@@ -5,6 +5,7 @@ public class BookingRefundVO {
 	String ticketNo;
 	String rufundDate;
 	int refundPrice;
+	
 
 	public BookingRefundVO() {
 	}
@@ -41,4 +42,7 @@ public class BookingRefundVO {
 		this.refundPrice = refundPrice;
 	}
 
+	
+
+	
 }

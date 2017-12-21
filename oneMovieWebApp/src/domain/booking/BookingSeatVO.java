@@ -1,10 +1,18 @@
 package domain.booking;
 
+/**
+ * @author USER
+ *
+ */
 public class BookingSeatVO {
 	int bookingSeatNo;
 	String ticketNo;
 	int seatNo;
 	String seatName;
+	boolean isBooked;
+	boolean isFirstSeatLine;
+	boolean isLastSeatLine;
+	
 
 	public BookingSeatVO() {
 	}
@@ -39,6 +47,40 @@ public class BookingSeatVO {
 
 	public void setSeatName(String seatName) {
 		this.seatName = seatName;
+	}
+
+	
+
+	
+	public boolean isBooked() {
+		return isBooked;
+	}
+
+	public void setBooked(boolean isBooked) {
+		this.isBooked = isBooked;
+	}
+
+	public boolean isFirstSeatLine() {
+		return isFirstSeatLine;
+	}
+
+	public void setFirstSeatLine(boolean isFirstSeatLine) {
+		this.isFirstSeatLine = isFirstSeatLine;
+	}
+
+	public boolean isLastSeatLine() {
+		return isLastSeatLine;
+	}
+
+	public void setLastSeatLine(boolean isLastSeatLine) {
+		this.isLastSeatLine = isLastSeatLine;
+	}
+
+	@Override
+	public String toString() {
+		return "BookingSeatVO [bookingSeatNo=" + bookingSeatNo + ", ticketNo=" + ticketNo + ", seatNo=" + seatNo
+				+ ", seatName=" + seatName + ", isBooked=" + isBooked + ", isFirstSeatLine=" + isFirstSeatLine
+				+ ", isLastSeatLine=" + isLastSeatLine + "]";
 	}
 	
 
