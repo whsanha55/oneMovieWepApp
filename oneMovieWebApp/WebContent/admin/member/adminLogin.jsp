@@ -11,7 +11,7 @@
 		
 		$('#btn').on('click', function(){
 			$.ajax({
-				url:'${pageContext.request.contextPath}/'	//이동할 주소 마저 채우기
+				url:'${pageContext.request.contextPath}/adminLogin.do'	
 				,
 				method: 'POST'
 				,
