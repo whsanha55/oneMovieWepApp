@@ -1,5 +1,10 @@
 package domain.movie;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import model.movie.ActorPhotoDAO;
+
 public class ActorVO {
 	int actorNo;
 	String actorName;
@@ -7,7 +12,8 @@ public class ActorVO {
 	int actorPhotoNo;
 	int movieNo;
 	int roleNo;
-	private ActorPhotoVO actorPhoto = new ActorPhotoVO();
+	private List<ActorPhotoVO> actorPhotos = new ArrayList<ActorPhotoVO>();
+	private RoleVO role = new RoleVO();
 
 	public ActorVO() {
 		super();
@@ -61,18 +67,33 @@ public class ActorVO {
 		this.roleNo = roleNo;
 	}
 	
+
+	public RoleVO getRole() {
+		return role;
+	}
+
+	public void setRole(RoleVO role) {
+		this.role = role;
+	}
+
+	public List<ActorPhotoVO> getActorPhotos() {
+		return actorPhotos;
+	}
+
+	public void setActorPhotos(List<ActorPhotoVO> actorPhotos) {
+		this.actorPhotos = actorPhotos;
+	}
+
+	public void addActorPhoto(ActorPhotoVO actorPhoto) {
+		actorPhotos.add(actorPhoto);
+	}
+
 	@Override
 	public String toString() {
 		return "ActorVO [actorNo=" + actorNo + ", actorName=" + actorName + ", characterName=" + characterName
-				+ ", actorPhotoNo=" + actorPhotoNo + ", movieNo=" + movieNo + ", roleNo=" + roleNo + ", actorPhoto="
-				+ actorPhoto + "]";
+				+ ", actorPhotoNo=" + actorPhotoNo + ", movieNo=" + movieNo + ", roleNo=" + roleNo + ", actorPhotos="
+				+ actorPhotos + ", role=" + role + "]";
 	}
-
-	public ActorPhotoVO getActorPhoto() {
-		return actorPhoto;
-	}
-
-	public void setActorPhoto(ActorPhotoVO actorPhoto) {
-		this.actorPhoto = actorPhoto;
-	}
+	
+	
 }

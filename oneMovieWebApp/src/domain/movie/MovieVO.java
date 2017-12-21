@@ -1,25 +1,28 @@
 package domain.movie;
-
+  
 import java.util.ArrayList;
 import java.util.List;
 
 public class MovieVO {
-	private int movieNo;
-	private String movieTitle;
-	private int runningTime;
-	private String director;
-	private String story;
-	private String videoUrl;
-	private int gradeNo;
-	private int nationNo;
-	private ActorVO actor = new ActorVO();
-	private List<ActorVO> actors = new ArrayList<ActorVO>();// 한 영화에 대해 출연진들은 여러명 존재
-	private List<PhotoVO> photos = new ArrayList<PhotoVO>();// 한 영화에 대해 사진은 여러개 존재
-	private MovieGenreVO movieGenre = new MovieGenreVO();
 
-	public MovieVO() {
-		super();
-	}
+private int movieNo;
+   private String movieTitle;
+   private int runningTime;
+   private String director;
+   private String story;
+   private String videoUrl;
+   private int gradeNo;
+   private int nationNo;
+   private ActorVO actor = new ActorVO();
+   private GradeVO grade = new GradeVO();
+   private NationVO nation = new NationVO();
+   private List<ActorVO> actors = new ArrayList<ActorVO>();//한 영화에 대해 출연진들은 여러명 존재
+   private List<PhotoVO> photos = new ArrayList<PhotoVO>();//한 영화에 대해 사진은 여러개 존재
+   private MovieGenreVO movieGenre = new MovieGenreVO();
+   
+   public MovieVO() {
+      super();
+   }
 
 	public MovieVO(int movieNo, String movieTitle, int runningTime, String director, String story, String videoUrl,
 			int gradeNo, int nationNo) {
@@ -117,26 +120,14 @@ public class MovieVO {
 		actors.add(actor);
 	}
 
-	public List<ActorVO> getActors() {
-		return actors;
+	public ActorVO getActor() {
+		return actor;
 	}
 
-	public void setActors(List<ActorVO> actors) {
-		this.actors = actors;
+	public void setActor(ActorVO actor) {
+		this.actor = actor;
 	}
-
-	public void addGenre(GenreVO genre) {
-		// add(genre);
-	}
-
-	public MovieGenreVO getMovieGenre() {
-		return movieGenre;
-	}
-
-	public void setMovieGenre(MovieGenreVO movieGenre) {
-		this.movieGenre = movieGenre;
-	}
-
+	
 	public void addPhoto(PhotoVO photo) {
 		photos.add(photo);
 	}
@@ -149,19 +140,48 @@ public class MovieVO {
 		this.photos = photos;
 	}
 
-	public ActorVO getActor() {
-		return actor;
+	public MovieGenreVO getMovieGenre() {
+		return movieGenre;
 	}
 
-	public void setActor(ActorVO actor) {
-		this.actor = actor;
+	public void setMovieGenre(MovieGenreVO movieGenre) {
+		this.movieGenre = movieGenre;
 	}
 
-	@Override
+	public List<ActorVO> getActors() {
+		return actors;
+	}
+
+	public void setActors(List<ActorVO> actors) {
+		this.actors = actors;
+	}
+
+	public void addGenre(GenreVO genre) {
+		// add(genre);
+	}
+
+   public GradeVO getGrade() {
+		return grade;
+	}
+
+	public void setGrade(GradeVO grade) {
+		this.grade = grade;
+	}
+
+	public NationVO getNation() {
+		return nation;
+	}
+
+	public void setNation(NationVO nation) {
+		this.nation = nation;
+	}
+
+@Override
 	public String toString() {
 		return "MovieVO [movieNo=" + movieNo + ", movieTitle=" + movieTitle + ", runningTime=" + runningTime
 				+ ", director=" + director + ", story=" + story + ", videoUrl=" + videoUrl + ", gradeNo=" + gradeNo
-				+ ", nationNo=" + nationNo + ", actor=" + actor + ", actors=" + actors + ", photos=" + photos
-				+ ", movieGenre=" + movieGenre + "]";
+				+ ", nationNo=" + nationNo + ", actor=" + actor + ", grade=" + grade + ", nation=" + nation
+				+ ", actors=" + actors + ", photos=" + photos + ", movieGenre=" + movieGenre + "]";
 	}
+
 }

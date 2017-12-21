@@ -14,11 +14,9 @@ public class CommandFactory {
 		map.put("/memberBooking1.do", "controller.memberBookingCommand");
 		map.put("/user/movie/listMovie.do", "controller.movie.ListMovieCommand");
 		map.put("/user/movie/findMovie.do", "controller.movie.FindMovieCommand");
-		map.put("/user/movie/writeMovieForm.do", "controller.movie.WriteMovieFormCommand");
-		map.put("/user/movie/writeMovie.do", "controller.movie.WriteMovieCommand");
 		map.put("/removeMovieForm.do", "controller.RemoveMovieFormCommand");
 		map.put("/removeMovie.do", "controller.RemoveMovieCommand");
-
+		map.put("/user/movie/detailMovie.do", "controller.movie.DetailMovieCommand");
 	}
 
 	public static CommandFactory getInstance() {

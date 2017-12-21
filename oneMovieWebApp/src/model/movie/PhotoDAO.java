@@ -23,24 +23,21 @@ public class PhotoDAO {
 	}
 	
 	//사진 정보를 일괄 등록한다.
-	public void insertPhotoList(Connection connn, List<PhotoVO> photos) throws Exception {
-		Connection conn = null;		
-
+	public void insertPhotoList(Connection connn, List<PhotoVO> photos) throws Exception {	
 		PreparedStatement pstmt = null;
 		
 		try {
 			
 			StringBuffer sql = new StringBuffer();
 			sql.append("insert into movie_photo(movie_photo_no, movie_photo_original_file_name, movie_photo_system_file_name, movie_photo_url, movie_no )      ");
-			sql.append("values(movie_photo_no_seq.nextval, ?, ?, ?, ?)                           ");
-			pstmt = conn.prepareStatement(sql.toString());
+			sql.append("values(movie_photo_no_seq.nextval, ?, ?, 'C:\\io', (select max(movie_no) from movie))                           ");
+			pstmt = connn.prepareStatement(sql.toString());
 					
 			for(PhotoVO photo : photos) {
-				pstmt.setInt(1, photo.getMoviePhotoNo());
-				pstmt.setString(2, photo.getMoviePhotoOriginalFileName());
-				pstmt.setString(3, photo.getMoviePhotoSystemFileName());
-				pstmt.setString(5, photo.getMoviePhotoUrl());
-				pstmt.setInt(6, photo.getMovieNo());
+				pstmt.setString(1, photo.getMoviePhotoOriginalFileName());
+				pstmt.setString(2, photo.getMoviePhotoSystemFileName());
+				//pstmt.setString(2, photo.getMoviePhotoUrl());
+				//pstmt.setInt(3, photo.getMovieNo());
 				pstmt.addBatch();
 			}	
 			pstmt.executeBatch();			

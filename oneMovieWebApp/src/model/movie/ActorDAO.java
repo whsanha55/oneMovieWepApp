@@ -1,4 +1,4 @@
-package model.movie;
+ package model.movie;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,19 +25,17 @@ public class ActorDAO {
 
 	// 출연진을 일괄 등록한다. //service에서 commit해야함(conn.close())
 	public int insertActorList(Connection connn, List<ActorVO> actors) throws Exception {
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
 			StringBuffer sql = new StringBuffer();
-			sql.append("insert into ActorVO(actorNo, actorName, characterName, movieNo, roleNo) ");
-			sql.append("values(actor_no_seq.nextval, ?, ?, ? ?)                           ");
-			pstmt = conn.prepareStatement(sql.toString());
+			sql.append("insert into Actor(actor_no, actor_name, character_name, movie_no, role_no)		 ");
+			sql.append("values(actor_no_seq.nextval, ?, ?, (select max(movie_no) from movie), ?)                           ");
+			pstmt = connn.prepareStatement(sql.toString());
 		
 			for(ActorVO actor : actors) {
 				pstmt.setString(1, actor.getActorName());
 				pstmt.setString(2, actor.getCharacterName());
-				pstmt.setInt(3, actor.getMovieNo());
-				pstmt.setInt(4, actor.getRoleNo());
+				pstmt.setInt(3, actor.getRoleNo());
 				pstmt.addBatch();
 			}
 			
