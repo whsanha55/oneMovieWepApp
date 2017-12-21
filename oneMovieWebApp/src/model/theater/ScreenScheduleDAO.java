@@ -26,7 +26,6 @@ public class ScreenScheduleDAO {
 	
 	//상영일정 조회				2
 	public List<ScreenScheduleVO> selectScreenScheduleList(String keyfield,String keyword,int startRow,int endRow)throws Exception{
-
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -36,46 +35,56 @@ public class ScreenScheduleDAO {
 			conn =DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			
-			sql.append("select t1.theater_name,ss1.screen_date,m1.movie_name,st2.turn_no						");
-			sql.append(",to_char(st2.start_time,'hh24:mi'),to_char(st2.end_time,'hh24:mi'),ss1.schedule_no		");		
-			sql.append("from theater t1,screen s1,screen_schedule ss1, movie m1,(select rownum as rn, st1.*		");	
-			sql.append("	 from (select *										 								");
-			sql.append("	 		from schedule_turn 										 					");
-			sql.append("	 		order by turn_no desc) st1)	st2					 							");
-			sql.append("where t1.theater_no = s1.theater_no										 				");
-			sql.append("and m1.movie_no = ss1.movie_no										 					");
-			sql.append("and ss1.schedule_no = st2.schedule_no										 			");
-			sql.append("and rn >= ? and rn <= ?													 				");
+			sql.append("select t1.theater_name,to_char(ss1.screen_date,'yyyy/mm/dd'),m1.movie_title,st2.turn_no,s1.screen_name		");
+			sql.append(",to_char(st2.start_time,'hh24:mi'),to_char(st2.end_time,'hh24:mi'),ss1.schedule_no							");		
+			sql.append("from theater t1,screen s1,screen_schedule ss1, movie m1,(select rownum as rn, st1.*							");	
+			sql.append("	 from (select *										 													");
+			sql.append("	 		from schedule_turn 										 										");
+			sql.append("	 		order by turn_no desc) st1)	st2					 												");
+			sql.append("where t1.theater_no = s1.theater_no										 									");
+			sql.append("and m1.movie_no = ss1.movie_no										 										");
+			sql.append("and s1.screen_no = ss1.screen_no										 									");
+			sql.append("and ss1.schedule_no = st2.schedule_no										 								");
+			//sql.append("and rn >= ? and rn <= ?													 								");
 			 
-			if(keyfield.equals("theater_name")) {
-				sql.append("and t1.theater_name like '%' || ? || '%'											");
-			}else if(keyfield.equals("movie_title")) {
-				sql.append("and m1.movie_title like '%' || ? || '%'												");
+			if(keyfield.equals("theaterName")) {
+				sql.append("and t1.theater_name like '%' || ? || '%'																");
+			}else if(keyfield.equals("movieName")) {
+				sql.append("and m1.movie_title like '%' || ? || '%'																	");
 			} 
+			sql.append("order by t1.theater_name asc, to_char(ss1.screen_date,'yyyy/mm/dd' )asc , s1.screen_name asc,st2.turn_no asc ");
+			
+			System.out.println(sql.toString());//DBsql 확인
+			
+			
 			pstmt = conn.prepareStatement(sql.toString());
-
-			pstmt.setInt(1, startRow);
-			pstmt.setInt(2, endRow);
-			pstmt.setString(3, keyword);
+			//pstmt.setInt(1, startRow);
+			//pstmt.setInt(2, endRow);
+			pstmt.setString(1, keyword);
 			
 			rs = pstmt.executeQuery();
 			int scheduleNo = 0;
-			while(rs.next()) {
-				ScreenScheduleVO screenScheduleVO = new ScreenScheduleVO();
-
-				if(scheduleNo!=rs.getInt(7)) {
-					scheduleNo = rs.getInt(7);
+			ScreenScheduleVO screenScheduleVO = null;
+			
+			while(rs.next()) {										
+				
+				if(scheduleNo!=rs.getInt(8)) {	
+					screenScheduleVO = new ScreenScheduleVO();
+					//screenScheduleVO.setScheduleNo(rs.getInt(8));
 					screenScheduleVO.setTheaterName(rs.getString(1));
 					screenScheduleVO.setScreenDate(rs.getString(2));
 					screenScheduleVO.setMovieTitle(rs.getString(3)); 
-				}	
+					screenScheduleVO.setScreenName(rs.getString(5));					
+					scheduleNo = rs.getInt(8);
+					screenList.add(screenScheduleVO);
+				}
+				
 				ScheduleTurnVO scheduleTurnVO = new ScheduleTurnVO();
 				scheduleTurnVO.setTurnNo(rs.getInt(4));
-				scheduleTurnVO.setStartTime(rs.getString(5));
-				scheduleTurnVO.setEndTime(rs.getString(6));
-				screenScheduleVO.addScheduleTurnVO(scheduleTurnVO);
+				scheduleTurnVO.setStartTime(rs.getString(6));
+				scheduleTurnVO.setEndTime(rs.getString(7));
+				screenScheduleVO.addScheduleTurnVO(scheduleTurnVO);				
 				
-				screenList.add(screenScheduleVO);
 			}
 
 		} finally {
@@ -94,10 +103,11 @@ public class ScreenScheduleDAO {
 		int scheduleNo = 0;
 		try {
 			StringBuffer sql = new StringBuffer();
+			System.out.println("test1");
 			sql.append("insert into screen_schedule(schedule_no,screen_no,screen_date,movie_no)	");
-			sql.append("values(SCREEN_NO_SEQ.NEXTVAL,?,?,?)										");
+			sql.append("values(SCREEN_NO_SEQ.NEXTVAL,?,to_date(?,'yyyy/mm/dd'),?)				");
+			System.out.println("test2");
 			pstmt = conn.prepareStatement(sql.toString());
-		
 			for(ScreenScheduleVO schedule : list) {
 				pstmt.setInt(2, schedule.getScreenNo());
 				pstmt.setString(3, schedule.getScreenDate());
@@ -109,7 +119,7 @@ public class ScreenScheduleDAO {
 			sql.setLength(0);
 			
 			stmt = conn.createStatement();
-			sql.append("select schedule_no_seq.currval from dual ");
+			sql.append("select SCREEN_NO_SEQ.currval from dual ");
 			ResultSet rs = stmt.executeQuery(sql.toString());
 			
 			if (rs.next()) {
