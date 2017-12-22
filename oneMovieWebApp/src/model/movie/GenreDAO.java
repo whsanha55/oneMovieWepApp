@@ -10,6 +10,7 @@ import java.util.List;
 import conn.DBConn;
 import domain.movie.GenreVO;
 import domain.movie.MovieGenreVO;
+import domain.movie.PhotoVO;
 
 public class GenreDAO {
 
@@ -24,27 +25,27 @@ public class GenreDAO {
 	}
 
 	// 영화 장르를 등록한다.
-	public void insertGenreList(Connection conn, MovieGenreVO genre) throws Exception {
+	public void insertGenreList(Connection conn, List<MovieGenreVO> genres) throws Exception {
 		PreparedStatement pstmt = null;
 		try {
-			conn = DBConn.getConnection();
-
 			StringBuffer sql = new StringBuffer();
-			sql.append("insert into movie_genre(movieGenreNo, genreNo, movieNo) ");
-			sql.append("values(movie_genre_no_seq.nextval, ?, ?)                           ");
+			sql.append("insert into movie_genre(movie_Genre_No, genre_No, movie_No)					 ");
+			sql.append("values(movie_genre_no_seq.nextval, ?, (select max(movie_no) from movie))     ");
 			pstmt = conn.prepareStatement(sql.toString());
-
-			pstmt.setInt(1, genre.getGenreNo());
-			pstmt.setInt(2, genre.getMovieNo());
-
-			pstmt.executeUpdate();
-			pstmt.close();
+			
+			for (MovieGenreVO genre : genres) {			
+				pstmt.setInt(1, genre.getGenreNo());
+				//pstmt.setInt(2, genre.getMovieNo());
+				pstmt.executeUpdate();
+				//pstmt.addBatch();
+			}	
+			
+			//pstmt.addBatch();
+			//pstmt.executeUpdate();		//??왜때문에 에러
 
 		} finally {
 			if (pstmt != null)
 				pstmt.close();
-			if (conn != null)
-				conn.close();
 		}
 	}
 	

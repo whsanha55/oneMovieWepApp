@@ -48,7 +48,7 @@ public class MovieDAO {
 			pstmt.setInt(5, movie.getNationNo());
 
 			pstmt.executeUpdate();
-			pstmt.close();
+			//pstmt.close();
 
 			stmt = conn.createStatement();
 
@@ -62,6 +62,7 @@ public class MovieDAO {
 
 		} finally {
 			if (stmt != null) stmt.close();
+			if (pstmt != null) pstmt.close();
 		}
 		return movieNo;
 	}
@@ -148,9 +149,9 @@ public class MovieDAO {
 			conn = DBConn.getConnection();
 
 			StringBuffer sql = new StringBuffer();
-			sql.append("select nation_no, nation_name                              ");
-			sql.append("from nation                                               ");
-			sql.append("where movie_title = ?                                    ");
+			sql.append("select movie_no                              ");
+			sql.append("from movie                                               ");
+			sql.append("where movie_title  like '%' || ? ||  '%'                                    ");
 			sql.append("order by no asc                                           ");
 			pstmt = conn.prepareStatement(sql.toString());
 

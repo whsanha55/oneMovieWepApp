@@ -3,9 +3,7 @@ package controller.movie;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -17,6 +15,8 @@ import javax.servlet.http.Part;
 
 import domain.movie.ActorPhotoVO;
 import domain.movie.ActorVO;
+import domain.movie.GenreVO;
+import domain.movie.MovieGenreVO;
 import domain.movie.MovieVO;
 import domain.movie.PhotoVO;
 import model.movie.MovieService;
@@ -31,6 +31,7 @@ public class WriteMovieServlet extends HttpServlet {
 		throws ServletException, IOException {
 		
 		MovieVO movie = new MovieVO();	
+		MovieGenreVO genre = new MovieGenreVO();	
 		ActorVO actor = null;		
 		
 		Collection<Part> parts = req.getParts();		
@@ -50,7 +51,12 @@ public class WriteMovieServlet extends HttpServlet {
 						movie.setGradeNo(Integer.parseInt(getStringFromStream(part.getInputStream())));
 					case "nationNo":
 						movie.setNationNo(Integer.parseInt(getStringFromStream(part.getInputStream())));
-						break;						
+						break;		
+					//////////////////////////////////// movie genre /////////////////////////////////////
+					case "genreNo":
+						genre.setGenreNo(Integer.parseInt(getStringFromStream(part.getInputStream())));
+						movie.addMovieGenre(genre);
+						break;	
 					//////////////////////////////////// actor //////////////////////////////////////	
 					case "actorName":
 						actor.setActorName(getStringFromStream(part.getInputStream()));
@@ -71,7 +77,7 @@ public class WriteMovieServlet extends HttpServlet {
 							movie.addPhoto(photo);						
 							break;
 						case "uploadactor":														
-							actor = new ActorVO();			
+							actor = new ActorVO();			//actor랑 actorPhoto순서 바꾸지 말 것.
 							ActorPhotoVO actorPhoto = UploadFiles.uploadFile2(req.getPart("uploadactor"), sc);						
 							actor.setActorPhoto(actorPhoto);
 							movie.addActor(actor);

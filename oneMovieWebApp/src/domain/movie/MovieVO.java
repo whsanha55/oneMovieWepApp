@@ -19,6 +19,7 @@ public class MovieVO {
 	private List<ActorVO> actors = new ArrayList<ActorVO>();// 한 영화에 대해 출연진들은 여러명 존재
 	private List<PhotoVO> photos = new ArrayList<PhotoVO>();// 한 영화에 대해 사진은 여러개 존재
 	private MovieGenreVO movieGenre = new MovieGenreVO();
+	private List<MovieGenreVO> movieGenres = new ArrayList<MovieGenreVO>();
 
 	public MovieVO() {
 		super();
@@ -172,6 +173,18 @@ public class MovieVO {
 
 	public void setNation(NationVO nation) {
 		this.nation = nation;
+	}	
+	
+	public void addMovieGenre(MovieGenreVO movieGenre) {
+		movieGenres.add(movieGenre);
+	}
+
+	public List<MovieGenreVO> getMovieGenres() {
+		return movieGenres;
+	}
+
+	public void setMovieGenres(List<MovieGenreVO> movieGenres) {
+		this.movieGenres = movieGenres;
 	}
 
 	@Override

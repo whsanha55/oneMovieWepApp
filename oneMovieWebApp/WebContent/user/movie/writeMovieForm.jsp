@@ -11,10 +11,17 @@
  <body>
  	<form action="${pageContext.request.contextPath }/user/movie/writeMovie"	
  	enctype="multipart/form-data" method="post">
- 		파    일 : <input type="file" name="upload"><br>
- 		파    일 : <input type="file" name="upload"><br>
- 		파    일 : <input type="file" name="upload"><br>
+ 		영화사진 : <input type="file" name="upload"><br>
+ 		영화사진 : <input type="file" name="upload"><br>
+ 		영화사진 : <input type="file" name="upload"><br>
  		제    목 : <input type="text" name="movieTitle" size="20"><br>
+ 		장    르 : <input type="checkbox" name="genreNo" value="1">액션
+			     <input type="checkbox" name="genreNo" value="2">로맨스
+				 <input type="checkbox" name="genreNo" value="3">코미디
+				 <input type="checkbox" name="genreNo" value="4">공포
+				 <input type="checkbox" name="genreNo" value="5">SF
+				 <input type="checkbox" name="genreNo" value="6">판타지
+				 <input type="checkbox" name="genreNo" value="7">애니<br>
  		상영시간 : <input type="number" name="runningTime" size="20"><br>
  		감    독 : <input type="text" name="director" size="20"><br>
  		등    급 : <select name="gradeNo">
@@ -31,7 +38,7 @@
 					  <option value="5">대만</option>
 	      		 </select><br><br><br><br>
 	      		 
-	     파    일 : <input type="file" name="uploadactor"><br>
+	     배우사진 : <input type="file" name="uploadactor"><br>
 	     이    름 : <input type="text" name="actorName" size="20"><br> 
 	     역    할 : <select name="roleNo">
 			          <option value="1">주연</option>
