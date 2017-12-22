@@ -1,4 +1,4 @@
- package model.movie;
+package model.movie;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,30 +23,45 @@ public class ActorDAO {
 		return instance;
 	}
 
-	// 출연진을 일괄 등록한다. //service에서 commit해야함(conn.close())
-	public int insertActorList(Connection connn, List<ActorVO> actors) throws Exception {
+	// 출연진을 등록한다. //service에서 commit해야함(conn.close())
+	public int insertActorList(Connection conn, ActorVO actor) throws Exception {
 		PreparedStatement pstmt = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		int actorNo = 0;
 		try {
 			StringBuffer sql = new StringBuffer();
 			sql.append("insert into Actor(actor_no, actor_name, character_name, movie_no, role_no)		 ");
-			sql.append("values(actor_no_seq.nextval, ?, ?, (select max(movie_no) from movie), ?)                           ");
-			pstmt = connn.prepareStatement(sql.toString());
-		
-			for(ActorVO actor : actors) {
-				pstmt.setString(1, actor.getActorName());
-				pstmt.setString(2, actor.getCharacterName());
-				pstmt.setInt(3, actor.getRoleNo());
-				pstmt.addBatch();
+			sql.append("values(actor_no_seq.nextval, ?, ?, (select max(movie_no) from movie), ?)         ");
+			pstmt = conn.prepareStatement(sql.toString());
+
+			pstmt.setString(1, actor.getActorName());
+			pstmt.setString(2, actor.getCharacterName());
+			//pstmt.setInt(3, actor.getMovieNo());
+			pstmt.setInt(3, actor.getRoleNo());
+
+			pstmt.executeUpdate();
+			pstmt.close();
+
+			sql.delete(0, sql.length());
+
+			stmt = conn.createStatement();
+
+			sql.append("select actor_no_seq.currval from dual");
+
+			rs = stmt.executeQuery(sql.toString());
+			if (rs.next()) {
+				actorNo = rs.getInt(1);
 			}
-			
-			pstmt.executeBatch();			
 
 		} finally {
-			if (pstmt != null)
-				pstmt.close();
-			
+			if (rs != null)
+				rs.close();
+			if (stmt != null)
+				stmt.close();
+
 		}
-		return 0;
+		return actorNo;
 	}
 
 	// 역할(주연, 조연, 엑스트라)을 조회한다.

@@ -6,13 +6,13 @@ import java.util.List;
 import model.movie.ActorPhotoDAO;
 
 public class ActorVO {
-	int actorNo;
-	String actorName;
-	String characterName;
-	int actorPhotoNo;
-	int movieNo;
-	int roleNo;
-	private List<ActorPhotoVO> actorPhotos = new ArrayList<ActorPhotoVO>();
+	private int actorNo;
+	private String actorName;
+	private String characterName;
+	private int actorPhotoNo;
+	private int movieNo;
+	private int roleNo;
+	private ActorPhotoVO actorPhoto;
 	private RoleVO role = new RoleVO();
 
 	public ActorVO() {
@@ -66,7 +66,6 @@ public class ActorVO {
 	public void setRoleNo(int roleNo) {
 		this.roleNo = roleNo;
 	}
-	
 
 	public RoleVO getRole() {
 		return role;
@@ -76,24 +75,20 @@ public class ActorVO {
 		this.role = role;
 	}
 
-	public List<ActorPhotoVO> getActorPhotos() {
-		return actorPhotos;
+	public ActorPhotoVO getActorPhoto() {
+		return actorPhoto;
 	}
 
-	public void setActorPhotos(List<ActorPhotoVO> actorPhotos) {
-		this.actorPhotos = actorPhotos;
-	}
-
-	public void addActorPhoto(ActorPhotoVO actorPhoto) {
-		actorPhotos.add(actorPhoto);
+	public void setActorPhoto(ActorPhotoVO actorPhoto) {
+		this.actorPhoto = actorPhoto;
 	}
 
 	@Override
 	public String toString() {
 		return "ActorVO [actorNo=" + actorNo + ", actorName=" + actorName + ", characterName=" + characterName
-				+ ", actorPhotoNo=" + actorPhotoNo + ", movieNo=" + movieNo + ", roleNo=" + roleNo + ", actorPhotos="
-				+ actorPhotos + ", role=" + role + "]";
-	}
+				+ ", actorPhotoNo=" + actorPhotoNo + ", movieNo=" + movieNo + ", roleNo=" + roleNo + ", actorPhoto="
+				+ actorPhoto + ", role=" + role + "]";
+	}	
 	
-	
+
 }

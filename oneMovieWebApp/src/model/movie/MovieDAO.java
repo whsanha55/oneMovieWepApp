@@ -32,15 +32,13 @@ public class MovieDAO {
 		PreparedStatement pstmt = null;
 		Statement stmt = null;
 		int movieNo = 0;
-
 		try {
-			conn = DBConn.getConnection();
-
+			
 			StringBuffer sql = new StringBuffer();
 			sql.append(
 					"insert into movie(movie_no, movie_title, running_time, director, grade_no, nation_no)		  	 ");
 			sql.append(
-					"values(10 + Movie_no_seq.nextval, ?, ?, ?, ?, ?)                                                      ");
+					"values(10 + Movie_no_seq.nextval, ?, ?, ?, ?, ?)                                                ");
 			pstmt = conn.prepareStatement(sql.toString());
 
 			pstmt.setString(1, movie.getMovieTitle());
@@ -63,9 +61,7 @@ public class MovieDAO {
 			}
 
 		} finally {
-			if (stmt != null)
-				stmt.close();
-
+			if (stmt != null) stmt.close();
 		}
 		return movieNo;
 	}

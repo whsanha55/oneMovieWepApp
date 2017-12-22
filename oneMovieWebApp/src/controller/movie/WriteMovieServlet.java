@@ -3,7 +3,9 @@ package controller.movie;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -23,16 +25,17 @@ import util.UploadFiles;
 //파일업로드 요청을 처리할 서블릿 클래스 구현
 public class WriteMovieServlet extends HttpServlet {
 
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
 		throws ServletException, IOException {
 		
-		MovieVO movie = new MovieVO();
-		ActorVO actor = new ActorVO();
+		MovieVO movie = new MovieVO();	
+		ActorVO actor = null;		
 		
-		Collection<Part> parts = req.getParts();
+		Collection<Part> parts = req.getParts();		
 		for(Part part : parts) {
-			if(part.getContentType() == null) {
+			if(part.getContentType() == null) {				
 				switch(part.getName()) {  //field-name				
 					case "movieTitle":
 						movie.setMovieTitle(getStringFromStream(part.getInputStream()));
@@ -47,8 +50,8 @@ public class WriteMovieServlet extends HttpServlet {
 						movie.setGradeNo(Integer.parseInt(getStringFromStream(part.getInputStream())));
 					case "nationNo":
 						movie.setNationNo(Integer.parseInt(getStringFromStream(part.getInputStream())));
-						break;
-						
+						break;						
+					//////////////////////////////////// actor //////////////////////////////////////	
 					case "actorName":
 						actor.setActorName(getStringFromStream(part.getInputStream()));
 						break;
@@ -56,21 +59,23 @@ public class WriteMovieServlet extends HttpServlet {
 						actor.setCharacterName(getStringFromStream(part.getInputStream()));
 						break;
 					case "roleNo":
-						actor.setRoleNo(Integer.parseInt(getStringFromStream(part.getInputStream())));
+						actor.setRoleNo(Integer.parseInt(getStringFromStream(part.getInputStream())));			
+						
 				}		
 			} else {   //upload file인경우
 				if(part.getSize() > 0) {
 					ServletContext sc = getServletContext();
 					switch(part.getName()) {  //field-name				
 						case "upload":
-							PhotoVO photo = UploadFiles.uploadFile(part, sc);
-							movie.addPhoto(photo);
+							PhotoVO photo = UploadFiles.uploadFile(req.getPart("upload"), sc);
+							movie.addPhoto(photo);						
 							break;
-						case "uploadactor":
-							ActorPhotoVO actorPhoto = UploadFiles.uploadFile2(part, sc);
-							actor.addActorPhoto(actorPhoto);
-							break;
-					
+						case "uploadactor":														
+							actor = new ActorVO();			
+							ActorPhotoVO actorPhoto = UploadFiles.uploadFile2(req.getPart("uploadactor"), sc);						
+							actor.setActorPhoto(actorPhoto);
+							movie.addActor(actor);
+							break;			
 					}
 				}
 			}
@@ -79,6 +84,7 @@ public class WriteMovieServlet extends HttpServlet {
 		try {
 			//DB에 게시글을 등록한다.
 			MovieService movieService = MovieService.getInstance();
+			System.out.println("movie : " + movie);
 			movieService.addMovie(movie);
 			
 			//게시글 목록 조회 페이지로 이동한다.
@@ -87,10 +93,9 @@ public class WriteMovieServlet extends HttpServlet {
 			req.setAttribute("exception", e);
 		    RequestDispatcher dispatcher = req.getRequestDispatcher("/error.jsp");
 		    dispatcher.forward(req, resp);
-		}		
-		
+		}	
 	}
-	
+
 	
 	private String getStringFromStream(InputStream is) throws IOException {
 		StringBuilder str = new StringBuilder();
