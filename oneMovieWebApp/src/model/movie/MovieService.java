@@ -74,7 +74,7 @@ public class MovieService {
          genreDAO.insertGenreList(conn, genre);
          
          conn.commit();
-
+ 
       } catch (Exception ex) {
          conn.rollback();
          throw ex;

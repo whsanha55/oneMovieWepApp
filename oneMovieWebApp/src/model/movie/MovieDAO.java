@@ -341,7 +341,7 @@ public class MovieDAO {
       }
       return detailMovie;
    }
-
+ 
    // 영화 정보를 일괄 삭제하다.
    public void removeMovieList(Connection connn, int[] noList) throws Exception {
       PreparedStatement pstmt = null;

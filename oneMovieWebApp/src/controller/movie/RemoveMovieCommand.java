@@ -12,7 +12,7 @@ import model.movie.MovieService;
 
 public class RemoveMovieCommand implements Command{
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
-		
+		 
 		String movieNo = req.getParameter("movieNo");
 		String[] temp = movieNo.split(",");
 		

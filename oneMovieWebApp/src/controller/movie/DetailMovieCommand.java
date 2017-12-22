@@ -24,7 +24,7 @@ public class DetailMovieCommand implements Command{
 			DetailMovieVO movie = articleService.retriveMovie(movieNo);
 			
 			req.setAttribute("movie", movie);
-			
+			 
 			//4. 게시글 상세조회(detailArticle.jsp) 페이지로 이동한다.
 			forward.setPath("/user/movie/detailMovie.jsp");
 			forward.setRedirect(false);
