@@ -10,7 +10,7 @@
 	$(document).ready(function(){
 		$('#btn').on('click', function(){
 			$.ajax({
-				url: "${pageContext.request.contextPath}/findId.do"		 
+				url: "${pageContext.request.contextPath}/"		//컨트롤러... 
 				,
 				method: 'POST'
 				,
@@ -22,7 +22,7 @@
 				dataType: 'json'
 				,
 				success: function(data){
-					var text = "입력하신 정보의 아이디는 " + data + " 입니다.";	
+					var text = "입력하신 정보의 아이디는 " + data + " 입니다.";	//이 data가 반환된 값 맞겠지..? 확인
 					$('#result').text(text);
 				}
 				,

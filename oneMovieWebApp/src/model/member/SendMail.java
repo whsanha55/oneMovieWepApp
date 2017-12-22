@@ -1,4 +1,4 @@
-package controller.member;
+package model.member;
 
 import java.util.Date;
 import java.util.Properties;
