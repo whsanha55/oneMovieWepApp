@@ -169,7 +169,7 @@ public class BookingDAO {
 			sql.append("          t1.withdraw_date s12, t10.seat_name s13, t3.refund_price s14,t3.refund_date s15   ");
 			sql.append("       from booking t1, booking_seat t2, booking_refund t3, member t4, movie t5,    ");
 			sql.append("           theater t6, screen t7, screen_schedule t8, schedule_turn t9, seat t10    ");
-			sql.append("       where t1.ticket_no = t2.ticket_no             ");
+			sql.append("       where t1.ticket_no = t2.ticket_no(+)             ");
 			sql.append("           and t1.ticket_no = t3.ticket_no(+)        ");
 			sql.append("           and t1.member_no = t4.member_no           ");
 			sql.append("            and t1.turn_no = t9.turn_no              ");
