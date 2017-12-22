@@ -24,7 +24,7 @@
 		<th>상영관</th>
 		<th>좌석번호</th>
 		<th>상영일시</th>
-		<th>예매취소</th>
+		
 		
 	</tr>
 	<c:forEach var="booking" items="${requestScope.bookingList}" varStatus="loop1">
@@ -42,7 +42,7 @@
 			</c:forEach>
 			</td>
 			<td>${pageScope.booking.screenDate } ${pageScope.booking.startTime }</td>
-			<td><button>예매취소</button></td>
+			
 		</tr>
 	</c:forEach>
 	</table>
