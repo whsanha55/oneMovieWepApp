@@ -30,10 +30,7 @@ public class MemberBookingListCurrCommand implements Command {
 			forward.setRedirect(false);
 			return forward;
 		} catch (Exception e) {
-<<<<<<< HEAD
-=======
 			req.setAttribute("exception", e);
->>>>>>> refs/remotes/origin/master
 			forward.setPath("/error.jsp");
 			forward.setRedirect(false);
 			return forward;

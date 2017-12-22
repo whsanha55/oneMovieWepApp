@@ -420,11 +420,7 @@ public class DateTheaterMovieDAO {
 			sql.append("and s1.screen_no = ss1.screen_no											");
 			sql.append("and m1.movie_no = ss1.movie_no												");
 			sql.append("and m1.movie_no = ?															");
-<<<<<<< HEAD
-			sql.append("and to_char(ss1.screen_date,'yyyy/mm/dd') = to_char(?,'yyyy/mm/dd')			");
-=======
 			sql.append("and to_char(ss1.screen_date,'yyyy/mm/dd') = ?                    			");
->>>>>>> refs/remotes/origin/master
 			sql.append("order by t1.theater_name asc                                        ");
 			
 			pstmt = conn.prepareStatement(sql.toString());
