@@ -95,6 +95,7 @@ public class BookingSeatDAO {
 		return list;
 	}
 
+<<<<<<< HEAD
 	// 예약 취소 가능여부 확인
 	public boolean selectBookingRefundable(int ticketNo) throws Exception {
 		Connection conn = null;
@@ -136,6 +137,9 @@ public class BookingSeatDAO {
 		return refundable;
 	}
 
+=======
+	
+>>>>>>> refs/remotes/origin/master
 	// 예약한 좌석정보들 삭제
 	public void deleteSeat(String ticketNo, Connection conn) throws Exception {
 

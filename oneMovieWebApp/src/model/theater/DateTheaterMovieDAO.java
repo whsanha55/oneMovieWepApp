@@ -381,7 +381,7 @@ public class DateTheaterMovieDAO {
 			sql.append("and s1.screen_no = ss1.screen_no											");
 			sql.append("and m1.movie_no = ss1.movie_no												");
 			sql.append("and t1.theater_no = ?														");
-			sql.append("and to_char(ss1.screen_date,'yyyy/mm/dd') = to_char(?,'yyyy/mm/dd')			");
+			sql.append("and to_char(ss1.screen_date,'yyyy/mm/dd') = ?                       		");
 			
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, theaterNo);
@@ -409,7 +409,7 @@ public class DateTheaterMovieDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<TheaterVO>list = new ArrayList<TheaterVO>();
-		
+		System.out.println(movieNo);
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
@@ -420,7 +420,11 @@ public class DateTheaterMovieDAO {
 			sql.append("and s1.screen_no = ss1.screen_no											");
 			sql.append("and m1.movie_no = ss1.movie_no												");
 			sql.append("and m1.movie_no = ?															");
+<<<<<<< HEAD
 			sql.append("and to_char(ss1.screen_date,'yyyy/mm/dd') = to_char(?,'yyyy/mm/dd')			");
+=======
+			sql.append("and to_char(ss1.screen_date,'yyyy/mm/dd') = ?                    			");
+>>>>>>> refs/remotes/origin/master
 			sql.append("order by t1.theater_name asc                                        ");
 			
 			pstmt = conn.prepareStatement(sql.toString());

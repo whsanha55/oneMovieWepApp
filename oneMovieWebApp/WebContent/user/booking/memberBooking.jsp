@@ -21,6 +21,7 @@
 			},
 			dataType : 'json',
 			success : function(data) {
+<<<<<<< HEAD
 				var movieText = "<select id='selectOptionMovie' size='10'>";
 				for(var i = 0; i<data.movieList.length;i++) {
 				movieText += "<option value='" + data.movieList[i].screenNo +"'> " + data.movieList[i].screenName ;
@@ -183,6 +184,193 @@
 	
      <fieldset id="movieFieldSet" >
             <legend>영화제목</legend>
+=======
+				var movieText = "<legend>영화제목</legend>";
+				movieText += "<select id='selectOptionMovie' size='10'>";
+				for(var i = 0; i<data.movieList.length;i++) {
+				movieText += "<option value='" + data.movieList[i].screenNo +"'> " + data.movieList[i].screenName ;
+				}
+				movieText += "</select>";
+				$('#movieFieldSet').html(movieText);
+			},
+			error : function(jqXHR) {
+				alert(jqXHR.status);
+				console.log(jqXHR);
+			}
+		
+		});
+	}
+	
+	function theaterTag (movieNo, date) {
+		$.ajax({
+			url : '${pageContext.request.contextPath}/theaterByMovieAndDateAjax.do',
+			method : 'POST',
+			data : {
+				movieNo : movieNo , 
+				date : date
+				
+			},
+			
+			dataType : 'json',
+			success : function(data) {
+				var theaterText = " <legend>지점</legend>";
+				theaterText += "<select id='selectOptionTheater' size='10'>";
+				for(var i = 0; i<data.theaterList.length;i++) {
+					theaterText += "<option value='" + data.theaterList[i].theaterNo +"'> " + data.theaterList[i].theaterName ;
+				}
+				theaterText += "</select>";
+				$('#theaterFieldSet').html(theaterText);
+			},
+			error : function(jqXHR) {
+				alert(jqXHR.status);
+				console.log(jqXHR);
+			}
+		
+		});
+		
+	}
+	
+	
+	
+	
+	$(document).ready(function() {
+		var isMovieChecked = false;
+		var isTheaterChecked = false;
+		var isDateChecked = false;
+		movieTag();
+		theaterTag();
+		dateTag();
+		
+		$('#movieFieldSet').on('click','select',function() {
+			isMovieChecked = true;
+			if(isTheaterChecked && isDateChecked) {
+				
+			} else if(isTheaterChecked) {
+				$('#datepicker1').datepicker("destroy");
+				dateTag($(this).val(),$('#selectOptionTheater').val());
+				
+			} else if(isDateChecked) {
+				var date = convertDate($('#datepicker1').datepicker("getDate"));
+				theaterTag($(this).val(), date);
+				
+			} else {
+				theaterTag($(this).val());
+				$('#datepicker1').datepicker("destroy");
+				dateTag($(this).val());
+				
+			}
+				
+			
+		});
+		
+		
+		$('#theaterFieldSet').on('click','select',function() {
+			isTheaterChecked = true;
+			if(isMovieChecked && isDateChecked) {
+				
+			} else if(isMovieChecked) {
+				$('#datepicker1').datepicker("destroy");
+				dateTag($('#selectOptionMovie').val() ,$(this).val() );
+			} else if(isDateChecked) {
+				var date = convertDate($('#datepicker1').datepicker("getDate"));
+				movieTag($(this).val() , date)
+			} else {
+				movieTag($(this).val());
+				$('#datepicker1').datepicker("destroy");
+				dateTag(null,$(this).val());
+			}
+			
+		});
+		
+		
+		//날짜 ajax
+		function dateTag(movieNo, theaterNo ) {
+		
+			$.ajax({
+				url : '${pageContext.request.contextPath}/dateByMovieAndTheaterAjax.do',
+				method : 'POST',
+				data : {
+					movieNo : movieNo , 
+					theaterNo : theaterNo 
+					
+					
+				},
+				
+				dataType : 'json',
+				success : function(data) {
+					
+					$("#datepicker1").datepicker({
+				    	dateFormat: 'yy-mm-dd',
+				        prevText: '이전 달',
+				        nextText: '다음 달',
+				        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+				        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+				        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+				        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+				        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+				        showMonthAfterYear: true,
+				        yearSuffix: '년' ,
+				        
+				        onSelect: function(value) {
+				        	isDateChecked = true;
+				        	var tempdate = new Date(value);
+				        	var date = convertDate(value);
+				        	console.log(date);
+				        	if(isMovieChecked && isTheaterChecked) {
+				        		
+				        	} else if(isMovieChecked) {
+				        		theaterTag($('#selectOptionMovie').val(), date ); 
+				        	} else if(isTheaterChecked) {
+				        		movieTag($('#selectOptionTheater').val(), date );
+				        	} else {
+				        		movieTag(null,date);
+				        		theaterTag(null,date);
+				        	}
+				        	
+				        } , 
+				    	beforeShowDay: function(date){
+							
+				    		var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
+				    		for (i = 0; i < data.dateList.length; i++) {
+				    			if($.inArray(y + '/' +pad(m+1) + '/' + pad(d),data.dateList) == -1) {
+				    				return [false];
+				    			}
+				    		}
+				    		return [true];
+							
+						}	
+				       
+				    });
+				},
+				error : function(jqXHR) {
+					alert(jqXHR.status + "dateList");
+					console.log(jqXHR);
+				}
+			
+			});
+		}
+		
+		
+		function pad(num) {
+            num = num + '';
+            return num.length < 2 ? '0' + num : num;
+        }
+		
+		function convertDate(date) {
+			var tempdate = new Date(date);
+        	return tempdate.getFullYear() + "/" + pad((tempdate.getMonth() + 1)) + "/" + pad(tempdate.getDate());
+		}
+		
+		
+		
+	});
+</script>
+</head>
+<body>
+	
+     <fieldset id="movieFieldSet" >
+           
+>>>>>>> refs/remotes/origin/master
            
      </fieldset>
      <fieldset id="theaterFieldSet" >

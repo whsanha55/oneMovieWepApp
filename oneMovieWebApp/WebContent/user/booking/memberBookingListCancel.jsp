@@ -8,11 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<<<<<<< HEAD
-
-=======
-		<h3>지난 내역</h3>
->>>>>>> refs/remotes/origin/master
+	<h3>취소 내역</h3>
 	<div>예매확인/취소 예매하신 영화 내역과 취소내역을 확인할 수 있습니다.</div>
 	
 	<div>
@@ -26,9 +22,8 @@
 		<th>예매번호</th>
 		<th>영화명</th>
 		<th>상영관</th>
-		<th>좌석번호</th>
 		<th>상영일시</th>
-		
+		<th>취소일</th>
 		
 	</tr>
 	<c:forEach var="booking" items="${requestScope.bookingList}" varStatus="loop1">
@@ -37,15 +32,8 @@
 			<td>${pageScope.booking.ticketNo }</td>
 			<td>${pageScope.booking.movieTitle }</td>
 			<td>${pageScope.booking.theaterName } ${pageScope.booking.screenName }</td>
-			<td>
-			<c:forEach var="seat" items="${pageScope.booking.seatNames }" varStatus="loop2">
-				${pageScope.seat }
-				<c:if test="${!pageScope.loop2.last }">
-					,
-				</c:if>
-			</c:forEach>
-			</td>
 			<td>${pageScope.booking.screenDate } ${pageScope.booking.startTime }</td>
+			<td>${pageScope.booking.bookingRefundVO.refundDate }</td>
 			
 		</tr>
 	</c:forEach>

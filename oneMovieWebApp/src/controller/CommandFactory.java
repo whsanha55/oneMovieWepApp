@@ -91,6 +91,11 @@ public class CommandFactory {
 		map.put("/memberBookingListCurr.do", "controller.booking.MemberBookingListCurrCommand");
 		map.put("/memberBookingListPast.do", "controller.booking.MemberBookingListPastCommand");
 		map.put("/memberBookingListCancel.do", "controller.booking.MemberBookingListCancelCommand");
+<<<<<<< HEAD
+=======
+		map.put("/memberBookingIsRefundableAjax.do", "controller.booking.MemberBookingIsRefundableAjaxCommand");
+		map.put("/memberBookingRefundAjax.do", "controller.booking.MemberBookingRefundAjaxCommand");
+>>>>>>> refs/remotes/origin/master
 		// ¿¹¾à ³¡====================================================
 	}
 

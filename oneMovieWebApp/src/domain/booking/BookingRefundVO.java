@@ -3,9 +3,14 @@ package domain.booking;
 public class BookingRefundVO {
 	int rufundNo;
 	String ticketNo;
-	String rufundDate;
+	String refundDate;
 	int refundPrice;
+<<<<<<< HEAD
 	
+=======
+	double refundDatePolicy;
+	double refundPricePolicy;
+>>>>>>> refs/remotes/origin/master
 
 	public BookingRefundVO() {
 	}
@@ -26,12 +31,12 @@ public class BookingRefundVO {
 		this.ticketNo = ticketNo;
 	}
 
-	public String getRufundDate() {
-		return rufundDate;
+	public String getRefundDate() {
+		return refundDate;
 	}
 
-	public void setRufundDate(String rufundDate) {
-		this.rufundDate = rufundDate;
+	public void setRefundDate(String refundDate) {
+		this.refundDate = refundDate;
 	}
 
 	public int getRefundPrice() {
@@ -42,7 +47,26 @@ public class BookingRefundVO {
 		this.refundPrice = refundPrice;
 	}
 
+<<<<<<< HEAD
 	
 
 	
+=======
+	public double getRefundDatePolicy() {
+		return refundDatePolicy;
+	}
+
+	public void setRefundDatePolicy(double refundDatePolicy) {
+		this.refundDatePolicy = refundDatePolicy;
+	}
+
+	public double getRefundPricePolicy() {
+		return refundPricePolicy;
+	}
+
+	public void setRefundPricePolicy(double refundPricePolicy) {
+		this.refundPricePolicy = refundPricePolicy;
+	}
+
+>>>>>>> refs/remotes/origin/master
 }

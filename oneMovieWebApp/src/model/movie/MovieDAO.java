@@ -49,8 +49,13 @@ public class MovieDAO {
          pstmt.setInt(4, movie.getGradeNo());
          pstmt.setInt(5, movie.getNationNo());
 
+<<<<<<< HEAD
+			pstmt.executeUpdate();
+			//pstmt.close();
+=======
          pstmt.executeUpdate();
          pstmt.close();
+>>>>>>> refs/remotes/origin/master
 
          stmt = conn.createStatement();
 
@@ -62,11 +67,20 @@ public class MovieDAO {
             movieNo = rs.getInt(1);
          }
 
+<<<<<<< HEAD
+		} finally {
+			if (stmt != null) stmt.close();
+			if (pstmt != null) pstmt.close();
+		}
+		return movieNo;
+	}
+=======
       } finally {
          if (stmt != null) stmt.close();
       }
       return movieNo;
    }
+>>>>>>> refs/remotes/origin/master
 
 
    // 제한등급을 오름차순으로 정렬하여 조회한다.
@@ -141,6 +155,14 @@ public class MovieDAO {
       return nations;
    }
 
+<<<<<<< HEAD
+			StringBuffer sql = new StringBuffer();
+			sql.append("select movie_no                              ");
+			sql.append("from movie                                               ");
+			sql.append("where movie_title  like '%' || ? ||  '%'                                    ");
+			sql.append("order by no asc                                           ");
+			pstmt = conn.prepareStatement(sql.toString());
+=======
    // 영화 제목을 조회하다.
    public List<MovieTitleVO> selectMovieTitleList(String movieTitle) throws Exception {
       ArrayList<MovieTitleVO> titles = new ArrayList<MovieTitleVO>();
@@ -149,6 +171,7 @@ public class MovieDAO {
       ResultSet rs = null;
       try {
          conn = DBConn.getConnection();
+>>>>>>> refs/remotes/origin/master
 
          StringBuffer sql = new StringBuffer();
          sql.append("select nation_no, nation_name                              ");
