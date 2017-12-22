@@ -33,8 +33,9 @@ public class BookingService {
 			BookingDAO bookingDAO = BookingDAO.getInstance();
 			String ticketNo = bookingDAO.insertBooking(bookingVO, conn);
 			BookingSeatDAO bookingSeatDAO = BookingSeatDAO.getInstance();
-			String[] seatNo = null;
-			bookingSeatDAO.insertBookingSeat(ticketNo, seatNo, conn);
+			List<BookingSeatVO> bookingSeatVO = bookingVO.getBookingSeats();
+			System.out.println(bookingSeatVO.size());
+			bookingSeatDAO.insertBookingSeat(ticketNo, bookingSeatVO, conn);
 			conn.commit();
 		} catch (Exception e) {
 			conn.rollback();

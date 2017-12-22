@@ -8,6 +8,16 @@ import domain.member.MemberVO;
 
 public class MemberService {
 
+	private static MemberService instance = new MemberService();
+	
+	private MemberService() {
+		
+	}
+	
+	public static MemberService getInstance() {
+		return instance;
+	}
+	
 	
 	
 	//회원 여부를 확인하다. (로그인)
@@ -56,6 +66,14 @@ public class MemberService {
 		MemberDAO dao = MemberDAO.getInstance();
 		return dao.selectMemberId(name, email);
 	}
+	
+	
+	//회원 여부를 확인하다 (비밀번호 찾기용)
+	public int retrieveMemberCount(String memberId, String email) throws Exception {
+		MemberDAO dao = MemberDAO.getInstance();
+		return dao.selectMemberCount(memberId, email);		
+	}
+	
 	
 	
 	
@@ -151,6 +169,22 @@ public class MemberService {
 		MemberDAO dao = MemberDAO.getInstance();
 		return dao.selectMemberList(startRow, endRow);
 	}
+	
+	
+	//전체 회원 수
+	public int retrieveTotalCount() throws Exception {
+		MemberDAO dao = MemberDAO.getInstance();
+		return dao.selectTotalCount();
+		
+	}
+	
+	
+	//검색 결과 회원 수
+	public int retrieveSearchCount(String keyfield, String keyword) throws Exception {
+		MemberDAO dao = MemberDAO.getInstance();
+		return dao.selectSearchCount(keyfield, keyword);
+	}
+	
 	
 	
 }

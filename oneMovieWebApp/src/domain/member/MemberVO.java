@@ -10,6 +10,7 @@ public class MemberVO {
 	String phone;
 	String email;
 	String address;
+	String zipcode;
 	String isWithdraw;
 	String withdrawDay;
 	
@@ -104,6 +105,15 @@ public class MemberVO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+			
+	public String getZipcode() {
+		return zipcode;
+	}
+
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+
 	public String getIsWithdraw() {
 		return isWithdraw;
 	}
