@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import conn.DBConn;
+import domain.movie.ActorPhotoVO;
 import domain.movie.ActorVO;
 import domain.movie.DetailMovieVO;
 import domain.movie.GradeVO;
 import domain.movie.MovieTitleVO;
 import domain.movie.MovieVO;
 import domain.movie.NationVO;
+import domain.movie.PhotoVO;
 import domain.movie.RoleVO;
 
 public class MovieDAO {
@@ -276,9 +278,9 @@ public class MovieDAO {
          conn = DBConn.getConnection();
 
          StringBuffer sql = new StringBuffer();
-            sql.append("select m1.movie_no,m1.movie_title, m1.director, m1.running_time, g.grade_age,n.nation_name,m1.story, r.role_name, m2.actor_name, m2.character_name 	 							 ");
-			sql.append("from movie m1, actor m2 , role r, grade g, nation n	 	     										");
-			sql.append("where m1.movie_no = m2.movie_no(+) and m2.role_no = r.role_no	and g.grade_no = m1.grade_no and n.nation_no = m1.nation_no						 										");
+            sql.append("select mp.movie_photo_original_file_name, m1.movie_no,m1.movie_title, m1.director, m1.running_time, g.grade_age,n.nation_name,m1.story, ac.actor_original_file_name, r.role_name, m2.actor_name, m2.character_name 	 							 ");
+			sql.append("from movie m1, actor m2 , role r, grade g, nation n, actor_photo ac, movie_photo mp 	 	     										");
+			sql.append("where m1.movie_no = m2.movie_no(+) and m2.role_no = r.role_no	and g.grade_no = m1.grade_no and n.nation_no = m1.nation_no and m2.actor_no = ac.actor_no and mp.movie_no =  m1.movie_no						 										");
 			sql.append("and m1.movie_no = ?   ");
          pstmt = conn.prepareStatement(sql.toString());
 
@@ -291,30 +293,41 @@ public class MovieDAO {
          int count = 1;
          while (rs.next()) {
             if (count == 1) {   
+               PhotoVO photo = new PhotoVO();
                GradeVO grade = new GradeVO();
                NationVO nation = new NationVO();
-               detailMovie.setMovieNo(rs.getInt(1));
-               detailMovie.setMovieTitle(rs.getString(2));
-               detailMovie.setDirector(rs.getString(3));
-               detailMovie.setRunningTime(rs.getInt(4));
                
-               grade.setGradeAge(rs.getString(5));
+               photo.setMoviePhotoOriginalFileName(rs.getString(1));
+               detailMovie.setPhoto(photo);
+               
+               detailMovie.setMovieNo(rs.getInt(2));
+               detailMovie.setMovieTitle(rs.getString(3));
+               detailMovie.setDirector(rs.getString(4));
+               detailMovie.setRunningTime(rs.getInt(5));
+               
+               grade.setGradeAge(rs.getString(6));
                detailMovie.setGrade(grade);
                
-               nation.setNationName(rs.getString(6));
+               nation.setNationName(rs.getString(7));
                detailMovie.setNation(nation);
                
-               detailMovie.setStory(rs.getString(7));
+               detailMovie.setStory(rs.getString(8));
               
             }
             
-            if(rs.getString(9) != null) {
+            if(rs.getString(11) != null) {
             	  ActorVO actor = new ActorVO();
+            	  ActorPhotoVO actorPhoto = new ActorPhotoVO();
             	  RoleVO role = new RoleVO();
-            	  role.setRoleName(rs.getString(8));
+            	  
+            	  actorPhoto.setActorOriginalFileName(rs.getString(9));
+            	  actor.setActorPhoto(actorPhoto);
+            	  
+            	  role.setRoleName(rs.getString(10));
             	  actor.setRole(role);
-                  actor.setActorName(rs.getString(9));
-                  actor.setCharacterName(rs.getString(10));
+            	  
+                  actor.setActorName(rs.getString(11));
+                  actor.setCharacterName(rs.getString(12));
                   detailMovie.addActor(actor);
             }
             count++;
