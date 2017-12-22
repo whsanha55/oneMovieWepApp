@@ -41,7 +41,7 @@ public class AdminBookingAjax2Command implements Command {
 			
 			req.setAttribute("screenList", screenList);
 			
-			forward.setPath("/admin/booking/adminBookingView2.jsp");
+			forward.setPath("/adminBookingView2.jsp");
 			forward.setRedirect(false);
 
 		} catch (Exception e) {

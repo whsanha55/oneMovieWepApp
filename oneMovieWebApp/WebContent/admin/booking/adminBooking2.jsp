@@ -8,7 +8,7 @@
 <style >
 	
 </style>
-<script src="${pageContext.request.contextPath }/js/jquery-3.2.1.min.js"></script>
+<script src="js/jquery-3.2.1.min.js"></script>
 <script>
 	$(document).ready(function() {
 
@@ -48,7 +48,7 @@
 			}
 		});
 		
-		/* 
+		
 		//상영관--> 회차
 		$('#screen').on('change','input[name=screenNo]' ,function() {
 			
@@ -60,7 +60,7 @@
 					
 				}
 		});
-	 */
+	
 		
 	});
 </script>

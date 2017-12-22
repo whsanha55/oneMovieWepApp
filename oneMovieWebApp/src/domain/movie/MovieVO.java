@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieVO {
-
 	private int movieNo;
 	private String movieTitle;
 	private int runningTime;
@@ -16,8 +15,9 @@ public class MovieVO {
 	private ActorVO actor = new ActorVO();
 	private GradeVO grade = new GradeVO();
 	private NationVO nation = new NationVO();
+	private PhotoVO photo = new PhotoVO(); 
 	private List<ActorVO> actors = new ArrayList<ActorVO>();// 한 영화에 대해 출연진들은 여러명 존재
-	private List<PhotoVO> photos = new ArrayList<PhotoVO>();// 한 영화에 대해 사진은 여러개 존재
+	private List<PhotoVO> photos = new ArrayList<PhotoVO>();// 한 영화에 대해 사진(포토)은 여러개 존재
 	private MovieGenreVO movieGenre = new MovieGenreVO();
 	private List<MovieGenreVO> movieGenres = new ArrayList<MovieGenreVO>();
 
@@ -187,12 +187,23 @@ public class MovieVO {
 		this.movieGenres = movieGenres;
 	}
 
+
+	public PhotoVO getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(PhotoVO photo) {
+		this.photo = photo;
+	}
+
 	@Override
 	public String toString() {
 		return "MovieVO [movieNo=" + movieNo + ", movieTitle=" + movieTitle + ", runningTime=" + runningTime
 				+ ", director=" + director + ", story=" + story + ", videoUrl=" + videoUrl + ", gradeNo=" + gradeNo
-				+ ", nationNo=" + nationNo + ", actor=" + actor + ", grade=" + grade + ", nation=" + nation
-				+ ", actors=" + actors + ", photos=" + photos + ", movieGenre=" + movieGenre + "]";
+				+ ", nationNo=" + nationNo + ", actor=" + actor + ", grade=" + grade + ", nation=" + nation + ", photo="
+				+ photo + ", actors=" + actors + ", photos=" + photos + ", movieGenre=" + movieGenre + "]";
 	}
+
+
 
 }

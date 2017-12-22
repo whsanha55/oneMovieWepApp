@@ -68,10 +68,10 @@ public class BookingService {
 	}
 
 	// 예매 취소 가능 여부를 조회한다.
-	public boolean retrieveBookingRefundable(int ticketNo) throws Exception {
+	public boolean retrieveBookingRefundable(String ticketNo) throws Exception {
 
-		BookingSeatDAO bookingSeatDAO = BookingSeatDAO.getInstance();
-		return bookingSeatDAO.selectBookingRefundable(ticketNo);
+		BookingDAO bookingDAO = BookingDAO.getInstance();
+		return bookingDAO.selectBookingRefundable(ticketNo);
 	}
 
 	

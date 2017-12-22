@@ -1,46 +1,38 @@
-package controller.member;
+package controller.booking;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import controller.ActionForward;
 import controller.Command;
-import model.member.MemberService;
+import domain.booking.BookingVO;
+import model.booking.BookingService;
 
-//회원 탈퇴 요청 처리
-public class WithdrawCommand implements Command {
+public class MemberBookingIsRefundableAjaxCommand implements Command {
 
 	@Override
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
-		
 		ActionForward forward = new ActionForward();
-		
-		//1. 회원번호를 구한다.
-		HttpSession session = req.getSession();
-		String memberNo = (String)session.getAttribute("memberNo");
-		
+		String ticketNo = req.getParameter("ticketNo");
 		try {
-			MemberService service = MemberService.getInstance();
-			service.deleteMember(memberNo);
-			forward.setPath("/user/member/withdrawView.jsp");
+			
+			BookingService bookingService = BookingService.getInstance();
+			boolean isRefundable = bookingService.retrieveBookingRefundable(ticketNo);
+			req.setAttribute("isRefundable",isRefundable);
+			forward.setPath("/user/booking/memberBookingisRefundableView.jsp");
 			forward.setRedirect(false);
 			return forward;
-			
-		} catch(Exception e) {
+		} catch (Exception e) {
 			req.setAttribute("exception", e);
 			forward.setPath("/error.jsp");
 			forward.setRedirect(false);
-			return forward;			
+			return forward;
 		}
-		
-		
-
 	}
-	
 
 }

@@ -24,7 +24,7 @@ public class MemberBookingSelectSeatCommand implements Command {
 		
 		//수정 필요
 		//int turnNo = Integer.parseInt(req.getParameter("turnNo"));
-		int turnNo = 226;
+		int turnNo = 322;
 		try {
 			BookingService bookingService = BookingService.getInstance();
 			List<BookingSeatVO> seatList = bookingService.retrieveSeatListByTurnNo(turnNo);

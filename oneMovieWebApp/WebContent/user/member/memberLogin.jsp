@@ -11,7 +11,7 @@
 	$(document).ready(function(){
 		$('#login').on('click', function(){
 			$.ajax({
-				url: "${pageContext.request.contextPath}/memberLogin.do"
+				url: "${pageContext.request.contextPath}/"		//컨트롤러... 
 				,
 				method: 'POST'
 				,
@@ -36,49 +36,11 @@
 		
 		
 		$('#findId').on('click', function(){
-			$.ajax({
-				url: "${pageContext.request.contextPath}/findIdForm.do"
-				,
-				method: 'POST'
-				,
-				data: {
-
-				}
-				,
-				dataType: 'json'
-				,
-				success: function(data){
-					
-				}
-				,
-				error: function(jqXHR) {
-					alert('Error: ' + jqXHR)
-				}
-				
-			});	
+			
 		});
 		
 		$('#findPwd').on('click', function(){
-			$.ajax({
-				url: "${pageContext.request.contextPath}/findPwdForm.do"
-				,
-				method: 'POST'
-				,
-				data: {
-
-				}
-				,
-				dataType: 'json'
-				,
-				success: function(data){
-					
-				}
-				,
-				error: function(jqXHR) {
-					alert('Error: ' + jqXHR)
-				}
-				
-			});	
+			
 		});
 		
 	});

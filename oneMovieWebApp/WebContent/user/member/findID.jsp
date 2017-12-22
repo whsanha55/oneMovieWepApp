@@ -4,8 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>회원 정보 수정</title>
-</head>
+<title>아이디 찾기</title>
 <script src="js/jquery-3.2.1.min.js"></script>
 <script>
 	$(document).ready(function(){
@@ -17,13 +16,14 @@
 				,
 				data: {
 					memberId: $('#memberId').val()	,
-					memberPwd: $('#memberPwd').val()
+					email: $('#email').val()
 				}
 				,
 				dataType: 'json'
 				,
 				success: function(data){
-					
+					var text = "입력하신 정보의 아이디는 " + data + " 입니다.";	//이 data가 반환된 값 맞겠지..? 확인
+					$('#result').text(text);
 				}
 				,
 				error: function(jqXHR) {
@@ -36,14 +36,16 @@
 
 
 </script> 
+</head>
 <body>
-	<div id="title">회원 정보 수정</div>
-	<div id="note">본인 확인을 위해 비밀번호를 입력해주세요.</div>
+	<div id="title">ID 찾기</div><br>
+	<div id="note">가입 당시 작성한 이름과 이메일 주소를 입력해주세요.</div>
 	<form>
-		<label>아이디<input type="text" name="memberId" readonly></label><br>
-		<label>비밀번호<input type="password" name="memberPwd"></label><br>
-		<button id="btn">개인정보수정/탈퇴 페이지로 이동</button>
+		<label>이름<input type="text" name="memberId" id="memberId"></label><br>
+		<label>이메일<input type="text" name="email" id="email"></label><br>
+		<button id="btn">확인</button><br>
 	</form>
+	<div id="result"></div>
 
 </body>
 </html>
