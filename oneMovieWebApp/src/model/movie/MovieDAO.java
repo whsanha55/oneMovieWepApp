@@ -234,16 +234,17 @@ public class MovieDAO {
          conn = DBConn.getConnection();
 
          StringBuffer sql = new StringBuffer();
-         sql.append( "select  m1.movie_no, m1.movie_title, m1.director, m1.running_time, g.grade_age, n.nation_name               ");
-         sql.append("from movie m1, grade g, nation n	                         ");
+         sql.append( "select  m1.movie_no, m1.movie_title, m1.director, m1.running_time, g.grade_age, n.nation_name     ");
+         sql.append("from movie m1, grade g, nation n	                        														 ");
          sql.append(" where g.grade_no = m1.grade_no and n.nation_no = m1.nation_no                                        ");
 
          if (keyfield.equals("MovieTitle")) {
-            sql.append("and m1.movie_title like '%' || ? ||  '%'  ");
+            sql.append("and m1.movie_title like '%' || ? ||  '%'  																			");
          } else if (keyfield.equals("Director")) {
-            sql.append("and m1.director like '%' || ? ||  '%'  ");
+            sql.append("and m1.director like '%' || ? ||  '%' 																				 ");
          }
-
+         sql.append("order by 1                                   																		    ");
+         
          //sql.append("and rn >= ? and rn <= ?                                             ");
          //sql.append("order by 1;                                             ");
      	pstmt = conn.prepareStatement(sql.toString());
@@ -340,65 +341,27 @@ public class MovieDAO {
       }
       return detailMovie;
    }
-   // 영화 정보를 삭제하다.
-   public void removeMovie(Connection conn, int[] noList) throws Exception {
-	   PreparedStatement pstmt = null;
-		try {
-			StringBuffer sql = new StringBuffer();
+
+   // 영화 정보를 일괄 삭제하다.
+   public void removeMovieList(Connection connn, int[] noList) throws Exception {
+      PreparedStatement pstmt = null;
+      
+      try {
+    		StringBuffer sql = new StringBuffer();
 			sql.append("delete from movie                     ");
-			sql.append("where movie_no = ?                                 ");
-			pstmt = conn.prepareStatement(sql.toString());
-			
+			sql.append("where movie_no = ?                    ");
+			pstmt = connn.prepareStatement(sql.toString());
+
 			for (int i = 0; i < noList.length; i++) {
 	            pstmt.setInt(1, noList[i]);
+	            System.out.println("번호>>>>>>>>" + noList[i]);
+	            pstmt.addBatch();
 	         }
-
-			pstmt.executeUpdate();
-
-		} finally {
-			if (pstmt != null) pstmt.close();
-		}
-   }
-   
-   // 영화 정보를 삭제하다.
-   public void removeMovie(Connection conn, int movieNo) throws Exception {
-	   PreparedStatement pstmt = null;
-		try {
-			StringBuffer sql = new StringBuffer();
-			sql.append("delete from movie                     ");
-			sql.append("where movie_no = ?                                 ");
-			pstmt = conn.prepareStatement(sql.toString());
-
-			pstmt.setInt(1, movieNo);
-
-			pstmt.executeUpdate();
-
-		} finally {
-			if (pstmt != null) pstmt.close();
-		}
-   }
-   // 영화 정보를 일괄 삭제하다.
-   public void removeMovieList(Connection connn, List<Integer> noList) throws Exception {
-      Connection conn = null;
-      PreparedStatement pstmt = null;
-
-      try {
-         ///////////////////////////////////////// 쪼인////////////////////////////////////////////////
-         StringBuffer sql = new StringBuffer();
-         sql.append("delete from movie      ");
-         sql.append("where movie_no = ?       ");
-         pstmt = conn.prepareStatement(sql.toString());
-
-         MovieVO movie = new MovieVO();
-
-         for (int i = 0; i < noList.size(); i++) {
-            pstmt.setInt(1, movie.getMovieNo());
-            pstmt.addBatch();
-         }
-         pstmt.executeBatch();
+			
+			pstmt.executeBatch();
 
       } finally {
-    	  
+    	  if (pstmt != null) pstmt.close();
       }
    }
    
@@ -418,7 +381,7 @@ public class MovieDAO {
              sql.append("select movie_no, movie_title, running_time, director, grade_age, nation_name 			  ");
              sql.append("from movie m, grade g, nation n                                            						  ");
              sql.append("where g.grade_no = m.grade_no and n.nation_no = m.nation_no                            ");
-
+             sql.append("order by 1                                   														    ");
              System.out.println(sql.toString());
 
              rs = stmt.executeQuery(sql.toString());

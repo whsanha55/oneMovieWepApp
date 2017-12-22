@@ -22,15 +22,11 @@ public class RemoveMovieCommand implements Command{
 			System.out.println(movieNoList[i]);
 		}
 		
-		//int movieNo = Integer.parseInt(req.getParameter("movieNo"));
-		
 		ActionForward forward = new ActionForward();
 		try {
-			//2. 비밀번호 일치여부를 확인한다.
 			MovieService service = MovieService.getInstance();
-			service.deleteMovie(movieNoList);
+			service.deleteMovieList(movieNoList);
 				
-			//2.1.2.게시글 목록 조회 페이지로 이동한다.
 			forward.setPath("/user/movie/successRemoveMovie.jsp");
 			forward.setRedirect(true);
 			return forward;
@@ -42,5 +38,4 @@ public class RemoveMovieCommand implements Command{
 			return forward;
 		}	
 	}
-
 }
