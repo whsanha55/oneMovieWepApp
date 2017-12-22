@@ -32,24 +32,13 @@ public class MovieDAO {
       PreparedStatement pstmt = null;
       Statement stmt = null;
       int movieNo = 0;
-
       try {
-         conn = DBConn.getConnection();
-
+         
          StringBuffer sql = new StringBuffer();
-         sql.append("insert into movie(movie_no, movie_title, runningtime, director, grade_no, nation_no)     ");
          sql.append(
-               "values(movie_no_seq.nextval, ?, ?, ?,                                                        ");
-         sql.append(	
-               "(select grade_no                                                                           ");
-         sql.append("from grade");
+               "insert into movie(movie_no, movie_title, running_time, director, grade_no, nation_no)            ");
          sql.append(
-               "where grade_age=?),                                                                 ");
-         sql.append(
-               "(select nation_no                                                                          ");
-         sql.append("from nation");
-         sql.append(
-               "where nation_name=?));                                                              ");
+               "values(10 + Movie_no_seq.nextval, ?, ?, ?, ?, ?)                                                ");
          pstmt = conn.prepareStatement(sql.toString());
 
          pstmt.setString(1, movie.getMovieTitle());
@@ -64,7 +53,7 @@ public class MovieDAO {
          stmt = conn.createStatement();
 
          sql.delete(0, sql.length());
-         sql.append("select article_seq.currval from dual");
+         sql.append("select movie_no_seq.currval from dual");
 
          ResultSet rs = stmt.executeQuery(sql.toString());
          if (rs.next()) {
@@ -72,13 +61,11 @@ public class MovieDAO {
          }
 
       } finally {
-         if (stmt != null)
-            stmt.close();
-         if (conn != null)
-            conn.close();
+         if (stmt != null) stmt.close();
       }
       return movieNo;
    }
+
 
    // 제한등급을 오름차순으로 정렬하여 조회한다.
    public List<GradeVO> selectGradeList() throws Exception {

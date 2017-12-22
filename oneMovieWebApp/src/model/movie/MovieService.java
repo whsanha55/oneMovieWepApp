@@ -26,55 +26,69 @@ public class MovieService {
    
    //영화 정보를 등록하다.
    public void addMovie(MovieVO movie) throws Exception {
-      ArrayList<ActorVO> actors = new ArrayList<ActorVO>();
-      ArrayList<PhotoVO> photos = new ArrayList<PhotoVO>();
-      ActorVO actor = new ActorVO();
+     
       Connection conn = null;
-      int actorNo = 0;
       try {
          conn = DBConn.getConnection();
 
          // tx.begin(트랜젝션 시작)
          conn.setAutoCommit(false);
          
-         //영화 등록
+         //1. 영화 등록
          MovieDAO moiveDAO = MovieDAO.getInstance();
-         int moiveNo = moiveDAO.insertMovie(conn, movie);
+         int movieNo = moiveDAO.insertMovie(conn, movie);         
+         System.out.println("movieNo :" + movieNo);
          
-         //출연진 등록
-         if (movie.getActors().size() != 0) {
-            ActorDAO actorDAO = ActorDAO.getInstance();
-            for (ActorVO actor1 : movie.getActors()) {
-               actor1.setMovieNo(moiveNo);
-               actors.add(actor1);            
-            }
-            actorNo = actorDAO.insertActorList(conn, actors);
-         }
          
-         //출연진 사진 등록
-         ActorPhotoDAO actorPhotoDAO = ActorPhotoDAO.getInstance();
-         ActorPhotoVO actorPhoto = actor.getActorPhoto();
-         actorPhoto.setActorNo(actorNo);
-         actorPhotoDAO.insertActorPhoto(conn, actorPhoto);
-         
-         //사진 등록
+         //2. 영화 사진 등록       
          if (movie.getPhotos().size() != 0) {
-            PhotoDAO photoDAO = PhotoDAO.getInstance();
-            for (PhotoVO photo : movie.getPhotos()) {
-               photo.setMovieNo(moiveNo);
-               photos.add(photo);            
-            }
+            PhotoDAO photoDAO = PhotoDAO.getInstance();  
+            List<PhotoVO> photos = movie.getPhotos();
+            for (PhotoVO photo : photos) {
+               photo.setMovieNo(movieNo);
+            }            
             photoDAO.insertPhotoList(conn, photos);
          }
+       
          
+         //3. 출연진 등록
+         if (movie.getActors().size() != 0) {
+            ActorDAO actorDAO = ActorDAO.getInstance();
+            for (ActorVO actor : movie.getActors()) {
+               actor.setMovieNo(movieNo);                       
+            }            
+       
+            for(ActorVO actor :  movie.getActors()) {   
+                int actorNo = actorDAO.insertActorList(conn, actor);
+               System.out.println("actorNo : " + actorNo);
+
+               //출연진 사진 등록
+               if (actor.getActorPhoto() != null) {
+                  System.out.println("call insertActorPhoto");
+                  ActorPhotoVO actorPhoto = actor.getActorPhoto();
+                  actorPhoto.setActorNo(actorNo);
+                   ActorPhotoDAO actorPhotoDAO = ActorPhotoDAO.getInstance();                
+                   actorPhotoDAO.insertActorPhoto(conn, actorPhoto);
+                }
+            }         
+         }
+                
+         
+         
+         /*ActorPhotoDAO actorPhotoDAO = ActorPhotoDAO.getInstance();
+         ActorPhotoVO actorPhoto = actor.getActorPhotos();
+         actorPhoto.setActorNo(actorNo);
+         actorPhotoDAO.insertActorPhoto(conn, actorPhoto);*/
+         
+         /*         
          //영화 장르 등록
          GenreDAO genreDAO = GenreDAO.getInstance();
          MovieGenreVO genre = movie.getMovieGenre();
          genre.setMovieNo(moiveNo);
-         genreDAO.insertGenreList(conn, genre);
+         genreDAO.insertGenreList(conn, genre);*/
          
          conn.commit();
- 
+
       } catch (Exception ex) {
          conn.rollback();
          throw ex;
@@ -84,6 +98,7 @@ public class MovieService {
       }
 
    }
+
  	
    // 영화 정보를 일괄 삭제한다.
    public void deleteMovieList(int[] noList) throws Exception {
