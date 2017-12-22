@@ -1,9 +1,5 @@
 package domain.booking;
 
-/**
- * @author USER
- *
- */
 public class BookingSeatVO {
 	int bookingSeatNo;
 	String ticketNo;

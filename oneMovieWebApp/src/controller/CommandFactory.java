@@ -91,6 +91,8 @@ public class CommandFactory {
 		map.put("/memberBookingListCurr.do", "controller.booking.MemberBookingListCurrCommand");
 		map.put("/memberBookingListPast.do", "controller.booking.MemberBookingListPastCommand");
 		map.put("/memberBookingListCancel.do", "controller.booking.MemberBookingListCancelCommand");
+		map.put("/memberBookingIsRefundableAjax.do", "controller.booking.MemberBookingIsRefundableAjaxCommand");
+		map.put("/memberBookingRefundAjax.do", "controller.booking.MemberBookingRefundAjaxCommand");
 		// ¿¹¾à ³¡====================================================
 	}
 
