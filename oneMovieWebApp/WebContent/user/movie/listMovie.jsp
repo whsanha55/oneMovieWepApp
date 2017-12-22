@@ -165,7 +165,7 @@
    					<input type="text" name="keyword" size="20">
    					<button id="findBtn" type="button">검색</button>
    </form>
-   
+    
    <form id="form1">
    			&nbsp;&nbsp;
    			<button id="selectAllBtn" type="button">전체조회</button>

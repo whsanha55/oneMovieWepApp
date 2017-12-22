@@ -21,7 +21,7 @@ public class RemoveMovieCommand implements Command{
 			movieNoList[i] = Integer.parseInt(temp[i]); 
 			System.out.println(movieNoList[i]);
 		}
-		
+		 
 		ActionForward forward = new ActionForward();
 		try {
 			MovieService service = MovieService.getInstance();
