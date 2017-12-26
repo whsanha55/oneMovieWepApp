@@ -14,9 +14,44 @@
 		display: inline;
 	}
 	
+	#form {
+ 		  margin-left: 220px;
+	}
+	#form1 {
+		  margin-right: 100px;
+	}
+	
 	#form2 > #deleteBtn{
 		position: fixed;
 		left: 500px;
+	}
+	#table{
+   		margin-left: auto;
+  		margin-right: auto;  		
+		border-collapse:collapse;
+	}
+	table td:not(.first) {
+	   width: 500px;
+	   padding-left: 5px;
+	}
+	tr, td {
+		border: 0;
+	}	
+	 td.first {
+		width: 100px;
+		padding:10px; 
+	 }
+	td.last, td.first{	
+	   border-bottom: 2px solid black;
+	}
+	
+	.title {
+	   font-weight: bold;
+  	   font-size: 20px;
+	}
+	
+	a {	
+  	   text-decoration:none;
 	}
   </style>
  <script src="../../js/jquery-3.2.1.min.js"></script> 
@@ -43,16 +78,27 @@
 					dataType: 'json'
 					,
 					success: function(data) {
-						$('#table').find('tr:not(:first)').remove();
+						$('#table').find('tr').remove();
 						var htmlStr ="";
 						for(var i=0; i<data.length; i++) {
 							htmlStr += "<tr>";
-							htmlStr += "<td><input type='checkbox' name='selected' value='" + data[i].selected + "'></td>";
-							htmlStr += "<td><a href='${pageContext.request.contextPath}/user/movie/detailMovie.do?movieNo=" +data[i].movieNo +" '>" + data[i].movieTitle + "</a></td>";
-							htmlStr += "<td>" + data[i].runningTime + "</td>";
-							htmlStr += "<td>" + data[i].director + "</td>";
-							htmlStr += "<td>" + data[i].gradeAge+ "</td>";
-							htmlStr += "<td>" + data[i].nationName+ "</td>";
+							htmlStr += "<td rowspan='6' class='first'><img src='${pageContext.request.contextPath}/user/movie/upload/" + data[i].moviePhotoOriginalFileName + "'></td>";
+							htmlStr += "<td class='title'><a href='${pageContext.request.contextPath}/user/movie/detailMovie.do?movieNo=" +data[i].movieNo +" '>" + data[i].movieTitle + "</a></td>";
+							htmlStr += "</tr>";
+							htmlStr += "<tr>";
+							htmlStr += "<td>상영시간: " + data[i].runningTime + "분</td>";
+							htmlStr += "</tr>";
+							htmlStr += "<tr>";
+							htmlStr += "<td>감독: " + data[i].director + "</td>";
+							htmlStr += "</tr>";
+							htmlStr += "<tr>";
+							htmlStr += "<td>등급: " + data[i].gradeAge+ "</td>";
+							htmlStr += "</tr>";
+							htmlStr += "<tr>";
+							htmlStr += "<td>국가: " + data[i].nationName+ "</td>";
+							htmlStr += "</tr>";					
+							htmlStr += "<tr>";
+							htmlStr += "<td class='last'><a href='#'>예매하기</a> &nbsp;&nbsp;<a href='#'>상영시간표</a></td>";
 							htmlStr += "</tr>";
 							
 							$(htmlStr).appendTo('#table');
@@ -67,58 +113,8 @@
 				});
 			});
 			
-			//삭제
-			$('#deleteBtn').on('click', function() {			
-				var arr =[];
-				if($("input[name=selected]").is(':checked') == false) {
-					alert("삭제할 항목을 체크해주세요.");
-				} else {
-					$(':checkbox[name=selected]').each(function() {
-						if($(this).is(':checked')) {
-							arr.push($(this).val());
-							console.log(arr.join());
-						}
-					});
-					if(confirm("삭제하시겠습니까?")) {
-						$.ajax({
-							url: '${pageContext.request.contextPath}/user/movie/removeMovie.do'
-							,
-							method: 'GET'
-							,
-							data: { movieNo : arr.join()}
-							, 
-							dataType: 'json'
-							,
-							success: function(data) {
-								if(data.success == true) {
-									alert("삭제되었습니다.");
-								}
-							
-							}
-							, 
-							error: function(jqXHR) {
-								alert('Error : ' + jqXHR.status);
-							}	 			
-							
-						});	
-					}
-				}
-			});
-			
 			//전체 조회
 			$('#selectAllBtn').on('click', function() {
-				var html ="";
-				html += "<tr>";
-				html += "<th><input type='checkbox' name='all'></th>"; 
-				html += "<th>사진</th>"; 
-				html += "<th>제목</th>"; 
-				html += "<th>상영시간</th>"; 
-				html += "<th>감독</th>";
-				html += "<th>등급</th>";
-				html += "<th>국가</th>";
-				html += "</tr>";
-				$(html).appendTo('#table');
-				
 				$.ajax({
 					url: '${pageContext.request.contextPath}/user/movie/listAllMovie.do'
 					,
@@ -129,16 +125,27 @@
 					dataType: 'json'
 					,
 					success: function(data) {
-						$('#table').find('tr:not(:first)').remove();
+						$('#table').find('tr').remove();
 						var htmlStr ="";
 						for(var i=0; i<data.length; i++) {
 							htmlStr += "<tr>";
-							htmlStr += "<td><input type='checkbox' name='selected' value='" + data[i].selected + "'></td>";
-							htmlStr += "<td><a href='${pageContext.request.contextPath}/user/movie/detailMovie.do?movieNo=" +data[i].movieNo +" '>" + data[i].movieTitle + "</a></td>";
-							htmlStr += "<td>" + data[i].runningTime + "</td>";
-							htmlStr += "<td>" + data[i].director + "</td>";
-							htmlStr += "<td>" + data[i].gradeAge+ "</td>";
-							htmlStr += "<td>" + data[i].nationName+ "</td>";
+							htmlStr += "<td rowspan='6' class='first'><img src='${pageContext.request.contextPath}/user/movie/upload/" + data[i].moviePhotoOriginalFileName + "'></td>";
+							htmlStr += "<td class='title'><a href='${pageContext.request.contextPath}/user/movie/detailMovie.do?movieNo=" +data[i].movieNo +" '>" + data[i].movieTitle + "</a></td>";
+							htmlStr += "</tr>";
+							htmlStr += "<tr>";
+							htmlStr += "<td>상영시간: " + data[i].runningTime + "분</td>";
+							htmlStr += "</tr>";
+							htmlStr += "<tr>";
+							htmlStr += "<td>감독: " + data[i].director + "</td>";
+							htmlStr += "</tr>";
+							htmlStr += "<tr>";
+							htmlStr += "<td>등급: " + data[i].gradeAge+ "</td>";
+							htmlStr += "</tr>";
+							htmlStr += "<tr>";
+							htmlStr += "<td>국가: " + data[i].nationName+ "</td>";
+							htmlStr += "</tr>";					
+							htmlStr += "<tr>";
+							htmlStr += "<td class='last'><a href='#'>예매하기</a> &nbsp;&nbsp;<a href='#'>상영시간표</a></td>";
 							htmlStr += "</tr>";
 							
 							$(htmlStr).appendTo('#table');
@@ -156,7 +163,7 @@
   </script>
  </head>
  <body>
-  <h3>영화 목록 조회 화면</h3>
+ <br><br>
   <form id="form">
    		검색조건 : <select name="keyfield">
    						<option value="MovieTitle">제목</option>
@@ -169,12 +176,8 @@
    <form id="form1">
    			&nbsp;&nbsp;
    			<button id="selectAllBtn" type="button">전체조회</button>
-    </form>
-    
+    </form><br><br>
+  
 	<table border="1" id="table"></table><br><br>
-   
-   <form id="form2">
-   			<button id="deleteBtn" type="button">삭제</button>
-   </form>
  </body>
 </html>
