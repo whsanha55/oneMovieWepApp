@@ -77,7 +77,7 @@ public class BookingService {
 	
 	
 	// 예매를 취소한다.
-	public void deleteBooking(BookingRefundVO bookingRefundVO) throws Exception {
+	public boolean deleteBooking(BookingRefundVO bookingRefundVO) throws Exception {
 		
 		Connection conn = null;
 
@@ -98,6 +98,7 @@ public class BookingService {
 			bookingRefundDAO.insertRefund(bookingRefundVO, conn);
 		
 			conn.commit();
+			return true;
 		} catch (Exception e) {
 			conn.rollback();
 			throw e;

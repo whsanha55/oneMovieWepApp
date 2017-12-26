@@ -10,7 +10,7 @@ import controller.ActionForward;
 import controller.Command;
 import model.booking.BookingService;
 
-public class AdminBooking1Command implements Command{
+public class AdminBookingByMemberCommand implements Command{
 
 	@Override
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
@@ -18,7 +18,7 @@ public class AdminBooking1Command implements Command{
 		ActionForward forward = new ActionForward();
 		
 			BookingService bookingService = BookingService.getInstance();
-			forward.setPath("/admin/booking/adminBooking1.jsp");
+			forward.setPath("/layoutAdmin.jsp?article=/admin/booking/adminBookingByMember.jsp");
 			forward.setRedirect(false);			
 				
 		

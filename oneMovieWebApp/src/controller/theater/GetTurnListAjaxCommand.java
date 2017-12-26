@@ -1,4 +1,4 @@
-package controller.booking;
+package controller.theater;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,26 +9,27 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.ActionForward;
 import controller.Command;
-import domain.booking.BookingVO;
-import model.booking.BookingService;
+import domain.theater.ScreenScheduleVO;
+import model.theater.TheaterService;
 
-public class MemberBookingListCancelCommand implements Command {
+public class GetTurnListAjaxCommand implements Command {
 
 	@Override
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
+		int movieNo = Integer.parseInt(req.getParameter("movieNo"));
+		int theaterNo = Integer.parseInt(req.getParameter("theaterNo"));
+		String date = req.getParameter("date");
+		
 		ActionForward forward = new ActionForward();
 		try {
-			//수정필요
-			//String memberNo = (String) req.getSession().getAttribute("memberNo");
-			String memberNo = "17121500004";
-			
-			BookingService bookingService = BookingService.getInstance();
-			List<BookingVO> bookingList = bookingService.retrieveBookingList("memberNo",memberNo,1,0,100);
-			req.setAttribute("bookingList", bookingList);
-			forward.setPath("/layoutUser.jsp?article=/user/booking/memberBookingListCancel.jsp");
+			TheaterService theaterService = TheaterService.getInstance();
+			List<ScreenScheduleVO> scheduleList = theaterService.retrieveTurn(movieNo, theaterNo, date);
+			req.setAttribute("scheduleList", scheduleList);
+			forward.setPath("/user/theater/getTurnListView.jsp");
 			forward.setRedirect(false);
 			return forward;
+					
 		} catch (Exception e) {
 			req.setAttribute("exception", e);
 			forward.setPath("/error.jsp");

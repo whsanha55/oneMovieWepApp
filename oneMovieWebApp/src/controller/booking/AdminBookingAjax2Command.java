@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import controller.ActionForward;
 import controller.Command;
 import domain.theater.ScreenVO;
+import domain.theater.TheaterVO;
+import model.theater.TheaterService;
 
 public class AdminBookingAjax2Command implements Command {
 	@Override
@@ -18,14 +20,14 @@ public class AdminBookingAjax2Command implements Command {
 			throws IOException, ServletException {
 		System.out.println(req.getParameter("theaterNo"));
 		int theaterNo = Integer.parseInt(req.getParameter("theaterNo"));
-		
 		ActionForward forward = new ActionForward();
 		try {
-			//TheaterService theaterService = TheaterService.getInstance();
-			//List<ScreenVO> screenList =  theaterService.어떤것(theaterNo);
+			/*TheaterService theaterService = TheaterService.getInstance();
+			List<ScreenVO> screenList =  theaterService.retrieveScreenList(null);
+			
+			
 			List<ScreenVO> screenList = new ArrayList<ScreenVO>();
 			ScreenVO screenVO = new ScreenVO();
-			
 			//임시용
 			screenVO.setScreenName("1관");
 			screenVO.setScreenNo(1);
@@ -40,7 +42,12 @@ public class AdminBookingAjax2Command implements Command {
 			screenList.add(screenVO);
 			
 			req.setAttribute("screenList", screenList);
+			*/
 			
+			TheaterService theaterService = TheaterService.getInstance();
+			int[] theater = {theaterNo};
+			List<TheaterVO> theaterList = theaterService.retrieveScreenList(theater);
+			req.setAttribute("theaterList", theaterList);
 			forward.setPath("/admin/booking/adminBookingView2.jsp");
 			forward.setRedirect(false);
 

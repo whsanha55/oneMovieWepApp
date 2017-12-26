@@ -1,62 +1,81 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
-<script src="${pageContext.request.contextPath }/js/jquery-3.2.1.min.js"></script>
+
 <script>
-	var seatNum = 0;
-	var selectedSeatNum = 0;
-	var selectedSeatNo = [];
-	var selectedSeatName = [];
 	$(document).ready(function() {
+		var seatNum = 0;
+		var selectedSeatNum = 0;
+		var selectedSeatNo = [];
+		var selectedSeatName = [];
+		
 		$('#bookingNumVal').on('change',function() {
-			seatNum = $(this).val();	
+			
+			if(seatNum <= $(this).val()) {
+				seatNum = $(this).val();
+				$('#resultTable').find('tr:nth-child(6)').find('td:nth-child(2)').text(seatNum * 10000);
+				
+				
+			} else {
+				seatNum = $(this).val();
+				selectedSeatNum = 0;
+				selectedSeatNo = [];
+				selectedSeatName = [];
+				$('#resultTable').find('tr:nth-child(5)').find('td:nth-child(2)').text("");
+				$('#resultTable').find('tr:nth-child(6)').find('td:nth-child(2)').text(seatNum * 10000);
+				$('.seatNo').removeAttr('style');
+				
+				
+			}
 		});
 		
 		$('.seatNo').on('click',function(event) {
 			if(seatNum == 0) {
-				alert("ÀÎ¿øÀ» ¼±ÅÃÇØ ÁÖ¼¼¿ä!!!");
+				alert("ì¸ì›ì„ ì„ íƒí•´ ì£¼ì„¸ìš”!!!");
 				return false;
 			} else if(seatNum > selectedSeatNum) {
 				selectedSeatNum++;
 				$(this).css('backgroundColor','black');
-				$(this).off('click');
+				//$(this).off('click');
+				
 				selectedSeatNo.push($(this).find('a').attr('name'));
 				selectedSeatName.push($(this).find('span').text());
-				console.log(selectedSeatNo.join());
-				$('input[name=bookingSeats]').val(selectedSeatNo.join());
-				$('#bookingSeats').text(selectedSeatName.sort().join());
+				selectedSeatName.sort();
+				
+				$('#resultTable').find('tr:nth-child(5)').find('td:nth-child(2)').text(selectedSeatName.join());
 			} else {
-				alert("ÀÌ¹Ì ÁÂ¼®À» ¸ğµÎ ¼±ÅÃÇÏ¼Ì½À´Ï´Ù!!");
+				alert("ì´ë¯¸ ì¢Œì„ì„ ëª¨ë‘ ì„ íƒí•˜ì…¨ìŠµë‹ˆë‹¤!!");
 				return false;
 			}
 		});
+		
+		$('#payFormButton').on('click',function() {
+			
+			if(seatNum == 0) {
+				alert("ì¸ì›ì„ ì„ íƒí•´ ì£¼ì„¸ìš”!!!");
+				event.preventDefault();
+			} else if (seatNum != selectedSeatNum) {
+				alert("ì„ íƒí•˜ì‹  ì¸ì›ê³¼ ì¢Œì„ ì„ íƒ ìˆ˜ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤!!");
+				event.preventDefault();
+			} else {
+				$('form').prepend("<input type='hidden' name='bookingSeats' value='"+ selectedSeatNo.join() + "'>");
+				$('form').prepend("<input type='hidden' name='seatSelectedName' value='"+ selectedSeatName.join() + "'>");
+				$('form').prepend("<input type='hidden' name='priceSelectedName' value='"+ seatNum * 10000 + "'>");
+			}
+
+		});
 	});
 	
-	function clickNextPage() {
-		if(seatNum == 0) {
-			alert("ÀÎ¿øÀ» ¼±ÅÃÇØ ÁÖ¼¼¿ä!!!");
-			return false;
-		} else if (seatNum != selectedSeatNum) {
-			alert("¼±ÅÃÇÏ½Å ÀÎ¿ø°ú ÁÂ¼® ¼±ÅÃ ¼ö°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù!!");
-			return false;
-		}
-	}
+
 </script>
-</head>
-<body>
+
 	<select id="bookingNumVal">
-		<option value="0"> ÀÎ¿øÀ» ¼±ÅÃÇÏ¼¼¿ä
-		<option value="1"> 1¸í
-		<option value="2"> 2¸í
-		<option value="3"> 3¸í
-		<option value="4"> 4¸í
+		<option value="0"> ì¸ì›ì„ ì„ íƒí•˜ì„¸ìš”
+		<option value="1"> 1ëª…
+		<option value="2"> 2ëª…
+		<option value="3"> 3ëª…
+		<option value="4"> 4ëª…
 	</select>
 	
 	<div id="selectBookingSeat">
@@ -65,7 +84,7 @@
 			<c:forEach var="seat" items="${requestScope.seatList}">
 			
 				<c:if test="${pageScope.seat.firstSeatLine }">
-					<span>${fn:substring(pageScope.seat.seatName,0,1) }¿­</span>	
+					<span>${fn:substring(pageScope.seat.seatName,0,1) }ì—´</span>	
 				</c:if>
 				
 				<c:choose>
@@ -93,10 +112,36 @@
 	</div>
 	
 	
-	<form action="memberBookingPayForm.do" method="post" onClick="return clickNextPage()" >
-		<input type="hidden" name="bookingSeats" >
+	<form action="memberBookingPayForm.do" method="post"  >
 		
-		<button>°áÁ¦</button>
+		<button id="payFormButton">ê²°ì œ</button>
 	</form>
-</body>
-</html>
+	
+	<table border="1" id="resultTable">
+		<tr>
+     		<td>ì˜í™”</td>
+     		<td>${sessionScope.bookingSn.movieSn }</td>
+     	</tr>
+     	<tr>
+     		<td>ê·¹ì¥</td>
+     		<td>${sessionScope.bookingSn.theaterSn }</td>
+     	</tr>
+     	<tr>
+     		<td>ì‹œê°„</td>
+     		<td>${sessionScope.bookingSn.dateSn }</td>
+     	</tr>
+     	<tr>
+     		<td>íšŒì°¨</td>
+     		<td>${sessionScope.bookingSn.turnSn }</td>
+     	</tr>
+     	<tr>
+     		<td>ì¢Œì„</td>
+     		<td></td>
+     	</tr>
+     	<tr>
+     		<td>ê°€ê²©</td>
+     		<td></td>
+     	</tr>
+     	
+	</table>
+	

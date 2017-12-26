@@ -69,7 +69,8 @@ public class CommandFactory {
 
 		// 예약 시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-		map.put("/adminBooking1.do", "controller.booking.AdminBooking1Command");
+		map.put("/adminBookingByMember.do", "controller.booking.AdminBookingByMemberCommand");
+		map.put("/adminBookingByTheater.do", "controller.booking.AdminBookingByTheaterCommand");
 		map.put("/adminBookingAjax.do", "controller.booking.AdminBookingAjaxCommand");
 		map.put("/adminBookingAjax2.do", "controller.booking.AdminBookingAjax2Command");
 		map.put("/memberBooking.do", "controller.booking.MemberBookingCommand");
@@ -85,6 +86,8 @@ public class CommandFactory {
 		map.put("/memberBookingIsRefundableAjax.do", "controller.booking.MemberBookingIsRefundableAjaxCommand");
 		map.put("/memberBookingRefundAjax.do", "controller.booking.MemberBookingRefundAjaxCommand");
 		// 예약 끝====================================================
+
+		map.put("/getTurnListAjax.do", "controller.theater.GetTurnListAjaxCommand");
 	}
 
 	public static CommandFactory getInstance() {

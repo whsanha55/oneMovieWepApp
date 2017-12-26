@@ -35,7 +35,8 @@ public class MemberBookingRefundAjaxCommand implements Command {
 			bookingRefundVO.setRefundPricePolicy(1);			
 			
 			BookingService bookingService = BookingService.getInstance();
-			bookingService.deleteBooking(bookingRefundVO);
+			boolean isRefund = bookingService.deleteBooking(bookingRefundVO);
+			req.setAttribute("isRefund", isRefund);
 			forward.setPath("/user/booking/memberRefundBookingView.jsp");
 			forward.setRedirect(false);
 			return forward;

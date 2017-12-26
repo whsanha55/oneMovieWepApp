@@ -9,24 +9,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.ActionForward;
 import controller.Command;
-import domain.booking.BookingVO;
-import model.booking.BookingService;
+import domain.theater.TheaterVO;
+import model.theater.TheaterService;
 
-public class MemberBookingListCancelCommand implements Command {
+public class AdminBookingByTheaterCommand implements Command {
 
 	@Override
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
+
 		ActionForward forward = new ActionForward();
+		
 		try {
-			//수정필요
-			//String memberNo = (String) req.getSession().getAttribute("memberNo");
-			String memberNo = "17121500004";
-			
-			BookingService bookingService = BookingService.getInstance();
-			List<BookingVO> bookingList = bookingService.retrieveBookingList("memberNo",memberNo,1,0,100);
-			req.setAttribute("bookingList", bookingList);
-			forward.setPath("/layoutUser.jsp?article=/user/booking/memberBookingListCancel.jsp");
+			TheaterService theaterService = TheaterService.getInstance();
+			List<TheaterVO> theaterList = theaterService.retrieveTheaterList();
+			req.setAttribute("theaterList", theaterList);
+			forward.setPath("/layoutAdmin.jsp?article=/admin/booking/adminBookingByTheater.jsp");
 			forward.setRedirect(false);
 			return forward;
 		} catch (Exception e) {
@@ -34,7 +32,9 @@ public class MemberBookingListCancelCommand implements Command {
 			forward.setPath("/error.jsp");
 			forward.setRedirect(false);
 			return forward;
+			
 		}
+
 	}
 
 }

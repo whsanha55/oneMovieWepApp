@@ -24,9 +24,9 @@ public class MemberBookingListCurrCommand implements Command {
 			String memberNo = "17121500004";
 			
 			BookingService bookingService = BookingService.getInstance();
-			List<BookingVO> bookingList = bookingService.retrieveBookingList("memberNo",memberNo,2,0,10);
+			List<BookingVO> bookingList = bookingService.retrieveBookingList("memberNo",memberNo,2,0,100);
 			req.setAttribute("bookingList", bookingList);
-			forward.setPath("/user/booking/memberBookingListCurr.jsp");
+			forward.setPath("/layoutUser.jsp?article=/user/booking/memberBookingListCurr.jsp");
 			forward.setRedirect(false);
 			return forward;
 		} catch (Exception e) {

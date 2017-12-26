@@ -7,11 +7,12 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 
 import controller.ActionForward;
 import controller.Command;
 import domain.booking.BookingSeatVO;
+import domain.booking.BookingSnVO;
 import domain.booking.BookingVO;
 import domain.member.MemberVO;
 import domain.theater.ScheduleTurnVO;
@@ -24,24 +25,24 @@ public class MemberBookingPayFormCommand implements Command {
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
 
-
-		BookingVO bookingVO = new BookingVO();
+		HttpSession session = req.getSession();
+		BookingVO bookingVO = (BookingVO) session.getAttribute("bookingVO");
+		bookingVO.setPrice(Integer.parseInt(req.getParameter("priceSelectedName")));
+		
+		BookingSnVO bookingSn = (BookingSnVO) session.getAttribute("bookingSn");
+		bookingSn.setSeatSn(req.getParameter("seatSelectedName"));
+		bookingSn.setPriceSn(Integer.parseInt(req.getParameter("priceSelectedName")));
+		
 		for(String temp : req.getParameter("bookingSeats").split(",")) {
 			BookingSeatVO bookingSeatVO = new BookingSeatVO();
 			bookingSeatVO.setSeatNo(Integer.parseInt(temp));
 			bookingVO.addBookingSeat(bookingSeatVO);
-			System.out.println(temp);
+			
 		}
-		ScheduleTurnVO turnVO = (ScheduleTurnVO)req.getSession().getAttribute("turnVO");
 		
-		bookingVO.setTurnNo(turnVO.getTurnNo());
-		//수정 필요
-		//bookingVO.setMemberNo((String)req.getSession().getAttribute("memberNo"));
-		bookingVO.setMemberNo("17121500004");
 		
-		req.getSession().setAttribute("bookingVO", bookingVO);
 		ActionForward forward = new ActionForward();
-		forward.setPath("/user/booking/memberBookingPayForm.jsp");
+		forward.setPath("layoutUser.jsp?article=/user/booking/memberBookingPayForm.jsp");
 		forward.setRedirect(false);
 		return forward;
 

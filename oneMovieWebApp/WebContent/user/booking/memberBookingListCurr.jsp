@@ -1,12 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<script src="${pageContext.request.contextPath }/js/jquery-3.2.1.min.js"></script>
+
 <script>
 	$(document).ready(function() {
 	
@@ -14,7 +9,7 @@
 		$('.refundBtn').on('click',function(event) {
 			var ticketNo = $(this).closest('tr').find(':nth-child(2)').text();
 			//event.preventDefault();
-			console.log($(this).closest('tr').find(':nth-child(5)').text());
+			//console.log($(this).closest('tr').find(':nth-child(5)').text());
 			$.ajax({
 				url : '${pageContext.request.contextPath}/memberBookingIsRefundableAjax.do',
 				method : 'POST',
@@ -24,7 +19,8 @@
 				},
 				dataType : 'json',
 				success : function(data) {
-					
+					console.log(data);
+					console.log(data.success);
 					if(data.success) {
 						var isRefund = confirm("영화 예매는 30분전까지 취소 가능합니다. \n예매를 취소 하시겠습니까?");
 						if(isRefund) {
@@ -70,8 +66,8 @@
 	});
 	
 </script>
-</head>
-<body>
+
+
 	<h3>MY 예매내역</h3>
 	<div>예매확인/취소 예매하신 영화 내역과 취소내역을 확인할 수 있습니다.</div>
 	
@@ -115,5 +111,3 @@
 		</tr>
 	</c:forEach>
 	</table>
-</body>
-</html>

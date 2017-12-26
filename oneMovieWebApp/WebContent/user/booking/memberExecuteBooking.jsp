@@ -8,7 +8,7 @@
 <script src="${pageContext.request.contextPath }/js/jquery-3.2.1.min.js"></script>
 <script>
 	alert("결제가 완료되었습니다!!");
-	location.href = "${pageContext.request.contextPath}/memberConfirmCurrBooking.do";
+	location.href = "${pageContext.request.contextPath}/memberBookingListCurr.do";
 </script>
 </head>
 <body>

@@ -1,5 +1,6 @@
 package model.booking;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import conn.DBConn;
 import domain.booking.BookingSeatVO;
+import oracle.jdbc.internal.OracleTypes;
 
 public class BookingSeatDAO {
 
@@ -46,7 +48,7 @@ public class BookingSeatDAO {
 
 	// 회차번호에 해당하는 예매된 좌석 조회
 	public List<BookingSeatVO> selectBookingSeatList(int turnNo) throws Exception {
-		Connection conn = null;
+		/*Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<BookingSeatVO> list = new ArrayList<BookingSeatVO>();
@@ -92,6 +94,40 @@ public class BookingSeatDAO {
 				conn.close();
 		}
 
+		return list;*/
+		
+		//연습
+		Connection conn = null;
+		CallableStatement cstmt = null;
+		ResultSet rs = null;
+		List<BookingSeatVO> list = new ArrayList<BookingSeatVO>();
+		try {
+			conn = DBConn.getConnection();
+			String sql = "{call booking_seat_procedure(?,?)}";
+			cstmt = conn.prepareCall(sql);
+			cstmt.setInt(1, turnNo);
+			cstmt.registerOutParameter(2, OracleTypes.CURSOR);
+			cstmt.executeUpdate();
+			rs = (ResultSet) cstmt.getObject(2);
+			while(rs.next()) {
+				BookingSeatVO bookingSeatVO = new BookingSeatVO();
+				bookingSeatVO.setSeatNo(rs.getInt(1));
+				bookingSeatVO.setSeatName(rs.getString(2));
+				if(rs.getInt(3) == 1) {
+					bookingSeatVO.setBooked(true);
+				} else {
+					bookingSeatVO.setBooked(false);					
+				}
+				list.add(bookingSeatVO);
+			}
+			
+		}finally {
+			if(rs != null) rs.close();
+			if(cstmt != null) cstmt.close();
+			if(conn != null) conn.close();
+		}
+		
+		
 		return list;
 	}
 

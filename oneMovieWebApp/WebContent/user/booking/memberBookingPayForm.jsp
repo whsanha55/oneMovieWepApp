@@ -1,12 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<script src="${pageContext.request.contextPath }/js/jquery-3.2.1.min.js"></script>
+
 <script>
 		
 	$(document).ready(function() {
@@ -36,8 +31,7 @@
 	});
 	
 </script>
-</head>
-<body>
+
 	<form action="memberExecuteBooking.do" method="post">
 		<div>
 		<span>카드사 선택</span>
@@ -63,11 +57,32 @@
 	<button id="bookingBtn">결제</button>
 	</form>
 	
-	<div>
-		좌석번호 : 
-		<c:forEach var="seat" items="${sessionScope.bookingVO.bookingSeats }" >
-			${pageScope.seat.seatNo}
-		</c:forEach>
-	</div>
-</body>
-</html>
+	
+	
+	<table border="1">
+		<tr>
+     		<td>영화</td>
+     		<td>${sessionScope.bookingSn.movieSn }</td>
+     	</tr>
+     	<tr>
+     		<td>극장</td>
+     		<td>${sessionScope.bookingSn.theaterSn }</td>
+     	</tr>
+     	<tr>
+     		<td>시간</td>
+     		<td>${sessionScope.bookingSn.dateSn }</td>
+     	</tr>
+     	<tr>
+     		<td>회차</td>
+     		<td>${sessionScope.bookingSn.turnSn }</td>
+     	</tr>
+     	<tr>
+     		<td>좌석</td>
+     		<td>${sessionScope.bookingSn.seatSn }</td>
+     	</tr>
+     	<tr>
+     		<td>가격</td>
+     		<td>${sessionScope.bookingSn.priceSn }</td>
+     	</tr>
+     	
+	</table>

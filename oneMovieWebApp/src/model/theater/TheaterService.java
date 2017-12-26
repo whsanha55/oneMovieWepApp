@@ -200,4 +200,8 @@ public class TheaterService {
 		ScheduleTurnDAO scheduleTurnDao = ScheduleTurnDAO.getInstance();
 		return scheduleTurnDao.selectTotalPost();
 	}
+	public List<ScreenScheduleVO> retrieveTurn(int movieNo, int theaterNo, String date) throws Exception {
+		DateTheaterMovieDAO dateTheaterMovieDAO = DateTheaterMovieDAO.getInstance();
+		return dateTheaterMovieDAO.selectTurn(movieNo, theaterNo, date);
+	}
 }//TheaterService

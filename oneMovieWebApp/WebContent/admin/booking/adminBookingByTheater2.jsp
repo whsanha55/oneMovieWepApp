@@ -8,10 +8,29 @@
 <style >
 	
 </style>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/js/jquery-ui.min.css">
 <script src="${pageContext.request.contextPath }/js/jquery-3.2.1.min.js"></script>
+<script src="${pageContext.request.contextPath }/js/jquery-ui.min.js"></script>
 <script>
-	$(document).ready(function() {
 
+
+	$(document).ready(function() {
+		
+		$("#datepicker").datepicker({
+	    	dateFormat: 'yy년mm월dd일',
+	        prevText: '이전 달',
+	        nextText: '다음 달',
+	        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+	        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+	        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+	        showMonthAfterYear: true,
+	        yearSuffix: '년' ,
+	        onSelect: function(value) {
+	        	console.log(value);
+	        }
+	    });
 		
 		//지점선택시-> 상영관 
 		$(':checkbox[name=theaterNo]').on('change', function() {
@@ -66,14 +85,14 @@
 </script>
 </head>
 <body>
-	<div><a href="#">회원으로 검색</a></div>
-	<div><a href="#">조건 검색</a></div>
+	<div><a href="${pageContext.request.contextPath }/adminBookingByMember.do">회원 검색</a></div>
+	<div><a href="${pageContext.request.contextPath }/adminBookingByTheater.do">극장  검색</a></div>
 	
 	<br>
 	<br>
 	<br>
 	
-	<input type="date" name="screenDate" >
+	<input type="text" id="datepicker" placeholder="날짜를 선택하세요">  
 	<div id="theater">
 		<span>지점</span> 
 		<label><input type="checkbox" name="theaterNo" value="1"> 강남</label>
