@@ -9,6 +9,7 @@ import java.util.List;
 
 import conn.DBConn;
 import domain.movie.MovieVO;
+import domain.theater.ScheduleTurnVO;
 import domain.theater.ScreenScheduleVO;
 import domain.theater.TheaterVO;
 
@@ -375,7 +376,7 @@ public class DateTheaterMovieDAO {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			
-			sql.append("select m1.movie_no,m1.movie_title											");
+			sql.append("select distinct m1.movie_no,m1.movie_title											");
 			sql.append("from screen_schedule ss1,theater t1, screen s1,movie m1						");
 			sql.append("where t1.theater_no = s1.theater_no											");
 			sql.append("and s1.screen_no = ss1.screen_no											");
@@ -414,7 +415,7 @@ public class DateTheaterMovieDAO {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
 			
-			sql.append("select t1.theater_no,t1.theater_name										");
+			sql.append("select distinct t1.theater_no,t1.theater_name										");
 			sql.append("from screen_schedule ss1,theater t1, screen s1,movie m1						");
 			sql.append("where t1.theater_no = s1.theater_no											");
 			sql.append("and s1.screen_no = ss1.screen_no											");
@@ -485,5 +486,59 @@ public class DateTheaterMovieDAO {
 		}
 		
 		return list;
+	}
+	
+	//임시로 메소드  생성함 이동 필요!!
+	public List<ScreenScheduleVO> selectTurn(int movieNo, int theaterNo, String date) throws Exception {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<ScreenScheduleVO> list = new ArrayList<ScreenScheduleVO>();
+
+		try {
+			conn = DBConn.getConnection();
+			StringBuilder sql = new StringBuilder();
+			
+			sql.append("select t1.turn_no, to_char(t1.start_time,'HH24:MI') ST, to_char(t1.end_time,'HH24:MI'), t3.screen_name   ");
+			sql.append("from schedule_turn t1, screen_schedule t2, screen t3        ");
+			sql.append("where t1.schedule_no = t2.schedule_no                       ");
+			sql.append("and t2.screen_no = t3.screen_no                             ");
+			sql.append("and movie_no = ?                                            ");
+			sql.append("and t3.theater_no = ?                                       ");
+			sql.append("and screen_date = ?                                         ");
+			sql.append("order by screen_name asc, ST asc                           ");
+			
+			
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, movieNo);
+			pstmt.setInt(2, theaterNo);
+			pstmt.setString(3, date);
+			
+			rs = pstmt.executeQuery();
+			String screenName = "";
+			while(rs.next()) {
+				if(!screenName.equals(rs.getString(4))) {
+					screenName = rs.getString(4);
+					ScreenScheduleVO scheduleVO = new ScreenScheduleVO();
+					scheduleVO.setScreenName(rs.getString(4));
+					list.add(scheduleVO);
+				} else {
+					ScheduleTurnVO turnVO = new ScheduleTurnVO();
+					turnVO.setTurnNo(rs.getInt(1));
+					turnVO.setStartTime(rs.getString(2));
+					turnVO.setEndTime(rs.getString(3));
+					
+					list.get(list.size()-1).addScheduleTurnVO(turnVO);
+				}
+				
+			}
+		} finally {
+			if(rs!=null)rs.close();
+			if(pstmt!=null)pstmt.close();
+			if(conn!=null)conn.close();
+		}
+		
+		return list;
+		
 	}
 }

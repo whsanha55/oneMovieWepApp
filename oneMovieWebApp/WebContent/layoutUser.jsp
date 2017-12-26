@@ -1,10 +1,10 @@
-<%@ page contentType="text/html; charset=EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 
 <!doctype html>
 <html lang="en">
  <head>
     <meta charset="UTF-8">
-    <title>2´Ü ·¹ÀÌ¾Æ¿ô</title>
+    <title>2ë‹¨ ë ˆì´ì•„ì›ƒ</title>
     <style>
         body {
             color: white;
@@ -106,32 +106,37 @@
             overflow: hidden;
         }
     </style>
+    
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/js/jquery-ui.min.css">
+	<script src="${pageContext.request.contextPath }/js/jquery-3.2.1.min.js"></script>
+	<script src="${pageContext.request.contextPath }/js/jquery-ui.min.js"></script>
 </head>
 
 <body>
     <header>
        <h1><a href="#">One Movie</a></h1>
         <nav>
-            <a href="${pageContext.request.contextPath }/memberLoginForm.do">·Î±×ÀÎ</a>
-            <a href="${pageContext.request.contextPath }/joinForm.do">È¸¿ø°¡ÀÔ</a>     
+            <a href="${pageContext.request.contextPath }/memberLoginForm.do">ë¡œê·¸ì¸</a>
+            <a href="${pageContext.request.contextPath }/joinForm.do">íšŒì›ê°€ìž…</a>     
         </nav>
     </header>
     <section>
         <nav>
             <ul>
-                <li><a href="${pageContext.request.contextPath }/user/movie/listMovie.do">¿µÈ­</a></li>
+                <li><a href="${pageContext.request.contextPath }/user/movie/listMovie.do">ì˜í™”</a></li>
+
                 <ul>
-                    <li><a href="#">ÇöÀç »ó¿µÀÛ</a></li>
-                    <li><a href="#">Áö³­ »ó¿µÀÛ</a></li>
-                    <li><a href="#">»ó¿µ ¿¹Á¤ÀÛ</a></li>
+                    <li><a href="#">í˜„ìž¬ ìƒì˜ìž‘</a></li>
+                    <li><a href="#">ì§€ë‚œ ìƒì˜ìž‘</a></li>
+                    <li><a href="#">ìƒì˜ ì˜ˆì •ìž‘</a></li>
                 </ul>
-                <li><a href="#">¿¹¸Å</a></li>
+                <li><a href="${pageContext.request.contextPath }/memberBooking.do">ì˜ˆë§¤</a></li>
                 <ul>
 
                 </ul>
-                <li><a href="#">±ØÀå</a></li>
+                <li><a href="#">ê·¹ìž¥</a></li>
                 <ul>
-                    <li><a href="#">¿µÈ­°ü Á¤º¸</a></li>
+                    <li><a href="#">ì˜í™”ê´€ ì •ë³´</a></li>
                 </ul>
 
             </ul>

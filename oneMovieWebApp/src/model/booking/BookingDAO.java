@@ -31,7 +31,7 @@ public class BookingDAO {
 		try {
 			StringBuilder sql = new StringBuilder();
 			sql.append("insert into BOOKING(ticket_no, member_no, turn_no, payment_code, price)    ");
-			sql.append("'D' || to_char(sysdate,'MMDD') || 'N' || lpad(ticket_no_seq.nextval,5,0)   ");
+			sql.append("values('D' || to_char(sysdate,'MMDD') || 'N' || lpad(ticket_no_seq.nextval,5,0)   ");
 			sql.append(" ,?,?,?,? )");
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, bookingVO.getMemberNo());
@@ -45,7 +45,7 @@ public class BookingDAO {
 			sql.setLength(0);
 
 			stmt = conn.createStatement();
-			sql.append("select to_char(sysdate,'YYMMDD') || lpad(ticket_no_seq.currval,5,0) from dual  ");
+			sql.append("select 'D' || to_char(sysdate,'MMDD') || 'N' || lpad(ticket_no_seq.currval,5,0) from dual  ");
 
 			ResultSet rs = stmt.executeQuery(sql.toString());
 			if (rs.next()) {
@@ -170,7 +170,7 @@ public class BookingDAO {
 			if (keyfield.equals("memberNo")) {
 				sql.append("where member_no like '%' || ? || '%'                          ");
 			} else if (keyfield.equals("memberName")) {
-				sql.append("where name like '%' || ? || '%'                               ");
+				sql.append("where member_name like '%' || ? || '%'                               ");
 			}
 
 			if (status == 1) {

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="EUC-KR"%>
 <!doctype html>
 <html lang="en">
@@ -103,6 +103,9 @@
             overflow: hidden;
         }
     </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/js/jquery-ui.min.css">
+	<script src="${pageContext.request.contextPath }/js/jquery-3.2.1.min.js"></script>
+	<script src="${pageContext.request.contextPath }/js/jquery-ui.min.js"></script>
 </head>
 
 <body>

@@ -24,9 +24,9 @@ public class MemberBookingListPastCommand implements Command {
 			String memberNo = "17121500004";
 			
 			BookingService bookingService = BookingService.getInstance();
-			List<BookingVO> bookingList = bookingService.retrieveBookingList("memberNo",memberNo,3,1,10);
+			List<BookingVO> bookingList = bookingService.retrieveBookingList("memberNo",memberNo,3,1,100);
 			req.setAttribute("bookingList", bookingList);
-			forward.setPath("/user/booking/memberBookingListPast.jsp");
+			forward.setPath("/layoutUser.jsp?article=/user/booking/memberBookingListPast.jsp");
 			forward.setRedirect(false);
 			return forward;
 		} catch (Exception e) {

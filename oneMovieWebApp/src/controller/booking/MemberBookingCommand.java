@@ -24,7 +24,7 @@ public class MemberBookingCommand implements Command {
 		
 		ActionForward forward = new ActionForward();
 		try {
-			//수정 필요
+
 			TheaterService theaterService = TheaterService.getInstance();
 			
 			List<MovieVO> movieList =theaterService.retrieveMovieAll();
@@ -33,7 +33,7 @@ public class MemberBookingCommand implements Command {
 			req.setAttribute("movieList", movieList);
 			req.setAttribute("theaterList", theaterList);
 			req.setAttribute("scheduleList", scheduleList);
-			forward.setPath("/user/booking/memberBooking.jsp");
+			forward.setPath("layoutUser.jsp?article=/user/booking/memberBooking.jsp");
 			forward.setRedirect(false);
 			return forward;
 		} catch (Exception e) {
