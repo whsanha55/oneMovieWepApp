@@ -12,12 +12,12 @@ import controller.Command;
 import domain.movie.MovieVO;
 import model.movie.MovieService;
   
-public class ListMovieCommand implements Command{
+public class AdminListMovieCommand implements Command{
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
 		//게시글 목록 조회 요청 처리
 		ActionForward forward = new ActionForward();		
 		try {
-			forward.setPath("/layoutUser.jsp?article=/user/movie/listMovie.jsp");
+			forward.setPath("/layoutAdmin.jsp?article=/admin/movie/listMovie.jsp");
 			forward.setRedirect(false);
 			return forward;
 		} catch (Exception e) {

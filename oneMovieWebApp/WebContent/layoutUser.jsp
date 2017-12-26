@@ -23,6 +23,7 @@
             background-color: aliceblue;
         }
         header h1 {
+        
             display: inline-block;
             margin-top: 10px;
         }
@@ -122,7 +123,8 @@
     <section>
         <nav>
             <ul>
-                <li><a href="#">영화</a></li>
+                <li><a href="${pageContext.request.contextPath }/user/movie/listMovie.do">영화</a></li>
+
                 <ul>
                     <li><a href="#">현재 상영작</a></li>
                     <li><a href="#">지난 상영작</a></li>

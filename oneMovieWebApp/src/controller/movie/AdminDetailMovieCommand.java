@@ -1,7 +1,6 @@
 package controller.movie;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,21 +11,32 @@ import controller.Command;
 import domain.movie.MovieVO;
 import model.movie.MovieService;
   
-public class ListMovieCommand implements Command{
+public class AdminDetailMovieCommand implements Command{
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
-		//게시글 목록 조회 요청 처리
-		ActionForward forward = new ActionForward();		
-		try {
-			forward.setPath("/layoutUser.jsp?article=/user/movie/listMovie.jsp");
+
+		int movieNo = Integer.parseInt(req.getParameter("movieNo"));
+		
+		ActionForward forward = new ActionForward();
+		
+		try {		
+			MovieService movieService = MovieService.getInstance();
+			
+			MovieVO movie = movieService.retriveMovie(movieNo);
+			
+			req.setAttribute("movie", movie);
+			 
+			//4. 게시글 상세조회(detailArticle.jsp) 페이지로 이동한다.
+			forward.setPath("/layoutAdmin.jsp?article=/admin/movie/detailMovie.jsp");
 			forward.setRedirect(false);
 			return forward;
+			
 		} catch (Exception e) {
 			req.setAttribute("exception", e);
 			forward.setPath("/error.jsp");
 			forward.setRedirect(false);
 			return forward;
-		}
+		}	
 		
 	}
-}
 
+}

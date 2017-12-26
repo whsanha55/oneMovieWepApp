@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.ActionForward;
 import controller.Command;
-import domain.movie.DetailMovieVO;
+import domain.movie.MovieVO;
 import model.movie.MovieService;
   
 public class DetailMovieCommand implements Command{
@@ -19,14 +19,14 @@ public class DetailMovieCommand implements Command{
 		ActionForward forward = new ActionForward();
 		
 		try {		
-			MovieService articleService = MovieService.getInstance();
+			MovieService movieService = MovieService.getInstance();
 			
-			DetailMovieVO movie = articleService.retriveMovie(movieNo);
+			MovieVO movie = movieService.retriveMovie(movieNo);
 			
 			req.setAttribute("movie", movie);
 			 
 			//4. 게시글 상세조회(detailArticle.jsp) 페이지로 이동한다.
-			forward.setPath("/user/movie/detailMovie.jsp");
+			forward.setPath("/layoutUser.jsp?article=/user/movie/detailMovie.jsp");
 			forward.setRedirect(false);
 			return forward;
 			

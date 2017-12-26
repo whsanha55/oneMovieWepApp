@@ -6,7 +6,7 @@
 [
 	<c:forEach var="movie" items="${requestScope.movies }" varStatus="loop">
 	{
-		"moviePhotoOriginalFileName": "${pageScope.movie.photo.moviePhotoOriginalFileName}" ,
+		"selected": ${pageScope.movie.movieNo},
 		"movieNo": ${pageScope.movie.movieNo} ,
 		"movieTitle": "${pageScope.movie.movieTitle }" ,
 		"director": "${pageScope.movie.director }"  ,

@@ -99,7 +99,7 @@ public class MovieService {
 
    }
 
- 	
+    
    // 영화 정보를 일괄 삭제한다.
    public void deleteMovieList(int[] noList) throws Exception {
       Connection conn = null;
@@ -120,7 +120,7 @@ public class MovieService {
          
          //영화 삭제     
          MovieDAO articleDao = MovieDAO.getInstance();
-		 articleDao.removeMovieList(conn, noList);
+       articleDao.removeMovieList(conn, noList);
 
          conn.commit();
 
@@ -164,7 +164,7 @@ public class MovieService {
    }
    // 영화 제목을 조회하다.
    public List<MovieTitleVO> retriveMovieTitle(String movieTitle) throws Exception {
-	   MovieDAO movieDAO = MovieDAO.getInstance();
+      MovieDAO movieDAO = MovieDAO.getInstance();
       return movieDAO.selectMovieTitleList(movieTitle);
    }
    
@@ -178,15 +178,15 @@ public class MovieService {
    }
 
    // 게시글 상세정보를 조회하다.
-   public DetailMovieVO retriveMovie(int movieNo) throws Exception {
+   public MovieVO retriveMovie(int movieNo) throws Exception {
       MovieDAO movieDao = MovieDAO.getInstance();
-      DetailMovieVO detailMovie = movieDao.selectMovie(movieNo);
-      return detailMovie;
+      MovieVO movie = movieDao.selectMovie(movieNo);
+      return movie;
    }
    
    //영화 목록을 전체 조회하다.
- 	public List<MovieVO> retrieveMovieList() throws Exception {
- 		MovieDAO dao = MovieDAO.getInstance();
- 		return dao.selectMovieList();
- 	}
+    public List<MovieVO> retrieveMovieList() throws Exception {
+       MovieDAO dao = MovieDAO.getInstance();
+       return dao.selectMovieList();
+    }
 }
