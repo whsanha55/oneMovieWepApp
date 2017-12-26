@@ -28,7 +28,8 @@ public class RemoveMovieFormCommand implements Command {
 
 			// 2. DB에서 게시글 번호에 해당하는 게시글 정보를 구한다.
 			MovieDAO dao = MovieDAO.getInstance();
-			MovieVO movie = dao.selectMovie(movieNo);
+			//MovieVO movie = dao.selectMovie(movieNo);
+			MovieVO movie = null;
 
 			// 3. request 영역에 "article"라는 속성이름으로 게시글 정보를 바인딩한다.
 			req.setAttribute("movie", movie);

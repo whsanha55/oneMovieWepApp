@@ -180,8 +180,9 @@ public class MovieService {
    // 게시글 상세정보를 조회하다.
    public MovieVO retriveMovie(int movieNo) throws Exception {
       MovieDAO movieDao = MovieDAO.getInstance();
-      MovieVO movie = movieDao.selectMovie(movieNo);
-      return movie;
+      //MovieVO movie = movieDao.selectMovie(movieNo);
+      //return movie;
+      return null;
    }
    
    //영화 목록을 전체 조회하다.
