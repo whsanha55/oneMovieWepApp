@@ -119,7 +119,7 @@
         <nav>
             <ul>
                 <li><a href="${pageContext.request.contextPath }/manageMemberForm.do">회원관리</a></li>
-                <li><a href="#">예매관리</a></li>
+                <li><a href="${pageContext.request.contextPath }/adminBookingByMember.do">예매관리</a></li>
                 
                 <li><a href="#">영화</a></li>
                

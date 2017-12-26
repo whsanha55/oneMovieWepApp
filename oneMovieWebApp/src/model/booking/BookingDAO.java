@@ -61,8 +61,10 @@ public class BookingDAO {
 		return ticektNo;
 	}
 
-	// 예약 조회 (상영관번호, 회차번호)
-	public List<BookingVO> selectBookingList(String keyfield, int keyword, int startRow, int endRow) throws Exception {
+	// 예약 조회 (상영관번호 및 상영날짜)
+	public List<BookingVO> selectBookingList(ArrayList<Integer> screenList, String screenDate, int startRow, int endRow)
+			throws Exception {
+		// 회원번호, 이름,지점,상영관,영화제목, 상영날짜, 회차시간,좌석번호,예매번호,승인코드
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -71,67 +73,125 @@ public class BookingDAO {
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("select s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s13,s15                           ");
-			sql.append("from (select booking.*,  rownum as rn                                               ");
-			sql.append("  from(select t4.member_no s1, t4.name s2, t6.theater_name s3,                      ");
-			sql.append("          t7.screen_name s4, to_char(t8.screen_date,'YYYY/MM/DD') s5,               ");
-			sql.append("          to_char(t9.start_time,'HH24:MI') s6,  to_char(t9.end_time,'HH24:MI') s7,  ");
-			sql.append("          t1.ticket_no s8, t5.movie_title s9, t1.payment_code s10, t1.status s11,   ");
-			sql.append("          t1.withdraw_date s12, t10.seat_name s13, t3.refund_price s14,t3.refund_date s15   ");
-			sql.append("       from booking t1, booking_seat t2, booking_refund t3, member t4, movie t5,    ");
-			sql.append("           theater t6, screen t7, screen_schedule t8, schedule_turn t9, seat t10    ");
-			sql.append("       where t1.ticket_no = t2.ticket_no             ");
-			sql.append("           and t1.ticket_no = t3.ticket_no(+)        ");
-			sql.append("           and t1.member_no = t4.member_no           ");
-			sql.append("            and t1.turn_no = t9.turn_no              ");
-			sql.append("          and t9.schedule_no = t8.schedule_no        ");
-			sql.append("           and t8.movie_no = t5.movie_no             ");
-			sql.append("         and t8.screen_no = t7.screen_no             ");
-			sql.append("          and t7.theater_no = t6.theater_no          ");
-			sql.append("          and t2.seat_no = t10.seat_no               ");
-			if (keyfield.equals("seatNo")) {
-				sql.append("and t9.turn_no = ?                               ");
-			} else if (keyfield.equals("screenNo")) {
-				sql.append("and t7.screen_no = ?                             ");
+			sql.append("select *                                                                       ");
+			sql.append("from (select  ticket_no, member_no, member_name, theater_name, movie_title,     ");
+			sql.append("           screen_name, screen_date, start_time, end_time,                      ");
+			sql.append("           payment_code, seat_name ,rownum rn                                   ");
+			sql.append("      from booking_view                                                         ");
+			sql.append("      where status =0                                                           ");
+			sql.append("      and screen_date = ?                                                       ");
+
+			sql.append("      and screen_no in (?                                                       ");
+			for (int i = 1; i < screenList.size(); i++) {
+				sql.append(",?            ");
 			}
-
-			// 날짜 내림차순, 회차 오름차순, 예매번호 오름차순
-			sql.append("       order by s5 desc ,s6 asc, s8 asc) booking)    ");
-
-			sql.append("   where rn between ? and ?                          ");
-
+			sql.append(")                 ");
+			sql.append(") where rn between ? and ?                                              ");
 			pstmt = conn.prepareStatement(sql.toString());
-			pstmt.setInt(1, keyword);
-			pstmt.setInt(2, startRow);
-			pstmt.setInt(3, endRow);
+			
+			pstmt.setString(1, screenDate);
+			int num = 0;
+			while(num<screenList.size()) {
+				pstmt.setInt(num+2, screenList.get(num));
+				num++;
+			}
+			pstmt.setInt(num+2, startRow);
+			pstmt.setInt(num+3, endRow);
+			
 			rs = pstmt.executeQuery();
 			String ticketNo = null;
 			while (rs.next()) {
 				BookingVO bookingVO = new BookingVO();
-				if (!ticketNo.equals(rs.getString(8))) {
-					ticketNo = rs.getString(8);
-					bookingVO.setMemberNo(rs.getString(1));
-					bookingVO.setMemberName(rs.getString(2));
-					bookingVO.setTheaterName(rs.getString(3));
-					bookingVO.setScreenName(rs.getString(4));
-					bookingVO.setScreenDate(rs.getString(5));
-					bookingVO.setStartTime(rs.getString(6));
-					bookingVO.setEndTime(rs.getString(7));
-					bookingVO.setTicketNo(rs.getString(8));
-					bookingVO.setMovieTitle(rs.getString(9));
+				if (!rs.getString(1).equals(ticketNo)) {
+					ticketNo = rs.getString(1);
+
+					bookingVO.setTicketNo(rs.getString(1));
+					bookingVO.setMemberNo(rs.getString(2));
+					bookingVO.setMemberName(rs.getString(3));
+					bookingVO.setTheaterName(rs.getString(4));
+					bookingVO.setMovieTitle(rs.getString(5));
+					bookingVO.setScreenName(rs.getString(6));
+					bookingVO.setScreenDate(rs.getString(7));
+					bookingVO.setStartTime(rs.getString(8));
+					bookingVO.setEndTime(rs.getString(9));
 					bookingVO.setPaymentCode(rs.getString(10));
-					bookingVO.setStatus(rs.getInt(11));
-					bookingVO.setWithdrawDate(rs.getString(12));
-					//bookingVO.addSeatName(rs.getString(13));
-					if (rs.getInt(11) != 0) {
-						BookingRefundVO bookingRefundVO = new BookingRefundVO();
-						bookingRefundVO.setRefundPrice(rs.getInt(14));
-						bookingRefundVO.setRefundDate(rs.getString(15));
-						bookingVO.setBookingRefundVO(bookingRefundVO);
-					}
+					bookingVO.addSeatName(rs.getString(11));
+				
 					list.add(bookingVO);
 				} else {
-					//list.get(list.size() - 1).addSeatName(rs.getString(13));
+					list.get(list.size() - 1).addSeatName(rs.getString(11));
+				}
+
+			}
+
+		} finally {
+			if (rs != null)
+				rs.close();
+			if (pstmt != null)
+				pstmt.close();
+			if (conn != null)
+				conn.close();
+		}
+
+		return list;
+	}
+
+	// 예약 조회 (회차번호)
+	public List<BookingVO> selectBookingList(ArrayList<Integer> turnList, int startRow, int endRow) throws Exception {
+		// 회원번호, 이름,지점,상영관,영화제목, 상영날짜, 회차시간,좌석번호,예매번호,승인코드
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<BookingVO> list = new ArrayList<BookingVO>();
+		try {
+			conn = DBConn.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("select *                                                                       ");
+			sql.append("from (select  ticket_no, member_no, member_name, theater_name, movie_title,     ");
+			sql.append("           screen_name, screen_date, start_time, end_time,                      ");
+			sql.append("           payment_code, seat_name ,rownum rn                                   ");
+			sql.append("      from booking_view                                                         ");
+			sql.append("      where status =0                                                           ");
+
+			sql.append("      and turn_no in (?                                                       ");
+			for (int i = 1; i < turnList.size(); i++) {
+				sql.append(",?            ");
+			}
+			sql.append(")                 ");
+			sql.append(") where rn between ? and ?                                              ");
+			pstmt = conn.prepareStatement(sql.toString());
+			
+			int num = 0;
+			while(num<turnList.size()) {
+				pstmt.setInt(num+1, turnList.get(num));
+				num++;
+			}
+			pstmt.setInt(num+1, startRow);
+			pstmt.setInt(num+2, endRow);
+			
+			rs = pstmt.executeQuery();
+			String ticketNo = null;
+			while (rs.next()) {
+				BookingVO bookingVO = new BookingVO();
+				if (!rs.getString(1).equals(ticketNo)) {
+					ticketNo = rs.getString(1);
+
+					bookingVO.setTicketNo(rs.getString(1));
+					bookingVO.setMemberNo(rs.getString(2));
+					bookingVO.setMemberName(rs.getString(3));
+					bookingVO.setTheaterName(rs.getString(4));
+					bookingVO.setMovieTitle(rs.getString(5));
+					bookingVO.setScreenName(rs.getString(6));
+					bookingVO.setScreenDate(rs.getString(7));
+					bookingVO.setStartTime(rs.getString(8));
+					bookingVO.setEndTime(rs.getString(9));
+					bookingVO.setPaymentCode(rs.getString(10));
+					bookingVO.addSeatName(rs.getString(11));
+				
+					list.add(bookingVO);
+				} else {
+					list.get(list.size() - 1).addSeatName(rs.getString(11));
 				}
 
 			}
@@ -277,7 +337,7 @@ public class BookingDAO {
 	// 예약 취소 (status 0->1, 날짜 기록)
 	public void modifyBooking(String ticketNo, Connection conn) throws Exception {
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			StringBuilder sql = new StringBuilder();
 			sql.append("update booking                              ");

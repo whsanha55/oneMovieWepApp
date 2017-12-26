@@ -1,7 +1,6 @@
 package controller.booking;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,23 +9,25 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.ActionForward;
 import controller.Command;
-import domain.theater.ScreenVO;
-import domain.theater.TheaterVO;
+import domain.theater.ScheduleTurnVO;
 import model.theater.TheaterService;
 
-public class AdminBookingAjax2Command implements Command {
+public class AdminBookingAjax3Command implements Command {
+
 	@Override
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
-		int theaterNo = Integer.parseInt(req.getParameter("theaterNo"));
+		int screenNo = Integer.parseInt(req.getParameter("screenNo"));
+		String screenDate = req.getParameter("screenDate");
+
 		ActionForward forward = new ActionForward();
 		try {
 		
 			
 			TheaterService theaterService = TheaterService.getInstance();
-			List<ScreenVO> screenList = theaterService.retrieveScreenList(theaterNo);
-			req.setAttribute("screenList", screenList);
-			forward.setPath("/admin/booking/adminBookingByTheaterView.jsp");
+			List<ScheduleTurnVO> turnList = theaterService.retrieveScheduleTurn(screenNo, screenDate);
+			req.setAttribute("turnList", turnList);
+			forward.setPath("/admin/booking/adminBookingByTheaterViewTurn.jsp");
 			forward.setRedirect(false);
 
 		} catch (Exception e) {
@@ -38,4 +39,5 @@ public class AdminBookingAjax2Command implements Command {
 
 		return forward;
 	}
+
 }
