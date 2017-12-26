@@ -5,12 +5,8 @@ public class BookingRefundVO {
 	String ticketNo;
 	String refundDate;
 	int refundPrice;
-<<<<<<< HEAD
-	
-=======
 	double refundDatePolicy;
 	double refundPricePolicy;
->>>>>>> refs/remotes/origin/master
 
 	public BookingRefundVO() {
 	}
@@ -47,11 +43,6 @@ public class BookingRefundVO {
 		this.refundPrice = refundPrice;
 	}
 
-<<<<<<< HEAD
-	
-
-	
-=======
 	public double getRefundDatePolicy() {
 		return refundDatePolicy;
 	}
@@ -68,5 +59,4 @@ public class BookingRefundVO {
 		this.refundPricePolicy = refundPricePolicy;
 	}
 
->>>>>>> refs/remotes/origin/master
 }

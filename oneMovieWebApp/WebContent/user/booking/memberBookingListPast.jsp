@@ -8,11 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<<<<<<< HEAD
-
-=======
 		<h3>지난 내역</h3>
->>>>>>> refs/remotes/origin/master
 	<div>예매확인/취소 예매하신 영화 내역과 취소내역을 확인할 수 있습니다.</div>
 	
 	<div>

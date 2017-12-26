@@ -160,27 +160,6 @@ public class BookingDAO {
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-<<<<<<< HEAD
-			sql.append("select s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s13,s15                           ");
-			sql.append("from (select booking.*,  rownum as rn                                               ");
-			sql.append("  from(select t4.member_no s1, t4.name s2, t6.theater_name s3,                      ");
-			sql.append("          t7.screen_name s4, to_char(t8.screen_date,'YYYY/MM/DD') s5,               ");
-			sql.append("          to_char(t9.start_time,'HH24:MI') s6,  to_char(t9.end_time,'HH24:MI') s7,  ");
-			sql.append("          t1.ticket_no s8, t5.movie_title s9, t1.payment_code s10, t1.status s11,   ");
-			sql.append("          t1.withdraw_date s12, t10.seat_name s13, t3.refund_price s14,t3.refund_date s15   ");
-			sql.append("       from booking t1, booking_seat t2, booking_refund t3, member t4, movie t5,    ");
-			sql.append("           theater t6, screen t7, screen_schedule t8, schedule_turn t9, seat t10    ");
-			sql.append("       where t1.ticket_no = t2.ticket_no(+)             ");
-			sql.append("           and t1.ticket_no = t3.ticket_no(+)        ");
-			sql.append("           and t1.member_no = t4.member_no           ");
-			sql.append("            and t1.turn_no = t9.turn_no              ");
-			sql.append("          and t9.schedule_no = t8.schedule_no        ");
-			sql.append("           and t8.movie_no = t5.movie_no             ");
-			sql.append("         and t8.screen_no = t7.screen_no             ");
-			sql.append("          and t7.theater_no = t6.theater_no          ");
-			sql.append("          and t2.seat_no = t10.seat_no               ");
-			
-=======
 			sql.append("select *                                                                ");
 			sql.append("from (select ticket_no, member_no, member_name, theater_name,           ");
 			sql.append("        movie_title, screen_name, screen_date, start_time, end_time ,   ");
@@ -188,7 +167,6 @@ public class BookingDAO {
 			sql.append("        refund_price, refund_date, rownum rn                            ");
 			sql.append("      from booking_view                                                 ");
 
->>>>>>> refs/remotes/origin/master
 			if (keyfield.equals("memberNo")) {
 				sql.append("where member_no like '%' || ? || '%'                          ");
 			} else if (keyfield.equals("memberName")) {
