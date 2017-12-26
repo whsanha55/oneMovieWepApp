@@ -12,7 +12,7 @@ import domain.movie.ActorVO;
 import domain.movie.PhotoVO;
 
 public class PhotoDAO {
-	private static PhotoDAO instance = new PhotoDAO(); 
+	private static PhotoDAO instance = new PhotoDAO();
 
 	private PhotoDAO() {
 
@@ -21,52 +21,53 @@ public class PhotoDAO {
 	public static PhotoDAO getInstance() {
 		return instance;
 	}
-	
-	//사진 정보를 일괄 등록한다.
-	public void insertPhotoList(Connection connn, List<PhotoVO> photos) throws Exception {	
+
+	// 사진 정보를 일괄 등록한다.
+	public void insertPhotoList(Connection conn, List<PhotoVO> photos) throws Exception {
 		PreparedStatement pstmt = null;
-		
 		try {
-			
 			StringBuffer sql = new StringBuffer();
-			sql.append("insert into movie_photo(movie_photo_no, movie_photo_original_file_name, movie_photo_system_file_name, movie_photo_url, movie_no )      ");
-			sql.append("values(movie_photo_no_seq.nextval, ?, ?, 'C:\\io', (select max(movie_no) from movie))                           ");
-			pstmt = connn.prepareStatement(sql.toString());
-					
-			for(PhotoVO photo : photos) {
+			sql.append(
+					"insert into movie_photo(movie_photo_no, movie_photo_original_file_name, movie_photo_system_file_name, movie_photo_url, movie_no )      ");
+			sql.append("values(movie_photo_no_seq.nextval, ?, ?, 'C:\\io', (select max(movie_no) from movie))                           	");
+			
+			pstmt = conn.prepareStatement(sql.toString());
+
+			for (PhotoVO photo : photos) {			
 				pstmt.setString(1, photo.getMoviePhotoOriginalFileName());
 				pstmt.setString(2, photo.getMoviePhotoSystemFileName());
-				//pstmt.setString(2, photo.getMoviePhotoUrl());
-				//pstmt.setInt(3, photo.getMovieNo());
+				// pstmt.setString(2, photo.getMoviePhotoUrl());
 				pstmt.addBatch();
-			}	
-			pstmt.executeBatch();			
+			}
 			
+			pstmt.executeBatch();
+
 		} finally {
-			if(pstmt != null) pstmt.close();	
+			if (pstmt != null) pstmt.close();
 		}
 	}
-	
-	//사진을 조회하다.
+
+	// 사진을 조회하다.
 	public List<PhotoVO> selectPhotoList(int movieNo) throws Exception {
 		ArrayList<PhotoVO> photos = new ArrayList<PhotoVO>();
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
-		
-		try {			
+
+		try {
 			conn = DBConn.getConnection();
-			
+
 			stmt = conn.createStatement();
-			
+
 			StringBuffer sql = new StringBuffer();
-			sql.append("select movie_photo_no, movie_photo_original_file_name, movie_photo_system_file_name, movie_photo_url, movie_no      ");
+			sql.append(
+					"select movie_photo_no, movie_photo_original_file_name, movie_photo_system_file_name, movie_photo_url, movie_no      ");
 			sql.append("from movie_photo 														   ");
 			sql.append("order by no desc    												   ");
-			//System.out.println(sql.toString());
+			// System.out.println(sql.toString());
 
 			rs = stmt.executeQuery(sql.toString());
-			
+
 			while (rs.next()) {
 				PhotoVO photo = new PhotoVO();
 				photo.setMoviePhotoNo(rs.getInt(1));
@@ -76,21 +77,23 @@ public class PhotoDAO {
 				photo.setMovieNo(rs.getInt(5));
 				photos.add(photo);
 			}
-			
+
 		} finally {
-			if(stmt != null) stmt.close();
-			if(conn != null) conn.close();		
+			if (stmt != null)
+				stmt.close();
+			if (conn != null)
+				conn.close();
 		}
 		return photos;
 	}
-	
-	//영화 사진 정보를 삭제하다.
-	public void removePhotoList(Connection conn, int movieNo) throws Exception {	
+
+	// 영화 사진 정보를 삭제하다.
+	public void removePhotoList(Connection conn, int movieNo) throws Exception {
 		PreparedStatement pstmt = null;
-		
-		try {			
+
+		try {
 			conn = DBConn.getConnection();
-			
+
 			StringBuffer sql = new StringBuffer();
 			sql.append("delete from movie_photo        ");
 			sql.append("where movie_photo_no = ?       ");
@@ -99,11 +102,12 @@ public class PhotoDAO {
 			pstmt.setInt(1, movieNo);
 
 			pstmt.executeUpdate();
-			
-			
+
 		} finally {
-			if(pstmt != null) pstmt.close();
-			if(conn != null) conn.close();		
+			if (pstmt != null)
+				pstmt.close();
+			if (conn != null)
+				conn.close();
 		}
 	}
 }

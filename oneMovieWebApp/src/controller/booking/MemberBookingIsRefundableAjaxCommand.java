@@ -12,21 +12,19 @@ import controller.Command;
 import domain.booking.BookingVO;
 import model.booking.BookingService;
 
-public class MemberBookingListCurrCommand implements Command {
+public class MemberBookingIsRefundableAjaxCommand implements Command {
 
 	@Override
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
 		ActionForward forward = new ActionForward();
+		String ticketNo = req.getParameter("ticketNo");
 		try {
-			//수정필요
-			//String memberNo = (String) req.getSession().getAttribute("memberNo");
-			String memberNo = "17121500004";
 			
 			BookingService bookingService = BookingService.getInstance();
-			List<BookingVO> bookingList = bookingService.retrieveBookingList("memberNo",memberNo,2,0,10);
-			req.setAttribute("bookingList", bookingList);
-			forward.setPath("/user/booking/memberBookingListCurr.jsp");
+			boolean isRefundable = bookingService.retrieveBookingRefundable(ticketNo);
+			req.setAttribute("isRefundable",isRefundable);
+			forward.setPath("/user/booking/memberBookingisRefundableView.jsp");
 			forward.setRedirect(false);
 			return forward;
 		} catch (Exception e) {
@@ -35,7 +33,6 @@ public class MemberBookingListCurrCommand implements Command {
 			forward.setRedirect(false);
 			return forward;
 		}
-	
 	}
 
 }

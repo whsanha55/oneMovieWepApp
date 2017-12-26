@@ -12,7 +12,7 @@ import controller.Command;
 import domain.booking.BookingVO;
 import model.booking.BookingService;
 
-public class MemberBookingListCurrCommand implements Command {
+public class MemberBookingListPastCommand implements Command {
 
 	@Override
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
@@ -24,9 +24,9 @@ public class MemberBookingListCurrCommand implements Command {
 			String memberNo = "17121500004";
 			
 			BookingService bookingService = BookingService.getInstance();
-			List<BookingVO> bookingList = bookingService.retrieveBookingList("memberNo",memberNo,2,0,10);
+			List<BookingVO> bookingList = bookingService.retrieveBookingList("memberNo",memberNo,3,1,10);
 			req.setAttribute("bookingList", bookingList);
-			forward.setPath("/user/booking/memberBookingListCurr.jsp");
+			forward.setPath("/user/booking/memberBookingListPast.jsp");
 			forward.setRedirect(false);
 			return forward;
 		} catch (Exception e) {
