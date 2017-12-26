@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DetailMovieVO {
-   private int movieNo;
+
+private int movieNo;
    private String movieTitle;
    private List<GenreVO> genres = new ArrayList<GenreVO>();
    private List<ActorVO> actors = new ArrayList<ActorVO>();
    private List<PhotoVO> photos = new ArrayList<PhotoVO>();
+   
+   private PhotoVO detailPhoto = new PhotoVO();
    private PhotoVO photo = new PhotoVO();
    private GradeVO grade = new GradeVO();
    private NationVO nation = new NationVO();
@@ -41,7 +44,22 @@ public class DetailMovieVO {
    }
 
    public void addGenre(GenreVO genre) {
-      genres.add(genre);
+	   boolean isExsit = false;
+	      for(int i = 0; i < genres.size(); i++) {
+	    	  GenreVO temp = genres.get(i);
+	         if(genre.getGenreName().equals(temp.getGenreName())) { //중복된 데이터가 있을 경우
+	            System.out.println("같다!!!"+genre.getGenreName());
+	            isExsit = true;
+	            break;
+	         }
+
+	      }
+	      if(isExsit) { //isExsit=true
+
+	      } else {
+	    	 genres.add(genre);
+	         System.out.println(genres);
+	      }
    }
 
    public List<GenreVO> getGenres() {
@@ -188,12 +206,23 @@ public class DetailMovieVO {
       this.photo = photo;
    }
 
+
    @Override
-   public String toString() {
-      return "DetailMovieVO [movieNo=" + movieNo + ", movieTitle=" + movieTitle + ", genres=" + genres + ", actors="
-            + actors + ", photos=" + photos + ", photo=" + photo + ", grade=" + grade + ", nation=" + nation
-            + ", director=" + director + ", runningTime=" + runningTime + ", gradeNo=" + gradeNo + ", nationNo="
-            + nationNo + ", story=" + story + ", roleNo=" + roleNo + ", videoUrl=" + videoUrl + "]";
-   }
+	public String toString() {
+		return "DetailMovieVO [movieNo=" + movieNo + ", movieTitle=" + movieTitle + ", genres=" + genres + ", actors="
+				+ actors + ", photos=" + photos + ", detailPhoto=" + detailPhoto + ", photo=" + photo + ", grade="
+				+ grade + ", nation=" + nation + ", director=" + director + ", runningTime=" + runningTime
+				+ ", gradeNo=" + gradeNo + ", nationNo=" + nationNo + ", story=" + story + ", roleNo=" + roleNo
+				+ ", videoUrl=" + videoUrl + "]";
+	}
+
+   public PhotoVO getDetailPhoto() {
+		return detailPhoto;
+	}
+
+	public void setDetailPhoto(PhotoVO detailPhoto) {
+		this.detailPhoto = detailPhoto;
+	}
+	
 
 }

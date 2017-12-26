@@ -17,7 +17,7 @@ public class ListMovieCommand implements Command{
 		//게시글 목록 조회 요청 처리
 		ActionForward forward = new ActionForward();		
 		try {
-			forward.setPath("/user/movie/listMovie.jsp");
+			forward.setPath("/layoutUser.jsp?article=/user/movie/listMovie.jsp");
 			forward.setRedirect(false);
 			return forward;
 		} catch (Exception e) {

@@ -27,9 +27,8 @@ table td:not(.photo) {
 tr, td {
    border: none;
 }
-<%--tab style--%>
+
 ul.tabs {
-    margin-left: 200px;
     float: left;
     list-style: none;
     height: 32px;
@@ -54,9 +53,7 @@ ul.tabs li.active {
     border-bottom: 1px solid #9e9e9e24;
 }
 .tab_content {
-   margin: auto;
-   width: 70%;
-    font-size: 15px;
+   font-size: 15px;
     display: none;
 }
 </style>
@@ -77,7 +74,7 @@ ul.tabs li.active {
       
       $('#imgtr  img').hide();
         $('#imgtr  img').first().show();
-         $('#imgtr  img').css('width',800);
+         $('#imgtr  img').css({ 'width': '300px', 'height': '300px' });
          setInterval(function() {
             $('#imgtr').append($('#imgtr  img').first());
             $('#imgtr  img').last().hide();
@@ -90,9 +87,19 @@ ul.tabs li.active {
 <body>
    <table border="1" id="main">
       <tr>
-         <td rowspan="5" class="photo"><img
-            src="${pageContext.request.contextPath}/user/movie/upload/${requestScope.movie.photo.moviePhotoOriginalFileName}"></td>
+         <td rowspan="6" class="photo"><img
+            src="${pageContext.request.contextPath}/user/movie/upload/${requestScope.movie.detailPhoto.moviePhotoOriginalFileName}"></td>
          <td class="title">${requestScope.movie.movieTitle }</td>
+      </tr>
+      <tr>
+     	 <td>장르 : 
+            <c:forEach var="genre" items="${requestScope.movie.genres }" varStatus="loop">
+                ${pageScope.genre.genreName}
+                <c:if test="${loop.index < fn:length(requestScope.movie.genres) - 1  }">
+	 			,
+				</c:if>
+            </c:forEach>
+           </td>
       </tr>
       <tr>
          <td>감독 : ${requestScope.movie.director}</td>
@@ -107,19 +114,17 @@ ul.tabs li.active {
          <td>국가 : ${requestScope.movie.nation.nationName }</td>
       </tr>
 
-   </table>
-   <br>
-   <br>
+    </table>
 <div id="container">
     <ul class="tabs">
         <li class="active" rel="tab1">줄거리</li>
         <li rel="tab2">배우</li>
         <li rel="tab3">포토</li>
     </ul>
-    <div class="tab_container">
+    <div class="tab_container" >
           <% pageContext.setAttribute("LF", "\n"); %>
         <div id="tab1" class="tab_content">${fn:replace(requestScope.movie.story, LF, "<br>") }</div>
-        <div id="tab2" class="tab_content">
+        <div id="tab2" class="tab_content" style="width:100%; height:350px; overflow:auto">
            <c:if test="${fn:length(requestScope.movie.actors) > 0 }">
              <table>
              <tr> 
@@ -138,11 +143,11 @@ ul.tabs li.active {
         <div id="tab3" class="tab_content">
              <table style="margin-left: auto; margin-right: auto;" >
              <tr id="imgtr"> 
-             <td>
-                <c:forEach var="photo" items="${requestScope.movie.photos }" varStatus="loop">
+             	<th>
+                	<c:forEach var="photo" items="${requestScope.movie.photos }" varStatus="loop">
                     <img src = "${pageContext.request.contextPath}/user/movie/upload/${pageScope.photo.moviePhotoOriginalFileName}">
                    </c:forEach>
-                   </td>
+                  </th>
              </tr>
              </table> 
         </div>
