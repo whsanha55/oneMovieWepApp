@@ -8,42 +8,40 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.ActionForward;
 import controller.Command;
-import domain.movie.DetailMovieVO;
 import domain.movie.MovieVO;
-import model.movie.MovieDAO;
+import model.movie.MovieService;
 
 
-public class RemoveMovieFormCommand implements Command {
+//영화 수정 폼 요청을 처리할 커맨드 클래스 구현
+public class ModifyMovieFormCommand implements Command {
 
+	@Override
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException, ServletException {
-		
-		// 게시글 수정 폼 요청 처리
-		// 1. 수정하고자 하는 게시글 번호를 구한다.
+		throws IOException, ServletException {
+
 		int movieNo = Integer.parseInt(req.getParameter("movieNo"));
 
 		ActionForward forward = new ActionForward();
+		try {
+			MovieService service = MovieService.getInstance();
+			MovieVO movie = service.retriveMovie(movieNo);
 
-		try {		
-
-			// 2. DB에서 게시글 번호에 해당하는 게시글 정보를 구한다.
-			MovieDAO dao = MovieDAO.getInstance();
-			MovieVO movie = dao.selectMovie(movieNo);
-
-			// 3. request 영역에 "article"라는 속성이름으로 게시글 정보를 바인딩한다.
 			req.setAttribute("movie", movie);
 
-			// 3. 게시글 수정폼 페이지(removeArticleForm.jsp)로 이동한다.
-			forward.setPath("/removeMovieForm.jsp");
+			forward.setPath("/admin/movie/modifyMovieForm.jsp");
 			forward.setRedirect(false);
 			return forward;
 
 		} catch (Exception e) {
 			req.setAttribute("exception", e);
-			forward.setPath("/erorr.jsp");
+			forward.setPath("/error.jsp");
 			forward.setRedirect(false);
 			return forward;
 		}
 	}
 
 }
+
+
+
+

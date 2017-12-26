@@ -3,77 +3,6 @@ package controller.movie;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-<<<<<<< HEAD
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-
-import domain.movie.ActorPhotoVO;
-import domain.movie.ActorVO;
-import domain.movie.MovieVO;
-import domain.movie.PhotoVO;
-import model.movie.MovieService;
-import util.UploadFiles;
-
-//파일업로드 요청을 처리할 서블릿 클래스 구현
-public class WriteMovieServlet extends HttpServlet {
-
-	
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
-		throws ServletException, IOException {
-		
-		MovieVO movie = new MovieVO();	
-		ActorVO actor = null;		
-		
-		Collection<Part> parts = req.getParts();		
-		for(Part part : parts) {
-			if(part.getContentType() == null) {				
-				switch(part.getName()) {  //field-name				
-					case "movieTitle":
-						movie.setMovieTitle(getStringFromStream(part.getInputStream()));
-						break;
-					case "runningTime":
-						movie.setRunningTime(Integer.parseInt(getStringFromStream(part.getInputStream())));
-						break;
-					case "director":
-						movie.setDirector(getStringFromStream(part.getInputStream()));
-						break;
-					case "gradeNo":
-						movie.setGradeNo(Integer.parseInt(getStringFromStream(part.getInputStream())));
-					case "nationNo":
-						movie.setNationNo(Integer.parseInt(getStringFromStream(part.getInputStream())));
-						break;						
-					//////////////////////////////////// actor //////////////////////////////////////	
-					case "actorName":
-						actor.setActorName(getStringFromStream(part.getInputStream()));
-						break;
-					case "characterName":
-						actor.setCharacterName(getStringFromStream(part.getInputStream()));
-						break;
-					case "roleNo":
-						actor.setRoleNo(Integer.parseInt(getStringFromStream(part.getInputStream())));			
-						
-				}		
-			} else {   //upload file인경우
-				if(part.getSize() > 0) {
-					ServletContext sc = getServletContext();
-					switch(part.getName()) {  //field-name				
-						case "upload":
-							PhotoVO photo = UploadFiles.uploadFile(req.getPart("upload"), sc);
-							movie.addPhoto(photo);						
-							break;
-						case "uploadactor":														
-							actor = new ActorVO();			
-=======
 import java.util.Collection;
 
 import javax.servlet.RequestDispatcher;
@@ -149,7 +78,6 @@ public class WriteMovieServlet extends HttpServlet {
 							break;
 						case "uploadactor":														
 							actor = new ActorVO();			//actor랑 actorPhoto순서 바꾸지 말 것.
->>>>>>> refs/remotes/origin/master
 							ActorPhotoVO actorPhoto = UploadFiles.uploadFile2(req.getPart("uploadactor"), sc);						
 							actor.setActorPhoto(actorPhoto);
 							movie.addActor(actor);

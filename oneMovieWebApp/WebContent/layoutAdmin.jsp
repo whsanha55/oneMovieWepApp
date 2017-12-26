@@ -121,7 +121,7 @@
                 <li><a href="${pageContext.request.contextPath }/manageMemberForm.do">회원관리</a></li>
                 <li><a href="#">예매관리</a></li>
                 
-                <li><a href="#">영화</a></li>
+                <li><a href="${pageContext.request.contextPath }/admin/movie/listMovie.do">영화</a></li>
                
                 <li><a href="#">극장</a></li>
                 

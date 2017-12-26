@@ -184,7 +184,7 @@ public class MovieDAO {
       try {
          StringBuffer sql = new StringBuffer();
          sql.append("update movie m                                                  ");
-         sql.append("set movieTitle=?, runningTime=?, director=?, story=?, videoUrl=?, ");
+         sql.append("set movie_Title=?, running_Time=?, director=?, story=?, video_Url=?, ");
          sql.append("grade_no=(select grade_no                                      ");
          sql.append("from grade g                                                 ");
          sql.append("where g.grade_age = ?),                                         ");
@@ -225,23 +225,23 @@ public class MovieDAO {
 
          StringBuffer sql = new StringBuffer();
          sql.append( "select  m1.movie_no, m1.movie_title, m1.director, m1.running_time, g.grade_age, n.nation_name     ");
-         sql.append("from movie m1, grade g, nation n	                        														 ");
+         sql.append("from movie m1, grade g, nation n                                                                      ");
          sql.append(" where g.grade_no = m1.grade_no and n.nation_no = m1.nation_no                                        ");
 
          if (keyfield.equals("MovieTitle")) {
-            sql.append("and m1.movie_title like '%' || ? ||  '%'  																			");
+            sql.append("and m1.movie_title like '%' || ? ||  '%'                                                           ");
          } else if (keyfield.equals("Director")) {
-            sql.append("and m1.director like '%' || ? ||  '%' 																				 ");
+            sql.append("and m1.director like '%' || ? ||  '%'                                                              ");
          }
-         sql.append("order by 1                                   																		    ");
+         sql.append("order by 1                                                                                             ");
          
          //sql.append("and rn >= ? and rn <= ?                                             ");
          //sql.append("order by 1;                                             ");
-     	pstmt = conn.prepareStatement(sql.toString());
+        pstmt = conn.prepareStatement(sql.toString());
 
-		pstmt.setString(1, keyword);
+      pstmt.setString(1, keyword);
 
-		rs = pstmt.executeQuery();
+      rs = pstmt.executeQuery();
          while (rs.next()) {   
            MovieVO movie = new MovieVO();
            GradeVO grade = new GradeVO();
@@ -270,19 +270,19 @@ public class MovieDAO {
    }
 
    // 영화의 상세정보를 조회한다.
-   public DetailMovieVO selectMovie(int movieNo) throws Exception {
+   public MovieVO selectMovie(int movieNo) throws Exception {
       Connection conn = null;
       PreparedStatement pstmt = null;
       ResultSet rs = null;
-      DetailMovieVO detailMovie = new DetailMovieVO();
+      MovieVO movie = new MovieVO();
       try {
          conn = DBConn.getConnection();
 
          StringBuffer sql = new StringBuffer();
-            sql.append("select mp.movie_photo_original_file_name, m1.movie_no,m1.movie_title, m1.director, m1.running_time, g.grade_age,n.nation_name,m1.story, ac.actor_original_file_name, r.role_name, m2.actor_name, m2.character_name 	 							 ");
-			sql.append("from movie m1, actor m2 , role r, grade g, nation n, actor_photo ac, movie_photo mp 	 	     										");
-			sql.append("where m1.movie_no = m2.movie_no(+) and m2.role_no = r.role_no	and g.grade_no = m1.grade_no and n.nation_no = m1.nation_no and m2.actor_no = ac.actor_no and mp.movie_no =  m1.movie_no						 										");
-			sql.append("and m1.movie_no = ?   ");
+            sql.append("select mp.movie_photo_original_file_name, m1.movie_no,m1.movie_title, m1.director, m1.running_time, g.grade_age,n.nation_name,m1.story, ac.actor_original_file_name, r.role_name, m2.actor_name, m2.character_name, mp.movie_photo_original_file_name                              ");
+         sql.append("from movie m1, actor m2 , role r, grade g, nation n, actor_photo ac, movie_photo mp                                           ");
+         sql.append("where m1.movie_no = m2.movie_no(+) and m2.role_no = r.role_no   and g.grade_no = m1.grade_no and n.nation_no = m1.nation_no and m2.actor_no = ac.actor_no and mp.movie_no =  m1.movie_no                                                 ");
+         sql.append("and m1.movie_no = ?   ");
          pstmt = conn.prepareStatement(sql.toString());
 
          System.out.println(sql.toString());
@@ -293,43 +293,49 @@ public class MovieDAO {
 
          int count = 1;
          while (rs.next()) {
+            PhotoVO photo = new PhotoVO();
             if (count == 1) {   
-               PhotoVO photo = new PhotoVO();
+              
                GradeVO grade = new GradeVO();
                NationVO nation = new NationVO();
                
                photo.setMoviePhotoOriginalFileName(rs.getString(1));
-               detailMovie.setPhoto(photo);
+               movie.setPhoto(photo);
                
-               detailMovie.setMovieNo(rs.getInt(2));
-               detailMovie.setMovieTitle(rs.getString(3));
-               detailMovie.setDirector(rs.getString(4));
-               detailMovie.setRunningTime(rs.getInt(5));
+               movie.setMovieNo(rs.getInt(2));
+               movie.setMovieTitle(rs.getString(3));
+               movie.setDirector(rs.getString(4));
+               movie.setRunningTime(rs.getInt(5));
                
                grade.setGradeAge(rs.getString(6));
-               detailMovie.setGrade(grade);
+               movie.setGrade(grade);
                
                nation.setNationName(rs.getString(7));
-               detailMovie.setNation(nation);
+               movie.setNation(nation);
                
-               detailMovie.setStory(rs.getString(8));
+               movie.setStory(rs.getString(8));
               
             }
             
             if(rs.getString(11) != null) {
-            	  ActorVO actor = new ActorVO();
-            	  ActorPhotoVO actorPhoto = new ActorPhotoVO();
-            	  RoleVO role = new RoleVO();
-            	  
-            	  actorPhoto.setActorOriginalFileName(rs.getString(9));
-            	  actor.setActorPhoto(actorPhoto);
-            	  
-            	  role.setRoleName(rs.getString(10));
-            	  actor.setRole(role);
-            	  
+                 ActorVO actor = new ActorVO();
+                 ActorPhotoVO actorPhoto = new ActorPhotoVO();
+                 RoleVO role = new RoleVO();
+                 
+                 actorPhoto.setActorOriginalFileName(rs.getString(9));
+                 actor.setActorPhoto(actorPhoto);
+                 
+                 role.setRoleName(rs.getString(10));
+                 actor.setRole(role);
+                 
                   actor.setActorName(rs.getString(11));
                   actor.setCharacterName(rs.getString(12));
-                  detailMovie.addActor(actor);
+                  movie.addActor(actor);
+                  
+                  photo.setMoviePhotoOriginalFileName(rs.getString(13));
+                  movie.addPhoto(photo);
+                  
+                  
             }
             count++;
          }
@@ -340,7 +346,7 @@ public class MovieDAO {
          if (conn != null)
             conn.close();
       }
-      return detailMovie;
+      return movie;
    }
  
    // 영화 정보를 일괄 삭제하다.
@@ -348,21 +354,21 @@ public class MovieDAO {
       PreparedStatement pstmt = null;
       
       try {
-    		StringBuffer sql = new StringBuffer();
-			sql.append("delete from movie                     ");
-			sql.append("where movie_no = ?                    ");
-			pstmt = connn.prepareStatement(sql.toString());
+          StringBuffer sql = new StringBuffer();
+         sql.append("delete from movie                     ");
+         sql.append("where movie_no = ?                    ");
+         pstmt = connn.prepareStatement(sql.toString());
 
-			for (int i = 0; i < noList.length; i++) {
-	            pstmt.setInt(1, noList[i]);
-	            System.out.println("번호>>>>>>>>" + noList[i]);
-	            pstmt.addBatch();
-	         }
-			
-			pstmt.executeBatch();
+         for (int i = 0; i < noList.length; i++) {
+               pstmt.setInt(1, noList[i]);
+               System.out.println("번호>>>>>>>>" + noList[i]);
+               pstmt.addBatch();
+            }
+         
+         pstmt.executeBatch();
 
       } finally {
-    	  if (pstmt != null) pstmt.close();
+         if (pstmt != null) pstmt.close();
       }
    }
    
@@ -379,10 +385,10 @@ public class MovieDAO {
              stmt = conn.createStatement();
 
              StringBuffer sql = new StringBuffer();
-             sql.append("select movie_no, movie_title, running_time, director, grade_age, nation_name 			  ");
-             sql.append("from movie m, grade g, nation n                                            						  ");
+             sql.append("select movie_no, movie_title, running_time, director, grade_age, nation_name            ");
+             sql.append("from movie m, grade g, nation n                                                                ");
              sql.append("where g.grade_no = m.grade_no and n.nation_no = m.nation_no                            ");
-             sql.append("order by 1                                   														    ");
+             sql.append("order by 1                                                                                 ");
              System.out.println(sql.toString());
 
              rs = stmt.executeQuery(sql.toString());

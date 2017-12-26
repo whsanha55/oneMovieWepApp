@@ -11,7 +11,7 @@ import controller.Command;
 import domain.movie.MovieVO;
 import model.movie.MovieService;
   
-public class DetailMovieCommand implements Command{
+public class AdminDetailMovieCommand implements Command{
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
 
 		int movieNo = Integer.parseInt(req.getParameter("movieNo"));
@@ -26,7 +26,7 @@ public class DetailMovieCommand implements Command{
 			req.setAttribute("movie", movie);
 			 
 			//4. 게시글 상세조회(detailArticle.jsp) 페이지로 이동한다.
-			forward.setPath("/user/movie/detailMovie.jsp");
+			forward.setPath("/layoutAdmin.jsp?article=/admin/movie/detailMovie.jsp");
 			forward.setRedirect(false);
 			return forward;
 			

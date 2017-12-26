@@ -54,6 +54,14 @@ public class CommandFactory {
 		map.put("/user/movie/detailMovie.do", "controller.movie.DetailMovieCommand");
 		map.put("/user/movie/removeMovie.do", "controller.movie.RemoveMovieCommand");
 		map.put("/user/movie/listAllMovie.do", "controller.movie.ListAllMovieCommand");
+		// 관리자
+		map.put("/admin/movie/listMovie.do", "controller.movie.AdminListMovieCommand");
+		map.put("/admin/movie/findMovie.do", "controller.movie.AdminFindMovieCommand");
+		map.put("/admin/movie/detailMovie.do", "controller.movie.AdminDetailMovieCommand");
+		map.put("/admin/movie/removeMovie.do", "controller.movie.AdminRemoveMovieCommand");
+		map.put("/admin/movie/listAllMovie.do", "controller.movie.AdminListAllMovieCommand");
+		map.put("/admin/movie/modifyMovieForm.do", "controller.movie.ModifyMovieFormCommand");
+
 		// 영화 끝====================================================
 
 		// 극장 시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -65,7 +73,6 @@ public class CommandFactory {
 
 		map.put("/admin/theater/adminTheaterView.do", "controller.theater.AdminTheaterSearchAjaxCommand");
 		// 극장 끝====================================================
-
 
 		// 예약 시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
