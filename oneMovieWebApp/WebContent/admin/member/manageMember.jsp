@@ -9,20 +9,39 @@
 <head>
 <title>회원 관리</title>
 </head>
-<script src="js/jquery-3.2.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 <script>
 	$(document).ready(function(){
 		
-		$('#all').on('click', function(){
+		$('#all').on('click', function(event){
+			event.preventDefault();
+			$('#keyfield').val(null);
+			$('#keyword').val(null);
+			$('#sortfield').val(null);
 			memberList(1);
 		});
 
 		
 		
-		$('#search').on('click', function(){
+		$('#search').on('click', function(event){
+			event.preventDefault();
+			$('#sortfield').val(null);
 			memberList(1);
 		});
 		
+		
+		$('#asc').on('click', function(event){
+			event.preventDefault();
+			var sortword = $(this).val();
+			memberList(1);
+			
+		});
+		
+		$('#desc').on('click', function(event){
+			event.preventDefault();
+			var sortword = $(this).val();
+			memberList(1);
+		});
 		
 		
 		function memberList(currentPageNo) {
@@ -33,10 +52,10 @@
 			var endRow = 0;
 			
 			$.ajax({
-				url: "${pageContext.request.contextPath}/managememberList.do" 
+				url: "${pageContext.request.contextPath}/manageMember.do" 
 				,
 				data: {
-					keyfield: $('#keyfield').val() ,
+					keyfield: $('#keyfield :selected').val() ,
 					keyword: $('#keyword').val()
 				}
 				,
@@ -57,7 +76,7 @@
 						}
 						
 						$.ajax({
-							url: "${pageContext.request.contextPath}/managememberList.do" 
+							url: "${pageContext.request.contextPath}/manageMember.do" 
 							,
 							type: "GET"
 							,
@@ -81,8 +100,8 @@
 									htmlStr += "<td>" + data[i].gender + "</td>"
 									htmlStr += "<td>" + data[i].phone + "</td>"
 									htmlStr += "<td>" + data[i].email + "</td>"
-									htmlStr += "<td>" + data[i].address + "</td>"
-									htmlStr += "<td>" + data[i].address + "</td>"
+									htmlStr += "<td>" + data[i].address1 + " " + data[i].address2 + "</td>"
+									htmlStr += "<td>" + data[i].zipcode + "</td>"
 									htmlStr += "<td>" + data[i].isWithdraw + "</td>"
 									htmlStr += "<td>" + data[i].withdrawDay + "</td>"
 									htmlStr += "</tr>";
@@ -177,23 +196,23 @@
 			<option value="memberId">아이디</option>
 		</select>
 		<input type="text" name="keyword" id="keyword"> &nbsp;
-		<button type="button" id="search">검색</button> &nbsp;&nbsp;&nbsp;
-		<button type="button" id="all">전체조회</button>
+		<button id="search">검색</button> &nbsp;&nbsp;&nbsp;
+		<button id="all">전체조회</button>
 		
 		
 	</form>
 	
 	
 	<form>
-		<select name="sortField">
-			<option value="memberNo">회원번호</option>
+		<select name="sortfield" id="sortfield">
+			<option value="memberNo" selected>회원번호</option>
 			<option value="memberId">아이디</option>
 			<option value="name">이름</option>
 			<option value="email">이메일</option>
 			<option value="address">주소</option>		
 		</select> &nbsp;
-		<button type="button">오름차순</button> &nbsp;
-		<button type="button">내림차순</button>
+		<button type="button" id="asc" value="asc">오름차순</button> &nbsp;
+		<button type="button" id="desc" value="desc">내림차순</button>
 	</form>
 	
 	<table>

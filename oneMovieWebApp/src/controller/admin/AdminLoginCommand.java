@@ -22,6 +22,8 @@ public class AdminLoginCommand implements Command {
 		//1. 관리자 아이디, 비밀번호를 구한다.
 		String adminId = req.getParameter("adminId");
 		String adminPwd = req.getParameter("adminPwd");
+		System.out.println(adminId);
+		System.out.println(adminPwd);
 		
 		ActionForward forward = new ActionForward();
 		
@@ -34,17 +36,18 @@ public class AdminLoginCommand implements Command {
 				//3. 세션에 관리자 아이디를 바인딩한다.
 				HttpSession session = req.getSession();
 				session.setAttribute("adminId", adminId);
+				System.out.println(adminId + "님이 로그인했습니다.");
 				
-				//4. 관리자 레이아웃 페이지로 이동한다.	
-				forward.setPath("/adminMember/main.jsp");		//관리자 메인 주소 확인
-				forward.setRedirect(true);
+				//4. 관리자 레이아웃 페이지로 이동한다.
+				req.setAttribute("result", "관리자 페이지로 이동합니다.");
+				forward.setPath("/admin/member/adminLoginView.jsp");		//관리자 메인 주소 확인
+				forward.setRedirect(false);
 				return forward;
 				
 			} else {
-				// 팝업 출력?? 어디서 처리하지??
-				System.out.println("아이디와 비밀번호를 확인해주세요.");
-				forward.setPath("/adminMember/adminLogin.jsp");	
-				forward.setRedirect(true);
+				req.setAttribute("result", "아이디와 비밀번호를 확인해주세요.");
+				forward.setPath("/admin/member/adminLoginView.jsp");	
+				forward.setRedirect(false);
 				return forward;
 			}
 				

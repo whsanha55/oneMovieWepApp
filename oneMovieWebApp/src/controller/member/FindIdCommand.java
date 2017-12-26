@@ -21,6 +21,7 @@ public class FindIdCommand implements Command {
 		//1. 이름, 이메일 정보를 구한다.
 		String name = req.getParameter("name");
 		String email = req.getParameter("email");
+		System.out.println(name);
 		
 		//2. 입력받은 정보를 DB와 대조하여 아이디를 구한다.
 		try {
@@ -32,15 +33,15 @@ public class FindIdCommand implements Command {
 				req.setAttribute("memberId", memberId);
 				
 				//4. findId.jsp로 이동
-				forward.setPath("layout.jsp?content=user/member/findId.jsp");
+				req.setAttribute("result", "입력하신 정보의 아이디는 " + memberId + " 입니다.");
+				forward.setPath("/user/member/findIdView.jsp");
 				forward.setRedirect(false);
 				return forward;
 				
 			} else {
-				//안내 팝업??
-				System.out.println("이름과 이메일을 확인해주세요.");
-				forward.setPath("/user/member/memberLogin.jsp");	
-				forward.setRedirect(true);
+				req.setAttribute("result", "입력하신 정보의 아이디가 없습니다.");				
+				forward.setPath("/user/member/findIdView.jsp");	
+				forward.setRedirect(false);
 				return forward;			
 			}
 			

@@ -9,7 +9,8 @@ public class MemberVO {
 	String gender;
 	String phone;
 	String email;
-	String address;
+	String address1;
+	String address2;
 	String zipcode;
 	String isWithdraw;
 	String withdrawDay;
@@ -25,7 +26,7 @@ public class MemberVO {
 		
 	
 	public MemberVO(String memberId, String memberPwd, String name, String gender, String phone, String email,
-			String address) {
+			String address1, String address2, String zipcode) {
 		super();
 		this.memberId = memberId;
 		this.memberPwd = memberPwd;
@@ -33,14 +34,16 @@ public class MemberVO {
 		this.gender = gender;
 		this.phone = phone;
 		this.email = email;
-		this.address = address;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.zipcode = zipcode;
 	}
 
 
 
 
 	public MemberVO(String memberNo, String memberId, String memberPwd, String name, String gender, String phone,
-			String email, String address, String isWithdraw, String withdrawDay) {
+			String email, String address1, String address2, String zipcode, String isWithdraw, String withdrawDay) {
 		super();
 		this.memberNo = memberNo;
 		this.memberId = memberId;
@@ -49,7 +52,9 @@ public class MemberVO {
 		this.gender = gender;
 		this.phone = phone;
 		this.email = email;
-		this.address = address;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.zipcode = zipcode;
 		this.isWithdraw = isWithdraw;
 		this.withdrawDay = withdrawDay;
 	}
@@ -99,12 +104,20 @@ public class MemberVO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getAddress() {
-		return address;
+	public String getAddress1() {
+		return address1;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setAddress1(String address) {
+		this.address1 = address;
 	}
+	
+	public String getAddress2() {
+		return address1;
+	}
+	public void setAddress2(String address) {
+		this.address1 = address;
+	}
+	
 			
 	public String getZipcode() {
 		return zipcode;

@@ -24,7 +24,7 @@ public class AdminLogoutCommand implements Command {
 			session.invalidate();
 			
 			//3. 관리자 로그인 화면으로 이동한다.
-			forward.setPath("/adminMember/adminLogin.jsp");
+			forward.setPath("/admin/member/adminLogin.jsp");
 			forward.setRedirect(true);
 			return forward;	
 			

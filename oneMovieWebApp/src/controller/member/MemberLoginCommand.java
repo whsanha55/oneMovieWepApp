@@ -34,15 +34,17 @@ public class MemberLoginCommand implements Command {
 				HttpSession session = req.getSession();
 				session.setAttribute("memberId", member.getMemberId());
 				session.setAttribute("memberNo", member.getMemberNo());
-								
+				System.out.println(member.getMemberId() + "님이 로그인하셨습니다.");
+				
 				//4. 메인 페이지로 이동한다.
-				forward.setPath("/layout.jsp");   	//경로 꼭 다시 확인이욤
-				forward.setRedirect(true);
+				req.setAttribute("result", "로그인되었습니다.");
+				forward.setPath("/user/member/memberLoginView.jsp");  
+				forward.setRedirect(false);
 				return forward;				
 				
 			} else {
-				
-				forward.setPath("/user/member/memberLogin.jsp");
+				req.setAttribute("result", "아이디와 비밀번호를 확인해주세요.");
+				forward.setPath("/user/member/memberLoginView.jsp");
 				forward.setRedirect(false);
 				return forward;
 								

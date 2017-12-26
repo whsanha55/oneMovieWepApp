@@ -35,10 +35,10 @@ public class MemberDAO {
 			conn = DBConn.getConnection();
 			
 			StringBuffer sql = new StringBuffer();
-			sql.append("select member_no, member_id, member_pwd, name, gender, phone,  			 ");
-			sql.append("email, address, zipcode, iswithdraw, to_char(withdraw_day, 'YYYY/MM/DD') ");
-			sql.append("from member												   				 ");
-			sql.append("where member_id = ? and member_pwd =? and iswithdraw = 'N' 				 ");
+			sql.append("select member_no, member_id, member_pwd, name, gender, phone, email,	 	 ");
+			sql.append("address1, address2, zipcode, iswithdraw, to_char(withdraw_day, 'YYYY/MM/DD') ");
+			sql.append("from member												   				 	 ");
+			sql.append("where member_id = ? and member_pwd =? and iswithdraw = 'N' 				 	 ");
 			pstmt = conn.prepareStatement(sql.toString());
 			
 			pstmt.setString(1, memberId);
@@ -53,10 +53,11 @@ public class MemberDAO {
 				member.setGender(rs.getString(5));
 				member.setPhone(rs.getString(6));
 				member.setEmail(rs.getString(7));
-				member.setAddress(rs.getString(8));
-				member.setZipcode(rs.getString(9));
-				member.setIsWithdraw(rs.getString(10));
-				member.setWithdrawDay(rs.getString(11));
+				member.setAddress1(rs.getString(8));
+				member.setAddress2(rs.getString(9));
+				member.setZipcode(rs.getString(10));
+				member.setIsWithdraw(rs.getString(11));
+				member.setWithdrawDay(rs.getString(12));
 			}
 			
 			
@@ -120,7 +121,7 @@ public class MemberDAO {
 			
 			StringBuffer sql = new StringBuffer();
 			sql.append("insert into member(member_no, member_id, member_pwd, name, gender,		  ");
-			sql.append("phone, email, address, zipcode)											   		  ");
+			sql.append("phone, email, address1, address2, zipcode) 						   		  ");
 			sql.append("values(to_char(sysdate, 'YYMMDD') || lpad(member_no_seq.nextval, 5, 0),   ");
 			sql.append("?, ?, ?, ?, ?, ?, ?, ?)												      ");				
 			
@@ -132,8 +133,9 @@ public class MemberDAO {
 			pstmt.setString(4, member.getGender());
 			pstmt.setString(5, member.getPhone());
 			pstmt.setString(6, member.getEmail());
-			pstmt.setString(7, member.getAddress());
-			pstmt.setString(7, member.getZipcode());
+			pstmt.setString(7, member.getAddress1());
+			pstmt.setString(8, member.getAddress2());
+			pstmt.setString(9, member.getZipcode());
 			
 			pstmt.executeQuery();			
 			
@@ -194,7 +196,7 @@ public class MemberDAO {
 			StringBuffer sql = new StringBuffer();
 			sql.append("select count(member_no)									");
 			sql.append("from member												");
-			sql.append("where memberId = ? and email = ? and iswithdraw = 'N'	");
+			sql.append("where member_id = ? and email = ? and iswithdraw = 'N'	");
 			pstmt = conn.prepareStatement(sql.toString());
 			
 			pstmt.setString(1, memberId);
@@ -252,9 +254,10 @@ public class MemberDAO {
 		try {
 			
 			StringBuffer sql = new StringBuffer();
-			sql.append("update member																			");
-			sql.append("set member_pwd = ?, name = ?, gender = ?, phone = ?, email = ?, address = ?, zipcode =?	");
-			sql.append("where member_no = ?																		");
+			sql.append("update member										 	");
+			sql.append("set member_pwd = ?, name = ?, gender = ?, phone = ?,	");
+			sql.append("email = ?, address1 = ?, address2 = ?, zipcode =?		");
+			sql.append("where member_no = ?										");
 			
 			pstmt = conn.prepareStatement(sql.toString());
 			
@@ -263,9 +266,10 @@ public class MemberDAO {
 			pstmt.setString(3, member.getGender());
 			pstmt.setString(4, member.getPhone());
 			pstmt.setString(5, member.getEmail());
-			pstmt.setString(6, member.getAddress());
-			pstmt.setString(7, member.getZipcode());
-			pstmt.setString(8, member.getMemberNo());
+			pstmt.setString(6, member.getAddress1());
+			pstmt.setString(7, member.getAddress2());
+			pstmt.setString(8, member.getZipcode());
+			pstmt.setString(9, member.getMemberNo());
 			
 			pstmt.executeQuery();
 			
@@ -311,14 +315,14 @@ public class MemberDAO {
 		try {
 			conn = DBConn.getConnection();
 			StringBuffer sql = new StringBuffer();
-			sql.append("select member_no, member_id, member_pwd, name, gender, 		");
-			sql.append("phone, email, address, zipcode,  iswithdraw, withdraw_day   ");
-			sql.append("from (select rownum as rn, member1.*				   		");
-			sql.append("from (select *										   		");
-			sql.append("from member											   		");
-			sql.append("where ? = ?											   		");
-			sql.append("order by member_no asc) member1)					   		");						
-			sql.append("and rn >= ? and rn <= ?								   		");
+			sql.append("select member_no, member_id, member_pwd, name, gender, phone, ");
+			sql.append("email, address1, address2, zipcode,  iswithdraw, withdraw_day ");
+			sql.append("from (select rownum as rn, member1.*				   		  ");
+			sql.append("from (select *										   		  ");
+			sql.append("from member											   		  ");
+			sql.append("where ? = ?											   		  ");
+			sql.append("order by member_no asc) member1)					   		  ");						
+			sql.append("and rn >= ? and rn <= ?								   		  ");
 			
 			
 			pstmt = conn.prepareStatement(sql.toString());
@@ -339,10 +343,11 @@ public class MemberDAO {
 				member.setGender(rs.getString(5));
 				member.setPhone(rs.getString(6));
 				member.setEmail(rs.getString(7));
-				member.setAddress(rs.getString(8));
-				member.setZipcode(rs.getString(9));
-				member.setIsWithdraw(rs.getString(10));
-				member.setWithdrawDay(rs.getString(11));
+				member.setAddress1(rs.getString(8));
+				member.setAddress2(rs.getString(9));
+				member.setZipcode(rs.getString(10));
+				member.setIsWithdraw(rs.getString(11));
+				member.setWithdrawDay(rs.getString(12));
 				members.add(member);
 			}
 			
@@ -367,13 +372,13 @@ public class MemberDAO {
 		try {
 			conn = DBConn.getConnection();
 			StringBuffer sql = new StringBuffer();
-			sql.append("select member_no, member_id, member_pwd, name, gender,   ");
-			sql.append("phone, email, address, zipcode, iswithdraw, withdraw_day ");
-			sql.append("from (select rownum as rn, member1.*				   	 ");
-			sql.append("from (select *										     ");
-			sql.append("from member											     ");
-			sql.append("order by member_no asc) member1)					     ");
-			sql.append("where rn >= ? and rn <= ?				  			     ");
+			sql.append("select member_no, member_id, member_pwd, name, gender, phone,   ");
+			sql.append("email, address1, address2, zipcode, iswithdraw, withdraw_day    ");
+			sql.append("from (select rownum as rn, member1.*				   	 		");
+			sql.append("from (select *										     		");
+			sql.append("from member											     		");
+			sql.append("order by member_no asc) member1)					     		");
+			sql.append("where rn >= ? and rn <= ?				  			     		");
 			
 			
 			pstmt = conn.prepareStatement(sql.toString());
@@ -392,10 +397,11 @@ public class MemberDAO {
 				member.setGender(rs.getString(5));
 				member.setPhone(rs.getString(6));
 				member.setEmail(rs.getString(7));
-				member.setAddress(rs.getString(8));
-				member.setZipcode(rs.getString(9));
-				member.setIsWithdraw(rs.getString(10));
-				member.setWithdrawDay(rs.getString(11));
+				member.setAddress1(rs.getString(8));
+				member.setAddress2(rs.getString(9));
+				member.setZipcode(rs.getString(10));
+				member.setIsWithdraw(rs.getString(11));
+				member.setWithdrawDay(rs.getString(12));
 				members.add(member);
 			}
 			

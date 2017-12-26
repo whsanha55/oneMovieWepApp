@@ -15,7 +15,7 @@ public class ManageMemberFormCommand implements Command{
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
 		ActionForward forward = new ActionForward();
-		forward.setPath("/layout.jsp?content=manageMember.jsp");
+		forward.setPath("/layoutAdmin.jsp?article=/admin/member/manageMember.jsp");
 		forward.setRedirect(false);
 		return forward;
 		

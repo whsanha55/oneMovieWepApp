@@ -35,7 +35,7 @@ public class AdminDAO {
 			StringBuffer sql = new StringBuffer();
 			sql.append("select admin_no, admin_id, admin_pwd	");
 			sql.append("from admin								");
-			sql.append("where adminId = ? and adminPwd = ?		");
+			sql.append("where admin_Id = ? and admin_Pwd = ?		");
 			
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, adminId);

@@ -17,7 +17,7 @@ public class MemberLoginFormCommand implements Command {
 			throws IOException, ServletException {
 
 		ActionForward forward = new ActionForward();
-		forward.setPath("/layout.jsp?content=user/member/memberLogin.jsp"); 		//주소 설정 꼭 다시
+		forward.setPath("/layoutUser.jsp?article=/user/member/memberLogin.jsp"); 		//주소 설정 꼭 다시
 		forward.setRedirect(false);		
 		return forward;
 	}

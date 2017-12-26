@@ -19,9 +19,9 @@ public class CommandFactory {
 		map.put("/manageMember.do", "controller.admin.ManageMemberCommand");
 
 		// 회원 로그인 폼 요청
-		map.put("/memberLoginForm.do", "controller.member.memberLoginFormCommand");
+		map.put("/memberLoginForm.do", "controller.member.MemberLoginFormCommand");
 		// 회원 로그인 요청
-		map.put("/memberLogin.do", "controller.member.memberLoginCommand");
+		map.put("/memberLogin.do", "controller.member.MemberLoginCommand");
 		// 아이디 찾기 폼 요청
 		map.put("/findIdForm.do", "controller.member.FindIdFormCommand");
 		// 아이디 찾기 요청
@@ -29,7 +29,7 @@ public class CommandFactory {
 		// 비밀번호 찾기 폼 요청
 		map.put("/findPwdForm.do", "controller.member.FindPwdFormCommand");
 		// 비밀번호 찾기 요청
-		map.put("/findForm.do", "controller.member.FindPwdCommand");
+		map.put("/findPwd.do", "controller.member.FindPwdCommand");
 		// 아이디 이메일 중복확인 요청
 		map.put("/duplicate.do", "controller.member.DuplicateCommand");
 		// 재로그인 폼 요청(회원정보 수정용)

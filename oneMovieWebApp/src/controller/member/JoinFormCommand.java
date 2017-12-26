@@ -15,7 +15,7 @@ public class JoinFormCommand implements Command {
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
 		ActionForward forward = new ActionForward();
-		forward.setPath("/layout.jsp?content=user/member/joinForm.jsp");
+		forward.setPath("/layoutUser.jsp?article=/user/member/joinForm.jsp");
 		forward.setRedirect(false);
 		return forward;
 

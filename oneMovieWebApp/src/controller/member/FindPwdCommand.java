@@ -21,9 +21,12 @@ public class FindPwdCommand implements Command {
 		String memberId = req.getParameter("memberId");
 		String email = req.getParameter("email");
 		
+		
+		
 		try {
 			MemberService service = MemberService.getInstance();
 			int count = service.retrieveMemberCount(memberId, email);
+			
 			
 			//2. DB와 정보를 대조한다.
 			if(count == 1) {
@@ -32,22 +35,30 @@ public class FindPwdCommand implements Command {
 				
 				//4. DB의 비밀번호를 임시비밀번호로 변경한다.
 				service.updateMemberPwd(memberId, email, tempPwd);
-				
+								
 				//5. 임시비밀번호를 회원 이메일로 발송한다.
 				SendMail sendMail = new SendMail();
-				sendMail.sendTempPwd(email, tempPwd);
+				try {
+					sendMail.sendTempPwd(email, tempPwd);
+				}catch (Exception e) {
+					req.setAttribute("exception", e);
+					forward.setPath("/error.jsp");	
+					forward.setRedirect(false);
+					return forward;	
+				}	
+					
 				
-				//6. 팝업 처리??
 				
 				//7. 로그인 페이지로 이동한다.
-				forward.setPath("/user/member/memberLogin.jsp");	
-				forward.setRedirect(true);
+				req.setAttribute("result", "입력하신 이메일로 임시비밀번호가 발송되었습니다. 메일을 확인해주세요.");
+				forward.setPath("/user/member/findPwdView.jsp");	
+				forward.setRedirect(false);
 				return forward;	
 				
 			} else {
-				System.out.println("아이디와 이메일을 확인해주세요.");
-				forward.setPath("/user/member/findPwd.jsp");	
-				forward.setRedirect(true);
+				req.setAttribute("result", "일치하는 회원정보가 없습니다. 아이디와 이메일을 확인해주세요.");
+				forward.setPath("/user/member/findPwdView.jsp");	
+				forward.setRedirect(false);
 				return forward;	
 			}
 			

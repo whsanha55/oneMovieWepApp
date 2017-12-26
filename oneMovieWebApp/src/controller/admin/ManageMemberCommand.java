@@ -23,6 +23,8 @@ public class ManageMemberCommand implements Command {
 		String keyword = req.getParameter("keyword");
 		int startRow = Integer.parseInt(req.getParameter("startRow"));
 		int endRow = Integer.parseInt(req.getParameter("endRow"));
+		System.out.println(keyfield);
+		System.out.println(keyword);
 		
 		
 		

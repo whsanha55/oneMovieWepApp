@@ -16,7 +16,7 @@ public class FindIdFormCommand implements Command {
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
 		ActionForward forward = new ActionForward();
-		forward.setPath("/layout.jsp?content=user/member/findId.jsp");		//경로 꼭 재설정
+		forward.setPath("/layoutUser.jsp?article=user/member/findId.jsp");
 		forward.setRedirect(false);
 		return forward;
 	}

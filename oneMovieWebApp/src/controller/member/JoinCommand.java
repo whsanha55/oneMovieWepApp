@@ -29,7 +29,8 @@ public class JoinCommand implements Command {
 		member.setEmail(req.getParameter("email"));
 		member.setGender(req. getParameter("gender"));
 		member.setPhone(req.getParameter("phone"));
-		member.setAddress(req.getParameter("address"));
+		member.setAddress1(req.getParameter("address1"));
+		member.setAddress2(req.getParameter("address2"));
 		member.setZipcode(req.getParameter("zipcode"));
 
 		try {			

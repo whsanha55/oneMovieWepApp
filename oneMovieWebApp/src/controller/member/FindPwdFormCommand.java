@@ -15,7 +15,7 @@ public class FindPwdFormCommand implements Command {
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
 		ActionForward forward = new ActionForward();
-		forward.setPath("layout.jsp?content=/user/member/findPwd.jsp");
+		forward.setPath("layoutUser.jsp?article=/user/member/findPwd.jsp");
 		forward.setRedirect(false);
 		return forward;
 	}

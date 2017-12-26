@@ -9,7 +9,8 @@
 <script src="js/jquery-3.2.1.min.js"></script>
 <script>
 	$(document).ready(function(){
-		$('#login').on('click', function(){
+		$('#login').on('click', function(event){
+			event.preventDefault();
 			$.ajax({
 				url: "${pageContext.request.contextPath}/memberLogin.do"
 				,
@@ -23,7 +24,8 @@
 				dataType: 'json'
 				,
 				success: function(data){
-					
+					alert(data.result);
+					location.href="${pageContext.request.contextPath}/layoutUser.jsp";
 				}
 				,
 				error: function(jqXHR) {
@@ -32,54 +34,7 @@
 				
 			});			
 		});		
-		
-		
-		
-		$('#findId').on('click', function(){
-			$.ajax({
-				url: "${pageContext.request.contextPath}/findIdForm.do"
-				,
-				method: 'POST'
-				,
-				data: {
 
-				}
-				,
-				dataType: 'json'
-				,
-				success: function(data){
-					
-				}
-				,
-				error: function(jqXHR) {
-					alert('Error: ' + jqXHR)
-				}
-				
-			});	
-		});
-		
-		$('#findPwd').on('click', function(){
-			$.ajax({
-				url: "${pageContext.request.contextPath}/findPwdForm.do"
-				,
-				method: 'POST'
-				,
-				data: {
-
-				}
-				,
-				dataType: 'json'
-				,
-				success: function(data){
-					
-				}
-				,
-				error: function(jqXHR) {
-					alert('Error: ' + jqXHR)
-				}
-				
-			});	
-		});
 		
 	});
 
@@ -88,12 +43,13 @@
 <body>
 	<div>로그인</div>
 	<form>
-		<label>아이디<input type="text" name="memberId"></label><br>
-		<label>비밀번호<input type="password" name="memberPwd"></label><br>
-		<button id="login">Login</button><br>
-		<button id="findId">ID 찾기</button><br>
-		<button id="findPwd">비밀번호 찾기</button><br>
+		<label>아이디<input type="text" name="memberId" id="memberId" tabindex="1"> </label><br>
+		<label>비밀번호<input type="password" name="memberPwd" id="memberPwd" tabindex="2"></label><br>
 	</form>
+	<button id="login">Login</button><br>
+	<button id="findId" onclick="location.href='${pageContext.request.contextPath}/findIdForm.do'">ID 찾기</button><br>
+	<button id="findPwd" onclick="location.href='${pageContext.request.contextPath}/findPwdForm.do'">비밀번호 찾기</button><br>
+	
 
 </body>
 </html>

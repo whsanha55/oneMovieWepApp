@@ -42,13 +42,14 @@
 				email: $('#emailId').val() + "@" + $('#emailAd').val()	,
 				gender: $('#gender').val()	,
 				phone:	$('#exchangeNumber').val() + $().val('#tel1') + $('#tel2').val()	,
-				address: $('#address1').val() + " " + $('#address2').val()	,
+				address1: $('#address1').val()	,
+				address2: $('#address2').val()	,
 				zipcode: $('zipcode').val
 			},
 			dataType: 'json'
 			,
 			success: function(data) {
-				alert("data");
+				alert(data);
 				location.href="${pageContext.request.contextPath}/layout.jsp";
 			},
 		    error: function(jqXHR, textStatus, error) {
@@ -61,7 +62,10 @@
 	
 	//취소 버튼 클릭
 	$('#reset').on('click', function(){
-		location.href = '${pageContext.request.contextPath}/layout.jsp';
+		var confirm = confirm("회원 가입을 중단하시겠습니까?");
+		if(confirm) {
+			location.href = '${pageContext.request.contextPath}/layout.jsp';
+		}
 	});
 
 	
@@ -298,6 +302,18 @@
 		$('#emailDuplication').val('unchecked');
 	}
 	
+	$('#emailAdWrite').hide();
+	//이메일 직접 입력 선택 시 나타남
+	$('#emailAd').change(function(){
+		if($('#emailAd').val() == "write") {
+			$('#emailAdWrite').show();
+		} else {
+			$('#emailAdWrite').hide();
+		}
+	});
+	
+	
+	
 	
 	//다음 주소 API
 	function daumAddress() {
@@ -356,22 +372,22 @@
 <body>
 	<div>회원가입</div>
 	<form>
-		<label>아이디<input type="text" name="memberId" id="memberId" maxlength="15" onkeydown="checkIdDup()"></label>&nbsp;
+		<label>아이디<input type="text" name="memberId" id="memberId" maxlength="15" onkeydown="checkIdDup()" tabindex="1"></label>&nbsp;
 		<label><button id="checkId">중복확인</button></label>&nbsp;
 					<span>영문, 숫자 사용 가능 / 6~15자리로 입력해주세요.</span><br>
 			   <input type="hidden" id="idDuplication" value="unchecked">	
 					
-		<label>비밀번호<input type="password" name="memberPwd" id="memberPwd" maxlength="25"></label>&nbsp;
+		<label>비밀번호<input type="password" name="memberPwd" id="memberPwd" maxlength="25" tabindex="2"></label>&nbsp;
 					<span>영문과 숫자를 포함하여 8~25자리로 입력해주세요.</span><br>
 					
-		<label>비밀번호 확인<input type="password" name="checkPwd" id="checkPwd"></label><br>
+		<label>비밀번호 확인<input type="password" name="checkPwd" id="checkPwd" maxlength="25" tabindex="3"></label><br>
 		
-		<label>이름<input type="text" name="name" id="name"></label><br>
+		<label>이름<input type="text" name="name" id="name" tabindex="4"></label><br>
 		
 		<label>이메일</label>
-			   <input type="text" name="emailId" id="emailId" onkeydown="checkEmailDup()">&nbsp;
+			   <input type="text" name="emailId" id="emailId" onkeydown="checkEmailDup()" tabindex="5">&nbsp;
 			   <span id="at">@</span>&nbsp;	  	
-				   <select name="emailAd" id="emailAd">
+				   <select name="emailAd" id="emailAd" tabindex="6">
 				     <option value="gmail.com">gamil.com</option>
 				     <option value="daum.net">daum.net</option>
 				     <option value="naver.com">naver.com</option>
@@ -381,26 +397,28 @@
 				   &nbsp;<label><button id="checkEmail">중복확인</button></label><br>
 				   <input type="hidden" id="emailDuplication" value="unchecked">	
 				   
-		<label>성별<input type="radio" name="gender" id="gender" value="M" checked>남성 &nbsp;
-				  <input type="radio" name="gender" id="gender" value="F">여성 </label><br>
+		<label>성별<input type="radio" name="gender" id="gender" value="M" checked tabindex="7">남성 &nbsp;
+				  <input type="radio" name="gender" id="gender" value="F" tabindex="8">여성 </label><br>
 				  
-		<label>전화번호<select name="exchangeNumber" id="exchangeNumber">
+		<label>전화번호<select name="exchangeNumber" id="exchangeNumber" tabindex="9">
 				     <option value="010">010</option>
 				     <option value="02">02</option>
 				     <option value="011">011</option>
 				     <option value="031">031</option>			     
 				   </select>&nbsp;
-				   <input type="text" name="tel1" id="tel1">&nbsp;
-				   <input type="text" name="tel2" id="tel2">					
+				   <span>-</span>&nbsp;
+				   <input type="text" name="tel1" id="tel1" tabindex="10">&nbsp;
+				   <span>-</span>&nbsp;
+				   <input type="text" name="tel2" id="tel2" tabindex="11">					
 		</label><br>
 		
-		<label>주소<input type="text" name="address1" id="address1"><br>
-				  <input type="text" name="address2" id="address2"></label><br>
-				  <input type="text" name="zipcode" id="zipcode">&nbsp;&nbsp;&nbsp;
-				  <button id="findAdd">주소찾기</button>
+		<label>주소<input type="text" name="address1" id="address1" tabindex="12"><br>
+				  <input type="text" name="address2" id="address2" tabindex="13"></label><br>
+				  <input type="text" name="zipcode" id="zipcode" tabindex="14">&nbsp;&nbsp;&nbsp;
+				  <button id="findAdd">주소찾기</button><br><br>
 		
-		<button id="join">회원가입</button> &nbsp;&nbsp;&nbsp;
-		<button id="reset">취소</button><br>
+		<button type="button" id="join">회원가입</button> &nbsp;&nbsp;&nbsp;
+		<button type="button" id="reset">취소</button><br>
 	</form>
 
 </body>

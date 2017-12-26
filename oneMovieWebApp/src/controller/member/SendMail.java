@@ -5,17 +5,18 @@ import java.util.Properties;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
+
 
 public class SendMail {
 
-	public void sendTempPwd(String email, String tempPwd) throws Exception {
+	public void sendTempPwd(String email, String tempPwd) throws AddressException, javax.mail.MessagingException {
 	
 		Properties props = System.getProperties();
 		props.put("mail.smtp.starttls.enable", "true"); 	//gmail은 true 고정
@@ -30,16 +31,15 @@ public class SendMail {
 		MimeMessage msg = new MimeMessage(session);
 		
 		try {
-
 			//메일 발송 시간
 			msg.setSentDate(new Date());
-
+	
 			//이메일 발신자
 			InternetAddress from = new InternetAddress("admin<onemoviemovie@gmail.com>");
 			msg.setFrom(from);
 			
 			//이메일 수신자
-
+	
 			InternetAddress to = new InternetAddress(email);
 			msg.setRecipient(Message.RecipientType.TO, to);
 			
@@ -55,11 +55,12 @@ public class SendMail {
 			
 			//메일 보내기
 			javax.mail.Transport.send(msg);
-		
+		} catch (AddressException e) {
+			e.printStackTrace();
+		}
 			
-		} finally {
-			// ?
-		} 
+			
+
 	}
 		
 }
