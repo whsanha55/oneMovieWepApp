@@ -75,8 +75,8 @@ public class MemberDAO {
 	
 	
 	
-	//아이디, 이메일 중복 확인	(0 반환 시 사용 가능, 1 반환 시 중복으로 사용 불가)
-	public int selectMemberDuplicate(String keyfield, String keyword) throws Exception {
+	//아이디 중복 확인	(0 반환 시 사용 가능, 1 반환 시 중복으로 사용 불가)
+	public int selectIdDuplicate(String keyword) throws Exception {
 		int count = 0;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -86,13 +86,12 @@ public class MemberDAO {
 			conn = DBConn.getConnection();
 			
 			StringBuffer sql = new StringBuffer();
-			sql.append("select count(member_no)				");
-			sql.append("from member							");
-			sql.append("where ? = ? and iswithdraw = 'N'	");
+			sql.append("select count(member_no)					 ");
+			sql.append("from member								 ");
+			sql.append("where member_id = ? and iswithdraw = 'N' ");
 			pstmt = conn.prepareStatement(sql.toString());
 			
-			pstmt.setString(1, keyfield);
-			pstmt.setString(2, keyword);
+			pstmt.setString(1, keyword);
 			
 			rs = pstmt.executeQuery();
 			
@@ -109,6 +108,43 @@ public class MemberDAO {
 	}	
 	
 		
+
+	
+	//이메일 중복 확인	(0 반환 시 사용 가능, 1 반환 시 중복으로 사용 불가)
+	public int selectEmailDuplicate(String keyword) throws Exception {
+	
+		int count = 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = DBConn.getConnection();
+			
+			StringBuffer sql = new StringBuffer();
+			sql.append("select count(member_no)				");
+			sql.append("from member							");
+			sql.append("where email = ? and iswithdraw = 'N'	");
+			pstmt = conn.prepareStatement(sql.toString());
+			
+			pstmt.setString(1, keyword);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+			
+		} finally  {
+			if(pstmt != null) pstmt.close();
+			if(conn != null) conn.close();
+		}
+				
+		return count;
+	}	
+	
+	
+	
 	
 	
 	
@@ -123,7 +159,7 @@ public class MemberDAO {
 			sql.append("insert into member(member_no, member_id, member_pwd, name, gender,		  ");
 			sql.append("phone, email, address1, address2, zipcode) 						   		  ");
 			sql.append("values(to_char(sysdate, 'YYMMDD') || lpad(member_no_seq.nextval, 5, 0),   ");
-			sql.append("?, ?, ?, ?, ?, ?, ?, ?)												      ");				
+			sql.append("?, ?, ?, ?, ?, ?, ?, ?, ?)											      ");				
 			
 			pstmt = conn.prepareStatement(sql.toString());
 			
@@ -320,17 +356,22 @@ public class MemberDAO {
 			sql.append("from (select rownum as rn, member1.*				   		  ");
 			sql.append("from (select *										   		  ");
 			sql.append("from member											   		  ");
-			sql.append("where ? = ?											   		  ");
+			
+			if(keyfield == "name") {
+				sql.append("where name = ?									   		  ");
+			} else {
+				sql.append("where member_id = ?								   		  ");
+			}
+						
 			sql.append("order by member_no asc) member1)					   		  ");						
 			sql.append("and rn >= ? and rn <= ?								   		  ");
 			
 			
 			pstmt = conn.prepareStatement(sql.toString());
 			
-			pstmt.setString(1, keyfield);
-			pstmt.setString(2, keyword);
-			pstmt.setInt(3, startRow);
-			pstmt.setInt(4, endRow);
+			pstmt.setString(1, keyword);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
 			
 			rs = pstmt.executeQuery();
 						
@@ -453,14 +494,19 @@ public class MemberDAO {
 		try {
 			conn = DBConn.getConnection();
 			StringBuffer sql = new StringBuffer();
-			sql.append("select count(*) ");
-			sql.append("from member     ");
-			sql.append("where ? = ?     ");
+			sql.append("select count(*) 		");
+			sql.append("from member 		    ");
+			
+			if(keyfield == "name") {
+				sql.append("where name = ? 	    ");
+			} else {
+				sql.append("where member_id = ? ");				
+			}
+			
 			pstmt = conn.prepareStatement(sql.toString());
 			
-			pstmt.setString(1, keyfield);
-			pstmt.setString(2, keyword);
-			
+			pstmt.setString(1, keyword);
+						
 			pstmt.executeQuery();
 			
 			if(rs.next()) {

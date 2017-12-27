@@ -33,13 +33,14 @@ public class JoinCommand implements Command {
 		member.setAddress2(req.getParameter("address2"));
 		member.setZipcode(req.getParameter("zipcode"));
 
+	
 		try {			
 			//2. DB에 전달한다.
 			MemberService service = MemberService.getInstance();
 			service.addMember(member);
 						
 			//3. 회원가입 성공 페이지로 이동한다.
-			forward.setPath("/joinView.jsp");
+			forward.setPath("/user/member/joinView.jsp");
 			forward.setRedirect(false);
 			return forward;			
 			

@@ -22,11 +22,12 @@ public class MemberLogoutCommand implements Command {
 			
 			//1. HttpSession 영역에 바인딩된 정보를 제거한다.
 			HttpSession session = req.getSession();
+			
 			session.invalidate();
 			
 			//3. 메인 화면으로 이동한다.
-			forward.setPath("/layout.jsp");
-			forward.setRedirect(true);
+			forward.setPath("/layoutUser.jsp");
+			forward.setRedirect(false);
 			return forward;	
 			
 			

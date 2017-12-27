@@ -27,18 +27,18 @@ public class ReLoginCommand implements Command {
 			MemberService service = MemberService.getInstance();
 			MemberVO member = service.retrieveMember(memberId, memberPwd);
 			
-			if(member != null) {
+			if(member.getName() != null) {
 				//2. 반환된 MemberVO 객체를 리퀘스트 영역에 바인딩한다.
 				req.setAttribute("member", member);
 				
 				//3. 회원정보 수정 폼으로 이동한다.
-				forward.setPath("/user/member/modifyMemberForm.jsp");
+				forward.setPath("/layoutUser.jsp?article=/user/member/modifyMemberForm.jsp");
 				forward.setRedirect(false);
 				return forward;
 				
 			} else {
-				forward.setPath("/user/member/reLogin.jsp");
-				forward.setRedirect(true);
+				forward.setPath("layoutUser.jsp?article=/user/member/reLogin.jsp");
+				forward.setRedirect(false);
 				return forward;
 			}
 			
