@@ -54,6 +54,10 @@ public class CommandFactory {
 		map.put("/user/movie/detailMovie.do", "controller.movie.DetailMovieCommand");
 		map.put("/user/movie/removeMovie.do", "controller.movie.RemoveMovieCommand");
 		map.put("/user/movie/listAllMovie.do", "controller.movie.ListAllMovieCommand");
+		map.put("/user/movie/listAllMovieCount.do", "controller.movie.ListAllMovieCountCommand");
+		map.put("/user/movie/findMovieCount.do", "controller.movie.FindMovieCountCommand");
+		map.put("/user/movie/listStateMovie.do", "controller.movie.ListStateMovieCommand");
+		
 		// °ü¸®ÀÚ
 		map.put("/admin/movie/listMovie.do", "controller.movie.AdminListMovieCommand");
 		map.put("/admin/movie/findMovie.do", "controller.movie.AdminFindMovieCommand");

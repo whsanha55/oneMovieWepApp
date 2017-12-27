@@ -132,9 +132,9 @@ public class MovieService {
             conn.close();
       }
    }
-   
+   /*
    //영화 정보를 수정하다.
-   public void updateMovie(MovieVO movie) throws Exception {
+   public void updateMovie(DetailMovieVO movie) throws Exception {
       Connection conn = null;
       try {
          conn = DBConn.getConnection();
@@ -162,6 +162,7 @@ public class MovieService {
             conn.close();
       }
    }
+   */
    // 영화 제목을 조회하다.
    public List<MovieTitleVO> retriveMovieTitle(String movieTitle) throws Exception {
       MovieDAO movieDAO = MovieDAO.getInstance();
@@ -169,11 +170,13 @@ public class MovieService {
    }
    
    // 영화 목록을 조회하다.
-  // public List<MovieVO> retriveMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
-   public List<MovieVO> retriveMovieList(String keyfield, String keyword) throws Exception {
+  public List<MovieVO> findMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
+  // public List<MovieVO> findMovieList(String keyfield, String keyword) throws Exception {
       MovieDAO dao = MovieDAO.getInstance();
-     //return dao.selectMovieList(keyfield, keyword, startRow, endRow);  
-      return dao.selectMovieList(keyfield, keyword);  
+      System.out.println("키필드!!!!" +keyfield );
+		System.out.println("키워드!!!!" +keyword );
+     return dao.selectMovieList(keyfield, keyword, startRow, endRow);  
+     // return dao.selectMovieList(keyfield, keyword);  
 
    }
 
@@ -185,8 +188,26 @@ public class MovieService {
    }
    
    //영화 목록을 전체 조회하다.
-    public List<MovieVO> retrieveMovieList() throws Exception {
+    public List<MovieVO> retrieveMovieList(int startRow, int endRow) throws Exception {
        MovieDAO dao = MovieDAO.getInstance();
-       return dao.selectMovieList();
+       return dao.selectMovieList(startRow, endRow);
+    }
+    
+    //총 게시글 수를 구하다.
+    public int retrieveMovieCount() throws Exception {
+       MovieDAO dao = MovieDAO.getInstance();
+       return dao.selectTotalPost();
+    }
+   
+   //검색에 따른 총 게시글 수를 구하다.
+    public int retrieveMovieCount(String keyfield, String keyword) throws Exception {
+       MovieDAO dao = MovieDAO.getInstance();
+       return dao.selectTotalPost(keyfield, keyword);
+    }
+    
+	//상영상태에 따른 영화를 조회하다.
+    public List<MovieVO> retrieveStateMovieList(String keyfield) throws Exception {
+       MovieDAO dao = MovieDAO.getInstance();
+       return dao.selectStateMovieList(keyfield);
     }
 }

@@ -74,7 +74,7 @@ ul.tabs li.active {
       
       $('#imgtr  img').hide();
         $('#imgtr  img').first().show();
-         $('#imgtr  img').css({ 'width': '300px', 'height': '300px' });
+         $('#imgtr  img').css({ 'width': '500px', 'height': '300px' });
          setInterval(function() {
             $('#imgtr').append($('#imgtr  img').first());
             $('#imgtr  img').last().hide();
