@@ -13,35 +13,12 @@
 <script>
 	$(document).ready(function(){
 		
-		$('#all').on('click', function(event){
-			event.preventDefault();
-			$('#keyfield').val(null);
-			$('#keyword').val(null);
-			$('#sortfield').val(null);
-			memberList(1);
-		});
-
-		
 		
 		$('#search').on('click', function(event){
 			event.preventDefault();
-			$('#sortfield').val(null);
 			memberList(1);
 		});
 		
-		
-		$('#asc').on('click', function(event){
-			event.preventDefault();
-			var sortword = $(this).val();
-			memberList(1);
-			
-		});
-		
-		$('#desc').on('click', function(event){
-			event.preventDefault();
-			var sortword = $(this).val();
-			memberList(1);
-		});
 		
 		
 		function memberList(currentPageNo) {
@@ -55,11 +32,11 @@
 				url: "${pageContext.request.contextPath}/manageMember.do" 
 				,
 				data: {
-					keyfield: $('#keyfield :selected').val() ,
+					keyfield: $('#keyfield').val() ,
 					keyword: $('#keyword').val()
 				}
 				,
-				type: 'GET'
+				type: 'POST'
 				,
 				cache: false
 				,
@@ -78,7 +55,7 @@
 						$.ajax({
 							url: "${pageContext.request.contextPath}/manageMember.do" 
 							,
-							type: "GET"
+							type: "POST"
 							,
 							dataType: 'json'
 							,
@@ -93,17 +70,17 @@
 								var htmlSr = "";
 								for(var i=0; i<data.length; i++) {
 									htmlStr += "<tr>";
-									htmlStr += "<td>" + data[i].memberNo + "</td>"
-									htmlStr += "<td>" + data[i].memberId + "</td>"
-									htmlStr += "<td>" + data[i].memberPwd + "</td>"
-									htmlStr += "<td>" + data[i].name + "</td>"
-									htmlStr += "<td>" + data[i].gender + "</td>"
-									htmlStr += "<td>" + data[i].phone + "</td>"
-									htmlStr += "<td>" + data[i].email + "</td>"
-									htmlStr += "<td>" + data[i].address1 + " " + data[i].address2 + "</td>"
-									htmlStr += "<td>" + data[i].zipcode + "</td>"
-									htmlStr += "<td>" + data[i].isWithdraw + "</td>"
-									htmlStr += "<td>" + data[i].withdrawDay + "</td>"
+									htmlStr += "<td>" + data[i].members.memberNo + "</td>"
+									htmlStr += "<td>" + data[i].members.memberId + "</td>"
+									htmlStr += "<td>" + data[i].members.memberPwd + "</td>"
+									htmlStr += "<td>" + data[i].members.name + "</td>"
+									htmlStr += "<td>" + data[i].members.gender + "</td>"
+									htmlStr += "<td>" + data[i].members.phone + "</td>"
+									htmlStr += "<td>" + data[i].members.email + "</td>"
+									htmlStr += "<td>" + data[i].members.address1 + " " + data[i].members.address2 + "</td>"
+									htmlStr += "<td>" + data[i].members.zipcode + "</td>"
+									htmlStr += "<td>" + data[i].members.isWithdraw + "</td>"
+									htmlStr += "<td>" + data[i].members.withdrawDay + "</td>"
 									htmlStr += "</tr>";
 									$(htmlStr).appendTo('table');
 									htmlStr += "";
@@ -169,12 +146,19 @@
 			
 			if(sPage > 1) {
 				html += '<a onclick="memberList(' + 1 + ');">[처음]		</a>';
-				html += '<a onclick="memberList(' + pageTotalCnt + ');">[이전]	</a>';
+				html += '<a onclick="memberList(' + sPage - pageBlock + ');">[이전]	</a>';
+			}
+			
+			for(var i=sPage; i<=ePage; i++) {
+				if(currentPage == i) {
+					html += "     " + i + "     ";
+				} else {
+					html += '<a onclick="memberList(' + i + ');">     [ 끝 ]</a>';
+				}
+				
 			}
 			
 			$('#paging').empty().appen(html);
-			
-			
 		
 		}//end of jqueryPager
 		

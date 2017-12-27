@@ -16,30 +16,32 @@ import javax.mail.internet.MimeMessage;
 
 public class SendMail {
 
-	public void sendTempPwd(String email, String tempPwd) throws AddressException, javax.mail.MessagingException {
+	public void sendTempPwd(String email, String tempPwd) throws AddressException, MessagingException {
 	
 		Properties props = System.getProperties();
 		props.put("mail.smtp.starttls.enable", "true"); 	//gmail은 true 고정
 		props.put("mail.smtp.host", "smtp.gmail.com");		//gmail 서버 주소
 		props.put("mail.smtp.auth", "true");				//gmail은 true 고정
 		props.put("mail.smtp.port", "587");					//gmail 포트 
-		
+
 		Authenticator auth = new MyAuthentication();
+		
+		
 		
 		//session 생성 및 MimeMessage 생성
 		Session session = Session.getDefaultInstance(props, auth);
 		MimeMessage msg = new MimeMessage(session);
+		
 		
 		try {
 			//메일 발송 시간
 			msg.setSentDate(new Date());
 	
 			//이메일 발신자
-			InternetAddress from = new InternetAddress("admin<onemoviemovie@gmail.com>");
+			InternetAddress from = new InternetAddress("onemoviemovie@gmail.com");
 			msg.setFrom(from);
 			
-			//이메일 수신자
-	
+			//이메일 수신자	
 			InternetAddress to = new InternetAddress(email);
 			msg.setRecipient(Message.RecipientType.TO, to);
 			
@@ -47,16 +49,19 @@ public class SendMail {
 			msg.setSubject("임시 비밀번호가 발급되었습니다.", "UTF-8");
 			
 			//이메일 내용
-			msg.setText("회원님의 비밀번호 분실로 발급된 임시 비밀번호는 " + tempPwd 
-					    + " 입니다. 임시비밀번호로 로그인하신 후 회원 정보 수정 메뉴에서 비밀번호를 변경해주세요.", "UTF-8");
+			msg.setText("회원님의 비밀번호 분실로 발급된 임시 비밀번호는 <br>" + tempPwd 
+					    + "<br> 입니다. <br>임시비밀번호로 로그인하신 후 회원 정보 수정 메뉴에서 비밀번호를 변경해주세요.", "UTF-8");
 			
 			//이메일 헤더
 			msg.setHeader("content-Type", "text/html");
 			
 			//메일 보내기
 			javax.mail.Transport.send(msg);
-		} catch (AddressException e) {
-			e.printStackTrace();
+		
+		} catch(AddressException e1) {
+			e1.printStackTrace();
+		} catch(MessagingException e2) {
+			e2.printStackTrace();
 		}
 			
 			
@@ -65,7 +70,7 @@ public class SendMail {
 		
 }
 
-	
+// 구글 계정 안정성 낮은 기기에서 사용 허용 체크할 것	
 
 class MyAuthentication extends Authenticator {
 	
