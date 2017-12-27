@@ -400,5 +400,152 @@ public class BookingDAO {
 				pstmt.close();
 		}
 	}
+	
+	public int selectCountBookingList(ArrayList<Integer> screenList, String screenDate) throws Exception {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int countNum = 0;
+		try {
+			conn = DBConn.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("select count(*)                      ");
+			sql.append("from booking t1, schedule_turn t2, screen_schedule t3, screen t4           ");
+			sql.append("where t1.turn_no = t2.turn_no                                              ");
+			sql.append("and t2.schedule_no = t3.schedule_no                                        ");
+			sql.append("and t3.screen_no = t4.screen_no                                            ");
+			sql.append("and t1.status = 0                                                          ");
+			sql.append("and t3.screen_date = ?                                                     ");
+			sql.append("and t4.screen_no in (?                                                     ");
+			for (int i = 1; i < screenList.size(); i++) {
+				sql.append(",?                                                                     ");
+			}
+			sql.append(")                                                                          ");
+			
+			
+			pstmt = conn.prepareStatement(sql.toString());
+			
+			pstmt.setString(1, screenDate);
+			int num = 0;
+			while(num<screenList.size()) {
+				pstmt.setInt(num+2, screenList.get(num));
+				num++;
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				countNum = rs.getInt(1);
+			}
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (pstmt != null) {
+				pstmt.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return countNum;
+	}
+	
+	
+	public int selectCountBookingList(ArrayList<Integer> turnList) throws Exception {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int countNum = 0;
+		try {
+			conn = DBConn.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("select count(*)                             ");
+			sql.append("from booking t1, schedule_turn t2           ");
+			sql.append("where t1.turn_no = t2.turn_no               ");
+			sql.append("and t1.status = 0                           ");
+			sql.append("and t2.turn_no in (?                        ");
+			for (int i = 1; i < turnList.size(); i++) {
+				sql.append(",?                                      ");
+			}
+			sql.append(")                                           ");
+			
+			pstmt = conn.prepareStatement(sql.toString());
+			
+			int num = 0;
+			while(num<turnList.size()) {
+				pstmt.setInt(num+1, turnList.get(num));
+				num++;
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				countNum = rs.getInt(1);
+			}
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (pstmt != null) {
+				pstmt.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return countNum;
+	}
+	
+	// 모든예매 0, 예매취소 1, 상영예정 2, 상영완료 3
+	//회원번호 및 회원이름으로 조회
+	public int selectCountBookingList(String keyfield, String keyword, int status) throws Exception {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int countNum = 0;
+		try {
+			conn = DBConn.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("select count(*)                     ");
+			sql.append("from booking t1, schedule_turn t2, screen_schedule t3, member t4         ");
+			sql.append("where t1.turn_no = t2.turn_no                                            ");
+			sql.append("and t2.schedule_no = t3.schedule_no                                      ");
+			sql.append("and t1.member_no = t4.member_no                                          ");
+			if (keyfield.equals("memberNo")) {
+				sql.append("and t4.member_no like '%' || ? || '%'                                ");
+			} else if (keyfield.equals("memberName")) {
+				sql.append("and t4.name like '%' || ? || '%'                                     ");
+			}
+			if (status == 1) {
+				sql.append("and status = 1                                                                ");
+			} else if (status == 2) {
+				sql.append("and status = 0                                                                ");
+				sql.append("and to_char(t3.screen_date,'yyyy/mm/dd') || to_char(t2.start_time,'hh24:mi') >= to_char(sysdate,'YYYY/MM/DD HH24:MI')  ");
+			} else if (status == 3) {
+				sql.append(" and status = 0                                                                ");
+				sql.append("and to_char(t3.screen_date,'yyyy/mm/dd') || to_char(t2.start_time,'hh24:mi') < to_char(sysdate,'YYYY/MM/DD HH24:MI')  ");
+			}
+
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, keyword);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				countNum = rs.getInt(1);
+			}
+		}finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (pstmt != null) {
+				pstmt.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return countNum;
+	}
 
 }

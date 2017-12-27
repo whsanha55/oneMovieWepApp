@@ -1,64 +1,186 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<style>
+ html {
+ 	font-color : black;
+ }
+</style>
 <script>
 	$(document).ready(function() {
 	
-	$('#btn').on('click', function() {
-			if($('#keyword').val() == "") {
-				alert("키워드를 입력하세요");
-			} else {
-				goPage(1);
-			}
-		});
-	
-		function goPage(currentPageNo) {
-			$.ajax({
-				
-				url : '${pageContext.request.contextPath}/adminBookingAjax.do',
-				method : 'POST',
-				data : {
-					keyfield : $('#keyfield').val() ,
-					keyword: $('#keyword').val()
-					
-				},
-				dataType : 'json',
-				success : function(data) {
-					$('#bookingListTable').find('.trBookingList').remove();
-					for(var i=0; i<data.bookingList.length;i++) {
-						
-						var text = "<td> " + (i+1) +  "</td>";
-						text += "<td> " +data.bookingList[i].memberNo +  "</td>";
-						text += "<td> " + data.bookingList[i].memberName + "</td>";
-						text += "<td>" + data.bookingList[i].theaterName + "</td>";
-						text += "<td>" + data.bookingList[i].screenName + "</td>";
-						text += "<td>" + data.bookingList[i].movieTitle + "</td>";
-						text += "<td>" + data.bookingList[i].screenDate + "</td>";
-						text += "<td>" + data.bookingList[i].startTime + "~" + data.bookingList[i].endTime + "</td>";
-						text += "<td>";
-						for(var j=0;j<data.bookingList[i].seatNames.length;j++) {
-							text+=data.bookingList[i].seatNames[j];
-							if(j != data.bookingList[i].seatNames.length-1) {
-								text += "/";
-							}
-							
-						}
-						text += "</td>";
-						text += "<td>" + data.bookingList[i].ticketNo + "</td>";
-						text += "<td>" + data.bookingList[i].paymentCode + "</td>";
-						text += "<td>" + data.bookingList[i].withdrawDate + "</td>";
-						
-						$('#bookingListTable').append("<tr class='trBookingList'>" +text + "</tr>");
-						
-					}
-				},
-				error : function(jqXHR) {
-					alert(jqXHR.status);
-					console.log(jqXHR);
+		$('#btn').on('click', function() {
+				if($('#keyword').val() == "") {
+					alert("키워드를 입력하세요");
+				} else {
+					bookingList(1);
 				}
 			});
-		}
 	});
+		
+		function bookingList(currentPageNo) {
+			var totalCount = 0;		//총 회원 수
+			var countPerPage = 10;   //한 페이지당 보여주는 회원 수
+			var pageSize = 2;		//페이지 리스트에 게시되는 페이지 수
+			var startRow = 0;
+			var endRow = 0;
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/adminBookingCountAjax.do' 
+				,
+				data: {
+					keyfield: $('#keyfield').val() ,
+					keyword: $('#keyword').val() 
+				}
+				,
+				type: 'POST'
+				,
+				cache: false
+				,
+				dataType: 'json'
+				,
+				success: function (data, textStatus, jqXHR) {
+					var html = "";
+
+					if(data.countList > 0){ //총 회원 수가 1명 이상인 경우
+						totalCount = data.countList;
+						startRow = (currentPageNo - 1) * countPerPage + 1;
+						endRow = currentPageNo * countPerPage;
+						if(endRow > totalCount) {
+							endRow = totalCount;
+						}	
+					}
+					
+					$.ajax({
+						
+						url : '${pageContext.request.contextPath}/adminBookingAjax.do',
+						method : 'POST',
+						data : {
+							keyfield : $('#keyfield').val() ,
+							keyword: $('#keyword').val() ,
+							startRow: startRow	,
+							endRow: endRow	
+							
+							
+						},
+						dataType : 'json',
+						success : function(data) {
+							$('#bookingListTable').find('.trBookingList').remove();
+							for(var i=0; i<data.bookingList.length;i++) {
+								
+								var text = "<td> " + (i+1) +  "</td>";
+								text += "<td> " +data.bookingList[i].memberNo +  "</td>";
+								text += "<td> " + data.bookingList[i].memberName + "</td>";
+								text += "<td>" + data.bookingList[i].theaterName + "</td>";
+								text += "<td>" + data.bookingList[i].screenName + "</td>";
+								text += "<td>" + data.bookingList[i].movieTitle + "</td>";
+								text += "<td>" + data.bookingList[i].screenDate + "</td>";
+								text += "<td>" + data.bookingList[i].startTime + "~" + data.bookingList[i].endTime + "</td>";
+								text += "<td>";
+								for(var j=0;j<data.bookingList[i].seatNames.length;j++) {
+									text+=data.bookingList[i].seatNames[j];
+									if(j != data.bookingList[i].seatNames.length-1) {
+										text += "/";
+									}
+								}
+								text += "</td>";
+								text += "<td>" + data.bookingList[i].ticketNo + "</td>";
+								text += "<td>" + data.bookingList[i].paymentCode + "</td>";
+								text += "<td>" + data.bookingList[i].withdrawDate + "</td>";
+								
+								$('#bookingListTable').append("<tr class='trBookingList'>" +text + "</tr>");
+								
+							}
+							
+							//페이징 처리
+							jqueryPager({
+								pageSize: countPerPage,
+								pageBlock: pageSize,
+								currentPage: currentPageNo,
+								pageTotal: totalCount
+							});
+							
+							$('#bookingListTable').find('.trBookingList').each(function() {
+								
+								var tempDate = new Date($(this).find(':nth-child(7)').text());
+								tempDate.setHours($(this).find(':nth-child(8)').text().substring(0,2));
+								tempDate.setMinutes($(this).find(':nth-child(8)').text().substring(3,5));
+								
+								if($(this).find('td:last-child').text() != "") {	//취소
+									$(this).closest('tr').css('backgroundColor','yellow');
+								} else if(tempDate < new Date()) {		//지난내역
+									$(this).closest('tr').css('backgroundColor','green');
+								}
+								
+							});
+						},
+						error : function(jqXHR) {
+							alert(jqXHR.status);
+							console.log(jqXHR);
+						}
+					});
+				}
+				
+				,
+				error: function(jqXHR) {
+					alert("에러: " + jqXHR.status);
+				}
+				
+			});
+			
+			//페이징 처리
+			function jqueryPager(subOption) {
+				
+				var currentPage = subOption.currentPage;   //총 페이지수(1)
+				var pageSize = subOption.pageSize;         //한 페이지에 보여줄 게시글 수(3)
+				var pageBlock = subOption.pageBlock;       //페이지 블록 수(2)
+				var pageTotal = subOption.pageTotal;       //총 게시글 수 (9)
+				
+				if(!pageSize) pageSize = 3;
+				if(!pageBlock) pageBlock = 2;
+				
+				var pageTotalCnt = Math.ceil(pageTotal/pageSize);
+				var pageBlockCnt = Math.ceil(currentPage/pageBlock);
+				var sPage, ePage;
+				
+				var html ="";
+				
+				if(pageBlock > 1) {
+					sPage = (pageBlockCnt-1) * pageBlock + 1;
+				} else {
+					sPage = 1;
+				}
+				
+				if((pageBlockCnt * pageBlock) >= pageTotalCnt) {
+					ePage = pageTotalCnt;
+				} else {
+					ePage = pageBlockCnt * pageBlock;
+				}
+				
+
+				if(sPage > 1) {
+					html += '<a onclick="bookingList(' + 1 + ');">[처음]		</a>';
+					html += '<a onclick="bookingList(' + (sPage - pageBlock) + ');">[이전]	</a>';
+				}
+				
+				for(var i=sPage; i<=ePage; i++) {
+					if(currentPage == i) {
+						html += "     " + i + "     ";
+					} else {
+						html += '<a onclick="bookingList(' + i + ');">' + i + '</a>';
+					}
+				}				
+
+				if (ePage < pageTotalCnt) {
+					html += '<a onclick="bookingList(' + (ePage+1) + ');">   [ 다음 ]   </a>';
+					html += '<a onclick="bookingList(' + pageTotalCnt + ');">    [ 끝 ]</a>';
+				}		
+				
+				
+				$('#paging').empty().append(html);
+			
+			}//end of jqueryPager
+
+		}
 </script>
 	<div><a href="${pageContext.request.contextPath }/adminBookingByMember.do">회원 검색</a></div>
 	<div><a href="${pageContext.request.contextPath }/adminBookingByTheater.do">극장  검색</a></div>
@@ -95,4 +217,6 @@
             
         </table>
         
+        
+        	<div id="paging"></div>
  

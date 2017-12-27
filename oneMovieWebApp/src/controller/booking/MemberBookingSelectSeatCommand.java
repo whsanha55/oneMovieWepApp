@@ -54,18 +54,12 @@ public class MemberBookingSelectSeatCommand implements Command {
 					seatList.get(i).setFirstSeatLine(true);
 					if (i != 1) {
 						seatList.get(i - 1).setLastSeatLine(true);
-						;
+						
 					}
 				}
 
 			}
 			req.setAttribute("seatList", seatList);
-
-			// 수정필요
-			// TheaterService theaterService = TheaterService.getInstance();
-			// ScheduleTurnVO turnVO = theaterService.어떤것(turnNo);
-//			ScheduleTurnVO turnVO = new ScheduleTurnVO();
-//			req.getSession().setAttribute("turnVO", turnVO);
 
 			forward.setPath("layoutUser.jsp?article=/user/booking/memberBookingSelectSeat.jsp");
 			forward.setRedirect(false);

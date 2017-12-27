@@ -117,5 +117,20 @@ public class BookingService {
 				conn.close();
 		}
 	}
+	public int retrieveCountBookingList(ArrayList<Integer> screenList, String screenDate) throws Exception {
+		BookingDAO bookingDAO = BookingDAO.getInstance();
+		return bookingDAO.selectCountBookingList(screenList, screenDate);
+	}
+	
+	public int retrieveCountBookingList(ArrayList<Integer> turnList) throws Exception {
+		BookingDAO bookingDAO = BookingDAO.getInstance();
+		return bookingDAO.selectCountBookingList(turnList);
+	}
+	
+	
+	public int retrieveCountBookingList(String keyfield, String keyword, int status) throws Exception {
+		BookingDAO bookingDAO = BookingDAO.getInstance();
+		return bookingDAO.selectCountBookingList(keyfield, keyword, status);
+	}
 
 }

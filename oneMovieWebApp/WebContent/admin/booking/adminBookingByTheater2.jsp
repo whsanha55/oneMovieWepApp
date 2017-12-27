@@ -64,7 +64,16 @@
 			}
 		});
 		
-	
+		//date->yyyy/mm/dd string타입으로 변환시켜주는 함수 2개
+		function pad(num) {
+            num = num + '';
+            return num.length < 2 ? '0' + num : num;
+        }
+		
+		function convertDate(date) {
+        	return date.getFullYear() + "/" + pad((date.getMonth() + 1)) + "/" + pad(date.getDate());
+
+		}
 		
 		//상영관->회차
 		$('#screenCheckboxDiv').on('change',':checkbox[name=screenNo]', function() {
@@ -107,13 +116,13 @@
 			}
 		});
 		
-		//버튼클릭 조회
 		$('#btn').on('click',function() {
 			
 			if($('#screenCheckboxDiv').find('input:checked').length == 0) {
 				alert('상영관 또는 회차를 선택하셔야 조회 가능합니다!');
 			} else {
-				
+				var turnNoArray = [];
+				var screenNoArray = [];
 				
 				$('#turnCheckboxDiv').find('input:checked').each(function() {
 					turnNoArray.push($(this).val());
@@ -125,66 +134,8 @@
 					});
 				}
 				
-				bookingList(1);
-				
-				
-				
-			}
-			
-		});
-		
-	});
-	
-	
-	var turnNoArray = [];
-	var screenNoArray = [];
-	
-	//date->yyyy/mm/dd string타입으로 변환시켜주는 함수 2개
-	function pad(num) {
-        num = num + '';
-        return num.length < 2 ? '0' + num : num;
-    }
-	
-	function convertDate(date) {
-    	return date.getFullYear() + "/" + pad((date.getMonth() + 1)) + "/" + pad(date.getDate());
-
-	}
-	
-	
-	
-	function bookingList(currentPageNo) {
-		var totalCount = 0;		//총 회원 수
-		var countPerPage = 10;   //한 페이지당 보여주는 회원 수
-		var pageSize = 2;		//페이지 리스트에 게시되는 페이지 수
-		var startRow = 0;
-		var endRow = 0;
-		$.ajax({
-			url: '${pageContext.request.contextPath}/adminBookingCountAjax2.do' 
-			,
-			data: {
-				screenNoArray : screenNoArray.join() ,
-				turnNoArray : turnNoArray.join() ,
-				screenDate : convertDate($('#datepicker').datepicker("getDate"))
-			}
-			,
-			type: 'POST'
-			,
-			cache: false
-			,
-			dataType: 'json'
-			,
-			success: function (data, textStatus, jqXHR) {
-				var html = "";
-
-				if(data.countList > 0){ //총 회원 수가 1명 이상인 경우
-					totalCount = data.countList;
-					startRow = (currentPageNo - 1) * countPerPage + 1;
-					endRow = currentPageNo * countPerPage;
-					if(endRow > totalCount) {
-						endRow = totalCount;
-					}	
-				}
-				
+				//console.log('1   ' + turnNoArray);
+				//console.log('2   ' +screenNoArray);
 				$.ajax({
 					url : '${pageContext.request.contextPath}/adminBookingAjax4.do' ,
 					method : 'POST',
@@ -220,16 +171,7 @@
 							
 							$('#bookingListTable').append("<tr class='trBookingList'>" +text + "</tr>");
 							
-							
-							
 						}
-						//페이징 처리
-						jqueryPager({
-							pageSize: countPerPage,
-							pageBlock: pageSize,
-							currentPage: currentPageNo,
-							pageTotal: totalCount
-						});
 					} ,
 					error : function(jqXHR) {
 						alert(jqXHR.status);
@@ -237,66 +179,11 @@
 					}
 				});
 				
-			} ,
-			error: function(jqXHR) {
-				alert('에러!!:' + jqXHR.status);
 			}
+			
 		});
 		
-		
-		//페이징 처리
-		function jqueryPager(subOption) {
-			
-			var currentPage = subOption.currentPage;   //총 페이지수(1)
-			var pageSize = subOption.pageSize;         //한 페이지에 보여줄 게시글 수(3)
-			var pageBlock = subOption.pageBlock;       //페이지 블록 수(2)
-			var pageTotal = subOption.pageTotal;       //총 게시글 수 (9)
-			
-			if(!pageSize) pageSize = 3;
-			if(!pageBlock) pageBlock = 2;
-			
-			var pageTotalCnt = Math.ceil(pageTotal/pageSize);
-			var pageBlockCnt = Math.ceil(currentPage/pageBlock);
-			var sPage, ePage;
-			
-			var html ="";
-			
-			if(pageBlock > 1) {
-				sPage = (pageBlockCnt-1) * pageBlock + 1;
-			} else {
-				sPage = 1;
-			}
-			
-			if((pageBlockCnt * pageBlock) >= pageTotalCnt) {
-				ePage = pageTotalCnt;
-			} else {
-				ePage = pageBlockCnt * pageBlock;
-			}
-			
-
-			if(sPage > 1) {
-				html += '<a onclick="bookingList(' + 1 + ');">[처음]		</a>';
-				html += '<a onclick="bookingList(' + (sPage - pageBlock) + ');">[이전]	</a>';
-			}
-			
-			for(var i=sPage; i<=ePage; i++) {
-				if(currentPage == i) {
-					html += "     " + i + "     ";
-				} else {
-					html += '<a onclick="bookingList(' + i + ');">' + i + '</a>';
-				}
-			}				
-
-			if (ePage < pageTotalCnt) {
-				html += '<a onclick="bookingList(' + (ePage+1) + ');">   [ 다음 ]   </a>';
-				html += '<a onclick="bookingList(' + pageTotalCnt + ');">    [ 끝 ]</a>';
-			}		
-			
-			
-			$('#paging').empty().append(html);
-		
-		}//end of jqueryPager
-	}
+	});
 </script>
 
 	<div><a href="${pageContext.request.contextPath }/adminBookingByMember.do">회원 검색</a></div>
@@ -344,5 +231,3 @@
             </tr>
             
         </table>
-                
-        <div id="paging"></div>
