@@ -24,7 +24,7 @@ public class AdminBookingAjaxCommand implements Command {
 		ActionForward forward = new ActionForward();
 		try {
 			BookingService bookingService = BookingService.getInstance();
-			List<BookingVO> bookingList= bookingService.retrieveBookingList(keyfield, keyword, 0, 1, 10);
+			List<BookingVO> bookingList= bookingService.retrieveBookingList(keyfield, keyword, 0, 1, 100);
 			req.setAttribute("bookingList", bookingList);
 			forward.setPath("/admin/booking/adminBookingView.jsp");
 			forward.setRedirect(false);

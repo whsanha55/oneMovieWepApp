@@ -73,20 +73,32 @@ public class BookingDAO {
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("select *                                                                       ");
-			sql.append("from (select  ticket_no, member_no, member_name, theater_name, movie_title,     ");
-			sql.append("           screen_name, screen_date, start_time, end_time,                      ");
-			sql.append("           payment_code, seat_name ,rownum rn                                   ");
-			sql.append("      from booking_view                                                         ");
-			sql.append("      where status =0                                                           ");
-			sql.append("      and screen_date = ?                                                       ");
-
-			sql.append("      and screen_no in (?                                                       ");
+			
+			sql.append("select ticket_no, member_no, member_name, theater_name,                ");
+			sql.append("        movie_title, screen_name, screen_date, start_time, end_time ,  ");
+			sql.append("         payment_code, seat_name                                       ");
+			sql.append("from booking_view                                                      ");
+			sql.append("where ticket_no in(select ticket_no                                    ");
+			sql.append("                    from(select ticket_no , rownum rn                  ");
+			sql.append("                            from (select t1.ticket_no , to_char(t2.start_time,'hh24:mi') st, t4.screen_name sn, t5.name mn   ");
+			sql.append("                                    from booking t1, schedule_turn t2, screen_schedule t3, screen t4, member t5         ");
+			sql.append("                                    where t1.turn_no = t2.turn_no                        ");
+			sql.append("                                    and t2.schedule_no = t3.schedule_no                  ");
+			sql.append("                                    and t3.screen_no = t4.screen_no                      ");
+			sql.append("                                    and t1.member_no = t5.member_no                      ");
+			sql.append("                                    and t1.status = 0                                    ");
+			sql.append("                                    and t3.screen_date = ?                               ");
+			sql.append("                                    and t4.screen_no in (?                               ");
 			for (int i = 1; i < screenList.size(); i++) {
-				sql.append(",?            ");
+				sql.append("                                ,?            ");
 			}
-			sql.append(")                 ");
-			sql.append(") where rn between ? and ?                                              ");
+			sql.append("                                    )                 ");
+			
+			sql.append("                                    order by sn asc, st asc, mn asc))                      ");
+			sql.append("                    where rn between ? and ?)                                              ");
+			sql.append("order by start_time asc, member_name asc, seat_name asc                                    ");
+			
+			
 			pstmt = conn.prepareStatement(sql.toString());
 			
 			pstmt.setString(1, screenDate);
@@ -147,19 +159,37 @@ public class BookingDAO {
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("select *                                                                       ");
-			sql.append("from (select  ticket_no, member_no, member_name, theater_name, movie_title,     ");
-			sql.append("           screen_name, screen_date, start_time, end_time,                      ");
-			sql.append("           payment_code, seat_name ,rownum rn                                   ");
-			sql.append("      from booking_view                                                         ");
-			sql.append("      where status =0                                                           ");
-
-			sql.append("      and turn_no in (?                                                       ");
+			sql.append("select ticket_no, member_no, member_name, theater_name,                ");
+			sql.append("        movie_title, screen_name, screen_date, start_time, end_time ,  ");
+			sql.append("         payment_code, seat_name                                       ");
+			sql.append("from booking_view                                                      ");
+			sql.append("where ticket_no in(select ticket_no                                    ");
+			sql.append("                    from(select ticket_no , rownum rn                  ");
+			sql.append("                            from (select t1.ticket_no , to_char(t2.start_time,'hh24:mi') st, t4.screen_name sn, t5.name mn   ");
+			sql.append("                                    from booking t1, schedule_turn t2, screen_schedule t3, screen t4, member t5         ");
+			sql.append("                                    where t1.turn_no = t2.turn_no                        ");
+			sql.append("                                    and t2.schedule_no = t3.schedule_no                  ");
+			sql.append("                                    and t3.screen_no = t4.screen_no                      ");
+			sql.append("                                    and t1.member_no = t5.member_no                      ");
+			sql.append("                                    and t1.status = 0                                    ");
+			sql.append("                                    and t2.turn_no in (?                               ");
 			for (int i = 1; i < turnList.size(); i++) {
-				sql.append(",?            ");
+				sql.append("                                ,?            ");
 			}
-			sql.append(")                 ");
-			sql.append(") where rn between ? and ?                                              ");
+			sql.append("                                    )                 ");
+			
+			sql.append("                                    order by sn asc, st asc, mn asc))                      ");
+			sql.append("                    where rn between ? and ?)                                              ");
+			sql.append("order by start_time asc, member_name asc, seat_name asc                                    ");
+			
+			
+			
+			
+			
+			
+			
+			
+		
 			pstmt = conn.prepareStatement(sql.toString());
 			
 			int num = 0;
@@ -220,30 +250,49 @@ public class BookingDAO {
 		try {
 			conn = DBConn.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("select *                                                                ");
-			sql.append("from (select ticket_no, member_no, member_name, theater_name,           ");
-			sql.append("        movie_title, screen_name, screen_date, start_time, end_time ,   ");
-			sql.append("        payment_code, status, withdraw_date, seat_name,        ");
-			sql.append("        refund_price, refund_date, rownum rn                            ");
-			sql.append("      from booking_view                                                 ");
-
+			sql.append("select ticket_no, member_no, member_name, theater_name,             ");
+			sql.append("        movie_title, screen_name, screen_date, start_time, end_time ,     ");
+			sql.append("         payment_code, status, withdraw_date, seat_name,                  ");
+			sql.append("         refund_price, refund_date                                        ");
+			sql.append("from booking_view                                                         ");
+			sql.append("where ticket_no in(select ticket_no                                       ");
+			sql.append("                   from(select ticket_no , rownum rn                     ");
+			sql.append("                            from (select t1.ticket_no , to_char(t2.start_time,'hh24:mi') st, to_char(t3.screen_date,'yyyy/mm/dd') sd, t4.name mn    ");
+			sql.append("                                    from booking t1, schedule_turn t2, screen_schedule t3, member t4              ");
+			sql.append("                                    where t1.turn_no = t2.turn_no                                                 ");
+			sql.append("                                    and t2.schedule_no = t3.schedule_no                                           ");
+			sql.append("                                    and t1.member_no = t4.member_no                                               ");
+			
 			if (keyfield.equals("memberNo")) {
-				sql.append("where member_no like '%' || ? || '%'                          ");
+				sql.append("                                and t1.member_no like '%' || ? || '%'                                         ");
 			} else if (keyfield.equals("memberName")) {
-				sql.append("where member_name like '%' || ? || '%'                               ");
+				sql.append("                                and t4.name like '%' || ? || '%'                                              ");
 			}
 
-			if (status == 1) {
-				sql.append("and status = 1          ");
+			if(status == 0 ) {
+				sql.append("                                order by sd desc , st asc, mn asc  ))                                           ");
+			} else if (status == 1) {
+				sql.append("                                and status = 1                                                                ");
+				sql.append("                                order by sd desc , st asc, mn asc  ))                                           ");
 			} else if (status == 2) {
-				sql.append("and status = 0          ");
-				sql.append("and screen_date || start_time >= to_char(sysdate,'YYYY/MM/DD HH24:MI')     ");
+				sql.append("                                and status = 0                                                                ");
+				sql.append("                                and to_char(t3.screen_date,'yyyy/mm/dd') || to_char(t2.start_time,'hh24:mi') >= to_char(sysdate,'YYYY/MM/DD HH24:MI')  ");
+				sql.append("                                order by sd asc , st asc, mn asc  ))                                           ");
 			} else if (status == 3) {
-				sql.append("and status = 0          ");
-				sql.append("and screen_date || start_time < to_char(sysdate,'YYYY/MM/DD HH24:MI')     ");
+				sql.append("                                and status = 0                                                                ");
+				sql.append("                                and to_char(t3.screen_date,'yyyy/mm/dd') || to_char(t2.start_time,'hh24:mi') < to_char(sysdate,'YYYY/MM/DD HH24:MI')  ");
+				sql.append("                                order by sd desc , st asc, mn asc  ))                                           ");
 			}
-
-			sql.append(") where rn between ? and ?                                              ");
+			
+			sql.append("                    where rn between ? and ?)                             ");
+			
+			if(status == 2) {
+				sql.append("order by screen_date asc, start_time asc, member_no asc, seat_name       ");
+				
+			} else {
+				sql.append("order by screen_date desc, start_time asc, member_no asc, seat_name       ");
+				
+			}
 
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, keyword);

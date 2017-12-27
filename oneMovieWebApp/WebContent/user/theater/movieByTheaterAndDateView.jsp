@@ -4,8 +4,8 @@
 	"movieList" : [
 		<c:forEach var="movie" items="${requestScope.movieList }" varStatus="loop">
 			{
-				"screenNo" : ${pageScope.movie.movieNo } ,
-				"screenName" : "${pageScope.movie.movieTitle }"			
+				"movieNo" : ${pageScope.movie.movieNo } ,
+				"movieTitle" : "${pageScope.movie.movieTitle }"			
 			}
 		
 			<c:if test="${!pageScope.loop.last }">
