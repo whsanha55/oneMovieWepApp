@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import conn.DBConn;
-import domain.movie.ActorVO;
 import domain.movie.PhotoVO;
 
 public class PhotoDAO {

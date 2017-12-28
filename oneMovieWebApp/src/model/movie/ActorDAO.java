@@ -9,7 +9,6 @@ import java.util.List;
 
 import conn.DBConn;
 import domain.movie.ActorVO;
-import domain.movie.PhotoVO;
 import domain.movie.RoleVO;
 
 public class ActorDAO {
