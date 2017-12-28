@@ -23,6 +23,10 @@ public class ReLoginCommand implements Command {
 		String memberId = req.getParameter("memberId");
 		String memberPwd = req.getParameter("memberPwd");
 		
+
+		System.out.println(memberId);
+		System.out.println(memberPwd);
+		
 		try {
 			MemberService service = MemberService.getInstance();
 			MemberVO member = service.retrieveMember(memberId, memberPwd);
@@ -34,12 +38,12 @@ public class ReLoginCommand implements Command {
 				req.setAttribute("member", member);
 				
 				//3. 회원정보 수정 폼으로 이동한다.
-				forward.setPath("layoutUser.jsp?article=/user/member/modifyMemberForm.jsp");
+				forward.setPath("/layoutUser.jsp?article=/user/member/modifyMemberForm.jsp");
 				forward.setRedirect(false);
 				return forward;
 				
 			} else {
-				forward.setPath("layoutUser.jsp?article=/user/member/reLogin.jsp");
+				forward.setPath("/layoutUser.jsp?article=/user/member/reLogin.jsp");
 				forward.setRedirect(false);
 				return forward;
 			}

@@ -30,7 +30,7 @@ public class MemberDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+				
 		try {
 			conn = DBConn.getConnection();
 			

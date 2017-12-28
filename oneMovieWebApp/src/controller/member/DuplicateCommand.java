@@ -22,12 +22,13 @@ public class DuplicateCommand implements Command {
 		String keyword = req.getParameter("keyword");
 		String memberNo = "";
 		HttpSession session = req.getSession();
-		if(!session.getAttribute("memberNo").equals("")) {
+		if(session.getAttribute("memberNo") != null) {
 			memberNo = (String)session.getAttribute("memberNo");
 		} else {
 			memberNo = "0";
 		}
 		
+		System.out.println(keyfield + " " + keyword);
 				
 		ActionForward forward = new ActionForward();
 		
