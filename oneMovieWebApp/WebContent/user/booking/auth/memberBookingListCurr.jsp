@@ -36,7 +36,7 @@
 								dataType : 'json',
 								success : function(data) {
 									alert("예매취소가 완료되었습니다 \n 확인을 누르시면 취소 내역으로 이동합니다");
-									location.href = "${pageContext.request.contextPath }/memberBookingListCancel.do";
+									location.href = "${pageContext.request.contextPath }/auth/memberBookingListCancel.do";
 									
 								},
 								error : function(jqXHR) {
