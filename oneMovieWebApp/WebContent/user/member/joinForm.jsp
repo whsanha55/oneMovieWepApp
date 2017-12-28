@@ -9,6 +9,211 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
 	$(document).ready(function(){
+	
+		
+		
+		//회원가입 버튼 클릭
+		$('#join').on('click', function(event){
+			event.preventDefault();
+			
+			if(!checkForm()) {
+				return;
+			};
+			
+			emailAd = $('#emailAd').val();
+			if(emailAd == "write") {
+				emailAd = $('#emailAdWrite').val();
+			}
+			
+			$.ajax({
+			
+				url: "${pageContext.request.contextPath}/join.do"
+				,
+				method: 'POST'
+				,
+				data: {
+					memberId: $('#memberId').val() 	,
+					memberPwd: $('#memberPwd').val()	,
+					name: $('#name').val()	,
+					email: $('#emailId').val() + "@" + emailAd	,
+					gender: $(':input:radio[name=gender]:checked').val()	,
+					phone:	$('#exchangeNumber').val() + $('#tel1').val() + $('#tel2').val()	,
+					address1: $('#address1').val()	,
+					address2: $('#address2').val()	,
+					zipcode: $('#zipcode').val()
+				},
+				dataType: 'json'
+				,
+				success: function(data) {
+					alert(data.result);
+					location.href="${pageContext.request.contextPath}/layoutUser.jsp";
+				},
+			    error: function(jqXHR, textStatus, error) {
+					alert("Error : " + jqXHR.status + "," + error);		    	
+			    },		
+			});
+			
+			
+		});
+		
+		
+		
+		
+		//회원가입폼 입력 내용 체크 
+		function checkForm() {
+			
+			var id = $('#memberId').val();
+			var idChk = $('#idDuplication').val();
+			var pwd = $('#memberPwd').val();
+			var pwdChk = $('#checkPwd').val();
+			var name = $('#name').val();
+			var tel1 = $('#tel1').val();
+			var tel2 = $('#tel2').val();
+			var emailId = $('#emailId').val();
+			var emailAd = $('#emailAd').val();
+			if(emailAd == "write"){
+				emailAd = $('#emailAdWrite').val();
+			}
+			var emailChk = $('#emailDuplication').val();
+			
+			//아이디 입력 확인
+			if(id == "") {
+				alert("아이디를 입력해주세요.");
+				return false;
+			}
+			
+			//아이디에 한글, 특문 사용 불가
+			if(!checkId(id)) {
+				alert("아이디는 영문, 숫자를 사용하여 6~15자리로 입력해주세요.");
+				return false;
+			}
+			
+			//아이디 중복 확인
+			if(idChk != "checked"){
+				alert("아이디 중복확인을 해주세요.");
+				return false;
+			}
+			
+			//비밀번호 입력 확인
+			if(pwd == "" || pwdChk == "") {
+				alert("비밀번호를 입력해주세요.");
+				return false;
+			}
+			
+			//비밀번호 일치
+			if(pwd != pwdChk) {
+				alert("비밀번호가 일치하지 않습니다.");
+				return false;
+			}
+			
+			//비밀번호 영문, 숫자 혼용 및 길이 확인
+			if(!checkPwd(pwd)) {
+				alert("비밀번호는 영문, 숫자를 혼합하여 8~25자리로 입력해주세요.");
+				return false;
+			}
+			
+			//이름 입력 확인
+			if(name == "") {
+				alert("이름을 입력해주세요.");
+				return false;
+			}
+			
+			//이름에 숫자, 특문 사용 불가
+			if(checkName(name)) {
+				alert("이름은 한글만 입력이 가능합니다.(최대 10자)");
+				return false;
+			}
+			
+			//이메일 검증식
+			if(emailId == "" || emailAd == "" || !checkEmail(emailId, emailAd)){
+				alert("이메일을 정확히 입력해주세요.");
+				return false;
+			}
+			
+			//이메일 중복 확인
+			if(emailChk != "checked"){
+				alert("이메일 중복확인을 해주세요.");
+				return false;
+			}
+			
+			//전화번호 입력 확인
+			if(tel1 == "" || tel2 == "") {
+				alert("전화번호를 입력해주세요.");
+				return false;
+			}
+			
+			//전화번호에 숫자만
+			if(!checkPhone(tel1, tel2)){
+				alert("전화번호는 숫자만 입력 가능합니다.");
+				return false;
+			}
+			
+			return true;	
+					
+		}//end of checkForm
+		
+		
+		
+		
+		
+		//아이디 유효성 검사: 영문 또는 숫자 사용
+		function checkId(id) {
+			var leng = /^[a-zA-Z0-9]{6,15}$/;	//영문, 숫자, 6~15자 제한
+			return leng.test(id);
+		}	
+
+		
+		
+		//비밀번호 유효성 검사
+		function checkPwd(pwd){
+			var leng = /^[a-zA-Z0-9]{8,25}$/;	//영문, 숫자, 8~25자 제한
+			var num = pwd.search(/[0-9]/g);		//숫자 0-9
+			var eng = pwd.search(/[a-z]/ig);	//영문 소문자
+			
+			if(!leng.test(pwd) || num < 0 || eng < 0) {
+				return false;
+			} else {
+				return true;	
+			} 
+			
+		}
+		
+		
+		//이름 유효성 검사
+		function checkName(name) {
+			var kor = /[a-zA-Z0-9]|[ \[\]{}()<>?|`~!@#$%^&*-_+=,.;:\"'\\]/g;
+			return kor.test(name);
+		}
+		
+		//이메일 유효성 검사
+		function checkEmail(emailId, emailAd) {
+			var leng1 = /^[a-zA-Z0-9]([-_.]?[0-9a-zA-Z])*$/;
+			var leng2 = /^[a-zA-Z0-9]([-_.]?[0-9a-zA-Z])*.[a-zA-z]{2,3}$/i;
+			
+			if(!leng1.test(emailId) || !leng2.test(emailAd)) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+		
+		
+		//전화번호 유효성 검사
+		function checkPhone(tel1, tel2) {
+			var num1 = /^[0-9]{3,4}$/;
+			var num2 = /^[0-9]{4}$/;
+			
+			if(!num1.test(tel1) || !num2.test(tel2)) {
+				return false;
+			} else {
+				return true;	
+			}		
+		}
+	
+		
+		
+		
+		
 		
 
 	//아이디 중복 확인 버튼 클릭
@@ -19,6 +224,12 @@
 			alert("ID를 입력하세요.");
 			return;
 		}
+		
+		if(!checkId($('#memberId').val())) {
+			alert("아이디는 영문, 숫자를 사용하여 6~15자리로 입력해주세요.");
+			return;
+		}
+		
 		
 		$.ajax({
 			url: '${pageContext.request.contextPath}/duplicate.do'
@@ -65,7 +276,7 @@
 		var emailId = $('#emailId').val();
 		var emailAd = $('#emailAd').val();
 		var emailAdWrite = $('#emailAdWrite').val();	
-		if(emailAdWrite != "") {
+		if(emailAd == "write") {
 			emailAd = $('#emailAdWrite').val();
 		}		
 		
@@ -185,208 +396,11 @@
 	
 	
 	
-	//회원가입 버튼 클릭
-	$('#join').on('click', function(event){
-		event.preventDefault();
-		
-		checkForm();		
-		
-		$.ajax({
-		
-			url: "${pageContext.request.contextPath}/join.do"
-			,
-			method: 'POST'
-			,
-			data: {
-				memberId: $('#memberId').val() 	,
-				memberPwd: $('#memberPwd').val()	,
-				name: $('#name').val()	,
-				email: $('#emailId').val() + "@" + $('#emailAd').val()	,
-				gender: $(':input:radio[name=gender]:checked').val()	,
-				phone:	$('#exchangeNumber').val() + $('#tel1').val() + $('#tel2').val()	,
-				address1: $('#address1').val()	,
-				address2: $('#address2').val()	,
-				zipcode: $('#zipcode').val()
-			},
-			dataType: 'json'
-			,
-			success: function(data) {
-				alert(data.result);
-				location.href="${pageContext.request.contextPath}/layoutUser.jsp";
-			},
-		    error: function(jqXHR, textStatus, error) {
-				alert("Error : " + jqXHR.status + "," + error);		    	
-		    },		
-		});
-	});
+
 		
 
 	
 
-	
-	
-	//회원가입폼 입력 내용 체크 
-	function checkForm() {
-		
-		var id = $('#memberId').val();
-		var idChk = $('#idDuplication').val();
-		var pwd = $('#memberPwd').val();
-		var pwdChk = $('#checkPwd').val();
-		var name = $('#name').val();
-		var exNum = $('#exchangeNumber').val();
-		var tel1 = $('#tel1').val();
-		var tel2 = $('#tel2').val();
-		var emailId = $('#emailId').val();
-		var emailAd = $('#emailAd').val();
-		var emailChk = $('#emailDuplication').val();
-		
-		//아이디 입력 확인
-		if(id == "") {
-			alert("아이디를 입력해주세요.");
-			return;
-		}
-		
-		//아이디에 한글, 특문 사용 불가
-		if(!checkId(id)) {
-			alert("아이디는 영문, 숫자를 사용하여 6~15자리로 입력해주세요.");
-			return;
-		}
-		
-		//아이디 중복 확인
-		if(idChk != "checked"){
-			alert("아이디 중복확인을 해주세요.");
-			return;
-		}
-		
-		//비밀번호 입력 확인
-		if(pwd == "" || pwdChk == "") {
-			alert("비밀번호를 입력해주세요.");
-			return;
-		}
-		
-		//비밀번호 일치
-		if(pwd != pwdChk) {
-			alert("비밀번호가 일치하지 않습니다.");
-			return;
-		}
-		
-		//비밀번호 영문, 숫자 혼용 및 길이 확인
-		if(!checkPwd(pwd)) {
-			alert("비밀번호는 영문, 숫자를 혼합하여 8~25자리로 입력해주세요.");
-			return;
-		}
-		
-		//이름 입력 확인
-		if(name == "") {
-			alert("이름을 입력해주세요.");
-			return;
-		}
-		
-		//이름에 숫자, 특문 사용 불가
-		if(checkName(name)) {
-			alert("이름은 한글만 입력이 가능합니다.(최대 10자)");
-			return;
-		}
-		
-		//이메일 검증식
-		if(emailId == "" || emailAd == "" || !checkEmail(emailId, emailAd)){
-			alert("이메일을 정확히 입력해주세요.");
-			return;
-		}
-		
-		//이메일 중복 확인
-		if(emailChk != "checked"){
-			alert("이메일 중복확인을 해주세요.");
-			return;
-		}
-		
-		//전화번호 입력 확인
-		if(exNum == "" || tel1 == "" || tel2 == "") {
-			alert("전화번호를 입력해주세요.");
-			return;
-		}
-		
-		//전화번호에 숫자만
-		if(!checkPhone(tel1, tel2)){
-			alert("전화번호는 숫자만 입력 가능합니다.");
-			return;
-		}
-		
-			
-				
-	}//end of checkForm
-	
-	
-	
-
-	
-	
-
-	
-	
-	
-	
-	
-
-	
-	
-	//아이디 유효성 검사: 영문 또는 숫자 사용
-	function checkId(id) {
-		var leng = /^[a-zA-Z0-9]{6,15}$/;	//영문, 숫자, 6~15자 제한
-		return leng.test(id);
-	}	
-
-	
-	
-	//비밀번호 유효성 검사
-	function checkPwd(pwd){
-		var leng = /^[a-zA-Z0-9]{8,25}$/;	//영문, 숫자, 8~25자 제한
-		var num = pwd.search(/[0-9]/g);		//숫자 0-9
-		var eng = pwd.search(/[a-z]/ig);	//영문 소문자
-		
-		if(!leng.test(pwd) || num < 0 || eng < 0) {
-			return false;
-		} else {
-			return true;	
-		} 
-		
-	}
-	
-	
-	//이름 유효성 검사
-	function checkName(name) {
-		var kor = /[a-zA-Z0-9]|[ \[\]{}()<>?|`~!@#$%^&*-_+=,.;:\"'\\]/g;
-		return kor.test(name);
-	}
-	
-	//이메일 유효성 검사
-	function checkEmail(emailId, emailAd) {
-		var leng1 = /^[a-zA-Z0-9]([-_.]?[0-9a-zA-Z])*$/;
-		var leng2 = /^[a-zA-Z0-9]([-_.]?[0-9a-zA-Z])*.[a-zA-z]{2,3}$/i;
-		
-		if(!leng1.test(emailId) || !leng2.test(emailAd)) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-	
-	
-	//전화번호 유효성 검사
-	function checkPhone(tel1, tel2) {
-		var num1 = /^[0-9]{3,4}$/;
-		var num2 = /^[0-9]{4}$/;
-		
-		if(!num1.test(tel1) || !num2.test(tel2)) {
-			return false;
-		} else {
-			return true;	
-		}		
-	}
-
-	
-	
-	
 	
 });	
 	
@@ -426,27 +440,27 @@
 				  
 		<label>전화번호<select name="exchangeNumber" id="exchangeNumber" tabindex="9">
 				     <option value="02">02</option>
-				     <option value="010">010</option>
+				     <option value="010" selected>010</option>
 				     <option value="011">011</option>
-				     <option value="031">016</option>
-				     <option value="031">017</option>
-				     <option value="031">019</option>
+				     <option value="016">016</option>
+				     <option value="017">017</option>
+				     <option value="019">019</option>
 				     <option value="031">031</option>
-				     <option value="031">032</option>
-				     <option value="031">033</option>
-				     <option value="031">041</option>
-				     <option value="031">042</option>
-				     <option value="031">043</option>
-				     <option value="031">044</option>
-				     <option value="031">051</option>
-				     <option value="031">052</option>
-				     <option value="031">053</option>
-				     <option value="031">054</option>
-				     <option value="031">055</option>
-				     <option value="031">061</option>
-				     <option value="031">062</option>
-				     <option value="031">063</option>
-				     <option value="031">064</option> 
+				     <option value="032">032</option>
+				     <option value="033">033</option>
+				     <option value="041">041</option>
+				     <option value="042">042</option>
+				     <option value="043">043</option>
+				     <option value="044">044</option>
+				     <option value="051">051</option>
+				     <option value="052">052</option>
+				     <option value="053">053</option>
+				     <option value="054">054</option>
+				     <option value="055">055</option>
+				     <option value="061">061</option>
+				     <option value="062">062</option>
+				     <option value="063">063</option>
+				     <option value="064">064</option> 
 				   </select>&nbsp;
 				   <span>-</span>&nbsp;
 				   <input type="text" name="tel1" id="tel1" tabindex="10">&nbsp;

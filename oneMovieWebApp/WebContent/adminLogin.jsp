@@ -27,7 +27,7 @@
 				,
 				success: function(data) {
 					alert(data.result);
-					location.href = "${pageContext.request.contextPath}/layoutAdmin.jsp";
+					location.href = "${pageContext.request.contextPath}/admin/layoutAdmin.jsp";
 				}
 				,
 				

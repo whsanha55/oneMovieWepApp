@@ -21,8 +21,8 @@ public class MemberBookingListCurrCommand implements Command {
 		ActionForward forward = new ActionForward();
 		try {
 			//수정필요
-			//String memberNo = (String) req.getSession().getAttribute("memberNo");
-			String memberNo = "17121500004";
+			String memberNo = (String) req.getSession().getAttribute("memberNo");
+//			String memberNo = "17121500004";
 			
 			int currentPage = 0;
 			try {

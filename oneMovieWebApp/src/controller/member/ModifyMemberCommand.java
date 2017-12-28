@@ -36,7 +36,7 @@ public class ModifyMemberCommand implements Command {
 		String memberNo = (String)session.getAttribute("memberNo");
 		member.setMemberNo(memberNo);
 		
-
+		
 		try {
 			//2. DB에 전달한다.
 			MemberService service = MemberService.getInstance();

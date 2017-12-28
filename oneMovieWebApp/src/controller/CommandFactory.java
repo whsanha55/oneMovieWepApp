@@ -9,44 +9,46 @@ public class CommandFactory {
 
 	private CommandFactory() {
 		// 회원 시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// 관리자 로그인 요청
-		map.put("/adminLogin.do", "controller.admin.AdminLoginCommand");
-		// 관리자 로그아웃 요청
-		map.put("/adminLogout.do", "controller.admin.AdminLogoutCommand");
-		// 회원 관리 폼 요청
-		map.put("/manageMemberForm.do", "controller.admin.ManageMemberFormCommand");
-		// 회원리스트 요청
-		map.put("/manageMember.do", "controller.admin.ManageMemberCommand");
-
-		// 회원 로그인 폼 요청
-		map.put("/memberLoginForm.do", "controller.member.MemberLoginFormCommand");
-		// 회원 로그인 요청
-		map.put("/memberLogin.do", "controller.member.MemberLoginCommand");
-		// 아이디 찾기 폼 요청
-		map.put("/findIdForm.do", "controller.member.FindIdFormCommand");
-		// 아이디 찾기 요청
-		map.put("/findId.do", "controller.member.FindIdCommand");
-		// 비밀번호 찾기 폼 요청
-		map.put("/findPwdForm.do", "controller.member.FindPwdFormCommand");
-		// 비밀번호 찾기 요청
-		map.put("/findPwd.do", "controller.member.FindPwdCommand");
-		// 아이디 이메일 중복확인 요청
-		map.put("/duplicate.do", "controller.member.DuplicateCommand");
-		// 재로그인 폼 요청(회원정보 수정용)
-		map.put("/reLoginFrom.do", "controller.member.ReLoginFormCommand");
-		// 재로그인 요청
-		map.put("/reLogin.do", "controller.member.ReLoginCommand");
-		// 회원정보 수정 요청
-		map.put("/modifyMember.do", "controller.member.ModifyMemberCommand");
-		// 회원가입 폼 요청
-		map.put("/joinForm.do", "controller.member.JoinFormCommand");
-		// 회원가입 요청
-		map.put("/join.do", "controller.member.JoinCommand");
-		// 회원 탈퇴 요청
-		map.put("/withdraw.do", "controller.member.WithdrawCommand");
-		// 회원 로그아웃 요청
-		map.put("/memberLogout.do", "controller.member.memberLogoutCommand");
-		// 회원 끝====================================================
+				// 관리자 로그인 요청
+				map.put("/adminLogin.do", "controller.admin.AdminLoginCommand");
+				// 관리자 로그아웃 요청
+				map.put("/admin/adminLogout.do", "controller.admin.AdminLogoutCommand");
+				// 회원 관리 폼 요청
+				map.put("/admin/manageMemberForm.do", "controller.admin.ManageMemberFormCommand");
+				// 회원리스트 요청
+				map.put("/admin/manageMember.do", "controller.admin.ManageMemberCommand");
+				// 회원 수 카운트 요청
+				map.put("/admin/manageMemberCount.do", "controller.admin.ManageMemberCountCommand");
+				
+				// 회원 로그인 폼 요청
+				map.put("/memberLoginForm.do", "controller.member.MemberLoginFormCommand");
+				// 회원 로그인 요청
+				map.put("/memberLogin.do", "controller.member.MemberLoginCommand");
+				// 아이디 찾기 폼 요청
+				map.put("/findIdForm.do", "controller.member.FindIdFormCommand");
+				// 아이디 찾기 요청
+				map.put("/findId.do", "controller.member.FindIdCommand");
+				// 비밀번호 찾기 폼 요청
+				map.put("/findPwdForm.do", "controller.member.FindPwdFormCommand");
+				// 비밀번호 찾기 요청
+				map.put("/findPwd.do", "controller.member.FindPwdCommand");
+				// 아이디 이메일 중복확인 요청
+				map.put("/duplicate.do", "controller.member.DuplicateCommand");
+				// 재로그인 폼 요청(회원정보 수정용)
+				map.put("/auth/reLoginForm.do", "controller.member.ReLoginFormCommand");
+				// 재로그인 요청
+				map.put("/auth/reLogin.do", "controller.member.ReLoginCommand");
+				// 회원정보 수정 요청
+				map.put("/auth/modifyMember.do", "controller.member.ModifyMemberCommand");
+				// 회원가입 폼 요청
+				map.put("/joinForm.do", "controller.member.JoinFormCommand");
+				// 회원가입 요청
+				map.put("/join.do", "controller.member.JoinCommand");
+				// 회원 탈퇴 요청
+				map.put("/auth/withdraw.do", "controller.member.WithdrawCommand");
+				// 회원 로그아웃 요청
+				map.put("/auth/memberLogout.do", "controller.member.MemberLogoutCommand");
+				// 회원 끝====================================================
 
 		// 영화 시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		map.put("/user/movie/listMovie.do", "controller.movie.ListMovieCommand");

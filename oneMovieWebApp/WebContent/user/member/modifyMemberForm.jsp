@@ -5,19 +5,13 @@
 <head>
 <title>회원 정보 수정</title>
 </head>
-<script src="https://code.jquery.com/jquery-3.2.1.js"></script> 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
 	$(document).ready(function() {
 		
 		
-		
-		
-		
-		
-		
-		$('#emailAdWrite').hide();
 		//이메일 직접 입력 선택 시 나타남
+		$('#emailAdWrite').hide();
 		$('#emailAd').change(function(){
 			if($('#emailAd').val() == "write") {
 				$('#emailAdWrite').show();
@@ -27,6 +21,58 @@
 		});
 		
 		
+		//이메일 정보 폼에 뿌림
+		var email = '${requestScope.member.email}';
+		var emailId = email.substring(0, email.lastIndexOf('@')-1);
+		$('#emailId').val(emailId);
+		var emailAd = email.substring(email.lastIndexOf('@')+1);
+		var array = [];	//자바스크립트는 array 음슴
+		
+		$('#emailAd').children('option').each(function(){
+			array.push($(this).val());
+			if($(this).val() == emailAd) {
+				$(this).prop('selected', true);
+			}
+		})
+		
+		var temp = array.indexOf(emailAd);
+		if(temp == -1) {
+			$('#emailAd').val("write");
+			$('#emailAdWrite').show();
+			$('#emailAdWrite').val(emailAd);
+		}
+		
+
+ 		//성별 라디오버튼 처리
+		var gender = '${requestScope.member.gender}';
+		if(gender == 'M') {
+			$('#M').prop("checked", true);
+		} else if(gender == 'F') {
+			$('#F').prop("checked", true);
+		}
+		 
+		
+		//전화번호 불러오기
+		var phone = '${requestScope.member.phone}';
+		var exNum = phone.substr(0, 2);
+		if(exNum != '02') {
+			var exNum = phone.substr(0, 3);
+		}
+		$('#exchangeNumber').children('option').each(function(){
+			if($(this).val() == exNum){
+				$(this).prop('selected', true);
+			}
+		});
+		var tel1 = phone.slice(exNum.length, -4);
+		$('#tel1').val(tel1);
+		var tel2 = phone.slice(-4);
+		$('#tel2').val(tel2); 
+		
+		
+		
+		
+		
+		
 		//이메일 중복 확인 버튼 클릭
 		$('#checkEmail').on('click', function(event){
 			event.preventDefault();
@@ -34,7 +80,7 @@
 			var emailId = $('#emailId').val();
 			var emailAd = $('#emailAd').val();
 			var emailAdWrite = $('#emailAdWrite').val();	
-			if(emailAdWrite != "") {
+			if(emailAd == "write") {
 				emailAd = $('#emailAdWrite').val();
 			}		
 			
@@ -154,10 +200,17 @@
 		$('#modify').on('click', function(event){
 			event.preventDefault();	
 				
-			checkForm();
+			if(!checkForm()) {
+				return;
+			}
 
+			emailAd = $('#emailAd').val();
+			if(emailAd == "write") {
+				emailAd = $('#emailAdWrite').val();
+			}
+						
 			$.ajax({
-				url: '${pageContext.request.contextPath}/modifyMember.do'
+				url: '${pageContext.request.contextPath}/auth/modifyMember.do'
 				,
 				method: 'POST'
 				,
@@ -165,7 +218,7 @@
 					memberId: $('#memberId').val() 	,
 					memberPwd: $('#memberPwd').val()	,
 					name: $('#name').val()	,
-					email: $('#emailId').val() + "@" + $('#emailAd').val()	,
+					email: $('#emailId').val() + "@" + emailAd	,
 					gender: $(':input:radio[name=gender]:checked').val()	,
 					phone:	$('#exchangeNumber').val() + $('#tel1').val() + $('#tel2').val()	,
 					address1: $('#address1').val()	,
@@ -198,7 +251,7 @@
 			}
 						
 			$.ajax({
-				url:'${pageContext.request.contextPath}/withdraw.do'
+				url:'${pageContext.request.contextPath}/auth/withdraw.do'
 				,
 				method: 'POST'
 				,
@@ -225,7 +278,6 @@
 			var pwd = $('#memberPwd').val();
 			var pwdChk = $('#checkPwd').val();
 			var name = $('#name').val();
-			var exNum = $('#exchangeNumber').val();
 			var tel1 = $('#tel1').val();
 			var tel2 = $('#tel2').val();
 			var emailId = $('#emailId').val();
@@ -235,58 +287,58 @@
 			//비밀번호 입력 확인
 			if(pwd == "" || pwdChk == "") {
 				alert("비밀번호를 입력해주세요.");
-				return;
+				return false;
 			}
 			
 			//비밀번호 일치
 			if(pwd != pwdChk) {
 				alert("비밀번호가 일치하지 않습니다.");
-				return;
+				return false;
 			}
 			
 			//비밀번호 영문, 숫자 혼용 및 길이 확인
 			if(!checkPwd(pwd)) {
 				alert("비밀번호는 영문, 숫자를 혼합하여 8~25자리로 입력해주세요.");
-				return;
+				return false;
 			}
 			
 			//이름 입력 확인
 			if(name == "") {
 				alert("이름을 입력해주세요.");
-				return;
+				return false;
 			}
 			
 			//이름에 숫자, 특문 사용 불가
 			if(checkName(name)) {
 				alert("이름은 한글만 입력이 가능합니다.(최대 10자)");
-				return;
+				return false;
 			}
 			
 			//이메일 검증식
 			if(emailId == "" || emailAd == "" || !checkEmail(emailId, emailAd)){
 				alert("이메일을 정확히 입력해주세요.");
-				return;
+				return false;
 			}
 			
 			//이메일 중복 확인
 			if(emailChk != "checked"){
 				alert("이메일 중복확인을 해주세요.");
-				return;
+				return false;
 			}
 			
 			//전화번호 입력 확인
-			if(exNum == "" || tel1 == "" || tel2 == "") {
+			if(tel1 == "" || tel2 == "") {
 				alert("전화번호를 입력해주세요.");
-				return;
+				return false;
 			}
 			
 			//전화번호에 숫자만
 			if(!checkPhone(tel1, tel2)){
 				alert("전화번호는 숫자만 입력 가능합니다.");
-				return;
+				return false;
 			}
 			
-				
+			return true;	
 					
 		}//end of checkForm
 		
@@ -363,9 +415,9 @@
 		<label>이메일<input type="text" name="emailId" id="emailId" tabindex="4">&nbsp;
 				   <span id="at">@</span>&nbsp;
 				   <select name="emailAd" id="emailAd" tabindex="5">
-				     <option value="gmail">gamil.com</option>
-				     <option value="daum">daum.net</option>
-				     <option value="naver">naver.com</option>
+				     <option value="gmail.com">gmail.com</option>
+				     <option value="daum.com">daum.net</option>
+				     <option value="naver.com">naver.com</option>
 				     <option value="write">직접 입력</option>				     
 				   </select></label>&nbsp;
 				   <input type="text" id="emailAdWrite" name="emailAdWrite" />
@@ -377,27 +429,27 @@
 				  
 		<label>전화번호<select name="exchangeNumber" id="exchangeNumber" tabindex="8"> 
 				     <option value="02">02</option>
-				     <option value="010">010</option>
+				     <option value="010" selected>010</option>
 				     <option value="011">011</option>
-				     <option value="031">016</option>
-				     <option value="031">017</option>
-				     <option value="031">019</option>
+				     <option value="016">016</option>
+				     <option value="017">017</option>
+				     <option value="019">019</option>
 				     <option value="031">031</option>
-				     <option value="031">032</option>
-				     <option value="031">033</option>
-				     <option value="031">041</option>
-				     <option value="031">042</option>
-				     <option value="031">043</option>
-				     <option value="031">044</option>
-				     <option value="031">051</option>
-				     <option value="031">052</option>
-				     <option value="031">053</option>
-				     <option value="031">054</option>
-				     <option value="031">055</option>
-				     <option value="031">061</option>
-				     <option value="031">062</option>
-				     <option value="031">063</option>
-				     <option value="031">064</option> 			     
+				     <option value="032">032</option>
+				     <option value="033">033</option>
+				     <option value="041">041</option>
+				     <option value="042">042</option>
+				     <option value="043">043</option>
+				     <option value="044">044</option>
+				     <option value="051">051</option>
+				     <option value="052">052</option>
+				     <option value="053">053</option>
+				     <option value="054">054</option>
+				     <option value="055">055</option>
+				     <option value="061">061</option>
+				     <option value="062">062</option>
+				     <option value="063">063</option>
+				     <option value="064">064</option> 			     
 				   </select>&nbsp;
 				   <span>-</span>&nbsp;
 				   <input type="text" name="tel1" id="tel1" tabindex="9">&nbsp;
