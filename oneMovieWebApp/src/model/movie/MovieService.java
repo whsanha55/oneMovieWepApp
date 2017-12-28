@@ -144,7 +144,7 @@ public class MovieService {
          
          //영화 수정
          MovieDAO moiveDAO = MovieDAO.getInstance();
-         moiveDAO.modifyMovieList(conn, movie);
+         //moiveDAO.modifyMovieList(conn, movie);
          
          //출연진 수정
          ActorDAO actorDAO = ActorDAO.getInstance();      

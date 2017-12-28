@@ -25,11 +25,7 @@ import util.UploadFiles;
 //파일업로드 요청을 처리할 서블릿 클래스 구현
 public class WriteMovieServlet extends HttpServlet {
 
-<<<<<<< HEAD
-=======
 
->>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
-   
    @Override
    protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
       throws ServletException, IOException {
