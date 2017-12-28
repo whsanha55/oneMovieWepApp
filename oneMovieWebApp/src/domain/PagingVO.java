@@ -99,6 +99,7 @@ public class PagingVO {
 		if(endRow > totalPost) {
 			this.endRow = totalPost;
 		}
+		this.num = (currentPage-1) * postPerPage;
 	}
 
 	@Override

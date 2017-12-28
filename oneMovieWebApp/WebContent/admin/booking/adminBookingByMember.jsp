@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<style>
- html {
- 	font-color : black;
- }
-</style>
+
 <script>
 	$(document).ready(function() {
+		
+		
+		var attrmemberNo;
+		if((attrmemberNo = "${requestScope.memberNo}") != "") {
+			$('#keyword').val(attrmemberNo);
+			bookingList(1);
+		}
 	
 		$('#btn').on('click', function() {
 				if($('#keyword').val() == "") {

@@ -1,12 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<link rel="stylesheet" href="${pageContext.request.contextPath }/js/jquery-ui.min.css">
-<script src="${pageContext.request.contextPath }/js/jquery-3.2.1.min.js"></script>
-<script src="${pageContext.request.contextPath }/js/jquery-ui.min.js"></script>
 <script>
-
 
 	$(document).ready(function() {
 		
@@ -28,7 +23,7 @@
 	        	$('#turnCheckboxDiv').empty();
 	        	
 	        }
-	    });
+	    });	//datepicker끝
 				
 		
 		//지점선택시-> 상영관 
@@ -62,7 +57,7 @@
 				
 				$('#screenCheckboxDiv').find('div[id=theater_' + $(this).val() +']').remove();
 			}
-		});
+		});		//change 이벤트 끝
 		
 	
 		
@@ -105,10 +100,20 @@
 					$('#turnCheckboxDiv').find('div[id=screen_' + $(this).val() +']').remove();
 				}
 			}
-		});
+		});		//change 이벤트 끝
+		
+		
+		
+		
+
+		
 		
 		//버튼클릭 조회
 		$('#btn').on('click',function() {
+			
+			//전역배열객체 초기화시키기
+			turnNoArray = [];
+			screenNoArray = [];
 			
 			if($('#screenCheckboxDiv').find('input:checked').length == 0) {
 				alert('상영관 또는 회차를 선택하셔야 조회 가능합니다!');
@@ -131,11 +136,22 @@
 				
 			}
 			
-		});
+		});		//클릭 이벤트 끝
 		
-	});
+		$('#bookingListTable').on('click','a',function() {
+
+			var url = "${pageContext.request.contextPath }/adminBookingByMember.do" + "?memberNo=" + $(this).text();
+
+			var option = "width=1000, height=1000, menubar=no, toolbar=no, status=no, location=no, left= 100";
+			window.open(url,'a',option);
+			
+			
+			
+		});		//클릭 이벤트 끝
+		
+	});		//ready 끝
 	
-	
+	//전역 배열객체 선언
 	var turnNoArray = [];
 	var screenNoArray = [];
 	
@@ -198,8 +214,7 @@
 					success : function(data) {
 						$('#bookingListTable').find('.trBookingList').remove();
 						for(var i=0; i<data.bookingList.length;i++) {
-							
-							var text = "<td> " +data.bookingList[i].memberNo +  "</td>";
+							var text = "<td><a>" + data.bookingList[i].memberNo + "</a></td>";
 							text += "<td> " + data.bookingList[i].memberName + "</td>";
 							text += "<td>" + data.bookingList[i].theaterName + "</td>";
 							text += "<td>" + data.bookingList[i].screenName + "</td>";
