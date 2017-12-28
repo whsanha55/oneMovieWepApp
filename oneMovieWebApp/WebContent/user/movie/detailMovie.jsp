@@ -29,6 +29,7 @@ tr, td {
 }
 
 ul.tabs {
+	margin-left: 200px;
     float: left;
     list-style: none;
     height: 32px;
@@ -39,7 +40,7 @@ ul.tabs li {
     float: left;
     text-align:center;
     cursor: pointer;
-    width:200px;
+    width: 150px;
     height: 31px;
     border: 1px solid #eee;
     font-weight: bold;
@@ -120,6 +121,7 @@ ul.tabs li.active {
         <li class="active" rel="tab1">줄거리</li>
         <li rel="tab2">배우</li>
         <li rel="tab3">포토</li>
+        <li rel="tab4">동영상</li>
     </ul>
     <div class="tab_container" >
           <% pageContext.setAttribute("LF", "\n"); %>
@@ -150,6 +152,10 @@ ul.tabs li.active {
                   </th>
              </tr>
              </table> 
+        </div>
+        <div id="tab4" class="tab_content" style="margin:auto; text-align:center;">
+        	<iframe width="560" height="315" src="${requestScope.movie.videoUrl}">
+        	</iframe>
         </div>
     </div>
 </div>

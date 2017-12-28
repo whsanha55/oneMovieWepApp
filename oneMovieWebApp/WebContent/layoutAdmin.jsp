@@ -8,7 +8,7 @@
     <style>
         body,a {
             font: 20px '돋움';
-            color: black;
+            color: white;
             font-weight: bolder;
 
         }
@@ -50,7 +50,7 @@
            
         }
 
-        section>nav {
+        section nav {
             width: 20%;
             height: 600px;
             background-color: brown;
@@ -58,7 +58,7 @@
             
         }
 
-        section>article {
+        section article {
             width: 80%;
             height: 720px;
             background-color: powderblue;
@@ -68,13 +68,13 @@
             
         }
        
-        section>div ul {
+        section ul {
             list-style-type: none;
             padding: 0px;   
 
         }
         
-        section>div li {
+        section li {
             margin-bottom: 100px;
             height: 40px;
             
@@ -83,12 +83,12 @@
             
         }
 
-        section>div a {
+        section a {
             text-decoration: none;
             font-size:30px;
             
         }
-        section>div a:hover {
+        section a:hover {
             color: yellow;
         }
 
@@ -104,8 +104,8 @@
         }
     </style>
     <link rel="stylesheet" href="${pageContext.request.contextPath }/js/jquery-ui.min.css">
-	<script src="${pageContext.request.contextPath }/js/jquery-3.2.1.min.js"></script>
-	<script src="${pageContext.request.contextPath }/js/jquery-ui.min.js"></script>
+   <script src="${pageContext.request.contextPath }/js/jquery-3.2.1.min.js"></script>
+   <script src="${pageContext.request.contextPath }/js/jquery-ui.min.js"></script>
 </head>
 
 <body>
@@ -119,7 +119,7 @@
         <nav>
             <ul>
                 <li><a href="${pageContext.request.contextPath }/manageMemberForm.do">회원관리</a></li>
-                <li><a href="${pageContext.request.contextPath }/adminBookingByMember.do">예매관리</a></li>
+                <li><a href="#">예매관리</a></li>
                 
                 <li><a href="${pageContext.request.contextPath }/admin/movie/listMovie.do">영화</a></li>
                

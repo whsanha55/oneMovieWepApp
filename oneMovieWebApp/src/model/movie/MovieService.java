@@ -144,7 +144,7 @@ public class MovieService {
          
          //영화 수정
          MovieDAO moiveDAO = MovieDAO.getInstance();
-         moiveDAO.modifyMovieList(conn, movie);
+         //moiveDAO.modifyMovieList(conn, movie);
          
          //출연진 수정
          ActorDAO actorDAO = ActorDAO.getInstance();      
@@ -204,7 +204,6 @@ public class MovieService {
        MovieDAO dao = MovieDAO.getInstance();
        return dao.selectTotalPost(keyfield, keyword);
     }
-    
 	//상영상태에 따른 영화를 조회하다.
     public List<MovieVO> retrieveStateMovieList(String keyfield) throws Exception {
        MovieDAO dao = MovieDAO.getInstance();
