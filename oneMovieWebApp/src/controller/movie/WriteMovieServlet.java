@@ -24,6 +24,7 @@ import util.UploadFiles;
 
 //파일업로드 요청을 처리할 서블릿 클래스 구현
 public class WriteMovieServlet extends HttpServlet {
+
    
    @Override
    protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
@@ -72,12 +73,12 @@ public class WriteMovieServlet extends HttpServlet {
                ServletContext sc = getServletContext();
                switch(part.getName()) {  //field-name            
                   case "upload":
-                     PhotoVO photo = UploadFiles.uploadFile(req.getPart("upload"), sc);
+                     PhotoVO photo = UploadFiles.uploadFile(part, sc);
                      movie.addPhoto(photo);                  
                      break;
                   case "uploadactor":                                          
                      actor = new ActorVO();         //actor랑 actorPhoto순서 바꾸지 말 것.
-                     ActorPhotoVO actorPhoto = UploadFiles.uploadFile2(req.getPart("uploadactor"), sc);                  
+                     ActorPhotoVO actorPhoto = UploadFiles.uploadFile2(part, sc);                  
                      actor.setActorPhoto(actorPhoto);
                      movie.addActor(actor);
                      break;         
@@ -93,7 +94,7 @@ public class WriteMovieServlet extends HttpServlet {
          movieService.addMovie(movie);
          
          //게시글 목록 조회 페이지로 이동한다.
-         resp.sendRedirect(req.getContextPath() +"/user/movie/listMovie.do");
+         resp.sendRedirect(req.getContextPath() +"/admin/movie/listMovie.do");
       } catch (Exception e) {
          req.setAttribute("exception", e);
           RequestDispatcher dispatcher = req.getRequestDispatcher("/error.jsp");
@@ -121,3 +122,18 @@ public class WriteMovieServlet extends HttpServlet {
    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

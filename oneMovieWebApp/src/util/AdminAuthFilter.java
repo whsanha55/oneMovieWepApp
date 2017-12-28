@@ -1,4 +1,4 @@
-package controller.admin;
+package util;
 
 import java.io.IOException;
 
@@ -23,16 +23,12 @@ public class AdminAuthFilter implements Filter {
 		
 		HttpSession session = req.getSession();
 				
-		if(session != null) {
-			String adminId = (String)req.getAttribute("adminId");
-			if(adminId != null) {//세션에 아이디 있음 = 로그인 함
+		if(session.getAttribute("adminId") != null) {//세션에 아이디 있음 = 로그인 함
 				chain.doFilter(request, response);	//로그인된 경우 요청된 작업을 계속 함
-			} else {	//로그인 되어있지 않은 경우 관리자 로그인 화면으로 이동
-				resp.sendRedirect("/admin/member/adminLogin.jsp");
-			}
+		} else {	//로그인 되어있지 않은 경우 관리자 로그인 화면으로 이동
+				String contextPath = req.getContextPath();
+				resp.sendRedirect(contextPath + "/adminLogin.jsp");
 		}
-
-
 		
 			
 			

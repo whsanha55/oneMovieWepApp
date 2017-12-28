@@ -23,9 +23,15 @@ public class ReLoginCommand implements Command {
 		String memberId = req.getParameter("memberId");
 		String memberPwd = req.getParameter("memberPwd");
 		
+
+		System.out.println(memberId);
+		System.out.println(memberPwd);
+		
 		try {
 			MemberService service = MemberService.getInstance();
 			MemberVO member = service.retrieveMember(memberId, memberPwd);
+			
+			
 			
 			if(member.getName() != null) {
 				//2. 반환된 MemberVO 객체를 리퀘스트 영역에 바인딩한다.
@@ -37,7 +43,7 @@ public class ReLoginCommand implements Command {
 				return forward;
 				
 			} else {
-				forward.setPath("layoutUser.jsp?article=/user/member/reLogin.jsp");
+				forward.setPath("/layoutUser.jsp?article=/user/member/reLogin.jsp");
 				forward.setRedirect(false);
 				return forward;
 			}

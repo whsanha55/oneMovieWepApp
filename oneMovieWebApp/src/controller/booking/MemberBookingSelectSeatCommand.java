@@ -23,15 +23,20 @@ public class MemberBookingSelectSeatCommand implements Command {
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
 
+		ActionForward forward = new ActionForward();
+		
 		int turnNo = Integer.parseInt(req.getParameter("turnNo"));
 		BookingVO bookingVO = new BookingVO();
 		bookingVO.setTurnNo(turnNo);
-		//수정필요!!
-		//bookingVO.setMemberNo((String)req.getSession().getAttribute("memberNo"));
-		bookingVO.setMemberNo("17121500004");
-		
-		
+
 		HttpSession session =  req.getSession();
+
+		String memberNo = (String) session.getAttribute("memberNo");
+		
+		bookingVO.setMemberNo(memberNo);
+		//bookingVO.setMemberNo("17121500004");
+		
+		
 		BookingSnVO bookingSn = new BookingSnVO();
 		bookingSn.setMovieSn(req.getParameter("movieSelectedName"));
 		bookingSn.setTheaterSn(req.getParameter("theaterSelectedName"));
@@ -41,7 +46,6 @@ public class MemberBookingSelectSeatCommand implements Command {
 		
 		session.setAttribute("bookingVO", bookingVO);
 		session.setAttribute("bookingSn", bookingSn);
-		ActionForward forward = new ActionForward();
 		try {
 			BookingService bookingService = BookingService.getInstance();
 			List<BookingSeatVO> seatList = bookingService.retrieveSeatListByTurnNo(turnNo);
@@ -61,7 +65,7 @@ public class MemberBookingSelectSeatCommand implements Command {
 			}
 			req.setAttribute("seatList", seatList);
 
-			forward.setPath("layoutUser.jsp?article=/user/booking/memberBookingSelectSeat.jsp");
+			forward.setPath("/layoutUser.jsp?article=/user/booking/auth/memberBookingSelectSeat.jsp");
 			forward.setRedirect(false);
 			return forward;
 		} catch (Exception e) {

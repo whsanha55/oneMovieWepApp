@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<style>
- html {
- 	font-color : black;
- }
-</style>
+
 <script>
 	$(document).ready(function() {
+		
+		
+		var attrmemberNo;
+		if((attrmemberNo = "${requestScope.memberNo}") != "") {
+			$('#keyword').val(attrmemberNo);
+			bookingList(1);
+		}
 	
 		$('#btn').on('click', function() {
 				if($('#keyword').val() == "") {
@@ -182,8 +185,8 @@
 
 		}
 </script>
-	<div><a href="${pageContext.request.contextPath }/adminBookingByMember.do">회원 검색</a></div>
-	<div><a href="${pageContext.request.contextPath }/adminBookingByTheater.do">극장  검색</a></div>
+	<div><a href="${pageContext.request.contextPath }/admin/adminBookingByMember.do">회원 검색</a></div>
+	<div><a href="${pageContext.request.contextPath }/admin/adminBookingByTheater.do">극장  검색</a></div>
 	
 	<br>
 	<br>

@@ -11,6 +11,15 @@
 		
 		$('#btn').on('click', function(event){
 			event.preventDefault();
+			
+			var id = $('#name').val();
+			var email = $('#email').val();
+				
+			if(id=="" || email=="") {
+				alert("이름/이메일을 입력해주세요.")
+				return false;
+				} 
+						
 			$.ajax({
 				url: "${pageContext.request.contextPath}/findId.do"		 
 				,
@@ -33,7 +42,12 @@
 				}
 				
 			});			
-		});		
+		});	
+		
+		
+
+		
+		
 	});
 
 

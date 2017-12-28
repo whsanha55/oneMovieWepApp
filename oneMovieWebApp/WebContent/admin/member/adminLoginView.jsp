@@ -2,6 +2,7 @@
 
 {
 
-"result": "${requestScope.result }"
+"result": "${requestScope.result }"	,
+"key": "${requestScope.key }"
 
 }

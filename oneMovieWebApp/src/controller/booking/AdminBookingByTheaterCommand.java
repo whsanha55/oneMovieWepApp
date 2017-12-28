@@ -24,7 +24,7 @@ public class AdminBookingByTheaterCommand implements Command {
 			TheaterService theaterService = TheaterService.getInstance();
 			List<TheaterVO> theaterList = theaterService.retrieveTheaterList();
 			req.setAttribute("theaterList", theaterList);
-			forward.setPath("/layoutAdmin.jsp?article=/admin/booking/adminBookingByTheater.jsp");
+			forward.setPath("/admin/layoutAdmin.jsp?article=/admin/booking/adminBookingByTheater.jsp");
 			forward.setRedirect(false);
 			return forward;
 		} catch (Exception e) {

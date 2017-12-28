@@ -32,7 +32,7 @@ public class AdminLoginCommand implements Command {
 			AdminService service = AdminService.getInstance();
 			AdminVO admin = service.retrieveAdmin(adminId, adminPwd);
 						
-			if(admin != null) {
+			if(admin.getAdminId() != null) {
 				//3. 세션에 관리자 아이디를 바인딩한다.
 				HttpSession session = req.getSession();
 				session.setAttribute("adminId", adminId);
@@ -40,12 +40,14 @@ public class AdminLoginCommand implements Command {
 				
 				//4. 관리자 레이아웃 페이지로 이동한다.
 				req.setAttribute("result", "관리자 페이지로 이동합니다.");
+				req.setAttribute("key", "ok");
 				forward.setPath("/admin/member/adminLoginView.jsp");		//관리자 메인 주소 확인
 				forward.setRedirect(false);
 				return forward;
 				
 			} else {
 				req.setAttribute("result", "아이디와 비밀번호를 확인해주세요.");
+				req.setAttribute("key", "no");
 				forward.setPath("/admin/member/adminLoginView.jsp");	
 				forward.setRedirect(false);
 				return forward;

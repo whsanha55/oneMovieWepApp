@@ -331,11 +331,11 @@
 			$('#resultTable').find('tr:nth-child(2)').find('td:nth-child(2)').text(theaterSelectedNameWithScreenName);
 			$('#resultTable').find('tr:nth-child(4)').find('td:nth-child(2)').text($(this).text());
 			
-			$('form').prepend("<input type='hidden' name='movieSelectedName' value='"+ movieSelectedName + "'>");
-			$('form').prepend("<input type='hidden' name='theaterSelectedName' value='"+ theaterSelectedNameWithScreenName + "'>");
-			$('form').prepend("<input type='hidden' name='dateSelectedName' value='"+ dateSelectedName + "'>");
-			$('form').prepend("<input type='hidden' name='turnSelectedName' value='"+ turnSelectedName + "'>");
-			
+		
+			$('input[name=movieSelectedName]').val(movieSelectedName);
+			$('input[name=theaterSelectedName]').val(theaterSelectedNameWithScreenName);
+			$('input[name=dateSelectedName]').val(dateSelectedName);
+			$('input[name=turnSelectedName]').val(turnSelectedName);
 			
 			
 		});
@@ -379,11 +379,15 @@
      	
      </fieldset>
      
-     <form  action="memberBookingSelectSeat.do" method="post">
+     <form  action="${pageContext.request.contextPath }/auth/memberBookingSelectSeat.do" method="post">
      	<input type="hidden" name="turnNo" >
+     	<input type="hidden" name="movieSelectedName" >
+     	<input type="hidden" name="theaterSelectedName" >
+     	<input type="hidden" name="dateSelectedName" >
+     	<input type="hidden" name="turnSelectedName" >
      	<input type="submit" value="좌석선택하기"> 
      </form>
-     
+  
      <table border="1" id="resultTable">
      	<tr>
      		<td>영화</td>

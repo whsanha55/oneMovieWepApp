@@ -32,7 +32,7 @@
 	
 </script>
 
-	<form action="memberExecuteBooking.do" method="post">
+	<form action="${pageContext.request.contextPath }/auth/memberExecuteBooking.do" method="post">
 		<div>
 		<span>카드사 선택</span>
 		<select name="cardCompany">

@@ -112,7 +112,7 @@
 	</div>
 	
 	
-	<form action="memberBookingPayForm.do" method="post"  >
+	<form action="${pageContext.request.contextPath }/auth/memberBookingPayForm.do" method="post"  >
 		
 		<button id="payFormButton">결제</button>
 	</form>

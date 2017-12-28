@@ -10,19 +10,20 @@ import controller.ActionForward;
 import controller.Command;
 import model.booking.BookingService;
 
-public class AdminBookingByMemberCommand implements Command{
+public class AdminBookingByMemberCommand implements Command {
 
 	@Override
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
 		ActionForward forward = new ActionForward();
+
 		
-			BookingService bookingService = BookingService.getInstance();
-			forward.setPath("/layoutAdmin.jsp?article=/admin/booking/adminBookingByMember.jsp");
-			forward.setRedirect(false);			
-				
+		req.setAttribute("memberNo", req.getParameter("memberNo"));
 		
+		forward.setPath("/admin/layoutAdmin.jsp?article=/admin/booking/adminBookingByMember.jsp");
+		forward.setRedirect(false);
+
 		return forward;
 	}
-	
+
 }

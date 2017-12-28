@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import controller.ActionForward;
 import controller.Command;
@@ -19,7 +20,15 @@ public class DuplicateCommand implements Command {
 		//1. 검색조건과 키워드를 구한다.
 		String keyfield = req.getParameter("keyfield");
 		String keyword = req.getParameter("keyword");
-
+		String memberNo = "";
+		HttpSession session = req.getSession();
+		if(session.getAttribute("memberNo") != null) {
+			memberNo = (String)session.getAttribute("memberNo");
+		} else {
+			memberNo = "0";
+		}
+		
+		System.out.println(keyfield + " " + keyword);
 				
 		ActionForward forward = new ActionForward();
 		
@@ -31,7 +40,7 @@ public class DuplicateCommand implements Command {
 				count = service.retrieveIdDuplicate(keyword);
 				keyfield = "아이디";
 			} else if(keyfield.equals("email")) {
-				count = service.retrieveEmailDuplicate(keyword);
+				count = service.retrieveEmailDuplicate(memberNo, keyword);
 				keyfield = "이메일";
 			}
 						

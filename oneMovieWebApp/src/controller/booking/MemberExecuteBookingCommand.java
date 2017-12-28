@@ -60,7 +60,7 @@ public class MemberExecuteBookingCommand implements Command {
 			
 			session.removeAttribute("bookingVO");
 			session.removeAttribute("bookingSn");
-			forward.setPath("/layoutUser.jsp?article=/user/booking/memberExecuteBooking.jsp");
+			forward.setPath("/layoutUser.jsp?article=/user/booking/auth/memberExecuteBooking.jsp");
 			forward.setRedirect(true);
 			return forward;
 		} catch (Exception e) {

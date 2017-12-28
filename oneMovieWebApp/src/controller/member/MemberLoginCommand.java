@@ -29,7 +29,9 @@ public class MemberLoginCommand implements Command {
 			MemberService service = MemberService.getInstance();
 			MemberVO member = service.retrieveMember(memberId, memberPwd);
 			
-			if(member != null) {
+			System.out.println(member);
+			
+			if(member.getMemberNo() != null) {
 				//3. 세션 영역에 아이디와 회원번호를 바인딩한다.
 				HttpSession session = req.getSession();
 				session.setAttribute("memberId", member.getMemberId());

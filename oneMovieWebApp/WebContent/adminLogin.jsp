@@ -27,7 +27,12 @@
 				,
 				success: function(data) {
 					alert(data.result);
-					location.href = "${pageContext.request.contextPath}/layoutAdmin.jsp";
+					if(data.key == "ok") {
+						location.href = "${pageContext.request.contextPath}/admin/layoutAdmin.jsp";	
+					} else {
+						location.href = "${pageContext.request.contextPath}/adminLogin.jsp";
+					}
+					
 				}
 				,
 				
