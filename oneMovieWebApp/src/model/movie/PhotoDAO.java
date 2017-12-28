@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import conn.DBConn;
-import domain.movie.ActorVO;
 import domain.movie.PhotoVO;
 
 public class PhotoDAO {
@@ -110,4 +109,25 @@ public class PhotoDAO {
 				conn.close();
 		}
 	}
+	// 영화 사진 정보를 삭제하다.
+   public void removePhoto(Connection conn, int moviePhotoNo) throws Exception {
+      PreparedStatement pstmt = null;
+
+      try {
+         conn = DBConn.getConnection();
+
+         StringBuffer sql = new StringBuffer();
+         sql.append("delete from movie_photo        ");
+         sql.append("where movie_photo_no = ?       ");
+         pstmt = conn.prepareStatement(sql.toString());
+
+         pstmt.setInt(1, moviePhotoNo);
+
+         pstmt.executeUpdate();
+
+      } finally {
+         if (pstmt != null)
+            pstmt.close();
+      }
+   }
 }

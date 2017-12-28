@@ -1,7 +1,6 @@
  package model.movie;
  
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 
 import conn.DBConn;
@@ -57,7 +56,7 @@ public class MovieService {
             }
 
             for (ActorVO actor : movie.getActors()) {
-               int actorNo = actorDAO.insertActorList(conn, actor);
+               int actorNo = actorDAO.insertActorList(conn, actor, 0);
                System.out.println("actorNo : " + actorNo);
 
                // 출연진 사진 등록
@@ -71,7 +70,7 @@ public class MovieService {
             }
          }
 
-         // 영화 장르 등록         
+         // 영화 장르 등록
          if (movie.getMovieGenres().size() != 0) {
             GenreDAO genreDAO = GenreDAO.getInstance();
             List<MovieGenreVO> genres = movie.getMovieGenres();
@@ -80,12 +79,6 @@ public class MovieService {
             }
             genreDAO.insertGenreList(conn, genres);
          }
-
-         /*
-          * GenreDAO genreDAO = GenreDAO.getInstance(); MovieGenreVO genre =
-          * movie.getMovieGenre(); genre.setMovieNo(moiveNo);
-          * genreDAO.insertGenreList(conn, genre);
-          */
 
          conn.commit();
 
@@ -98,7 +91,6 @@ public class MovieService {
       }
 
    }
-
     
    // 영화 정보를 일괄 삭제한다.
    public void deleteMovieList(int[] noList) throws Exception {
@@ -108,19 +100,10 @@ public class MovieService {
 
          // tx.begin
          conn.setAutoCommit(false);
-         /*
-         //사진 삭제
-         PhotoDAO photoDao = PhotoDAO.getInstance();
-         photoDao.removePhotoList(conn, movieNo);
-         
-         //출연진 사진 삭제
-         ActorPhotoDAO actorPhotoDao = ActorPhotoDAO.getInstance();
-         actorPhotoDao.removeActorPhoto(conn, movieNo);
-         */
          
          //영화 삭제     
          MovieDAO articleDao = MovieDAO.getInstance();
-       articleDao.removeMovieList(conn, noList);
+         articleDao.removeMovieList(conn, noList);
 
          conn.commit();
 
@@ -132,9 +115,55 @@ public class MovieService {
             conn.close();
       }
    }
+   // 영화사진을 삭제한다
+   public void deleteMoviePhoto(int moviePhotoNo) throws Exception {
+      Connection conn = null;
+      try {
+         conn = DBConn.getConnection();
 
- //영화 정보를 수정하다.
-   public void updateMovie(MovieVO movie) throws Exception {
+         // tx.begin
+         conn.setAutoCommit(false);
+
+         // 사진 삭제
+         PhotoDAO photoDao = PhotoDAO.getInstance();
+         photoDao.removePhoto(conn, moviePhotoNo);
+
+         conn.commit();
+
+      } catch (Exception e) {
+         conn.rollback();
+         throw e;
+      } finally {
+         if (conn != null)
+            conn.close();
+      }
+   }
+   // 출연진 정보를 삭제한다
+   public void deleteActorList(int movieNo) throws Exception {
+      Connection conn = null;
+      try {
+         conn = DBConn.getConnection();
+
+         // tx.begin
+         conn.setAutoCommit(false);
+
+         // 출연진 사진 삭제
+         ActorDAO actorDao = ActorDAO.getInstance();
+         actorDao.removeActor(conn, movieNo);
+
+         conn.commit();
+
+      } catch (Exception e) {
+         conn.rollback();
+         throw e;
+      } finally {
+         if (conn != null)
+            conn.close();
+      }
+   }
+   
+   // 영화 정보를 수정하다.
+   public void updateMovie(DetailMovieVO movie) throws Exception {
       Connection conn = null;
       try {
          conn = DBConn.getConnection();
@@ -142,16 +171,34 @@ public class MovieService {
          // tx.begin(트랜젝션 시작)
          conn.setAutoCommit(false);
          
-         //영화 수정
+         ActorDAO actorDao = ActorDAO.getInstance();
+         actorDao.removeActor(conn, movie.getMovieNo());
+
+         // 영화 수정
          MovieDAO moiveDAO = MovieDAO.getInstance();
-         //moiveDAO.modifyMovieList(conn, movie);
-         
-         //출연진 수정
-         ActorDAO actorDAO = ActorDAO.getInstance();      
-         ActorVO actor = movie.getActor();
-         actor.setMovieNo(movie.getMovieNo());
-         actorDAO.modifyActorList(conn, actor);
-         
+         moiveDAO.modifyMovieList(conn, movie);
+
+         // 출연진 등록
+         if (movie.getActors().size() != 0) {
+            ActorDAO actorDAO = ActorDAO.getInstance();
+            for (ActorVO actor : movie.getActors()) {
+               actor.setMovieNo(movie.getMovieNo());
+            }
+
+            for (ActorVO actor : movie.getActors()) {
+               int actorNo = actorDAO.insertActorList(conn, actor, movie.getMovieNo());
+            
+               // 출연진 사진 등록
+               if (actor.getActorPhoto() != null) {
+                  System.out.println("call insertActorPhoto");
+                  ActorPhotoVO actorPhoto = actor.getActorPhoto();
+                  actorPhoto.setActorNo(actorNo);
+                  ActorPhotoDAO actorPhotoDAO = ActorPhotoDAO.getInstance();
+                  actorPhotoDAO.insertActorPhoto(conn, actorPhoto);
+               }
+            }
+         }
+
          conn.commit();
 
       } catch (Exception ex) {
@@ -162,25 +209,20 @@ public class MovieService {
             conn.close();
       }
    }
+   
    // 영화 제목을 조회하다.
    public List<MovieTitleVO> retriveMovieTitle(String movieTitle) throws Exception {
       MovieDAO movieDAO = MovieDAO.getInstance();
       return movieDAO.selectMovieTitleList(movieTitle);
    }
-   
-   
-   // 영화 목록을 조회하다.
-  public List<MovieVO> findMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
-  // public List<MovieVO> findMovieList(String keyfield, String keyword) throws Exception {
-      MovieDAO dao = MovieDAO.getInstance();
-      System.out.println("키필드!!!!" +keyfield );
-		System.out.println("키워드!!!!" +keyword );
-     return dao.selectMovieList(keyfield, keyword, startRow, endRow);  
-     // return dao.selectMovieList(keyfield, keyword);  
+     
+	// 영화 목록을 조회하다.
+	public List<MovieVO> findMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
+		MovieDAO dao = MovieDAO.getInstance();
+		return dao.selectMovieList(keyfield, keyword, startRow, endRow);
+	}
 
-   }
-
-   // 게시글 상세정보를 조회하다.
+   // 영화 상세정보를 조회하다.
    public DetailMovieVO retriveMovie(int movieNo) throws Exception {
       MovieDAO movieDao = MovieDAO.getInstance();
       DetailMovieVO detailMovie = movieDao.selectMovie(movieNo);

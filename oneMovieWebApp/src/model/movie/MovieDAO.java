@@ -215,7 +215,6 @@ public class MovieDAO {
 
    // 검색 조건에 해당하는 영화목록을 오름차순으로 조회한다.
   public List<MovieVO> selectMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
-   //public List<MovieVO> selectMovieList(String keyfield, String keyword) throws Exception {
       ArrayList<MovieVO> movies = new ArrayList<MovieVO>();
       Connection conn = null;
       PreparedStatement pstmt = null;
