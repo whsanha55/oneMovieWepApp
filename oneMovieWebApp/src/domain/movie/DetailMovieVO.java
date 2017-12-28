@@ -48,7 +48,6 @@ private int movieNo;
 	      for(int i = 0; i < genres.size(); i++) {
 	    	  GenreVO temp = genres.get(i);
 	         if(genre.getGenreName().equals(temp.getGenreName())) { //중복된 데이터가 있을 경우
-	            System.out.println("같다!!!"+genre.getGenreName());
 	            isExsit = true;
 	            break;
 	         }
@@ -73,17 +72,20 @@ private int movieNo;
    public List<ActorVO> getActors() {
       return actors;
    }
+   
+   public void addActor1(ActorVO actor) {
+		actors.add(actor);
+   }
 
+   
    public void addActor(ActorVO actor) {
       boolean isExsit = false;
       for(int i = 0; i < actors.size(); i++) {
          ActorVO temp = actors.get(i);
          if(actor.getActorName().equals(temp.getActorName())) { //중복된 데이터가 있을 경우
-            System.out.println("같다!!!"+actor.getActorName());
             isExsit = true;
-            break;
+           // break;
          }
-
       }
       if(isExsit) { //isExsit=true
 
@@ -103,7 +105,6 @@ private int movieNo;
       for(int i = 0; i < photos.size(); i++) {
          PhotoVO temp = photos.get(i);
          if(photo.getMoviePhotoOriginalFileName().equals(temp.getMoviePhotoOriginalFileName())) { //중복된 데이터가 있을 경우
-            System.out.println("같다!!!"+photo.getMoviePhotoOriginalFileName());
             isExsit = true;
             break;
          }
@@ -113,7 +114,7 @@ private int movieNo;
          //photos.add(obj);
       } else {
          photos.add(photo);
-         System.out.println(photos);
+         //System.out.println(photos);
       }
    }
 

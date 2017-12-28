@@ -35,14 +35,12 @@ public class GenreDAO {
 			
 			for (MovieGenreVO genre : genres) {			
 				pstmt.setInt(1, genre.getGenreNo());
-				//pstmt.setInt(2, genre.getMovieNo());
-				pstmt.executeUpdate();
-				//pstmt.addBatch();
+				System.out.println("genre.getMovieNo() : "+genre.getMovieNo());
+				//pstmt.setInt(2, genre.getMovieNo());				
+				pstmt.addBatch();			
 			}	
-			
-			//pstmt.addBatch();
-			//pstmt.executeUpdate();		//??왜때문에 에러
-
+			pstmt.executeBatch();
+		
 		} finally {
 			if (pstmt != null)
 				pstmt.close();

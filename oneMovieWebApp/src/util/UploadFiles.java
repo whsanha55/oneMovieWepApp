@@ -18,8 +18,9 @@ public class UploadFiles {
 		String moviePhotoOriginalFileName = getMoviePhotoOriginalFileName(part);
 		String moviePhotosystemFileName = "";
 		
-		String path = context.getRealPath("/user/movie/upload");
+		String path = context.getRealPath("/admin/movie/upload");
 		System.out.println("path : " + path);
+		System.out.println("moviePhotoOriginalFileName : " + moviePhotoOriginalFileName);
 		File file = new File(path + File.separator + moviePhotoOriginalFileName);
 		if(file.exists()) {
 			moviePhotosystemFileName = moviePhotoOriginalFileName.substring(0, moviePhotoOriginalFileName.lastIndexOf(".")) +
@@ -30,6 +31,8 @@ public class UploadFiles {
 			moviePhotosystemFileName = moviePhotoOriginalFileName;
 		}
 	
+		System.out.println("moviePhotosystemFileName : " + moviePhotosystemFileName);
+		
 		part.write(path + File.separator + moviePhotosystemFileName);
 		
 		PhotoVO photo = new PhotoVO();
@@ -43,7 +46,7 @@ public class UploadFiles {
 		String actorOriginalFileName = getActorOriginalFileName(part);
 		String actorSystemFileName = "";
 		
-		String path = context.getRealPath("/user/movie/upload");
+		String path = context.getRealPath("/admin/movie/upload");
 		System.out.println("path : " + path);
 		File file = new File(path + File.separator + actorOriginalFileName);
 		if(file.exists()) {

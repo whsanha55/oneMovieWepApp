@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.ActionForward;
 import controller.Command;
+import domain.movie.DetailMovieVO;
 import domain.movie.MovieVO;
 import model.movie.MovieService;
   
@@ -21,7 +22,7 @@ public class AdminDetailMovieCommand implements Command{
 		try {		
 			MovieService movieService = MovieService.getInstance();
 			
-			MovieVO movie = movieService.retriveMovie(movieNo);
+			DetailMovieVO movie = movieService.retriveMovie(movieNo);
 			
 			req.setAttribute("movie", movie);
 			 

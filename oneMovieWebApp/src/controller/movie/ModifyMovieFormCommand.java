@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.ActionForward;
 import controller.Command;
+import domain.movie.DetailMovieVO;
 import domain.movie.MovieVO;
 import model.movie.MovieService;
 
@@ -24,11 +25,11 @@ public class ModifyMovieFormCommand implements Command {
 		ActionForward forward = new ActionForward();
 		try {
 			MovieService service = MovieService.getInstance();
-			MovieVO movie = service.retriveMovie(movieNo);
+			DetailMovieVO movie = service.retriveMovie(movieNo);
 
 			req.setAttribute("movie", movie);
 
-			forward.setPath("/admin/movie/modifyMovieForm.jsp");
+			forward.setPath("/layoutAdmin.jsp?article=/admin/movie/modifyMovieForm.jsp");
 			forward.setRedirect(false);
 			return forward;
 
