@@ -20,7 +20,7 @@ public class AdminBookingByMemberCommand implements Command {
 		
 		req.setAttribute("memberNo", req.getParameter("memberNo"));
 		
-		forward.setPath("/layoutAdmin.jsp?article=/admin/booking/adminBookingByMember.jsp");
+		forward.setPath("/admin/layoutAdmin.jsp?article=/admin/booking/adminBookingByMember.jsp");
 		forward.setRedirect(false);
 
 		return forward;
