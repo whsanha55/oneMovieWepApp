@@ -125,7 +125,7 @@
         		</c:when>	
         		<c:when test='${!empty sessionScope.memberId}'>
         			<jsp:include page="/header2.jsp" />
-        		</c:when>
+        		</c:when> 
         	</c:choose>
         </nav>
     </header>
