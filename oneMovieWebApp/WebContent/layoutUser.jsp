@@ -126,9 +126,9 @@
                 <li><a href="${pageContext.request.contextPath }/user/movie/listMovie.do">영화</a></li>
 
                 <ul>
-                    <li><a href="#">현재 상영작</a></li>
-                    <li><a href="#">지난 상영작</a></li>
-                    <li><a href="#">상영 예정작</a></li>
+                    <li><a href="${pageContext.request.contextPath }/user/movie/listStateMovie.do?keyfield=now">현재 상영작</a></li>
+                    <li><a href="${pageContext.request.contextPath }/user/movie/listStateMovie.do?keyfield=end">지난 상영작</a></li>
+                    <li><a href="${pageContext.request.contextPath }/user/movie/listStateMovie.do?keyfield=future">상영 예정작</a></li>
                 </ul>
                 <li><a href="${pageContext.request.contextPath }/memberBooking.do">예매</a></li>
                 <ul>

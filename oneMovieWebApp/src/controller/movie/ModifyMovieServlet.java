@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import domain.movie.DetailMovieVO;
 import domain.movie.MovieVO;
 import domain.movie.PhotoVO;
 import model.movie.MovieService;
@@ -32,7 +33,7 @@ public class ModifyMovieServlet extends HttpServlet {
 
 		try {
 			MovieService service = MovieService.getInstance();
-			MovieVO movie = service.retriveMovie(movieNo);
+			DetailMovieVO movie = service.retriveMovie(movieNo);
 
 			movie.getPhotos().clear();
 
@@ -64,7 +65,7 @@ public class ModifyMovieServlet extends HttpServlet {
 				}
 			}
 
-			service.updateMovie(movie);
+			//service.updateMovie(movie);
 			resp.sendRedirect(req.getContextPath() + "/admin/movie/listMovie.do");
 
 		} catch (Exception e) {
