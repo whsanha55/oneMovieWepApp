@@ -15,32 +15,6 @@ import model.movie.MovieService;
 public class AdminDetailMovieCommand implements Command{
    public ActionForward execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
 
-<<<<<<< HEAD
-		int movieNo = Integer.parseInt(req.getParameter("movieNo"));
-		
-		ActionForward forward = new ActionForward();
-		
-		try {		
-			MovieService movieService = MovieService.getInstance();
-			
-			DetailMovieVO movie = movieService.retriveMovie(movieNo);
-		
-			req.setAttribute("movie", movie);
-			 
-			//4. 게시글 상세조회(detailArticle.jsp) 페이지로 이동한다.
-			forward.setPath("/layoutAdmin.jsp?article=/admin/movie/detailMovie.jsp");
-			forward.setRedirect(false);
-			return forward;
-			
-		} catch (Exception e) {
-			req.setAttribute("exception", e);
-			forward.setPath("/error.jsp");
-			forward.setRedirect(false);
-			return forward;
-		}	
-		
-	}
-=======
       int movieNo = Integer.parseInt(req.getParameter("movieNo"));
       
       ActionForward forward = new ActionForward();
@@ -65,6 +39,4 @@ public class AdminDetailMovieCommand implements Command{
       }   
       
    }
->>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
-
 }

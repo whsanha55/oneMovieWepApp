@@ -23,26 +23,6 @@ public class ActorDAO {
       return instance;
    }
 
-<<<<<<< HEAD
-	// 출연진을 등록한다. //service에서 commit해야함(conn.close())
-	public int insertActorList(Connection conn, ActorVO actor, int movieNo) throws Exception {
-		PreparedStatement pstmt = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-		int actorNo = 0;
-		try {
-			StringBuffer sql = new StringBuffer();
-			
-			if(movieNo == 0) {			
-				sql.append("insert into Actor(actor_no, actor_name, character_name, role_no, movie_no)		 ");
-				sql.append("values(actor_no_seq.nextval, ?, ?, ?, (select max(movie_no) from movie))          ");			
-			} else {
-				sql.append("insert into Actor(actor_no, actor_name, character_name, role_no, movie_no)		 ");
-				sql.append("values(actor_no_seq.nextval, ?, ?, ?, ?)         								 ");		
-			}
-			
-			pstmt = conn.prepareStatement(sql.toString());
-=======
    // 출연진을 등록한다. //service에서 commit해야함(conn.close())
    public int insertActorList(Connection conn, ActorVO actor, int movieNo) throws Exception {
       PreparedStatement pstmt = null;
@@ -61,17 +41,7 @@ public class ActorDAO {
          }
          
          pstmt = conn.prepareStatement(sql.toString());
->>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
-<<<<<<< HEAD
-			pstmt.setString(1, actor.getActorName());
-			pstmt.setString(2, actor.getCharacterName());
-			pstmt.setInt(3, actor.getRoleNo());
-			
-			if(movieNo != 0) {
-				pstmt.setInt(4, actor.getMovieNo());
-			}
-=======
          pstmt.setString(1, actor.getActorName());
          pstmt.setString(2, actor.getCharacterName());
          pstmt.setInt(3, actor.getRoleNo());
@@ -79,7 +49,6 @@ public class ActorDAO {
          if(movieNo != 0) {
             pstmt.setInt(4, actor.getMovieNo());
          }
->>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
          pstmt.executeUpdate();
          pstmt.close();
@@ -117,17 +86,12 @@ public class ActorDAO {
          System.out.println(conn);
          stmt = conn.createStatement();
 
-<<<<<<< HEAD
-			StringBuffer sql = new StringBuffer();
-			sql.append("select role_No, Role_Name												   ");
-			sql.append("from role 														   ");
-			sql.append("order by roleNo asc    												   ");
-=======
+
          StringBuffer sql = new StringBuffer();
          sql.append("select role_No, Role_Name                                       ");
          sql.append("from role                                              ");
          sql.append("order by roleNo asc                                           ");
->>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
+
 
          System.out.println(sql.toString());
 
@@ -149,16 +113,6 @@ public class ActorDAO {
       return roles;
    }
 
-<<<<<<< HEAD
-	// 출연진정보를 조회한다.
-	public ActorVO selectActorList(int actorNo) throws Exception {
-		ActorVO actor = new ActorVO();
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = DBConn.getConnection();
-=======
    // 출연진정보를 조회한다.
    public ActorVO selectActorList(int actorNo) throws Exception {
       ActorVO actor = new ActorVO();
@@ -167,15 +121,7 @@ public class ActorDAO {
       ResultSet rs = null;
       try {
          conn = DBConn.getConnection();
->>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
-<<<<<<< HEAD
-			StringBuffer sql = new StringBuffer();
-			sql.append("select Actor_No, Actor_Name, Character_Name, Movie_No, Role_No				   ");
-			sql.append("from actor 														   ");
-			sql.append("where actor_no= ?    												   ");
-			pstmt = conn.prepareStatement(sql.toString());
-=======
          StringBuffer sql = new StringBuffer();
          sql.append("select Actor_No, Actor_Name, Character_Name, Movie_No, Role_No               ");
          sql.append("from actor                                              ");
@@ -183,17 +129,9 @@ public class ActorDAO {
          pstmt = conn.prepareStatement(sql.toString());
 
          pstmt.setInt(1, actorNo);
->>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
-<<<<<<< HEAD
-			pstmt.setInt(1, actorNo);
-=======
          rs = pstmt.executeQuery();
->>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
-<<<<<<< HEAD
-			rs = pstmt.executeQuery();
-=======
          while (rs.next()) {
             actor.setActorNo(rs.getInt(1));
             actor.setActorName(rs.getString(2));
@@ -201,17 +139,8 @@ public class ActorDAO {
             actor.setMovieNo(rs.getInt(5));
             actor.setRoleNo(rs.getInt(6));
          }
->>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
-<<<<<<< HEAD
-			while (rs.next()) {
-				actor.setActorNo(rs.getInt(1));
-				actor.setActorName(rs.getString(2));
-				actor.setCharacterName(rs.getString(3));
-				actor.setMovieNo(rs.getInt(5));
-				actor.setRoleNo(rs.getInt(6));
-			}
-=======
+
       } finally {
          if (pstmt != null)
             pstmt.close();
@@ -220,46 +149,8 @@ public class ActorDAO {
       }
       return actor;
    }
->>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
-<<<<<<< HEAD
-		} finally {
-			if (pstmt != null)
-				pstmt.close();
-			if (conn != null)
-				conn.close();
-		}
-		return actor;
-	}
 
-	// 출연진 정보를 수정한다.
-	public void modifyActorList(Connection conn, List<ActorVO> actors) throws Exception {
-		PreparedStatement pstmt = null;
-		try {
-
-			StringBuffer sql = new StringBuffer();
-			sql.append("update actor					     ");
-			sql.append("set actor_Name=?, character_Name=?, role_No=?  ");
-			sql.append("where actor_No= ?  ");
-			pstmt = conn.prepareStatement(sql.toString());
-
-			for (ActorVO actor : actors) {
-				System.out.println("아!!!!!!!!!!!!!!!!!!!!!!!!" + actor.getActorName());
-				pstmt.setString(1, actor.getActorName());
-				pstmt.setString(2, actor.getCharacterName());
-				pstmt.setInt(3, actor.getRoleNo());
-				pstmt.setInt(4, actor.getActorNo());
-				pstmt.addBatch();
-			}
-
-			pstmt.executeBatch();
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>" + actors);
-
-		} finally {
-			if (pstmt != null)
-				pstmt.close();
-		}
-=======
    // 출연진 정보를 수정한다.
    public void modifyActorList(Connection conn, List<ActorVO> actors) throws Exception {
       PreparedStatement pstmt = null;
@@ -289,7 +180,6 @@ public class ActorDAO {
       }
 
    }
->>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
    // 출연진 정보를 삭제한다.
    public void removeActor(Connection conn, int movieNo) throws Exception {
@@ -297,27 +187,12 @@ public class ActorDAO {
       try {
          conn = DBConn.getConnection();
 
-<<<<<<< HEAD
-	// 출연진 정보를 삭제한다.
-	public void removeActor(Connection conn, int movieNo) throws Exception {
-		PreparedStatement pstmt = null;
-		try {
-			conn = DBConn.getConnection();
-=======
          StringBuffer sql = new StringBuffer();
          sql.append("delete from actor              ");
          sql.append("where movie_No= ?              ");
          pstmt = conn.prepareStatement(sql.toString());
->>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
-<<<<<<< HEAD
-			StringBuffer sql = new StringBuffer();
-			sql.append("delete from actor     			");
-			sql.append("where movie_No= ?  				");
-			pstmt = conn.prepareStatement(sql.toString());
-=======
          pstmt.setInt(1, movieNo);
->>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
          pstmt.executeUpdate();
 
@@ -325,14 +200,6 @@ public class ActorDAO {
          if (pstmt != null)
             pstmt.close();
       }
-
-<<<<<<< HEAD
-		} finally {
-			if (pstmt != null)
-				pstmt.close();
-		}
-=======
    }
->>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
 }
