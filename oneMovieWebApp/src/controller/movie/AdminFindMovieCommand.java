@@ -23,10 +23,10 @@ public class AdminFindMovieCommand implements Command{
 		
 		try {		
 			MovieService service = 	MovieService.getInstance();
-			List<MovieVO> movies = service.retriveMovieList(keyfield, keyword);
+			//List<MovieVO> movies = service.retriveMovieList(keyfield, keyword);
 			
 			//3. request영역에 "articles"라는 속성이름으로 바인딩한다.
-			req.setAttribute("movies", movies);
+			//req.setAttribute("movies", movies);
 			
 			//4. 게시글 목록(listArticleView.jsp) 페이지로 이동한다.
 			forward.setPath("/admin/movie/listMovieView.jsp");

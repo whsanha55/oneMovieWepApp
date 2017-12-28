@@ -36,14 +36,14 @@ public class ModifyMemberCommand implements Command {
 		String memberNo = (String)session.getAttribute("memberNo");
 		member.setMemberNo(memberNo);
 		
-
+		
 		try {
 			//2. DB에 전달한다.
 			MemberService service = MemberService.getInstance();
 			service.updateMember(member);
 						
 			//3. 회원 정보 수정 성공 페이지로 이동한다.
-			forward.setPath("/modifyMemberView.jsp");
+			forward.setPath("/user/member/modifyMemberView.jsp");
 			forward.setRedirect(false);
 			return forward;
 			

@@ -1,4 +1,4 @@
-package controller.member;
+package util;
 
 import java.io.IOException;
 
@@ -20,16 +20,18 @@ public class MemberAuthFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse resp = (HttpServletResponse)response;
 		
+		
 		HttpSession session = req.getSession();
-				
-		if(session != null) {
-			String memberId = (String)req.getAttribute("memberId");
-			if(memberId != null) {//세션에 아이디 있음 = 로그인 함
-				chain.doFilter(request, response);	//로그인된 경우 요청된 작업을 계속 함
-			} else {	//로그인 되어있지 않은 경우 로그인 화면으로 이동
-				resp.sendRedirect("layoutUser.jsp?article=/user/member/memberLogin.jsp");
-			}
+					
+		if(session.getAttribute("memberId") != null) {
+			 chain.doFilter(request, response);	//로그인된 경우 요청된 작업을 계속 함
+		} else {	//로그인 되어있지 않은 경우 로그인 화면으로 이동
+				String contextPath = req.getContextPath();
+				resp.sendRedirect(contextPath + "/user/member/alert.jsp");
 		}
+		
+	  
+
 
 		
 	}

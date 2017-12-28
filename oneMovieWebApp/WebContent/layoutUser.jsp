@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!doctype html>
 <html lang="en">
@@ -110,14 +112,21 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath }/js/jquery-ui.min.css">
 	<script src="${pageContext.request.contextPath }/js/jquery-3.2.1.min.js"></script>
 	<script src="${pageContext.request.contextPath }/js/jquery-ui.min.js"></script>
+	
 </head>
 
 <body>
     <header>
-       <h1><a href="#">One Movie</a></h1>
+       <h1><a href="${pageContext.request.contextPath }/layoutUser.jsp">One Movie</a></h1>
         <nav>
-            <a href="${pageContext.request.contextPath }/memberLoginForm.do">로그인</a>
-            <a href="${pageContext.request.contextPath }/joinForm.do">회원가입</a>     
+            <c:choose>
+        		<c:when test='${empty sessionScope.memberId}'>
+        			<jsp:include page="/header.jsp" />
+        		</c:when>	
+        		<c:when test='${!empty sessionScope.memberId}'>
+        			<jsp:include page="/header2.jsp" />
+        		</c:when>
+        	</c:choose>
         </nav>
     </header>
     <section>

@@ -9,8 +9,19 @@
 <script src="js/jquery-3.2.1.min.js"></script>
 <script>
 	$(document).ready(function(){
+		
 		$('#login').on('click', function(event){
 			event.preventDefault();
+			
+			var id = $('#memberId').val();
+			var pwd = $('#memberPwd').val();
+				
+			if(id=="" || pwd=="") {
+				alert("아이디/비밀번호를 입력해주세요.")
+				return false;
+			}
+
+			
 			$.ajax({
 				url: "${pageContext.request.contextPath}/memberLogin.do"
 				,
@@ -36,7 +47,16 @@
 		});		
 
 		
+		
+
+		
+		
+		
 	});
+	
+	
+	
+	
 
 
 </script> 

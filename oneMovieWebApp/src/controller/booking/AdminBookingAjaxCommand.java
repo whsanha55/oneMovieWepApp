@@ -20,11 +20,13 @@ public class AdminBookingAjaxCommand implements Command {
 
 		String keyfield = req.getParameter("keyfield");
 		String keyword = req.getParameter("keyword");
+		int startRow = Integer.parseInt(req.getParameter("startRow"));
+		int endRow = Integer.parseInt(req.getParameter("endRow"));
 		System.out.println(keyword);
 		ActionForward forward = new ActionForward();
 		try {
 			BookingService bookingService = BookingService.getInstance();
-			List<BookingVO> bookingList= bookingService.retrieveBookingList(keyfield, keyword, 0, 1, 10);
+			List<BookingVO> bookingList= bookingService.retrieveBookingList(keyfield, keyword, 0, startRow, endRow);
 			req.setAttribute("bookingList", bookingList);
 			forward.setPath("/admin/booking/adminBookingView.jsp");
 			forward.setRedirect(false);

@@ -11,6 +11,16 @@
 		
 		$('#btn').on('click', function(event){
 			event.preventDefault();
+			
+			var id = $('#memberId').val();
+			var email = $('#email').val();
+				
+			if(id=="" || email=="") {
+				alert("아이디/이메일을 입력해주세요.")
+				return false;
+			}
+			
+			
 			$.ajax({
 				url: "${pageContext.request.contextPath}/findPwd.do"		 
 				,
@@ -28,11 +38,17 @@
 				}
 				,
 				error: function(jqXHR) {
-					alert('Error: ' + jqXHR)
+					alert('Error: ' + jqXHR + "에러 발생")
 				}
 				
 			});			
 		});		
+		
+		
+
+		
+		
+		
 	});
 
 

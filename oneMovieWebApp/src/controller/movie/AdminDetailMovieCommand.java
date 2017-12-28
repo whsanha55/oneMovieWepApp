@@ -23,7 +23,7 @@ public class AdminDetailMovieCommand implements Command{
 			MovieService movieService = MovieService.getInstance();
 			
 			DetailMovieVO movie = movieService.retriveMovie(movieNo);
-			
+		
 			req.setAttribute("movie", movie);
 			 
 			//4. 게시글 상세조회(detailArticle.jsp) 페이지로 이동한다.

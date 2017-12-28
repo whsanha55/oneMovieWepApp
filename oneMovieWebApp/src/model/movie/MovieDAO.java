@@ -209,8 +209,8 @@ public class MovieDAO {
    }
 
    // 검색 조건에 해당하는 영화목록을 오름차순으로 조회한다.
-  // public List<MovieVO> selectMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
-   public List<MovieVO> selectMovieList(String keyfield, String keyword) throws Exception {
+  public List<MovieVO> selectMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
+   //public List<MovieVO> selectMovieList(String keyfield, String keyword) throws Exception {
       ArrayList<MovieVO> movies = new ArrayList<MovieVO>();
       Connection conn = null;
       PreparedStatement pstmt = null;
@@ -220,27 +220,32 @@ public class MovieDAO {
          conn = DBConn.getConnection();
 
          StringBuffer sql = new StringBuffer();
-         sql.append( "select distinct (select mp.movie_photo_original_file_name ");
-         sql.append( "from movie_photo mp            ");
-         sql.append( "where mp.MOVIE_PHOTO_ORIGINAL_FILE_NAME like '%' || 'main' ||  '%'                ");
-         sql.append( " and mp.movie_no = m1.movie_no), m1.movie_no, m1.movie_title, m1.director, m1.running_time, g.grade_age, n.nation_name         ");
-         sql.append("from movie m1, grade g, nation n, movie_photo mp                                                                      ");
-         sql.append(" where g.grade_no = m1.grade_no and n.nation_no = m1.nation_no and mp.movie_no = m1.movie_no                                        ");
+         sql.append( "select photo, movie_no, movie_title, running_time, director, grade_age, nation_name 							 ");
+         sql.append( " from( select rownum as rn, movie1.*          																			  ");
+         sql.append( "		  from (select  (select mp.movie_photo_original_file_name             										    ");
+         sql.append( "							from movie_photo mp       																		   ");
+         sql.append(" 							where mp.movie_photo_original_file_name like '%' || 'main' ||  '%'                         ");
+         sql.append("  							and mp.movie_no = m1.movie_no) as photo,                                      			  ");
+         sql.append("  				 m1.movie_no, m1.movie_title, m1.director, m1.running_time, g.grade_age, n.nation_name        ");
+         sql.append("  				 from movie m1, grade g, nation n                                   										   ");
+         sql.append("  				 where g.grade_no = m1.grade_no and n.nation_no = m1.nation_no                                    ");
 
          if (keyfield.equals("MovieTitle")) {
-            sql.append("and m1.movie_title like '%' || ? ||  '%'                                                           ");
+            sql.append("				 and m1.movie_title like '%' || ? ||  '%'                    				                                       ");
          } else if (keyfield.equals("Director")) {
-            sql.append("and m1.director like '%' || ? ||  '%'                                                              ");
+            sql.append("				and m1.director like '%' || ? ||  '%'                                                            				  ");
          }
-         sql.append("order by 1                                                                                             ");
+         sql.append(" 			    order by movie_no desc )movie1) movie2	                                                             ");
          
-         //sql.append("and rn >= ? and rn <= ?                                             ");
-         //sql.append("order by 1;                                             ");
-        pstmt = conn.prepareStatement(sql.toString());
+         sql.append("where rn >= ? and rn <= ?                                             ");
+         pstmt = conn.prepareStatement(sql.toString());
 
-      pstmt.setString(1, keyword);
-
-      rs = pstmt.executeQuery();
+         pstmt.setString(1, keyword);
+         pstmt.setInt(2,  startRow);
+		 pstmt.setInt(3,  endRow);
+		 
+         rs = pstmt.executeQuery();
+         
          while (rs.next()) {   
            PhotoVO photo = new PhotoVO(); 
            MovieVO movie = new MovieVO();
@@ -252,8 +257,8 @@ public class MovieDAO {
            
            movie.setMovieNo(rs.getInt(2));
            movie.setMovieTitle(rs.getString(3));
-           movie.setDirector(rs.getString(4));
-           movie.setRunningTime(rs.getInt(5));
+           movie.setRunningTime(rs.getInt(4));
+           movie.setDirector(rs.getString(5));
            
            grade.setGradeAge(rs.getString(6));
            movie.setGrade(grade);
@@ -387,29 +392,31 @@ public class MovieDAO {
    }
    
    //영화 목록을 전체 조회하다.
-    public List<MovieVO> selectMovieList() throws Exception {
+    public List<MovieVO> selectMovieList(int startRow, int endRow) throws Exception {
           ArrayList<MovieVO> movies = new ArrayList<MovieVO>();
           Connection conn = null;
-          Statement stmt = null;
+          PreparedStatement pstmt = null;
           ResultSet rs = null;
           try {
              conn = DBConn.getConnection();
-
-             System.out.println(conn);
-             stmt = conn.createStatement();
-
+             
              StringBuffer sql = new StringBuffer();
-             sql.append("select (select mp.movie_photo_original_file_name 																											");
-             sql.append(" from movie_photo mp 																																	");
-             sql.append(" where mp.MOVIE_PHOTO_ORIGINAL_FILE_NAME like '%' || 'main' ||  '%'  																		");
-             sql.append("and mp.movie_no = m.movie_no) , m.movie_no, m.movie_title, m.running_time, m.director, g.grade_age, n.nation_name          ");
-             sql.append("from movie m, grade g, nation n         																											 ");
-             sql.append("where g.grade_no = m.grade_no and n.nation_no = m.nation_no                             												 ");
-             sql.append("order by 1                                                                               																  ");
-             System.out.println(sql.toString());
-
-             rs = stmt.executeQuery(sql.toString());
-
+             sql.append(" select photo, movie_no, movie_title, running_time, director, grade_age, nation_name 		");
+             sql.append(" from( select rownum as rn, movie1.*    																");
+             sql.append("  		 from (select (select mp.movie_photo_original_file_name								  ");
+             sql.append(" 						 from movie_photo mp      													   ");
+             sql.append("						 where mp.movie_photo_original_file_name like '%' || 'main' ||  '%'   	 ");
+             sql.append(" 						 and mp.movie_no = m.movie_no) as photo, m.movie_no, m.movie_title, m.running_time, m.director, g.grade_age, n.nation_name  	 ");
+             sql.append("  		 		 from movie m, grade g, nation n        													");
+             sql.append("  		 		 where g.grade_no = m.grade_no and n.nation_no = m.nation_no 						");
+             sql.append("  				 order by movie_no desc )movie1) movie2												");
+             sql.append("where rn>=? and rn<=?													   										");	
+ 			pstmt = conn.prepareStatement(sql.toString());
+			
+ 			pstmt.setInt(1,  startRow);
+ 			pstmt.setInt(2,  endRow);
+ 			
+ 			rs = pstmt.executeQuery();
              while (rs.next()) {
             	PhotoVO photo = new PhotoVO();
                 MovieVO movie = new MovieVO();
@@ -434,12 +441,132 @@ public class MovieDAO {
              }
 
           } finally {
-             if (stmt != null)
-                stmt.close();
+        	  if(pstmt != null) pstmt.close();
              if (conn != null)
                 conn.close();
           }
           return movies;
        }
-   
+    
+  //총 게시글 수를 구하다.
+  	public int selectTotalPost() throws Exception {
+  		int totalPost = 0;
+  		Connection conn = null;		
+  		Statement stmt = null;
+  		ResultSet rs = null;
+  		try {
+  			conn = DBConn.getConnection();
+  			
+  			stmt = conn.createStatement();
+  			
+  			StringBuffer sql = new StringBuffer();
+  			sql.append("select count(*) from movie 		  ");		
+  			rs = stmt.executeQuery(sql.toString());
+  			if(rs.next()) {
+  				totalPost = rs.getInt(1);
+  			}			
+  			
+  		} finally {
+  			if(rs != null) rs.close();
+  			if(stmt != null) stmt.close();
+  			if(conn != null) conn.close();			
+  		}
+  		return totalPost;		
+  	}
+  	
+    //검색에 따른 총 게시글 수를 구하다.
+  	public int selectTotalPost(String keyfield, String keyword) throws Exception {
+  		int totalPost = 0;
+  		Connection conn = null;		
+  		PreparedStatement pstmt = null;
+  		ResultSet rs = null;
+  		try {
+  			conn = DBConn.getConnection();
+  			
+  			StringBuffer sql = new StringBuffer();
+  			sql.append("select count(*) from movie 				  ");	
+  			if (keyfield.equals("MovieTitle")) {
+  				sql.append("where movie_title like '%' || ? ||  '%'    ");	
+           } else if (keyfield.equals("Director")) {
+              sql.append("where director like '%' || ? ||  '%'          ");
+           }
+  			
+  			pstmt = conn.prepareStatement(sql.toString());
+			
+ 			pstmt.setString(1,  keyword);
+ 			
+ 			rs = pstmt.executeQuery();
+ 			
+  			if(rs.next()) {
+  				totalPost = rs.getInt(1);
+  			}			
+  			
+  		} finally {
+  			if(rs != null) rs.close();
+  			if(pstmt != null) pstmt.close();
+  			if(conn != null) conn.close();			
+  		}
+  		return totalPost;		
+  	}
+  	
+  	//상영상태에 따른 영화를 조회하다.
+    public List<MovieVO> selectStateMovieList(String keyfield) throws Exception {
+          ArrayList<MovieVO> movies = new ArrayList<MovieVO>();
+          Connection conn = null;
+          PreparedStatement pstmt = null;
+          ResultSet rs = null;
+          try {
+             conn = DBConn.getConnection();
+             
+             StringBuffer sql = new StringBuffer();
+             sql.append(" select distinct (select mp.movie_photo_original_file_name  																										    	");
+             sql.append("  					from movie_photo mp     																															    	");
+             sql.append("  		 			where mp.MOVIE_PHOTO_ORIGINAL_FILE_NAME like '%' || 'main' ||  '%'        																     	");
+             sql.append(" 				    and mp.movie_no = m1.movie_no), temp.movie_no, m1.movie_title, m1.running_time, m1.director, g.grade_age, n.nation_name   	");
+             sql.append(" from movie m1, grade g, nation n, movie_photo mp, 																					 								");
+             sql.append(" 																	(select distinct movie_no   																				 ");
+             sql.append(" 																	 from screen_schedule  	 																					");
+             sql.append("  		 															 group by movie_no																							");
+             if (keyfield.equals("now")) {
+            	 sql.append("  		 															 having max(SCREEN_DATE) > sysdate and min(SCREEN_DATE) < sysdate +7) temp    		");
+              } else if (keyfield.equals("end")) {
+            	  sql.append("  		 															 having max(SCREEN_DATE) < sysdate) temp    														");
+              } else if (keyfield.equals("future")) {
+            	  sql.append("  		 															 having min(SCREEN_DATE) > sysdate +7) temp    	");
+              }
+             sql.append("where g.grade_no = m1.grade_no and n.nation_no = m1.nation_no and mp.movie_no = m1.movie_no and temp.movie_no = m1.movie_no			");
+ 			 pstmt = conn.prepareStatement(sql.toString());
+			
+ 			rs = pstmt.executeQuery();
+             while (rs.next()) {
+            	PhotoVO photo = new PhotoVO();
+                MovieVO movie = new MovieVO();
+                GradeVO grade = new GradeVO();
+                NationVO nation = new NationVO();
+                
+                photo.setMoviePhotoOriginalFileName(rs.getString(1));
+                movie.setPhoto(photo);
+                
+                movie.setMovieNo(rs.getInt(2));
+                movie.setMovieTitle(rs.getString(3));
+                movie.setRunningTime(rs.getInt(4));
+                movie.setDirector(rs.getString(5));
+                
+                grade.setGradeAge(rs.getString(6));
+                movie.setGrade(grade);
+                
+                nation.setNationName(rs.getString(7));
+                movie.setNation(nation);
+                
+                movies.add(movie);
+             }
+
+          } finally {
+        	  if(pstmt != null) pstmt.close();
+             if (conn != null)
+                conn.close();
+          }
+          return movies;
+       }
+    
 }

@@ -42,7 +42,7 @@ public class MemberBookingPayFormCommand implements Command {
 		
 		
 		ActionForward forward = new ActionForward();
-		forward.setPath("layoutUser.jsp?article=/user/booking/memberBookingPayForm.jsp");
+		forward.setPath("/layoutUser.jsp?article=/user/booking/auth/memberBookingPayForm.jsp");
 		forward.setRedirect(false);
 		return forward;
 

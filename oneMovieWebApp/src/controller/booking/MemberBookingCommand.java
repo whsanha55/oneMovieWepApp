@@ -23,8 +23,9 @@ public class MemberBookingCommand implements Command {
 			throws IOException, ServletException {
 		
 		ActionForward forward = new ActionForward();
+		
 		try {
-
+			
 			TheaterService theaterService = TheaterService.getInstance();
 			
 			List<MovieVO> movieList =theaterService.retrieveMovieAll();
@@ -33,6 +34,9 @@ public class MemberBookingCommand implements Command {
 			req.setAttribute("movieList", movieList);
 			req.setAttribute("theaterList", theaterList);
 			req.setAttribute("scheduleList", scheduleList);
+			req.setAttribute("movieNo", req.getParameter("movieNo"));
+			req.setAttribute("theaterNo", req.getParameter("theaterNo"));
+			req.setAttribute("screenDate", req.getParameter("screenDate"));
 			forward.setPath("layoutUser.jsp?article=/user/booking/memberBooking.jsp");
 			forward.setRedirect(false);
 			return forward;

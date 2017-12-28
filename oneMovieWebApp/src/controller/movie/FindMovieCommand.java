@@ -18,12 +18,20 @@ public class FindMovieCommand implements Command{
 		//1. 검색조건 및 검색어를 구한다.
 		String keyfield = req.getParameter("keyfield");
 		String keyword = req.getParameter("keyword");
+		int startRow = 1;
+		int endRow = 10;
+		if(req.getParameter("startRow")!=null) {
+			startRow = Integer.parseInt(req.getParameter("startRow"));
+		}
+		if(req.getParameter("endRow")!=null) {
+			endRow = Integer.parseInt(req.getParameter("endRow"));		
+		}
 		
 		ActionForward forward = new ActionForward();
 		
 		try {		
 			MovieService service = 	MovieService.getInstance();
-			List<MovieVO> movies = service.retriveMovieList(keyfield, keyword);
+			List<MovieVO> movies = service.findMovieList(keyfield, keyword, startRow, endRow);
 			
 			//3. request영역에 "articles"라는 속성이름으로 바인딩한다.
 			req.setAttribute("movies", movies);

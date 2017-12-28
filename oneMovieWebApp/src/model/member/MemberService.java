@@ -2,6 +2,7 @@ package model.member;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Map;
 
 import conn.DBConn;
 import domain.member.MemberVO;
@@ -27,10 +28,19 @@ public class MemberService {
 	}
 	
 	
-	//아이디, 이메일 중복확인
-	public int retrieveMemberDuplicate(String keyfield, String keyword) throws Exception {
+	//아이디 중복확인
+	public int retrieveIdDuplicate(String keyword) throws Exception {
 		MemberDAO dao = MemberDAO.getInstance();
-		return dao.selectMemberDuplicate(keyfield, keyword);		
+		int count = dao.selectIdDuplicate(keyword);
+		return count;		
+	}
+	
+	
+	//이메일 중복확인
+	public int retrieveEmailDuplicate(String memberNo, String keyword) throws Exception {
+		MemberDAO dao = MemberDAO.getInstance();
+		int count = dao.selectEmailDuplicate(memberNo, keyword);
+		return count;		
 	}
 	
 	
@@ -38,7 +48,7 @@ public class MemberService {
 	//회원을 등록한다. 
 	public void addMember(MemberVO member) throws Exception {
 		Connection conn = null;
-		
+				
 		try {
 			conn = DBConn.getConnection();
 			
@@ -156,30 +166,17 @@ public class MemberService {
 	
 	
 	
-	//회원관리 (검색)
-	public ArrayList<MemberVO> retrieveMemberList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
+	
+	
+	//회원관리 (조회)
+	public ArrayList<MemberVO> retrieveMemberList(Map<String, Object> map) throws Exception {
 		MemberDAO dao = MemberDAO.getInstance();
-		return dao.selectMemberList(keyword, keyfield, startRow, endRow);
+		return dao.selectMemberList(map);
 	}
 	
 	
 	
-	//회원관리 (전체조회)
-	public ArrayList<MemberVO> retrieveMemberList(int startRow, int endRow) throws Exception {
-		MemberDAO dao = MemberDAO.getInstance();
-		return dao.selectMemberList(startRow, endRow);
-	}
-	
-	
-	//전체 회원 수
-	public int retrieveTotalCount() throws Exception {
-		MemberDAO dao = MemberDAO.getInstance();
-		return dao.selectTotalCount();
-		
-	}
-	
-	
-	//검색 결과 회원 수
+	//회원 수 조회
 	public int retrieveSearchCount(String keyfield, String keyword) throws Exception {
 		MemberDAO dao = MemberDAO.getInstance();
 		return dao.selectSearchCount(keyfield, keyword);

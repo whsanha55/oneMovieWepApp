@@ -18,37 +18,15 @@ public class AdminBookingAjax2Command implements Command {
 	@Override
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
-		System.out.println(req.getParameter("theaterNo"));
 		int theaterNo = Integer.parseInt(req.getParameter("theaterNo"));
 		ActionForward forward = new ActionForward();
 		try {
-			/*TheaterService theaterService = TheaterService.getInstance();
-			List<ScreenVO> screenList =  theaterService.retrieveScreenList(null);
-			
-			
-			List<ScreenVO> screenList = new ArrayList<ScreenVO>();
-			ScreenVO screenVO = new ScreenVO();
-			//임시용
-			screenVO.setScreenName("1관");
-			screenVO.setScreenNo(1);
-			screenList.add(screenVO);
-			screenVO = new ScreenVO();
-			screenVO.setScreenName("2관");
-			screenVO.setScreenNo(2);
-			screenList.add(screenVO);
-			screenVO = new ScreenVO();
-			screenVO.setScreenName("3관");
-			screenVO.setScreenNo(3);
-			screenList.add(screenVO);
-			
-			req.setAttribute("screenList", screenList);
-			*/
+		
 			
 			TheaterService theaterService = TheaterService.getInstance();
-			int[] theater = {theaterNo};
-			List<TheaterVO> theaterList = theaterService.retrieveScreenList(theater);
-			req.setAttribute("theaterList", theaterList);
-			forward.setPath("/admin/booking/adminBookingView2.jsp");
+			List<ScreenVO> screenList = theaterService.retrieveScreenList(theaterNo);
+			req.setAttribute("screenList", screenList);
+			forward.setPath("/admin/booking/adminBookingByTheaterView.jsp");
 			forward.setRedirect(false);
 
 		} catch (Exception e) {

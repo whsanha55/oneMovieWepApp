@@ -1,6 +1,7 @@
 package model.booking;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 import conn.DBConn;
@@ -48,12 +49,21 @@ public class BookingService {
 
 	// 검색조건에 해당하는 예매내역을 예매 상태에 따라 조회한다.
 
-	public List<BookingVO> retrieveBookingList(String keyfield, int keyword, int startRow, int endRow)
+	//상영관번호+날짜에 해당하는 예매상태
+	public List<BookingVO> retrieveBookingList(ArrayList<Integer> screenList,String screenDate, int startRow, int endRow)
 			throws Exception {
 
 		BookingDAO bookingDAO = BookingDAO.getInstance();
-		return bookingDAO.selectBookingList(keyfield, keyword, startRow, endRow);
+		return bookingDAO.selectBookingList(screenList, screenDate, startRow, endRow);
 	}
+	
+	//상영관번호+날짜에 해당하는 예매상태
+		public List<BookingVO> retrieveBookingList(ArrayList<Integer> turnList , int startRow, int endRow)
+				throws Exception {
+
+			BookingDAO bookingDAO = BookingDAO.getInstance();
+			return bookingDAO.selectBookingList(turnList, startRow, endRow);
+		}
 
 	public List<BookingVO> retrieveBookingList(String keyfield, String keyword, int status, int startRow, int endRow)
 			throws Exception {
@@ -106,6 +116,21 @@ public class BookingService {
 			if (conn != null)
 				conn.close();
 		}
+	}
+	public int retrieveCountBookingList(ArrayList<Integer> screenList, String screenDate) throws Exception {
+		BookingDAO bookingDAO = BookingDAO.getInstance();
+		return bookingDAO.selectCountBookingList(screenList, screenDate);
+	}
+	
+	public int retrieveCountBookingList(ArrayList<Integer> turnList) throws Exception {
+		BookingDAO bookingDAO = BookingDAO.getInstance();
+		return bookingDAO.selectCountBookingList(turnList);
+	}
+	
+	
+	public int retrieveCountBookingList(String keyfield, String keyword, int status) throws Exception {
+		BookingDAO bookingDAO = BookingDAO.getInstance();
+		return bookingDAO.selectCountBookingList(keyfield, keyword, status);
 	}
 
 }

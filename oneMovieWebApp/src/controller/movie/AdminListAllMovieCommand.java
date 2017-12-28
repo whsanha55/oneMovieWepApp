@@ -19,10 +19,10 @@ public class AdminListAllMovieCommand implements Command{
 		try {
 			//DB에서 게시글을 조회한다.
 			MovieService articleService = MovieService.getInstance();
-			List<MovieVO> movies = articleService.retrieveMovieList();
+			//List<MovieVO> movies = articleService.retrieveMovieList();
 			
 			//2. request영역에 "articles"라는 속성이름으로 바인딩한다.
-			req.setAttribute("movies", movies);
+			//req.setAttribute("movies", movies);
 			
 			forward.setPath("/admin/movie/listMovieView.jsp");
 			forward.setRedirect(false);
