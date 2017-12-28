@@ -15,6 +15,7 @@ public class RemoveMovieCommand implements Command{
 		 
 		String movieNo = req.getParameter("movieNo");
 		String[] temp = movieNo.split(",");
+		System.out.println("³Ñ¹ö!!!!!!!!!!!!!!!"+movieNo);
 		
 		int[] movieNoList = new int[temp.length];
 		for(int i=0; i<temp.length; i++) {
@@ -27,7 +28,7 @@ public class RemoveMovieCommand implements Command{
 			MovieService service = MovieService.getInstance();
 			service.deleteMovieList(movieNoList);
 				
-			forward.setPath("/user/movie/successRemoveMovie.jsp");
+			forward.setPath("/admin/movie/successRemoveMovie.jsp");
 			forward.setRedirect(true);
 			return forward;
 			

@@ -269,7 +269,7 @@
 									htmlStr += "<td>국가: " + data[i].nationName+ "</td>";
 									htmlStr += "</tr>";					
 									htmlStr += "<tr>";
-									htmlStr += "<td class='last'><a href='#'>예매하기</a> &nbsp;&nbsp;<a href='#'>상영시간표</a></td>";
+									htmlStr += "<td class='last'><a href='${pageContext.request.contextPath}/user/booking/memberBooking.do?movieTitle=${pageScope.movie.movieTitle}'>예매하기</a> &nbsp;&nbsp;<a href='#'>상영시간표</a></td>";
 									htmlStr += "</tr>";
 									
 									$(htmlStr).appendTo('#table');
@@ -307,15 +307,6 @@
 	
 	
 	$(document).ready(function() {
-	    //체크박스 전체 체크 및 해제 처리
-		$(':checkbox[name=all]').on('change', function() {		
-    		if($(this).prop('checked'))  {
-				$(':checkbox[name=selected]').prop('checked', true)
-			} else {
-				$(':checkbox[name=selected]').prop('checked', false)
-			}
-    	});
-	    	
     	//검색
 		$('#findBtn').on('click', function() {
 			goPage(1, 2);		

@@ -25,7 +25,7 @@ public class ListAllMovieCountCommand implements Command{
 			//2. request영역에 "movies"라는 속성이름으로 바인딩한다.
 			req.setAttribute("count", count);
 			
-			forward.setPath("/user/movie/successCountMovie.jsp");
+			forward.setPath("/admin/movie/successCountMovie.jsp");
 			forward.setRedirect(false);
 			return forward;
 		} catch (Exception e) {

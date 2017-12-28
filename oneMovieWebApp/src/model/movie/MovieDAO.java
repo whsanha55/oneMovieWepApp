@@ -208,6 +208,7 @@ public class MovieDAO {
       }
    }
 
+<<<<<<< HEAD
  //영화 목록을 전체 조회하다.
    public List<MovieVO> selectMovieList(int startRow, int endRow) throws Exception {
          ArrayList<MovieVO> movies = new ArrayList<MovieVO>();
@@ -228,6 +229,37 @@ public class MovieDAO {
             sql.append("                where g.grade_no = m.grade_no and n.nation_no = m.nation_no                   ");
             sql.append("               order by movie_no desc )movie1) movie2                                    ");
             sql.append("where rn>=? and rn<=?                                                                        ");   
+=======
+   // 검색 조건에 해당하는 영화목록을 오름차순으로 조회한다.
+  public List<MovieVO> selectMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
+      ArrayList<MovieVO> movies = new ArrayList<MovieVO>();
+      Connection conn = null;
+      PreparedStatement pstmt = null;
+      ResultSet rs = null;
+      
+      try {
+         conn = DBConn.getConnection();
+
+         StringBuffer sql = new StringBuffer();
+         sql.append( "select photo, movie_no, movie_title, running_time, director, grade_age, nation_name 							 ");
+         sql.append( " from( select rownum as rn, movie1.*          																			  ");
+         sql.append( "		  from (select  (select mp.movie_photo_original_file_name             										    ");
+         sql.append( "							from movie_photo mp       																		   ");
+         sql.append(" 							where mp.movie_photo_original_file_name like '%' || 'main' ||  '%'                         ");
+         sql.append("  							and mp.movie_no = m1.movie_no) as photo,                                      			  ");
+         sql.append("  				 m1.movie_no, m1.movie_title, m1.director, m1.running_time, g.grade_age, n.nation_name        ");
+         sql.append("  				 from movie m1, grade g, nation n                                   										   ");
+         sql.append("  				 where g.grade_no = m1.grade_no and n.nation_no = m1.nation_no                                    ");
+
+         if (keyfield.equals("MovieTitle")) {
+            sql.append("				 and m1.movie_title like '%' || ? ||  '%'                    				                                       ");
+         } else if (keyfield.equals("Director")) {
+            sql.append("				and m1.director like '%' || ? ||  '%'                                                            				  ");
+         }
+         sql.append(" 			    order by movie_no desc )movie1) movie2	                                                             ");
+         
+         sql.append("where rn >= ? and rn <= ?                                             ");
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
          pstmt = conn.prepareStatement(sql.toString());
         
          pstmt.setInt(1,  startRow);
@@ -346,9 +378,15 @@ public class MovieDAO {
          StringBuffer sql = new StringBuffer();
          sql.append("select mp1.movie_photo_no, (select mp.movie_photo_original_file_name                         						  							  ");
          sql.append("from movie_photo mp                          																					   ");
+<<<<<<< HEAD
          sql.append("where mp.MOVIE_PHOTO_ORIGINAL_FILE_NAME like '%' || 'detail' ||  '%'                            					  ");
          sql.append("and mp.movie_no = m.movie_no),  ");
          sql.append("m.movie_no, m.movie_title, m.director, m.running_time, g.grade_age,n.nation_name,m.story, gen.genre_name, ac.actor_original_file_name, r.role_name, a.actor_name, a.character_name, mp1.movie_photo_original_file_name                           ");
+=======
+         sql.append("where mp.movie_photo_original_file_name like '%' || 'detail' ||  '%'                            							  ");
+         sql.append("and mp.movie_no = m.movie_no),                      																	       ");
+         sql.append("m.movie_no, m.movie_title, m.director, m.running_time, g.grade_age,n.nation_name,m.story, m.video_url, gen.genre_name, ac.actor_original_file_name, r.role_name, a.actor_name, a.character_name, mp1.movie_photo_original_file_name                             ");
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
          sql.append("from movie m, genre gen, actor a , role r, grade g, nation n, actor_photo ac, movie_photo mp1, movie_genre mg                                   ");
          sql.append("where m.movie_no = a.movie_no(+) and a.role_no = r.role_no   and g.grade_no = m.grade_no and n.nation_no = m.nation_no and a.actor_no = ac.actor_no and mp1.movie_no =  m.movie_no and gen.genre_no = mg.genre_no and mg.movie_no = m.movie_no                                                             ");
          sql.append("and m.movie_no = ?  																													 ");
@@ -374,11 +412,18 @@ public class MovieDAO {
                detailPhoto.setMoviePhotoOriginalFileName(rs.getString(2));
                detailMovie.setDetailPhoto(detailPhoto);
                
+<<<<<<< HEAD
                detailMovie.setMovieNo(rs.getInt(3));
                detailMovie.setMovieTitle(rs.getString(4));
                
                detailMovie.setDirector(rs.getString(5));
                detailMovie.setRunningTime(rs.getInt(6));
+=======
+               detailMovie.setMovieNo(rs.getInt(2));
+               detailMovie.setMovieTitle(rs.getString(3));          
+               detailMovie.setDirector(rs.getString(4));
+               detailMovie.setRunningTime(rs.getInt(5));
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
                
                grade.setGradeAge(rs.getString(7));
                detailMovie.setGrade(grade);
@@ -386,11 +431,17 @@ public class MovieDAO {
                nation.setNationName(rs.getString(8));
                detailMovie.setNation(nation);
                
+<<<<<<< HEAD
                detailMovie.setStory(rs.getString(9));
               
+=======
+               detailMovie.setStory(rs.getString(8));
+               
+               detailMovie.setVideoUrl(rs.getString(9));       
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
             }
             
-            if(rs.getString(12) != null) {
+            if(rs.getString(13) != null) {
                 GenreVO genre = new GenreVO();
                  ActorVO actor = new ActorVO();
                  ActorPhotoVO actorPhoto = new ActorPhotoVO();
@@ -410,8 +461,12 @@ public class MovieDAO {
                   detailMovie.addActor(actor);
                   
                   photo.setMoviePhotoOriginalFileName(rs.getString(15));
+<<<<<<< HEAD
                   detailMovie.addPhoto(photo);   
                   
+=======
+                  detailMovie.addPhoto(photo);                
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
             }
             count++;
          }

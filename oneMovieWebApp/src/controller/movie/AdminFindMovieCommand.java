@@ -19,6 +19,7 @@ public class AdminFindMovieCommand implements Command{
       String keyfield = req.getParameter("keyfield");
       String keyword = req.getParameter("keyword");
       int startRow = 1;
+<<<<<<< HEAD
       int endRow = 10;
       if(req.getParameter("startRow")!=null) {
          startRow = Integer.parseInt(req.getParameter("startRow"));
@@ -26,6 +27,15 @@ public class AdminFindMovieCommand implements Command{
       if(req.getParameter("endRow")!=null) {
          endRow = Integer.parseInt(req.getParameter("endRow"));      
       }
+=======
+		int endRow = 10;
+		if(req.getParameter("startRow")!=null) {
+			startRow = Integer.parseInt(req.getParameter("startRow"));
+		}
+		if(req.getParameter("endRow")!=null) {
+			endRow = Integer.parseInt(req.getParameter("endRow"));		
+		}
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
       ActionForward forward = new ActionForward();
       
       try {      

@@ -17,14 +17,14 @@ public class ListStateMovieCommand implements Command{
 		//게시글 검색 요청 처리		
 		//1. 검색조건 및 검색어를 구한다.
 		String keyfield = req.getParameter("keyfield");
-		System.out.println("아아!!!!!!!!!!!!!"+keyfield);
+
 		ActionForward forward = new ActionForward();
 		
 		try {		
 			MovieService service = MovieService.getInstance();
 			List<MovieVO> movies = service.retrieveStateMovieList(keyfield);
 			
-			//3. request영역에 "articles"라는 속성이름으로 바인딩한다.
+			//3. request영역에 "movies"라는 속성이름으로 바인딩한다.
 			req.setAttribute("movies", movies);
 			
 			//4. 게시글 목록(listArticleView.jsp) 페이지로 이동한다.

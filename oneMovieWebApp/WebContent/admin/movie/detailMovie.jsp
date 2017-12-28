@@ -14,16 +14,36 @@
 	margin-right: auto;
 }
 
-table td:not (.photo ) {
-	width: 500px;
-	padding: 30px;
+table td:not(.photo) {
+   width: 500px;
+   padding: 30px;
 }
+  
 
-#form1, #form2 {
+	#form1, #form2 {
 		display: inline;
-}
+		margin:auto; 
+		text-align:center;
+	}
 
-
+	#modifyMovieBtn {
+	  border-radius: 3px;
+	  font-weight: 300;
+	  border-color: transparent;
+	  font-size: 15px;
+	  background: #00bfff;
+	  color: #fff;
+	  cursor: pointer;
+	}
+	#resetMovieBtn {
+		border-radius: 3px;
+	  font-weight: 300;
+	  border-color: transparent;
+	  font-size: 15px;
+	  background: #9e9e9e;
+	  color: #fff;
+	  cursor: pointer;
+	}
 	
 <%--tab style--%>
 ul.tabs {
@@ -39,7 +59,7 @@ ul.tabs li {
 	float: left;
 	text-align: center;
 	cursor: pointer;
-	width: 200px;
+	width: 150px;
 	height: 31px;
 	border: 1px solid #eee;
 	font-weight: bold;
@@ -127,6 +147,7 @@ ul.tabs li.active {
 			<li class="active" rel="tab1">줄거리</li>
 			<li rel="tab2">배우</li>
 			<li rel="tab3">포토</li>
+			<li rel="tab4">동영상</li>
 		</ul>
 		<div class="tab_container">
 			<% pageContext.setAttribute("LF", "\n"); %>
@@ -164,6 +185,10 @@ ul.tabs li.active {
 					</tr>
 				</table>
 			</div>
+			<div id="tab4" class="tab_content" style="margin:auto; text-align:center;">
+        		<iframe width="560" height="315" src="${requestScope.movie.videoUrl}">
+        		</iframe>
+      	  </div>
 		</div>
 	</div>
 	

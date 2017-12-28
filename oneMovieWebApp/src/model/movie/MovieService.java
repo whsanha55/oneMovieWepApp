@@ -48,17 +48,24 @@ public class MovieService {
 				photoDAO.insertPhotoList(conn, photos);
 			}
 
+<<<<<<< HEAD
 			// 3. 출연진 등록
 			if (movie.getActors().size() != 0) {
 				ActorDAO actorDAO = ActorDAO.getInstance();
 				for (ActorVO actor : movie.getActors()) {
 					actor.setMovieNo(movieNo);
 				}
+=======
+            for (ActorVO actor : movie.getActors()) {
+               int actorNo = actorDAO.insertActorList(conn, actor, 0);
+               System.out.println("actorNo : " + actorNo);
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
 				for (ActorVO actor : movie.getActors()) {
 					int actorNo = actorDAO.insertActorList(conn, actor, 0);
 					System.out.println("actorNo : " + actorNo);
 
+<<<<<<< HEAD
 					// 출연진 사진 등록
 					if (actor.getActorPhoto() != null) {
 						System.out.println("call insertActorPhoto");
@@ -69,7 +76,19 @@ public class MovieService {
 					}
 				}
 			}
+=======
+         // 영화 장르 등록
+         if (movie.getMovieGenres().size() != 0) {
+            GenreDAO genreDAO = GenreDAO.getInstance();
+            List<MovieGenreVO> genres = movie.getMovieGenres();
+            for (MovieGenreVO genre : movie.getMovieGenres()) {
+               genre.setMovieNo(movieNo);
+            }
+            genreDAO.insertGenreList(conn, genres);
+         }
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
+<<<<<<< HEAD
 			// 영화 장르 등록
 			if (movie.getMovieGenres().size() != 0) {
 				GenreDAO genreDAO = GenreDAO.getInstance();
@@ -81,6 +100,9 @@ public class MovieService {
 			}
 
 			conn.commit();
+=======
+         conn.commit();
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
 		} catch (Exception ex) {
 			conn.rollback();
@@ -90,6 +112,7 @@ public class MovieService {
 				conn.close();
 		}
 
+<<<<<<< HEAD
 	}
 
 	// 영화 정보를 일괄 삭제한다.
@@ -97,16 +120,35 @@ public class MovieService {
 		Connection conn = null;
 		try {
 			conn = DBConn.getConnection();
+=======
+   }
+    
+   // 영화 정보를 일괄 삭제한다.
+   public void deleteMovieList(int[] noList) throws Exception {
+      Connection conn = null;
+      try {
+         conn = DBConn.getConnection();
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
+<<<<<<< HEAD
 			// tx.begin
 			conn.setAutoCommit(false);
 			
 			// 영화 삭제
 			MovieDAO articleDao = MovieDAO.getInstance();
 			articleDao.removeMovieList(conn, noList);
+=======
+         // tx.begin
+         conn.setAutoCommit(false);
+         
+         //영화 삭제     
+         MovieDAO articleDao = MovieDAO.getInstance();
+         articleDao.removeMovieList(conn, noList);
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
 			conn.commit();
 
+<<<<<<< HEAD
 		} catch (Exception e) {
 			conn.rollback();
 			throw e;
@@ -115,20 +157,143 @@ public class MovieService {
 				conn.close();
 		}
 	}
+=======
+      } catch (Exception e) {
+         conn.rollback();
+         throw e;
+      } finally {
+         if (conn != null)
+            conn.close();
+      }
+   }
+   // 영화사진을 삭제한다
+   public void deleteMoviePhoto(int moviePhotoNo) throws Exception {
+      Connection conn = null;
+      try {
+         conn = DBConn.getConnection();
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
+<<<<<<< HEAD
 	// 영화사진을 삭제한다
 	public void deleteMoviePhoto(int moviePhotoNo) throws Exception {
 		Connection conn = null;
 		try {
 			conn = DBConn.getConnection();
+=======
+         // tx.begin
+         conn.setAutoCommit(false);
 
+         // 사진 삭제
+         PhotoDAO photoDao = PhotoDAO.getInstance();
+         photoDao.removePhoto(conn, moviePhotoNo);
+
+         conn.commit();
+
+      } catch (Exception e) {
+         conn.rollback();
+         throw e;
+      } finally {
+         if (conn != null)
+            conn.close();
+      }
+   }
+   // 출연진 정보를 삭제한다
+   public void deleteActorList(int movieNo) throws Exception {
+      Connection conn = null;
+      try {
+         conn = DBConn.getConnection();
+
+         // tx.begin
+         conn.setAutoCommit(false);
+
+         // 출연진 사진 삭제
+         ActorDAO actorDao = ActorDAO.getInstance();
+         actorDao.removeActor(conn, movieNo);
+
+         conn.commit();
+
+      } catch (Exception e) {
+         conn.rollback();
+         throw e;
+      } finally {
+         if (conn != null)
+            conn.close();
+      }
+   }
+   
+   // 영화 정보를 수정하다.
+   public void updateMovie(DetailMovieVO movie) throws Exception {
+      Connection conn = null;
+      try {
+         conn = DBConn.getConnection();
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
+
+<<<<<<< HEAD
 			// tx.begin
 			conn.setAutoCommit(false);
+=======
+         // tx.begin(트랜젝션 시작)
+         conn.setAutoCommit(false);
+         
+         ActorDAO actorDao = ActorDAO.getInstance();
+         actorDao.removeActor(conn, movie.getMovieNo());
 
+         // 영화 수정
+         MovieDAO moiveDAO = MovieDAO.getInstance();
+         moiveDAO.modifyMovieList(conn, movie);
+
+         // 출연진 등록
+         if (movie.getActors().size() != 0) {
+            ActorDAO actorDAO = ActorDAO.getInstance();
+            for (ActorVO actor : movie.getActors()) {
+               actor.setMovieNo(movie.getMovieNo());
+            }
+
+            for (ActorVO actor : movie.getActors()) {
+               int actorNo = actorDAO.insertActorList(conn, actor, movie.getMovieNo());
+            
+               // 출연진 사진 등록
+               if (actor.getActorPhoto() != null) {
+                  System.out.println("call insertActorPhoto");
+                  ActorPhotoVO actorPhoto = actor.getActorPhoto();
+                  actorPhoto.setActorNo(actorNo);
+                  ActorPhotoDAO actorPhotoDAO = ActorPhotoDAO.getInstance();
+                  actorPhotoDAO.insertActorPhoto(conn, actorPhoto);
+               }
+            }
+         }
+
+         conn.commit();
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
+
+<<<<<<< HEAD
 			// 사진 삭제
 			PhotoDAO photoDao = PhotoDAO.getInstance();
 			photoDao.removePhoto(conn, moviePhotoNo);
+=======
+      } catch (Exception ex) {
+         conn.rollback();
+         throw ex;
+      } finally {
+         if (conn != null)
+            conn.close();
+      }
+   }
+   
+   // 영화 제목을 조회하다.
+   public List<MovieTitleVO> retriveMovieTitle(String movieTitle) throws Exception {
+      MovieDAO movieDAO = MovieDAO.getInstance();
+      return movieDAO.selectMovieTitleList(movieTitle);
+   }
+     
+	// 영화 목록을 조회하다.
+	public List<MovieVO> findMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {
+		MovieDAO dao = MovieDAO.getInstance();
+		return dao.selectMovieList(keyfield, keyword, startRow, endRow);
+	}
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
 
+<<<<<<< HEAD
 			conn.commit();
 
 		} catch (Exception e) {
@@ -232,6 +397,16 @@ public class MovieService {
 	}
 
 	//영화 목록을 전체 조회하다.
+=======
+   // 영화 상세정보를 조회하다.
+   public DetailMovieVO retriveMovie(int movieNo) throws Exception {
+      MovieDAO movieDao = MovieDAO.getInstance();
+      DetailMovieVO detailMovie = movieDao.selectMovie(movieNo);
+      return detailMovie;
+   }
+   
+   //영화 목록을 전체 조회하다.
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
     public List<MovieVO> retrieveMovieList(int startRow, int endRow) throws Exception {
        MovieDAO dao = MovieDAO.getInstance();
        return dao.selectMovieList(startRow, endRow);
@@ -248,7 +423,11 @@ public class MovieService {
        MovieDAO dao = MovieDAO.getInstance();
        return dao.selectTotalPost(keyfield, keyword);
     }
+<<<<<<< HEAD
    //상영상태에 따른 영화를 조회하다.
+=======
+	//상영상태에 따른 영화를 조회하다.
+>>>>>>> branch 'master' of https://github.com/whsanha55/oneMovieWepApp.git
     public List<MovieVO> retrieveStateMovieList(String keyfield) throws Exception {
        MovieDAO dao = MovieDAO.getInstance();
        return dao.selectStateMovieList(keyfield);
