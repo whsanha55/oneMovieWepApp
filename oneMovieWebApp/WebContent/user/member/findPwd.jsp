@@ -28,7 +28,7 @@
 				}
 				,
 				error: function(jqXHR) {
-					alert('Error: ' + jqXHR)
+					alert('Error: ' + jqXHR + "에러 발생")
 				}
 				
 			});			

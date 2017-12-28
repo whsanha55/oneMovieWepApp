@@ -84,6 +84,10 @@ public class CommandFactory {
 		map.put("/adminBookingByTheater.do", "controller.booking.AdminBookingByTheaterCommand");
 		map.put("/adminBookingAjax.do", "controller.booking.AdminBookingAjaxCommand");
 		map.put("/adminBookingAjax2.do", "controller.booking.AdminBookingAjax2Command");
+		map.put("/adminBookingAjax3.do", "controller.booking.AdminBookingAjax3Command");
+		map.put("/adminBookingAjax4.do", "controller.booking.AdminBookingAjax4Command");
+		map.put("/adminBookingCountAjax.do", "controller.booking.AdminBookingCountAjaxCommand");
+		map.put("/adminBookingCountAjax2.do", "controller.booking.AdminBookingCountAjax2Command");
 		map.put("/memberBooking.do", "controller.booking.MemberBookingCommand");
 		map.put("/movieByTheaterAndDateAjax.do", "controller.theater.MovieByTheaterAndDateAjaxCommand");
 		map.put("/theaterByMovieAndDateAjax.do", "controller.theater.TheaterByMovieAndDateAjaxCommand");

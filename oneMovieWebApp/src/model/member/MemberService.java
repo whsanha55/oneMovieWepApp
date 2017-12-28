@@ -27,10 +27,19 @@ public class MemberService {
 	}
 	
 	
-	//아이디, 이메일 중복확인
-	public int retrieveMemberDuplicate(String keyfield, String keyword) throws Exception {
+	//아이디 중복확인
+	public int retrieveIdDuplicate(String keyword) throws Exception {
 		MemberDAO dao = MemberDAO.getInstance();
-		return dao.selectMemberDuplicate(keyfield, keyword);		
+		int count = dao.selectIdDuplicate(keyword);
+		return count;		
+	}
+	
+	
+	//이메일 중복확인
+	public int retrieveEmailDuplicate(String keyword) throws Exception {
+		MemberDAO dao = MemberDAO.getInstance();
+		int count = dao.selectEmailDuplicate(keyword);
+		return count;		
 	}
 	
 	
@@ -38,7 +47,7 @@ public class MemberService {
 	//회원을 등록한다. 
 	public void addMember(MemberVO member) throws Exception {
 		Connection conn = null;
-		
+				
 		try {
 			conn = DBConn.getConnection();
 			

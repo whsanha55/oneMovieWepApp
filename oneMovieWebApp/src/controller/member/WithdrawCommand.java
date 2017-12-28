@@ -27,6 +27,7 @@ public class WithdrawCommand implements Command {
 		try {
 			MemberService service = MemberService.getInstance();
 			service.deleteMember(memberNo);
+			session.invalidate();
 			forward.setPath("/user/member/withdrawView.jsp");
 			forward.setRedirect(false);
 			return forward;

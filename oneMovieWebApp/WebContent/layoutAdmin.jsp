@@ -8,7 +8,7 @@
     <style>
         body,a {
             font: 20px '돋움';
-            color: white;
+            color: black;
             font-weight: bolder;
 
         }
@@ -50,7 +50,7 @@
            
         }
 
-        section nav {
+        section>nav {
             width: 20%;
             height: 600px;
             background-color: brown;
@@ -58,7 +58,7 @@
             
         }
 
-        section article {
+        section>article {
             width: 80%;
             height: 720px;
             background-color: powderblue;
@@ -68,13 +68,13 @@
             
         }
        
-        section ul {
+        section>div ul {
             list-style-type: none;
             padding: 0px;   
 
         }
         
-        section li {
+        section>div li {
             margin-bottom: 100px;
             height: 40px;
             
@@ -83,12 +83,12 @@
             
         }
 
-        section a {
+        section>div a {
             text-decoration: none;
             font-size:30px;
             
         }
-        section a:hover {
+        section>div a:hover {
             color: yellow;
         }
 
@@ -119,7 +119,7 @@
         <nav>
             <ul>
                 <li><a href="${pageContext.request.contextPath }/manageMemberForm.do">회원관리</a></li>
-                <li><a href="#">예매관리</a></li>
+                <li><a href="${pageContext.request.contextPath }/adminBookingByMember.do">예매관리</a></li>
                 
                 <li><a href="${pageContext.request.contextPath }/admin/movie/listMovie.do">영화</a></li>
                

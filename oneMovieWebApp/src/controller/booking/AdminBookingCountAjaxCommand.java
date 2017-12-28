@@ -9,28 +9,26 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.ActionForward;
 import controller.Command;
-import domain.booking.BookingVO;
+import domain.theater.ScreenVO;
 import model.booking.BookingService;
+import model.theater.TheaterService;
 
-public class AdminBookingAjaxCommand implements Command {
+public class AdminBookingCountAjaxCommand implements Command {
 
 	@Override
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
-
 		String keyfield = req.getParameter("keyfield");
 		String keyword = req.getParameter("keyword");
-		int startRow = Integer.parseInt(req.getParameter("startRow"));
-		int endRow = Integer.parseInt(req.getParameter("endRow"));
-		System.out.println(keyword);
 		ActionForward forward = new ActionForward();
 		try {
-			BookingService bookingService = BookingService.getInstance();
-			List<BookingVO> bookingList= bookingService.retrieveBookingList(keyfield, keyword, 0, startRow, endRow);
-			req.setAttribute("bookingList", bookingList);
-			forward.setPath("/admin/booking/adminBookingView.jsp");
+		
+			BookingService bookingService=  BookingService.getInstance();
+			int countBookingList = bookingService.retrieveCountBookingList(keyfield, keyword, 0);
+			req.setAttribute("countBookingList", countBookingList);
+			forward.setPath("/admin/booking/adminBookingCountView.jsp");
 			forward.setRedirect(false);
-			
+
 		} catch (Exception e) {
 			req.setAttribute("exception", e);
 			forward.setPath("/error.jsp");

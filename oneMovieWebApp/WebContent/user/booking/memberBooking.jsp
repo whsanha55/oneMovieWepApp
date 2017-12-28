@@ -3,6 +3,11 @@
 
 
 <script>
+	var movieSelectedName = "";
+	var theaterSelectedName = "";
+	var dateSelectedName = "";
+	var turnSelectedName = "";
+	
 	function movieTag (theaterNo, date) {
 		$.ajax({
 			url : '${pageContext.request.contextPath}/movieByTheaterAndDateAjax.do',
@@ -14,13 +19,30 @@
 			},
 			dataType : 'json',
 			success : function(data) {
-				var movieText = "<legend>영화제목</legend>";
+				 var movieText = "<legend>영화제목</legend>";
 				movieText += "<select id='selectOptionMovie' size='10'>";
 				for(var i = 0; i<data.movieList.length;i++) {
-				movieText += "<option value='" + data.movieList[i].screenNo +"'>" + data.movieList[i].screenName ;
+					if(data.movieList[i].movieNo == "${requestScope.movieNo}") {
+						movieText += "<option value='" + data.movieList[i].movieNo +"' selected>" + data.movieList[i].movieTitle ;
+						movieSelectedName = data.movieList[i].movieTitle;
+						console.log(movieSelectedName);
+						
+					} else {
+						movieText += "<option value='" + data.movieList[i].movieNo +"'>" + data.movieList[i].movieTitle ;
+						
+					}
 				}
 				movieText += "</select>";
-				$('#movieFieldSet').html(movieText);
+				
+				$('#movieFieldSet').html(movieText); 
+				$('#resultTable').find('tr:nth-child(1)').find('td:nth-child(2)').text(movieSelectedName);
+				
+				//한번에 영화,지점,날짜를 다 가지고 페이지 접근시
+				if(movieSelectedName!="" && theaterSelectedName!="" && dateSelectedName!="") {
+					getTurns($('#selectOptionMovie').val(), $('#selectOptionTheater').val(),dateSelectedName );
+					console.log(1);
+				}
+				
 			
 			},
 			error : function(jqXHR) {
@@ -46,10 +68,24 @@
 				var theaterText = " <legend>지점</legend>";
 				theaterText += "<select id='selectOptionTheater' size='10'>";
 				for(var i = 0; i<data.theaterList.length;i++) {
-					theaterText += "<option value='" + data.theaterList[i].theaterNo +"'>" + data.theaterList[i].theaterName ;
+					if(data.theaterList[i].theaterNo == "${requestScope.theaterNo}") {
+						theaterText += "<option value='" + data.theaterList[i].theaterNo +"' selected>" + data.theaterList[i].theaterName ;
+						theaterSelectedName = data.theaterList[i].theaterName ;
+					} else {
+						theaterText += "<option value='" + data.theaterList[i].theaterNo +"'>" + data.theaterList[i].theaterName ;
+					}
 				}
 				theaterText += "</select>";
 				$('#theaterFieldSet').html(theaterText);
+				
+				$('#resultTable').find('tr:nth-child(2)').find('td:nth-child(2)').text(theaterSelectedName);
+				
+				//한번에 영화,지점,날짜를 다 가지고 페이지 접근시
+				if(movieSelectedName!="" && theaterSelectedName!="" && dateSelectedName!="") {
+					getTurns($('#selectOptionMovie').val(), $('#selectOptionTheater').val(),dateSelectedName );
+					console.log(1);
+				}
+				
 			},
 			error : function(jqXHR) {
 				alert(jqXHR.status);
@@ -60,27 +96,160 @@
 		
 	}
 	
+	//날짜 ajax
+	function dateTag(movieNo, theaterNo ) {
+	
+		$.ajax({
+			url : '${pageContext.request.contextPath}/dateByMovieAndTheaterAjax.do',
+			method : 'POST',
+			data : {
+				movieNo : movieNo , 
+				theaterNo : theaterNo 
+				
+				
+			},
+			
+			dataType : 'json',
+			success : function(data) {
+				dateSelectedName = "${requestScope.screenDate}";
+				
+				$('#resultTable').find('tr:nth-child(3)').find('td:nth-child(2)').text(dateSelectedName);
+				
+				$("#datepicker1").datepicker({
+			    	dateFormat: 'yy/mm/dd',
+			        prevText: '이전 달',
+			        nextText: '다음 달',
+			        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+			        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+			        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+			        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+			        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+			        showMonthAfterYear: true,
+			        yearSuffix: '년' ,
+			        defaultDate : "${requestScope.screenDate}" ,
+			        onSelect: function(value) {
+			        	if(dateSelectedName != value) {
+							
+					        dateSelectedName = value;
+							$('#resultTable').find('tr:nth-child(3)').find('td:nth-child(2)').text(dateSelectedName);
+				        	
+				        	if(movieSelectedName != "" && theaterSelectedName != "") {
+				        		
+				        		
+				        		getTurns($('#selectOptionMovie').val() , $('#selectOptionTheater').val() , value);
+				        		
+				        	} else if(movieSelectedName != "") {
+				        		theaterTag($('#selectOptionMovie').val(), value);
+				        		
+				        	} else if(theaterSelectedName != "") {
+				        		movieTag($('#selectOptionTheater').val(), value);
+				        		
+				        	} else {
+				        		movieTag(null,value);
+				        		theaterTag(null,value);
+				        		
+				        	}
+				        	
+				        	
+			        	}
+			       	 } , 
+			    	beforeShowDay: function(date){
+						
+			    		
+			    		for (var i = 0; i < data.dateList.length; i++) {
+			    			
+			    			if($.inArray(convertDate(date),data.dateList) == -1) {
+			    				return [false];
+			    			}
+			    		}
+			    		return [true];
+						
+					}	
+		       
+			    });
+				
+				//한번에 영화,지점,날짜를 다 가지고 페이지 접근시
+				if(movieSelectedName!="" && theaterSelectedName!="" && dateSelectedName!="") {
+					getTurns($('#selectOptionMovie').val(), $('#selectOptionTheater').val(),dateSelectedName );
+					console.log(1);
+				}
+				
+			},
+			error : function(jqXHR) {
+				alert(jqXHR.status + "dateList");
+				console.log(jqXHR);
+			}
+		
+		});
+	}
 	
 	
+	function getTurns(movieNo, theaterNo, date) {
+		
+		$.ajax({
+			url : '${pageContext.request.contextPath}/getTurnListAjax.do',
+			method : 'POST',
+			data : {
+				movieNo : movieNo ,
+				theaterNo : theaterNo ,
+				date : date
+				
+			},
+			dataType : 'json',
+			success : function(data) {
+				var turnText = "<legend>상영시간</legend>";
+				for(var i=0;i<data.length;i++) {
+					turnText += "<div>";
+					turnText += "<span>" + data[i].screenName + "</span>";
+					for(var j=0;j<data[i].turn.length;j++) {
+						turnText += "<button class='turnNo' value='" + data[i].turn[j].turnNo + "'>";
+						turnText += data[i].turn[j].startTime  + "~" + data[i].turn[j].endTime + "</button>"; 
+					}
+					turnText += "</div>";
+				}
+				
+				$("#turnFieldSet").html(turnText);
+			},
+			error : function(jqXHR) {
+				alert(jqXHR.status);
+				console.log(jqXHR);
+			}
+		});
+	}
+	
+	//date->yyyy/mm/dd string타입으로 변환시켜주는 함수 2개
+	function pad(num) {
+        num = num + '';
+        return num.length < 2 ? '0' + num : num;
+    }
+	
+	function convertDate(date) {
+    	return date.getFullYear() + "/" + pad((date.getMonth() + 1)) + "/" + pad(date.getDate());
+
+	}
+	
+	
+	/////////////////////////////////////////////////////////////////
 	$(document).ready(function() {
+
 		
+		movieTag(theaterSelectedName, dateSelectedName);
+		theaterTag(movieSelectedName, dateSelectedName);
+		dateTag(movieSelectedName, theaterSelectedName);
+	
 		
-		var movieSelectedName = "";
-		var theaterSelectedName = "";
-		var dateSelectedName = "";
-		var turnSelectedName = "";
-		movieTag();
-		theaterTag();
-		dateTag();
+			
 		
-		$('#movieFieldSet').on('click','select',function() {
+		 $('#movieFieldSet').on('click','select',function() {
 
 			//빈공간 클릭 방지  및 같은 값 반복 클릭시 방지용 if
 			if(movieSelectedName != $(this).find('option:selected').text()) {
 				
 					movieSelectedName = $(this).find('option:selected').text();
+					
 				if(theaterSelectedName != "" && dateSelectedName != "") {
 					var date = convertDate($('#datepicker1').datepicker("getDate"));
+					dateTag($(this).val(),$('#selectOptionTheater').val());
 					getTurns($(this).val() , $('#selectOptionTheater').val() , date);
 					
 				} else if(theaterSelectedName != "") {
@@ -105,6 +274,7 @@
 		});
 		
 		
+		
 		$('#theaterFieldSet').on('click','select',function() {
 			
 			//빈공간 클릭 방지  및 같은 값 반복 클릭시 방지용 if
@@ -114,6 +284,7 @@
 				
 				if(movieSelectedName !="" && dateSelectedName != "") {
 					var date = convertDate($('#datepicker1').datepicker("getDate"));
+					
 					getTurns($('#selectOptionMovie').val(), $(this).val() , date);
 					
 				} else if(movieSelectedName != "") {
@@ -122,7 +293,7 @@
 					
 				} else if(dateSelectedName != "") {
 					var date = convertDate($('#datepicker1').datepicker("getDate"));
-					movieTag($(this).val() , date)
+					movieTag($(this).val() , date);
 					
 				} else {
 					movieTag($(this).val());
@@ -137,125 +308,13 @@
 		});
 		
 		
-		//날짜 ajax
-		function dateTag(movieNo, theaterNo ) {
-		
-			$.ajax({
-				url : '${pageContext.request.contextPath}/dateByMovieAndTheaterAjax.do',
-				method : 'POST',
-				data : {
-					movieNo : movieNo , 
-					theaterNo : theaterNo 
-					
-					
-				},
-				
-				dataType : 'json',
-				success : function(data) {
-					
-					
-					$("#datepicker1").datepicker({
-				    	dateFormat: 'yy/mm/dd',
-				        prevText: '이전 달',
-				        nextText: '다음 달',
-				        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-				        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-				        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-				        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-				        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-				        showMonthAfterYear: true,
-				        yearSuffix: '년' ,
-				        
-				        onSelect: function(value) {
-				        	if(dateSelectedName != value) {
-								
-						        dateSelectedName = value;
-					        	console.log('dateSelectedName : ' + dateSelectedName);
-					        	
-					        	if(movieSelectedName != "" && theaterSelectedName != "") {
-					        		getTurns($('#selectOptionMovie').val() , $('#selectOptionTheater').val() , value);
-					        		
-					        	} else if(movieSelectedName != "") {
-					        		theaterTag($('#selectOptionMovie').val(), value);
-					        		
-					        	} else if(theaterSelectedName != "") {
-					        		movieTag($('#selectOptionTheater').val(), value);
-					        		
-					        	} else {
-					        		movieTag(null,value);
-					        		theaterTag(null,value);
-					        		
-					        	}
-					        	$('#resultTable').find('tr:nth-child(3)').find('td:nth-child(2)').text(dateSelectedName);
-				        	}
-				        } , 
-				    	beforeShowDay: function(date){
-							
-				    		
-				    		for (var i = 0; i < data.dateList.length; i++) {
-				    			
-				    			if($.inArray(convertDate(date),data.dateList) == -1) {
-				    				return [false];
-				    			}
-				    		}
-				    		return [true];
-							
-						}	
-			       
-				    });
-				},
-				error : function(jqXHR) {
-					alert(jqXHR.status + "dateList");
-					console.log(jqXHR);
-				}
-			
-			});
-		}
-		
-		//date->yyyy/mm/dd string타입으로 변환시켜주는 함수 2개
-		function pad(num) {
-            num = num + '';
-            return num.length < 2 ? '0' + num : num;
-        }
-		
-		function convertDate(date) {
-        	return date.getFullYear() + "/" + pad((date.getMonth() + 1)) + "/" + pad(date.getDate());
-
-		}
 		
 		
-		function getTurns(movieNo, theaterNo, date) {
-			
-			$.ajax({
-				url : '${pageContext.request.contextPath}/getTurnListAjax.do',
-				method : 'POST',
-				data : {
-					movieNo : movieNo ,
-					theaterNo : theaterNo ,
-					date : date
-					
-				},
-				dataType : 'json',
-				success : function(data) {
-					var turnText = "<legend>상영시간</legend>";
-					for(var i=0;i<data.length;i++) {
-						turnText += "<div>";
-						turnText += "<span>" + data[i].screenName + "</span>";
-						for(var j=0;j<data[i].turn.length;j++) {
-							turnText += "<button class='turnNo' value='" + data[i].turn[j].turnNo + "'>";
-							turnText += data[i].turn[j].startTime  + "~" + data[i].turn[j].endTime + "</button>"; 
-						}
-						turnText += "</div>";
-					}
-					
-					$("#turnFieldSet").html(turnText);
-				},
-				error : function(jqXHR) {
-					alert(jqXHR.status);
-					console.log(jqXHR);
-				}
-			});
-		}
+		
+		
+	
+		
+		
 		
 		
 		$('#turnFieldSet').on('click','.turnNo',function() {
@@ -289,6 +348,11 @@
 			} 
 		});
 		
+		
+		
+		
+		
+		
 	});
 	
 
@@ -296,7 +360,7 @@
 </script>
 
      <fieldset id="movieFieldSet" >
-           
+         
            
      </fieldset>
      <fieldset id="theaterFieldSet" >
@@ -312,7 +376,7 @@
      
      <fieldset id="turnFieldSet">
      	<legend>상영시간</legend>
-     	위 3개를 고르거라 닝겐
+     	
      </fieldset>
      
      <form  action="memberBookingSelectSeat.do" method="post">

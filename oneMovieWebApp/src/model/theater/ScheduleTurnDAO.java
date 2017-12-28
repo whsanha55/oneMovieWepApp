@@ -257,4 +257,45 @@ public class ScheduleTurnDAO {
 		}
 		return totalPost;
 	}
+	
+	//booking에서 사용
+	public List<ScheduleTurnVO> selectScheduleTurn(int screenNo, String screenDate )throws Exception{
+		List<ScheduleTurnVO> list = new ArrayList<ScheduleTurnVO>();
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DBConn.getConnection();
+			StringBuilder sql = new StringBuilder();
+			
+			sql.append("select t1.turn_no, to_char(t1.start_time,'HH24:MI') st, to_char(t1.end_time,'HH24:MI')  ");
+			sql.append("from schedule_turn t1, screen_schedule t2                                            ");
+			sql.append("where t1.schedule_no = t2.schedule_no                                                ");
+			sql.append("and t2.screen_no = ?                                                                 ");
+			sql.append("and to_char(t2.screen_date,'YYYY/MM/DD') = ?                                         ");
+			sql.append("order by st asc                                                                      ");
+			
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, screenNo);
+			pstmt.setString(2, screenDate);
+			System.out.println("screenNo : " + screenNo + ", screenDate : " + screenDate);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ScheduleTurnVO turnVO = new ScheduleTurnVO();
+				turnVO.setTurnNo(rs.getInt(1));
+				turnVO.setStartTime(rs.getString(2));
+				turnVO.setEndTime(rs.getString(3));
+				list.add(turnVO);
+
+			}
+		} finally {
+			if(rs!=null)rs.close();
+			if(pstmt!=null)pstmt.close();
+			if(conn!=null)conn.close();
+		}
+
+		return list;
+	}
 }

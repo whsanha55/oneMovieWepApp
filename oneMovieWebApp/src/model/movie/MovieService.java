@@ -132,9 +132,9 @@ public class MovieService {
             conn.close();
       }
    }
-   /*
-   //영화 정보를 수정하다.
-   public void updateMovie(DetailMovieVO movie) throws Exception {
+
+ //영화 정보를 수정하다.
+   public void updateMovie(MovieVO movie) throws Exception {
       Connection conn = null;
       try {
          conn = DBConn.getConnection();
@@ -162,12 +162,12 @@ public class MovieService {
             conn.close();
       }
    }
-   */
    // 영화 제목을 조회하다.
    public List<MovieTitleVO> retriveMovieTitle(String movieTitle) throws Exception {
       MovieDAO movieDAO = MovieDAO.getInstance();
       return movieDAO.selectMovieTitleList(movieTitle);
    }
+   
    
    // 영화 목록을 조회하다.
   public List<MovieVO> findMovieList(String keyfield, String keyword, int startRow, int endRow) throws Exception {

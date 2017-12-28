@@ -19,22 +19,32 @@ public class DuplicateCommand implements Command {
 		//1. 검색조건과 키워드를 구한다.
 		String keyfield = req.getParameter("keyfield");
 		String keyword = req.getParameter("keyword");
-		
+
+				
 		ActionForward forward = new ActionForward();
+		
 		try {
 			MemberService service = MemberService.getInstance();
-			int count = service.retrieveMemberDuplicate(keyfield, keyword);
+			int count = 0;	
 			
+			if(keyfield.equals("member_id")) {
+				count = service.retrieveIdDuplicate(keyword);
+				keyfield = "아이디";
+			} else if(keyfield.equals("email")) {
+				count = service.retrieveEmailDuplicate(keyword);
+				keyfield = "이메일";
+			}
+						
 			if(count == 0) {
 				req.setAttribute("result", "사용가능한 " + keyfield + "입니다.");
 				req.setAttribute("key", "ok");
-				forward.setPath("/dupView.jsp");
+				forward.setPath("/user/member/dupView.jsp");
 				forward.setRedirect(false);
 				return forward;
 			} else {
 				req.setAttribute("result", "이미 사용중인 " + keyfield + "입니다.");
 				req.setAttribute("key", "no");
-				forward.setPath("/dupView.jsp");
+				forward.setPath("/user/member/dupView.jsp");
 				forward.setRedirect(false);
 				return forward;
 			}

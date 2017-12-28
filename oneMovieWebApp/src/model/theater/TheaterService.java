@@ -8,6 +8,7 @@ import conn.DBConn;
 import domain.movie.MovieVO;
 import domain.theater.ScheduleTurnVO;
 import domain.theater.ScreenScheduleVO;
+import domain.theater.ScreenVO;
 import domain.theater.SeatVO;
 import domain.theater.TheaterVO;
 
@@ -39,7 +40,7 @@ public class TheaterService {
 	}
 	
 	//극장번호에 해당하는 상영관 목록을 조회한다.						4
-	public List<TheaterVO>retrieveScreenList(int[]theaterNo) throws Exception{
+	public List<ScreenVO>retrieveScreenList(int theaterNo) throws Exception{
 		ScreenDAO screenDAO = ScreenDAO.getInstance();
 		return screenDAO.SelectScreenList(theaterNo);
 	}
@@ -203,5 +204,11 @@ public class TheaterService {
 	public List<ScreenScheduleVO> retrieveTurn(int movieNo, int theaterNo, String date) throws Exception {
 		DateTheaterMovieDAO dateTheaterMovieDAO = DateTheaterMovieDAO.getInstance();
 		return dateTheaterMovieDAO.selectTurn(movieNo, theaterNo, date);
+	}
+	
+	//booking에서 사용
+	public List<ScheduleTurnVO> retrieveScheduleTurn(int screenNo, String screenDate )throws Exception{
+		ScheduleTurnDAO scheduleTurnDAO = ScheduleTurnDAO.getInstance();
+		return scheduleTurnDAO.selectScheduleTurn(screenNo, screenDate);
 	}
 }//TheaterService
