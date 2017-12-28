@@ -20,8 +20,8 @@ public class MemberBookingListCurrCommand implements Command {
 			throws IOException, ServletException {
 		ActionForward forward = new ActionForward();
 		try {
-			//수정필요
 			String memberNo = (String) req.getSession().getAttribute("memberNo");
+			//테스트
 //			String memberNo = "17121500004";
 			
 			int currentPage = 0;
