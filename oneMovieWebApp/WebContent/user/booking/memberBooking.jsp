@@ -379,7 +379,7 @@
      	
      </fieldset>
      
-     <form  action="memberBookingSelectSeat.do" method="post">
+     <form  action="${pageContext.request.contextPath }/auth/memberBookingSelectSeat.do" method="post">
      	<input type="hidden" name="turnNo" >
      	<input type="hidden" name="movieSelectedName" >
      	<input type="hidden" name="theaterSelectedName" >

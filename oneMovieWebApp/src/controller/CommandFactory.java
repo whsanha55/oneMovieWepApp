@@ -80,8 +80,8 @@ public class CommandFactory {
 
 		// 예약 시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-		map.put("/adminBookingByMember.do", "controller.booking.AdminBookingByMemberCommand");
-		map.put("/adminBookingByTheater.do", "controller.booking.AdminBookingByTheaterCommand");
+		map.put("/admin/adminBookingByMember.do", "controller.booking.AdminBookingByMemberCommand");
+		map.put("/admin/adminBookingByTheater.do", "controller.booking.AdminBookingByTheaterCommand");
 		map.put("/adminBookingAjax.do", "controller.booking.AdminBookingAjaxCommand");
 		map.put("/adminBookingAjax2.do", "controller.booking.AdminBookingAjax2Command");
 		map.put("/adminBookingAjax3.do", "controller.booking.AdminBookingAjax3Command");
@@ -92,12 +92,12 @@ public class CommandFactory {
 		map.put("/movieByTheaterAndDateAjax.do", "controller.theater.MovieByTheaterAndDateAjaxCommand");
 		map.put("/theaterByMovieAndDateAjax.do", "controller.theater.TheaterByMovieAndDateAjaxCommand");
 		map.put("/dateByMovieAndTheaterAjax.do", "controller.theater.DateByMovieAndTheaterAjaxCommand");
-		map.put("/memberBookingSelectSeat.do", "controller.booking.MemberBookingSelectSeatCommand");
-		map.put("/memberBookingPayForm.do", "controller.booking.MemberBookingPayFormCommand");
-		map.put("/memberExecuteBooking.do", "controller.booking.MemberExecuteBookingCommand");
-		map.put("/memberBookingListCurr.do", "controller.booking.MemberBookingListCurrCommand");
-		map.put("/memberBookingListPast.do", "controller.booking.MemberBookingListPastCommand");
-		map.put("/memberBookingListCancel.do", "controller.booking.MemberBookingListCancelCommand");
+		map.put("/auth/memberBookingSelectSeat.do", "controller.booking.MemberBookingSelectSeatCommand");
+		map.put("/auth/memberBookingPayForm.do", "controller.booking.MemberBookingPayFormCommand");
+		map.put("/auth/memberExecuteBooking.do", "controller.booking.MemberExecuteBookingCommand");
+		map.put("/auth/memberBookingListCurr.do", "controller.booking.MemberBookingListCurrCommand");
+		map.put("/auth/memberBookingListPast.do", "controller.booking.MemberBookingListPastCommand");
+		map.put("/auth/memberBookingListCancel.do", "controller.booking.MemberBookingListCancelCommand");
 		map.put("/memberBookingIsRefundableAjax.do", "controller.booking.MemberBookingIsRefundableAjaxCommand");
 		map.put("/memberBookingRefundAjax.do", "controller.booking.MemberBookingRefundAjaxCommand");
 		// 예약 끝====================================================

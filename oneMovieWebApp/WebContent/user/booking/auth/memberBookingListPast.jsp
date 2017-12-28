@@ -6,9 +6,9 @@
 	<div>예매확인/취소 예매하신 영화 내역과 취소내역을 확인할 수 있습니다.</div>
 	
 	<div>
-	<a href="${pageContext.request.contextPath }/memberBookingListCurr.do">My 예매내역</a>
-	<a href="${pageContext.request.contextPath }/memberBookingListPast.do">지난 내역</a>
-	<a href="${pageContext.request.contextPath }/memberBookingListCancel.do">취소 내역</a>
+	<a href="${pageContext.request.contextPath }/auth/memberBookingListCurr.do">My 예매내역</a>
+	<a href="${pageContext.request.contextPath }/auth/memberBookingListPast.do">지난 내역</a>
+	<a href="${pageContext.request.contextPath }/auth/memberBookingListCancel.do">취소 내역</a>
 	</div>
 	<table border="1">
 	<tr>
@@ -43,7 +43,7 @@
 	
 		<%-- 페이지 네비게이션 처리 --%>
 	<c:if test="${requestScope.paging.prevPage >= 1 }">
-		<c:url var="prevUrl" value="/memberBookingListPast.do" scope="page">
+		<c:url var="prevUrl" value="memberBookingListPast.do" scope="page">
 			<c:param name="currentPage" value="${requestScope.paging.prevPage }"/>
 		</c:url>
 		<a href="${pageScope.prevUrl }">[이전]</a>&nbsp;&nbsp;
@@ -57,14 +57,14 @@
 			${pageScope.i }&nbsp;&nbsp;		
 		</c:if>
 		<c:if test="${requestScope.paging.currentPage != pageScope.i }">
-			<c:url var="currentPageUrl" value="/memberBookingListPast.do" scope="page">
+			<c:url var="currentPageUrl" value="memberBookingListPast.do" scope="page">
 				<c:param name="currentPage" value="${pageScope.i }"/>		
 			</c:url>
 			<a href="${pageScope.currentPageUrl }">${pageScope.i }</a>&nbsp;&nbsp;		
 		</c:if>
 	</c:forEach>
 	<c:if test="${requestScope.paging.pageBlock < requestScope.paging.totalPage }">
-		<c:url var="nextUrl" value="/memberBookingListPast.do" scope="page">
+		<c:url var="nextUrl" value="memberBookingListPast.do" scope="page">
 			<c:param name="currentPage" value="${requestScope.paging.nextPage }"/>
 		</c:url>
 		<a href="${pageScope.nextUrl }">[다음]</a>&nbsp;&nbsp;

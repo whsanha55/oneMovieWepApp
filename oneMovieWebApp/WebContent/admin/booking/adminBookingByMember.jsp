@@ -185,8 +185,8 @@
 
 		}
 </script>
-	<div><a href="${pageContext.request.contextPath }/adminBookingByMember.do">회원 검색</a></div>
-	<div><a href="${pageContext.request.contextPath }/adminBookingByTheater.do">극장  검색</a></div>
+	<div><a href="${pageContext.request.contextPath }/admin/adminBookingByMember.do">회원 검색</a></div>
+	<div><a href="${pageContext.request.contextPath }/admin/adminBookingByTheater.do">극장  검색</a></div>
 	
 	<br>
 	<br>

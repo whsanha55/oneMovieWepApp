@@ -32,11 +32,7 @@ public class MemberBookingSelectSeatCommand implements Command {
 		HttpSession session =  req.getSession();
 
 		String memberNo = (String) session.getAttribute("memberNo");
-		if(memberNo == null) {
-			forward.setPath("/layoutUser.jsp");
-			forward.setRedirect(true);
-			return forward;
-		}
+		
 		bookingVO.setMemberNo(memberNo);
 		//bookingVO.setMemberNo("17121500004");
 		

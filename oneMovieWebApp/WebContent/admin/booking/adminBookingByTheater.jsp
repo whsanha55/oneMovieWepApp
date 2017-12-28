@@ -138,9 +138,11 @@
 			
 		});		//클릭 이벤트 끝
 		
+		
+		//회원번호 a링크
 		$('#bookingListTable').on('click','a',function() {
 
-			var url = "${pageContext.request.contextPath }/adminBookingByMember.do" + "?memberNo=" + $(this).text();
+			var url = "${pageContext.request.contextPath }/admin/adminBookingByMember.do" + "?memberNo=" + $(this).text();
 
 			var option = "width=1000, height=1000, menubar=no, toolbar=no, status=no, location=no, left= 100";
 			window.open(url,'a',option);
@@ -314,8 +316,8 @@
 	}
 </script>
 
-	<div><a href="${pageContext.request.contextPath }/adminBookingByMember.do">회원 검색</a></div>
-	<div><a href="${pageContext.request.contextPath }/adminBookingByTheater.do">극장  검색</a></div>
+<div><a href="${pageContext.request.contextPath }/admin/adminBookingByMember.do">회원 검색</a></div>
+	<div><a href="${pageContext.request.contextPath }/admin/adminBookingByTheater.do">극장  검색</a></div>
 	
 	<br>
 	<br>
