@@ -53,7 +53,7 @@
    overflow-x: hidden;
    display: block;
 }
-
+ 
 td:not(.first) {
 	width: 700px;
 	padding-left:5px;

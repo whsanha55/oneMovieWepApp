@@ -159,7 +159,7 @@ ul.tabs li.active {
                     </c:if>
                     <td id="actorPhoto"><img src = "${pageContext.request.contextPath}/user/movie/upload/${pageScope.actor.actorPhoto.actorOriginalFileName}"></td>
                    <td>${pageScope.actor.actorName }<br>${pageScope.actor.role.roleName} | ${pageScope.actor.characterName }역</td>
-                   
+                    
                 </c:forEach>
              </tr>
              </table>    

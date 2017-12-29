@@ -217,7 +217,7 @@ public class MovieDAO {
          try {
             conn = DBConn.getConnection();
             
-            StringBuffer sql = new StringBuffer();
+            StringBuffer sql = new StringBuffer();  
             sql.append(" select photo, movie_no, movie_title, running_time, director, grade_age, nation_name       ");
             sql.append(" from( select rownum as rn, movie1.*                                                    ");
             sql.append("         from (select (select mp.movie_photo_original_file_name                          ");
