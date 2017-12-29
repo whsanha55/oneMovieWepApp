@@ -349,7 +349,7 @@ public class MovieDAO {
          sql.append("from movie_photo mp                          																					   ");
          sql.append("where mp.MOVIE_PHOTO_ORIGINAL_FILE_NAME like '%' || 'detail' ||  '%'                            					  ");
          sql.append("and mp.movie_no = m.movie_no),  ");
-         sql.append("m.movie_no, m.movie_title, m.director, m.running_time, g.grade_age,n.nation_name,m.story, gen.genre_name, ac.actor_original_file_name, r.role_name, a.actor_name, a.character_name, mp1.movie_photo_original_file_name                           ");
+         sql.append("m.movie_no, m.movie_title, m.director, m.running_time, g.grade_age, n.nation_name, m.story, m.video_url, gen.genre_name, ac.actor_original_file_name, r.role_name, a.actor_name, a.character_name, mp1.movie_photo_original_file_name                           ");
          sql.append("from movie m, genre gen, actor a , role r, grade g, nation n, actor_photo ac, movie_photo mp1, movie_genre mg                                   ");
          sql.append("where m.movie_no = a.movie_no(+) and a.role_no = r.role_no   and g.grade_no = m.grade_no and n.nation_no = m.nation_no and a.actor_no = ac.actor_no and mp1.movie_no =  m.movie_no and gen.genre_no = mg.genre_no and mg.movie_no = m.movie_no                                                             ");
          sql.append("and m.movie_no = ?  																													 ");
@@ -388,29 +388,30 @@ public class MovieDAO {
                detailMovie.setNation(nation);
                
                detailMovie.setStory(rs.getString(9));
+               detailMovie.setVideoUrl(rs.getString(10));
               
             }
             
-            if(rs.getString(12) != null) {
+            if(rs.getString(13) != null) {
                 GenreVO genre = new GenreVO();
                  ActorVO actor = new ActorVO();
                  ActorPhotoVO actorPhoto = new ActorPhotoVO();
                  RoleVO role = new RoleVO();
           
-                 genre.setGenreName(rs.getString(10));
+                 genre.setGenreName(rs.getString(11));
                  detailMovie.addGenre(genre);
                  
-                 actorPhoto.setActorOriginalFileName(rs.getString(11));
+                 actorPhoto.setActorOriginalFileName(rs.getString(12));
                  actor.setActorPhoto(actorPhoto);
                  
-                 role.setRoleName(rs.getString(12));
+                 role.setRoleName(rs.getString(13));
                  actor.setRole(role);
                  
-                  actor.setActorName(rs.getString(13));
-                  actor.setCharacterName(rs.getString(14));
+                  actor.setActorName(rs.getString(14));
+                  actor.setCharacterName(rs.getString(15));
                   detailMovie.addActor(actor);
                   
-                  photo.setMoviePhotoOriginalFileName(rs.getString(15));
+                  photo.setMoviePhotoOriginalFileName(rs.getString(16));
                   detailMovie.addPhoto(photo);   
                   
             }
