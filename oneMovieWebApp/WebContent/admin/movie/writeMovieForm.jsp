@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
   <title>영화 입력 화면</title>
   <style>
-     table {
+     table { 
         border-collapse: collapse;
      }
      

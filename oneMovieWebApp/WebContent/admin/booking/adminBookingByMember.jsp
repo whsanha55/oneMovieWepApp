@@ -18,13 +18,16 @@
 	border-collapse: collapse;
 }
 #bookingListTable th {
-    background-color: darkolivegreen;
+    background-color: lightseagreen;
     color: white;
  	   padding-left: 10px;
  	   padding-right: 10px;
  	   padding-top: 10px;
  	   padding-bottom: 10px;
 }
+#bookingListTable th:nth-child(6) {
+		min-width:200px;
+	}
 #bookingListTable td {
 		padding-left : 5px;
 		padding-right : 5px;
