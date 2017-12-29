@@ -30,11 +30,16 @@
 		border-collapse: collapse;
 	}
 	#bookingListTable th {
- 	   background-color: white;
+ 	   background-color: lightseagreen;
+    	color: white;
  	   padding-left: 10px;
  	   padding-right: 10px;
  	   padding-top: 10px;
  	   padding-bottom: 10px;
+	}
+	
+	#bookingListTable th:nth-child(5) {
+		min-width:200px;
 	}
 	#bookingListTable td {
 		padding-left : 5px;
@@ -48,6 +53,9 @@
 		color: black;
 	}
 	
+	.turnChb span{
+		width: 10%;
+	}
 	
 	#paging {
     	text-align: center;
@@ -119,7 +127,7 @@
 		$('#screenCheckboxDiv').on('change',':checkbox[name=screenNo]', function() {
 
 			var screenNo = $(this).val();
-			var text = "<span>" + $(this).closest('span').text() + $(this).parent().text() + " :</span>";
+			var text = "<div class='turnChb'><span>" + $(this).closest('span').text() + $(this).parent().text() + " :</span>";
 			if($('#datepicker').datepicker("getDate") == null) {
 				alert("날짜를 선택하세요!!");
 				$(this).prop("checked",false);
@@ -143,6 +151,7 @@
 												+ data[i].turnNo + "'>" + data[i].startTime + "~" + data[i].endTime + "</label> ";
 									
 								}
+								text += "</div>"
 									$('#turnCheckboxDiv').append("<div class='screen' id='screen_" + screenNo + "'>" +  text + "</div> ");
 							}
 						} ,
