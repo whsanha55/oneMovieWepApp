@@ -26,9 +26,8 @@ public class PhotoDAO {
 		PreparedStatement pstmt = null;
 		try {
 			StringBuffer sql = new StringBuffer();
-			sql.append(
-					"insert into movie_photo(movie_photo_no, movie_photo_original_file_name, movie_photo_system_file_name, movie_photo_url, movie_no )      ");
-			sql.append("values(movie_photo_no_seq.nextval, ?, ?, 'C:\\io', (select max(movie_no) from movie))                           	");
+			sql.append("insert into movie_photo(movie_photo_no, movie_photo_original_file_name, movie_photo_system_file_name, movie_photo_url, movie_no )      ");
+			sql.append("values(movie_photo_no_seq.nextval, ?, ?, 'C:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\oneMovieWebApp\\user\\movie\\upload', (select max(movie_no) from movie))                           	");
 			
 			pstmt = conn.prepareStatement(sql.toString());
 
@@ -36,14 +35,10 @@ public class PhotoDAO {
 				System.out.println(photo.getMoviePhotoOriginalFileName());
 				pstmt.setString(1, photo.getMoviePhotoOriginalFileName());
 				pstmt.setString(2, photo.getMoviePhotoSystemFileName());
-				System.out.println("photo.getMovieNo() : " + photo.getMovieNo());
-				// pstmt.setString(2, photo.getMoviePhotoUrl());
 				pstmt.addBatch();
-				
 			}
 			pstmt.executeBatch();
-			
-
+		
 		} finally {
 			if (pstmt != null) pstmt.close();
 		}
@@ -62,12 +57,10 @@ public class PhotoDAO {
 			stmt = conn.createStatement();
 
 			StringBuffer sql = new StringBuffer();
-			sql.append(
-					"select movie_photo_no, movie_photo_original_file_name, movie_photo_system_file_name, movie_photo_url, movie_no      ");
-			sql.append("from movie_photo 														   ");
-			sql.append("order by no desc    												   ");
-			// System.out.println(sql.toString());
-
+			sql.append("select movie_photo_no, movie_photo_original_file_name, movie_photo_system_file_name, movie_photo_url, movie_no      ");
+			sql.append("from movie_photo 																																   ");
+			sql.append("order by no desc    												  																			   ");
+			
 			rs = stmt.executeQuery(sql.toString());
 
 			while (rs.next()) {
@@ -106,8 +99,7 @@ public class PhotoDAO {
 			pstmt.executeUpdate();
 
 		} finally {
-			if (pstmt != null)
-				pstmt.close();
+			if (pstmt != null) pstmt.close();
 		}
 	}
 }
