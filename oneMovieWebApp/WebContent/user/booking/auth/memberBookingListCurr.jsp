@@ -55,7 +55,7 @@
 					console.log(data);
 					console.log(data.success);
 					if(data.success) {
-						var isRefund = confirm("영화 예매는 30분전까지 취소 가능합니다. \n예매를 취소 하시겠습니까?");
+						var isRefund = confirm("영화 예매는 30분전까지 취소 가능합니다. \n정책에 따라 환불은 24시간 후 100%의 금액으로 환불됩니다. \n예매를 취소 하시겠습니까?");
 						if(isRefund) {
 							console.log("취소를 진행합니다");
 							
