@@ -6,7 +6,7 @@
 <html lang="en">
  <head>
     <meta charset="UTF-8">
-    <title>2단 레이아웃</title>
+    <title>사용자 모드 영화 예매 시스템</title>
     <style>
         body {
             color: white;

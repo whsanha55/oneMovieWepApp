@@ -78,6 +78,10 @@
 	    width:600px; 
 	    height:100px;
 	}
+	#tabTable3, #tab4 {
+		margin:auto; 
+		text-align:center;
+	}
 </style>
 
 <script src="../../js/jquery-3.2.1.min.js"></script>
@@ -169,7 +173,7 @@
 				</c:if>
 			</div>
         	<div id="tab3" class="tab_content">
-				<table style="margin-left: auto; margin-right: auto;" >
+				<table id="tabTable3">
             		 <tr id="imgtr"> 
 						<th>
 							<c:forEach var="photo" items="${requestScope.movie.photos }" varStatus="loop">
@@ -179,7 +183,7 @@
              		</tr>
             	 </table> 
 			</div>
-        	<div id="tab4" class="tab_content" style="margin:auto; text-align:center;">
+        	<div id="tab4" class="tab_content" >
            		<iframe width="560" height="315" src="${requestScope.movie.videoUrl}"></iframe>
         	</div>
 		</div>
