@@ -135,7 +135,7 @@ ul.tabs li.active {
          <td>국가 : ${requestScope.movie.nation.nationName }</td>
       </tr>
        <tr>
-         <td ><a class='booking' href='#'>예매하기</a> &nbsp;&nbsp;&nbsp;&nbsp;<a class='theater' href='#'>상영시간표</a></td>
+         <td ><a class='booking' href='${pageContext.request.contextPath}/memberBooking.do?movieNo=${pageScope.movie.movieNo}'>예매하기</a> &nbsp;&nbsp;&nbsp;&nbsp;<a class='theater' href='#'>상영시간표</a></td>
       </tr>
 
     </table>

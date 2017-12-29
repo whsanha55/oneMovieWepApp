@@ -22,17 +22,21 @@
    margin-right: 100px;
 }
 
-#form2>#deleteBtn {
-   position: fixed;
-   left: 500px;
-}
-
 #keyfield {
    position: absolute;
-   top: 159px;
+   top: 155px;
    left: 770px;
 }
-
+.booking, .theater {
+    display: inline-block;
+    padding: 5px;
+     border-radius: 10px;
+     border-color: transparent;
+     font-size: 12px;
+     background: #bf0d0d;
+     color: #fff;
+     cursor: pointer;
+}
 #findBtn, #selectAllBtn {
    border-radius: 3px;
    font-weight: 300;
@@ -216,7 +220,7 @@ a {
                                              + "</td>";
                                        htmlStr += "</tr>";
                                        htmlStr += "<tr>";
-                                       htmlStr += "<td class='last'><a href='#'>예매하기</a> &nbsp;&nbsp;<a href='#'>상영시간표</a></td>";
+                                       htmlStr += "<td class='last'><a class='booking' href='${pageContext.request.contextPath}/memberBooking.do?movieNo=${pageScope.movie.movieNo}'>예매하기</a> &nbsp;&nbsp;<a class='theater' href='#'>상영시간표</a></td>";
                                        htmlStr += "</tr>";
 
                                        $(htmlStr).appendTo(
@@ -315,7 +319,7 @@ a {
                                              + "</td>";
                                        htmlStr += "</tr>";
                                        htmlStr += "<tr>";
-                                       htmlStr += "<td class='last'><a href='${pageContext.request.contextPath}/user/booking/memberBooking.do?movieTitle=${pageScope.movie.movieTitle}'>예매하기</a> &nbsp;&nbsp;<a href='#'>상영시간표</a></td>";
+                                       htmlStr += "<td class='last'><a class='booking' href='${pageContext.request.contextPath}/memberBooking.do?movieNo=${pageScope.movie.movieNo}'>예매하기</a> &nbsp;&nbsp;<a class='theater' href='#'>상영시간표</a></td>";
                                        htmlStr += "</tr>";
 
                                        $(htmlStr).appendTo(

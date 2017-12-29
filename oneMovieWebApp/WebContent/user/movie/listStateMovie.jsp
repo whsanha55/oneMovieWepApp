@@ -11,51 +11,77 @@
   <title>영화 목록 조회 화면</title>
  <style>
 	#form, #form1 {
-		display: inline;
+   display: inline;
 	}
 	
 	#form {
- 		  margin-left: 220px;
-	}
-	#form1 {
-		  margin-right: 100px;
+	   margin-left: 350px;
 	}
 	
-	#form2 > #deleteBtn{
-		position: fixed;
-		left: 500px;
+	#form1 {
+	   margin-right: 100px;
 	}
-	#table{
-   		margin-left: auto;
-  		margin-right: auto;  		
-		border-collapse:collapse;
+	.booking, .theater {
+    display: inline-block;
+    padding: 5px;
+     border-radius: 10px;
+     border-color: transparent;
+     font-size: 12px;
+     background: #bf0d0d;
+     color: #fff;
+     cursor: pointer;
 	}
-	table td:not(.first) {
-	   width: 500px;
-	   padding-left: 5px;
+	#findBtn, #selectAllBtn {
+   border-radius: 3px;
+   font-weight: 300;
+   border-color: transparent;
+   font-size: 15px;
+   background: #5c87b2;
+   color: #fff;
+   cursor: pointer;
+}
+	#table {
+	   max-height: 800px;
+	   margin-left: auto;
+	   margin-right: auto;
+	   border-collapse: collapse;
+	   border: 1px solid #666c;
+	   overflow-y: auto;
+	   overflow-x: hidden;
+	   display: block;
 	}
+	 #keyfield {
+	   position: absolute;
+	   top: 155px;
+	   left: 770px;
+	}
+	td:not(.first) {
+		width: 700px;
+		padding-left:5px;
+	}
+
 	tr, td {
 		border: 0;
-	}	
+	}
+		
 	 td.first {
 		width: 100px;
 		padding:10px; 
 	 }
-	td.last, td.first{	
-	   border-bottom: 2px solid black;
+	td.last, td.first {
+	   border-bottom: 1px solid #666c;
 	}
-	
 	.title {
 	   font-weight: bold;
   	   font-size: 20px;
 	}
-	
 	a {	
   	   text-decoration:none;
 	}
   </style>
+  
  <script src="../../js/jquery-3.2.1.min.js"></script> 
-<script>
+ <script>
 	//////////////////////////////페이징 처리  jqueryPager//////////////////////////////////////////////////		
 	function jqueryPager(subOption) {		
 		var key = subOption.key;
@@ -176,7 +202,7 @@
 									htmlStr += "<td>국가: " + data[i].nationName+ "</td>";
 									htmlStr += "</tr>";					
 									htmlStr += "<tr>";
-									htmlStr += "<td class='last'><a href='#'>예매하기</a> &nbsp;&nbsp;<a href='#'>상영시간표</a></td>";
+									htmlStr += "<td class='last'><a class='booking' href='${pageContext.request.contextPath}/memberBooking.do?movieNo=${pageScope.movie.movieNo}'>예매하기</a> &nbsp;&nbsp;<a class='theater' href='#'>상영시간표</a></td>";
 									htmlStr += "</tr>";
 									
 									$(htmlStr).appendTo('#table');
@@ -268,7 +294,7 @@
 									htmlStr += "<td>국가: " + data[i].nationName+ "</td>";
 									htmlStr += "</tr>";					
 									htmlStr += "<tr>";
-									htmlStr += "<td class='last'><a href='#'>예매하기</a> &nbsp;&nbsp;<a href='#'>상영시간표</a></td>";
+									htmlStr += "<td class='last'><a class='booking' href='${pageContext.request.contextPath}/memberBooking.do?movieNo=${pageScope.movie.movieNo}'>예매하기</a> &nbsp;&nbsp;<a class='theater' href='#'>상영시간표</a></td>";
 									htmlStr += "</tr>";
 									
 									$(htmlStr).appendTo('#table');
@@ -332,20 +358,19 @@
  <body>
  <br><br>
   <form id="form">
-   		검색조건 : <select name="keyfield">
-   					  		<option value="MovieTitle">제목</option>
-   							<option value="Director">감독</option>
-   					</select>
-   					<input type="text" name="keyword" size="20">
-   					<button id="findBtn" type="button">검색</button>
+   		<select name="keyfield" id="keyfield">
+   				<option value="MovieTitle">제목</option>
+   				<option value="Director">감독</option>
+   		</select>
+   		<input type="text" name="keyword" size="20">
+   		<button id="findBtn" type="button">검색</button>
    </form>
     
    <form id="form1">
    			&nbsp;&nbsp;
    			<button id="selectAllBtn" type="button">전체조회</button>
     </form><br><br>
-  
-  	<%--전체 조회 OR 검색 리스트 나타남!!!얍!!! --%>
+
 	<table border="1" id="table" style="overflow-y:auto; overflow-x:hidden; display:block; max-height:800px;">
 	<c:forEach var="movie" items="${requestScope.movies }" varStatus="loop">
 		<tr>
@@ -366,14 +391,13 @@
 		</tr>					
 		<tr>
 			<td class='last'>
-			<a href='${pageContext.request.contextPath}/user/booking/memberBooking.do?movieTitle=${pageScope.movie.movieTitle}'>예매하기</a>
-			 &nbsp;&nbsp;<a href='#'>상영시간표</a>
+			<a class='booking' href='${pageContext.request.contextPath}/memberBooking.do?movieNo=${pageScope.movie.movieNo}'>예매하기</a>
+			 &nbsp;&nbsp;<a class='theater' href='#'>상영시간표</a>
 		 	</td>
 		</tr>
 </c:forEach>
 	</table><br><br>
 	
-	<%--페이징 처리 나타남!!!얍!!! --%>
     <div id="paging" style="margin:auto; text-align:center;"> </div>
  </body>
 </html>
