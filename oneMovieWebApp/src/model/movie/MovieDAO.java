@@ -226,8 +226,9 @@ public class MovieDAO {
             sql.append("                    and mp.movie_no = m.movie_no) as photo, m.movie_no, m.movie_title, m.running_time, m.director, g.grade_age, n.nation_name      ");
             sql.append("                from movie m, grade g, nation n                                               ");
             sql.append("                where g.grade_no = m.grade_no and n.nation_no = m.nation_no                   ");
-            sql.append("               order by movie_no desc )movie1) movie2                                    ");
+            sql.append("               order by movie_title asc )movie1) movie2                                    ");
             sql.append("where rn>=? and rn<=?                                                                        ");   
+          
          pstmt = conn.prepareStatement(sql.toString());
         
          pstmt.setInt(1,  startRow);

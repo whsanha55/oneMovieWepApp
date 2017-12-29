@@ -14,12 +14,12 @@
 		display: inline;
 	}	
 	#form:not(#keyfield) {
- 		  margin-left: 350px;
+ 		  margin-left: 300px;
 	}
-	#form1 {
-		  margin-right: 10px;
+	#form1, #writeMovieBtn {
+		  margin-right: 5px;
 	}
-	#findBtn, #selectAllBtn {
+	#findBtn, #selectAllBtn, #writeMovieBtn {
 		border-radius: 3px;
 	  font-weight: 300;
 	  border-color: transparent;
@@ -369,6 +369,14 @@
 				$(':checkbox[name=selected]').prop('checked', false)
 			}
     	});
+	    
+	    //추가하기
+		$('#writeMovieBtn').click(function() {
+	         
+	         location.href="${pageContext.request.contextPath}/admin/layoutAdmin.jsp?article=/user/movie/writeMovieForm.jsp";
+	         
+	         
+	      });
 	});	
 	
   </script>
@@ -388,7 +396,9 @@
    			&nbsp;&nbsp;
    			<button id="selectAllBtn" type="button">전체조회</button>
     </form><br><br>
-  
+  	
+   	<button id="writeMovieBtn" type="button">추가하기</button>
+
   	<%--전체 조회 OR 검색 리스트 나타남!!!얍!!! --%>
 	<table border="1" id="table" >
 	

@@ -17,7 +17,7 @@ public class AdminListMovieCommand implements Command{
       //게시글 목록 조회 요청 처리
       ActionForward forward = new ActionForward();      
       try {
-         forward.setPath("/layoutAdmin.jsp?article=/admin/movie/listMovie.jsp");
+         forward.setPath("/admin/layoutAdmin.jsp?article=/admin/movie/listMovie.jsp");
          forward.setRedirect(false);
          return forward;
       } catch (Exception e) {

@@ -7,16 +7,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시글 상세조회 화면</title>
+<title>영화 상세조회 화면</title>
 <style>
+#actorPhoto{
+   width: 100px;
+}
 #main {
    margin-left: auto;
    margin-right: auto;
+   width: 700px;
 }
 
 table td:not(.photo) {
-   width: 500px;
-   padding: 30px;
+   width: 300px;
+   padding: 20px;
 }
   
 .title {
@@ -24,13 +28,22 @@ table td:not(.photo) {
    font-size: 20px;
 }
 
+.booking, .theater {
+    display: inline-block;
+    padding: 10px;
+     border-radius: 10px;
+     border-color: transparent;
+     font-size: 15px;
+     background: #bf0d0d;
+     color: #fff;
+     cursor: pointer;
+}
+
 tr, td {
    border: none;
 }
 
 ul.tabs {
-	margin-left: 200px;
-    float: left;
     list-style: none;
     height: 32px;
     width: 100%;
@@ -44,18 +57,25 @@ ul.tabs li {
     height: 31px;
     border: 1px solid #eee;
     font-weight: bold;
-    background: #9e9e9e24;
+    background: #deb887;
     overflow: hidden;
     position: relative;
 }
   
 ul.tabs li.active {
-    background: #545e63;
-    border-bottom: 1px solid #9e9e9e24;
+   color: white;
+    background: #000000;
+    border-bottom: 1px solid #000000;
 }
 .tab_content {
    font-size: 15px;
+   font-weight:bold
     display: none;
+}
+#tab1 {   
+    margin:auto; 
+    width:600px; 
+    height:100px;
 }
 </style>
 <script src="../../js/jquery-3.2.1.min.js"></script>
@@ -88,17 +108,17 @@ ul.tabs li.active {
 <body>
    <table border="1" id="main">
       <tr>
-         <td rowspan="6" class="photo"><img
+         <td rowspan="7" class="photo"><img
             src="${pageContext.request.contextPath}/user/movie/upload/${requestScope.movie.detailPhoto.moviePhotoOriginalFileName}"></td>
          <td class="title">${requestScope.movie.movieTitle }</td>
       </tr>
       <tr>
-     	 <td>장르 : 
+         <td>장르 : 
             <c:forEach var="genre" items="${requestScope.movie.genres }" varStatus="loop">
                 ${pageScope.genre.genreName}
                 <c:if test="${loop.index < fn:length(requestScope.movie.genres) - 1  }">
-	 			,
-				</c:if>
+             ,
+            </c:if>
             </c:forEach>
            </td>
       </tr>
@@ -113,6 +133,9 @@ ul.tabs li.active {
       </tr>
       <tr>
          <td>국가 : ${requestScope.movie.nation.nationName }</td>
+      </tr>
+       <tr>
+         <td ><a class='booking' href='#'>예매하기</a> &nbsp;&nbsp;&nbsp;&nbsp;<a class='theater' href='#'>상영시간표</a></td>
       </tr>
 
     </table>
@@ -131,10 +154,10 @@ ul.tabs li.active {
              <table>
              <tr> 
                 <c:forEach var="actor" items="${requestScope.movie.actors }" varStatus="loop">
-                    <c:if test="${loop.index%3==0}">
+                    <c:if test="${loop.index%2==0}">
                           </tr><tr>
                     </c:if>
-                    <td><img src = "${pageContext.request.contextPath}/user/movie/upload/${pageScope.actor.actorPhoto.actorOriginalFileName}"></td>
+                    <td id="actorPhoto"><img src = "${pageContext.request.contextPath}/user/movie/upload/${pageScope.actor.actorPhoto.actorOriginalFileName}"></td>
                    <td>${pageScope.actor.actorName }<br>${pageScope.actor.role.roleName} | ${pageScope.actor.characterName }역</td>
                    
                 </c:forEach>
@@ -145,8 +168,8 @@ ul.tabs li.active {
         <div id="tab3" class="tab_content">
              <table style="margin-left: auto; margin-right: auto;" >
              <tr id="imgtr"> 
-             	<th>
-                	<c:forEach var="photo" items="${requestScope.movie.photos }" varStatus="loop">
+                <th>
+                   <c:forEach var="photo" items="${requestScope.movie.photos }" varStatus="loop">
                     <img src = "${pageContext.request.contextPath}/user/movie/upload/${pageScope.photo.moviePhotoOriginalFileName}">
                    </c:forEach>
                   </th>
@@ -154,8 +177,8 @@ ul.tabs li.active {
              </table> 
         </div>
         <div id="tab4" class="tab_content" style="margin:auto; text-align:center;">
-        	<iframe width="560" height="315" src="${requestScope.movie.videoUrl}">
-        	</iframe>
+           <iframe width="560" height="315" src="${requestScope.movie.videoUrl}">
+           </iframe>
         </div>
     </div>
 </div>
