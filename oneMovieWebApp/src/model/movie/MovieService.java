@@ -165,52 +165,52 @@ public class MovieService {
 	}
 
 	// 영화 정보를 수정하다.
-	public void updateMovie(DetailMovieVO movie) throws Exception {
-		Connection conn = null;
-		try {
-			conn = DBConn.getConnection();
+	   public void updateMovie(DetailMovieVO movie) throws Exception {
+	      Connection conn = null;
+	      try {
+	         conn = DBConn.getConnection();
 
-			// tx.begin(트랜젝션 시작)
-			conn.setAutoCommit(false);
+	         // tx.begin(트랜젝션 시작)
+	         conn.setAutoCommit(false);
+	         
+	         ActorDAO actorDao = ActorDAO.getInstance();
+	         actorDao.removeActor(conn, movie.getMovieNo());
 
-			ActorDAO actorDao = ActorDAO.getInstance();
-			actorDao.removeActor(conn, movie.getMovieNo());
+	         // 영화 수정
+	         MovieDAO moiveDAO = MovieDAO.getInstance();
+	         moiveDAO.modifyMovieList(conn, movie);
 
-			// 영화 수정
-			MovieDAO moiveDAO = MovieDAO.getInstance();
-			moiveDAO.modifyMovieList(conn, movie);
+	         // 출연진 등록
+	         if (movie.getActors().size() != 0) {
+	            ActorDAO actorDAO = ActorDAO.getInstance();
+	            for (ActorVO actor : movie.getActors()) {
+	               actor.setMovieNo(movie.getMovieNo());
+	            }
 
-			// 출연진 등록
-			if (movie.getActors().size() != 0) {
-				ActorDAO actorDAO = ActorDAO.getInstance();
-				for (ActorVO actor : movie.getActors()) {
-					actor.setMovieNo(movie.getMovieNo());
-				}
+	            for (ActorVO actor : movie.getActors()) {
+	               int actorNo = actorDAO.insertActorList(conn, actor, movie.getMovieNo());
+	            
+	               // 출연진 사진 등록
+	               if (actor.getActorPhoto() != null) {
+	                  System.out.println("call insertActorPhoto");
+	                  ActorPhotoVO actorPhoto = actor.getActorPhoto();
+	                  actorPhoto.setActorNo(actorNo);
+	                  ActorPhotoDAO actorPhotoDAO = ActorPhotoDAO.getInstance();
+	                  actorPhotoDAO.insertActorPhoto(conn, actorPhoto);
+	               }
+	            }
+	         }
 
-				for (ActorVO actor : movie.getActors()) {
-					int actorNo = actorDAO.insertActorList(conn, actor, movie.getMovieNo());
+	         conn.commit();
 
-					// 출연진 사진 등록
-					if (actor.getActorPhoto() != null) {
-						System.out.println("call insertActorPhoto");
-						ActorPhotoVO actorPhoto = actor.getActorPhoto();
-						actorPhoto.setActorNo(actorNo);
-						ActorPhotoDAO actorPhotoDAO = ActorPhotoDAO.getInstance();
-						actorPhotoDAO.insertActorPhoto(conn, actorPhoto);
-					}
-				}
-			}
-
-			conn.commit();
-
-		} catch (Exception ex) {
-			conn.rollback();
-			throw ex;
-		} finally {
-			if (conn != null)
-				conn.close();
-		}
-	}
+	      } catch (Exception ex) {
+	         conn.rollback();
+	         throw ex;
+	      } finally {
+	         if (conn != null)
+	            conn.close();
+	      }
+	   }
 
 	// 영화 제목을 조회하다.
 	public List<MovieTitleVO> retriveMovieTitle(String movieTitle) throws Exception {

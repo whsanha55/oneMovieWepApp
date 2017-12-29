@@ -98,7 +98,7 @@
       <br><br><br>  
       
         배우  <br>
-      <button id="actorAddBtn">배우추가하기</button>
+      
       <p id="area">          
         배우사진 : <input type="file" name="uploadactor"><br>
         이    름 : <input type="text" name="actorName" size="20"><br> 
@@ -122,7 +122,7 @@
        <br><br>
        
        영화사진 
-       <button id="photoAddBtn">사진추가하기</button><br><br>
+       <br>
        <input type="file" name="upload"><br><br>
        <input type="file" name="upload"><br><br>
        <input type="file" name="upload"><br><br><br>
