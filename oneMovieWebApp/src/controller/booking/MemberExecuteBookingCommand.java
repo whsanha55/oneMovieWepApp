@@ -27,7 +27,6 @@ public class MemberExecuteBookingCommand implements Command {
 		String serialCardNum3 = req.getParameter("serialCardNum3");
 		String serialCardNum4 = req.getParameter("serialCardNum4");
 		
-		int price = Integer.parseInt(req.getParameter("price"));
 		
 		Random rd = new Random();
 
@@ -54,7 +53,6 @@ public class MemberExecuteBookingCommand implements Command {
 		try {
 			
 			bookingVO.setPaymentCode(paymentCode.toString());
-			bookingVO.setPrice(price);
 			BookingService bookingService = BookingService.getInstance();
 			bookingService.addBooking(bookingVO);
 			

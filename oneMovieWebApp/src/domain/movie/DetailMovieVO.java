@@ -123,7 +123,7 @@ private int movieNo;
       
       return photos;
    }
-
+ 
    public void setPhotos(List<PhotoVO> photos) {
       this.photos = photos;
    }

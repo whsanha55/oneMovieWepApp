@@ -374,7 +374,7 @@
 		<tr>
 			<td rowspan= "6" class= "first"><img src="${pageContext.request.contextPath}/user/movie/upload/${pageScope.movie.photo.moviePhotoOriginalFileName}"></td>
 			<td class="title"><a href="${pageContext.request.contextPath}/user/movie/detailMovie.do?movieNo=${pageScope.movie.movieNo}">${pageScope.movie.movieTitle }</a></td>
-		</tr>
+		</tr>  
 		<tr>
 			<td>상영시간: ${pageScope.movie.runningTime}분</td>
 		</tr>

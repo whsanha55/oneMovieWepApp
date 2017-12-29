@@ -30,12 +30,10 @@ public class BookingService {
 		try {
 			conn = DBConn.getConnection();
 			conn.setAutoCommit(false);
-
 			BookingDAO bookingDAO = BookingDAO.getInstance();
 			String ticketNo = bookingDAO.insertBooking(bookingVO, conn);
 			BookingSeatDAO bookingSeatDAO = BookingSeatDAO.getInstance();
 			List<BookingSeatVO> bookingSeatVO = bookingVO.getBookingSeats();
-			System.out.println(bookingSeatVO.size());
 			bookingSeatDAO.insertBookingSeat(ticketNo, bookingSeatVO, conn);
 			conn.commit();
 		} catch (Exception e) {

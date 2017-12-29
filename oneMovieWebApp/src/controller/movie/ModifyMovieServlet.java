@@ -77,7 +77,7 @@ public class ModifyMovieServlet extends HttpServlet {
                   switch(part.getName()) {  //field-name            
                      case "upload":
                         PhotoVO photo = UploadFiles.uploadFile(part, sc);
-                        movie.addPhoto1(photo);                  
+                        movie.addPhoto1(photo);                   
                         break;
                      case "uploadactor":                                          
                         actor = new ActorVO();         //actor랑 actorPhoto순서 바꾸지 말 것.

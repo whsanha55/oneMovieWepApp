@@ -20,7 +20,7 @@ import domain.movie.MovieVO;
 import domain.movie.PhotoVO;
 import model.movie.MovieService;
 import util.UploadFiles;
-
+  
 //파일업로드 요청을 처리할 서블릿 클래스 구현
 public class WriteMovieServlet extends HttpServlet {
 	

@@ -73,7 +73,6 @@
 		<input type="text" name="serialCardNum2"> -
 		<input type="text" name="serialCardNum3"> -
 		<input type="text" name="serialCardNum4"> 
-		<input type="hidden" name="price" value="20000">
 		<button id="bookingBtn">결제하기</button>
 		
 	

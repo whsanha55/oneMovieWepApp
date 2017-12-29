@@ -17,9 +17,18 @@
 		height: 242.32px;
 	}
 	
+	#movieFieldSet select, #theaterFieldSet select {
+		text-align:center;
+	}
+	
+	#theaterFieldSet option {
+		height: 50px;
+		font-size: 18px;
+	}
+	
 	#turnFieldSet {
 		margin-top:20px;
-		text-align: center;
+		text-align: left;
 	}
 	
 	#turnFieldSet > div {
@@ -31,7 +40,11 @@
 	}
 	#turnFieldSet span {
 		font-size : 20px;
+		float: left;
 		
+	}
+	#turnFieldSet>span {
+		margin-left: 230px;
 	}
 	
 	#turnFieldSet button {
@@ -58,6 +71,11 @@
 	#resultTable td {
 		width:50%;
 		border: 1px solid black;
+	}
+	
+	legend {
+		text-align: center;
+		font-size : 20px;
 	}
 	
 </style>
@@ -126,7 +144,7 @@
 			dataType : 'json',
 			success : function(data) {
 				var theaterText = " <legend>지점</legend>";
-				theaterText += "<select id='selectOptionTheater' size='10'>";
+				theaterText += "<select id='selectOptionTheater' size='3'>";
 				for(var i = 0; i<data.theaterList.length;i++) {
 					if(data.theaterList[i].theaterNo == "${requestScope.theaterNo}") {
 						theaterText += "<option value='" + data.theaterList[i].theaterNo +"' selected>" + data.theaterList[i].theaterName ;
@@ -214,7 +232,9 @@
 			        	}
 			       	 } , 
 			    	beforeShowDay: function(date){
-						
+						if(data.dateList.length == 0) {
+							return [false];
+						}
 			    		
 			    		for (var i = 0; i < data.dateList.length; i++) {
 			    			
@@ -436,7 +456,7 @@
      
      <fieldset id="turnFieldSet">
      	<legend>상영시간</legend>
-     	<div>영화, 지점, 날짜를 선택해 주세요</div>
+     	<span>영화, 지점, 날짜를 선택해 주세요</span>
      </fieldset>
      
      <form  action="${pageContext.request.contextPath }/auth/memberBookingSelectSeat.do" method="post">

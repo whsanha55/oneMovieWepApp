@@ -34,7 +34,7 @@
 	   font-weight: bold;
 	   font-size: 20px;
 	}
-	
+	 
 	#form1, #form2 {
 		display: inline;
 		margin: auto;

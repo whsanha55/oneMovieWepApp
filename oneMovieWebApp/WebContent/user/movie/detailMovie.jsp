@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <% pageContext.setAttribute("LF", "\n"); %>
 <!doctype html>
-<html>
+<html> 
 <head>
 <meta charset="UTF-8">
 <title>영화 상세조회 화면</title>

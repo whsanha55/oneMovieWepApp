@@ -68,7 +68,7 @@
 	
 	.first {
 		background-color: #2196f32e;
-	}
+	} 
 	#paging {
 		margin:auto; 
 		text-align:center;
