@@ -7,6 +7,14 @@ public class DetailMovieVO {
 
 private int movieNo;
    private String movieTitle;
+   private String director;
+   private String story;
+   private String videoUrl;
+   private int runningTime;
+   private int gradeNo;
+   private int nationNo;
+   private int roleNo;
+   
    private List<GenreVO> genres = new ArrayList<GenreVO>();
    private List<ActorVO> actors = new ArrayList<ActorVO>();
    private List<PhotoVO> photos = new ArrayList<PhotoVO>();
@@ -15,13 +23,6 @@ private int movieNo;
    private PhotoVO photo = new PhotoVO();
    private GradeVO grade = new GradeVO();
    private NationVO nation = new NationVO();
-   private String director;
-   private int runningTime;
-   private int gradeNo;
-   private int nationNo;
-   private String story;
-   private int roleNo;
-   private String videoUrl;
 
    public DetailMovieVO() {
       super();
@@ -122,11 +123,15 @@ private int movieNo;
       
       return photos;
    }
-
+ 
    public void setPhotos(List<PhotoVO> photos) {
       this.photos = photos;
    }
-
+   
+   public void addPhoto1(PhotoVO photo) {
+	      photos.add(photo);
+   }
+   
    public String getDirector() {
       return director;
    }

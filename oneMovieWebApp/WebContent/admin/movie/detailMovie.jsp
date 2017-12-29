@@ -34,17 +34,7 @@
 	   font-weight: bold;
 	   font-size: 20px;
 	}
-		.booking, .theater {
-		display: inline-block;
-		padding: 10px;
-		border-radius: 10px;
-		border-color: transparent;
-		font-size: 15px;
-		background: #bf0d0d;
-		color: #fff;
-		cursor: pointer;
-	}
-  
+	 
 	#form1, #form2 {
 		display: inline;
 		margin: auto;
@@ -143,7 +133,7 @@
 <body>
 	 <table border="1" id="main">
       <tr>
-         <td rowspan="7" class="photo"><img
+         <td rowspan="6 class="photo"><img
             src="${pageContext.request.contextPath}/user/movie/upload/${requestScope.movie.detailPhoto.moviePhotoOriginalFileName}"></td>
          <td class="title">${requestScope.movie.movieTitle }</td>
       </tr>
@@ -168,9 +158,6 @@
       </tr>
       <tr>
          <td>국가 : ${requestScope.movie.nation.nationName }</td>
-      </tr>
-      <tr>
-         <td ><a class='booking' href='${pageContext.request.contextPath}/memberBooking.do?movieNo=${pageScope.movie.movieNo}'>예매하기</a> &nbsp;&nbsp;&nbsp;&nbsp;<a class='theater' href='#'>상영시간표</a></td>
       </tr>
     </table>
     

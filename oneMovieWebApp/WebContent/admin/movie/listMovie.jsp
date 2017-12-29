@@ -68,7 +68,7 @@
 	
 	.first {
 		background-color: #2196f32e;
-	}
+	} 
 	#paging {
 		margin:auto; 
 		text-align:center;
@@ -80,6 +80,10 @@
   	   text-decoration:none;
   	   color: black;
 	}
+	
+	#last {   
+        font-size: 20px;     
+   }
   </style>
  <script src="../../js/jquery-3.2.1.min.js"></script> 
 <script>
@@ -194,7 +198,7 @@
 									htmlStr += "<td><input type='checkbox' name='selected' value='" + data[i].selected + "'></td>";
 									htmlStr += "<td>" + data[i].movieTitle + "</td>";
 									htmlStr += "<td>" + data[i].director + "</td>";
-									htmlStr += "<td id='last'><a id='last' href='${pageContext.request.contextPath}/admin/movie/detailMovie.do?movieNo=" +data[i].movieNo +" '>상세정보보기</a></td>";
+									htmlStr += "<td><a id='last' href='${pageContext.request.contextPath}/admin/movie/detailMovie.do?movieNo=" +data[i].movieNo +" '>상세정보보기</a></td>";
 									htmlStr += "</tr>";
 									$(htmlStr).appendTo('#table');
 									htmlStr = "";
@@ -273,7 +277,7 @@
 									htmlStr += "<td><input type='checkbox' name='selected' value='" + data[i].selected + "'></td>";
 									htmlStr += "<td>" + data[i].movieTitle + "</td>";
 									htmlStr += "<td>" + data[i].director + "</td>";
-									htmlStr += "<td id='last'><a href='${pageContext.request.contextPath}/admin/movie/detailMovie.do?movieNo=" +data[i].movieNo +" '>상세정보보기</a></td>";
+									htmlStr += "<td><a id='last' href='${pageContext.request.contextPath}/admin/movie/detailMovie.do?movieNo=" +data[i].movieNo +" '>상세정보보기</a></td>";
 									htmlStr += "</tr>";
 									$(htmlStr).appendTo('#table');
 									htmlStr = "";
@@ -372,10 +376,7 @@
 	    
 	    //추가하기
 		$('#writeMovieBtn').click(function() {
-	         
-	         location.href="${pageContext.request.contextPath}/admin/layoutAdmin.jsp?article=/user/movie/writeMovieForm.jsp";
-	         
-	         
+	         location.href="${pageContext.request.contextPath}/admin/layoutAdmin.jsp?article=/admin/movie/writeMovieForm.jsp";
 	      });
 	});	
 	
@@ -395,11 +396,10 @@
    <form id="form1">
    			&nbsp;&nbsp;
    			<button id="selectAllBtn" type="button">전체조회</button>
+   			&nbsp;
+            <button id="writeMovieBtn" type="button">추가하기</button>
     </form><br><br>
   	
-   	<button id="writeMovieBtn" type="button">추가하기</button>
-
-  	<%--전체 조회 OR 검색 리스트 나타남!!!얍!!! --%>
 	<table border="1" id="table" >
 	
 		<tr class='first'>
@@ -413,7 +413,7 @@
 	 <form id="form2">
    			<button id="deleteBtn" type="button">삭제</button>
   	 </form>
-	<%--페이징 처리 나타남!!!얍!!! --%>
+  	 
     <div id="paging" > </div>
  </body>
 </html>

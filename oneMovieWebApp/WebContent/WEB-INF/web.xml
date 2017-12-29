@@ -59,7 +59,7 @@
 
 	<servlet-mapping>
 		<servlet-name>WriteMovie</servlet-name>
-		<url-pattern>/user/movie/writeMovie</url-pattern>
+		<url-pattern>/admin/movie/writeMovie</url-pattern>
 	</servlet-mapping>
 	
 	

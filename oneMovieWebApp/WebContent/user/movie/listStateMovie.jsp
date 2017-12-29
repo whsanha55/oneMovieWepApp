@@ -374,7 +374,7 @@
 		<tr>
 			<td rowspan= "6" class= "first"><img src="${pageContext.request.contextPath}/user/movie/upload/${pageScope.movie.photo.moviePhotoOriginalFileName}"></td>
 			<td class="title"><a href="${pageContext.request.contextPath}/user/movie/detailMovie.do?movieNo=${pageScope.movie.movieNo}">${pageScope.movie.movieTitle }</a></td>
-		</tr>
+		</tr>  
 		<tr>
 			<td>상영시간: ${pageScope.movie.runningTime}분</td>
 		</tr>
@@ -389,8 +389,15 @@
 		</tr>					
 		<tr>
 			<td class='last'>
-			<a class='booking' href='${pageContext.request.contextPath}/memberBooking.do?movieNo=${pageScope.movie.movieNo}'>예매하기</a>
-			 &nbsp;&nbsp;<a class='theater' href='#'>상영시간표</a>
+			<c:choose>
+            <c:when test="${param.keyfield =='end' }">
+                <a class='theater' href='#'>상영시간표</a>            
+            </c:when>
+            <c:otherwise>
+               <a class='booking' href='${pageContext.request.contextPath}/memberBooking.do?movieNo=${pageScope.movie.movieNo}'>예매하기</a>
+                &nbsp;&nbsp;<a class='theater' href='#'>상영시간표</a>
+            </c:otherwise>
+          </c:choose>
 		 	</td>
 		</tr>
 	</c:forEach>

@@ -14,7 +14,6 @@ public class RemoveMoviePhotoCommand implements Command{
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
 		 
 		int moviePhotoNo = Integer.parseInt(req.getParameter("moviePhotoNo"));
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@ moviePhotoNo : "+moviePhotoNo);
 		 
 		ActionForward forward = new ActionForward();
 		try {
@@ -22,10 +21,8 @@ public class RemoveMoviePhotoCommand implements Command{
 			
 			service.deleteMoviePhoto(moviePhotoNo);
 			
-				
-			//forward.setPath("/user/movie/successRemoveMovie.jsp");
 			forward.setRedirect(true);
-			forward.setPath("/admin/movie/listMovie.jsp");
+			forward.setPath("/admin/layoutAdmin.jsp?article=/admin/movie/listMovie.jsp");
 			return forward;
 			
 		} catch (Exception e) {
