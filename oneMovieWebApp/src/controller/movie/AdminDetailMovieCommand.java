@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import controller.ActionForward;
 import controller.Command;
 import domain.movie.DetailMovieVO;
-import domain.movie.MovieVO;
 import model.movie.MovieService;
   
 public class AdminDetailMovieCommand implements Command{
@@ -17,16 +16,14 @@ public class AdminDetailMovieCommand implements Command{
 
       int movieNo = Integer.parseInt(req.getParameter("movieNo"));
       
-      ActionForward forward = new ActionForward();
-      
+      ActionForward forward = new ActionForward();    
       try {      
-         MovieService movieService = MovieService.getInstance();
-         
+         MovieService movieService = MovieService.getInstance();       
          DetailMovieVO movie = movieService.retriveMovie(movieNo);
          
          req.setAttribute("movie", movie);
           
-         //4. 게시글 상세조회(detailArticle.jsp) 페이지로 이동한다.
+         //4. 영화 상세 조회(detailMovie.jsp) 페이지로 이동한다.
          forward.setPath("/admin/layoutAdmin.jsp?article=/admin/movie/detailMovie.jsp");
          forward.setRedirect(false);
          return forward;
@@ -37,6 +34,5 @@ public class AdminDetailMovieCommand implements Command{
          forward.setRedirect(false);
          return forward;
       }   
-      
    }
 }

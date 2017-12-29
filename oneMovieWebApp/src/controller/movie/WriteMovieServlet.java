@@ -15,7 +15,6 @@ import javax.servlet.http.Part;
 
 import domain.movie.ActorPhotoVO;
 import domain.movie.ActorVO;
-import domain.movie.GenreVO;
 import domain.movie.MovieGenreVO;
 import domain.movie.MovieVO;
 import domain.movie.PhotoVO;
@@ -24,7 +23,6 @@ import util.UploadFiles;
 
 //파일업로드 요청을 처리할 서블릿 클래스 구현
 public class WriteMovieServlet extends HttpServlet {
-
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
@@ -101,7 +99,6 @@ public class WriteMovieServlet extends HttpServlet {
 		    dispatcher.forward(req, resp);
 		}	
 	}
-
 	
 	private String getStringFromStream(InputStream is) throws IOException {
 		StringBuilder str = new StringBuilder();
@@ -117,10 +114,8 @@ public class WriteMovieServlet extends HttpServlet {
 		} finally {
 			if(isr != null) isr.close();
 		}
-		return str.toString();
-		
+		return str.toString();	
 	}
-
 }
 
 

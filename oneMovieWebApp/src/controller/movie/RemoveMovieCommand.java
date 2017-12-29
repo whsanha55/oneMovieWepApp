@@ -15,7 +15,6 @@ public class RemoveMovieCommand implements Command{
 		 
 		String movieNo = req.getParameter("movieNo");
 		String[] temp = movieNo.split(",");
-		System.out.println("³Ñ¹ö!!!!!!!!!!!!!!!"+movieNo);
 		
 		int[] movieNoList = new int[temp.length];
 		for(int i=0; i<temp.length; i++) {

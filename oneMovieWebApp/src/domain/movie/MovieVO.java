@@ -5,17 +5,19 @@ import java.util.List;
 
 public class MovieVO {
 	private int movieNo;
-	private String movieTitle;
 	private int runningTime;
+	private int gradeNo;
+	private int nationNo;
+	private String movieTitle;
 	private String director;
 	private String story;
 	private String videoUrl;
-	private int gradeNo;
-	private int nationNo;
+	
 	private ActorVO actor = new ActorVO();
 	private GradeVO grade = new GradeVO();
 	private NationVO nation = new NationVO();
 	private PhotoVO photo = new PhotoVO(); 
+	
 	private List<ActorVO> actors = new ArrayList<ActorVO>();// 한 영화에 대해 출연진들은 여러명 존재
 	private List<PhotoVO> photos = new ArrayList<PhotoVO>();// 한 영화에 대해 사진(포토)은 여러개 존재
 	private MovieGenreVO movieGenre = new MovieGenreVO();
@@ -24,9 +26,8 @@ public class MovieVO {
 	public MovieVO() {
 		super();
 	}
-
-	public MovieVO(int movieNo, String movieTitle, int runningTime, String director, String story, String videoUrl,
-			int gradeNo, int nationNo) {
+	
+	public MovieVO(int movieNo, String movieTitle, int runningTime, String director, String story, String videoUrl,int gradeNo, int nationNo) {
 		super();
 		this.movieNo = movieNo;
 		this.movieTitle = movieTitle;
@@ -36,10 +37,6 @@ public class MovieVO {
 		this.videoUrl = videoUrl;
 		this.gradeNo = gradeNo;
 		this.nationNo = nationNo;
-		this.actor = actor;
-		this.actors = actors;
-		this.photos = photos;
-		this.movieGenre = movieGenre;
 	}
 
 	public MovieVO(String movieTitle, int runningTime, String director, int gradeNo, int nationNo) {
@@ -203,7 +200,4 @@ public class MovieVO {
 				+ ", nationNo=" + nationNo + ", actor=" + actor + ", grade=" + grade + ", nation=" + nation + ", photo="
 				+ photo + ", actors=" + actors + ", photos=" + photos + ", movieGenre=" + movieGenre + "]";
 	}
-
-
-
 }

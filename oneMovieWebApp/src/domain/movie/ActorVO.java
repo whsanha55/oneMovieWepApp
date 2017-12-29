@@ -1,10 +1,5 @@
 package domain.movie;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import model.movie.ActorPhotoDAO;
-
 public class ActorVO {
 	private int actorNo;
 	private String actorName;

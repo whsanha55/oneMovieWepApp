@@ -49,13 +49,13 @@
 		display: block;
 	}
 	
-	td:not (.first ) {
-		width: 700px;
-		padding-left: 5px;
-	}
-	
 	tr, td {
 		border: 0;
+	}
+	
+	td:not(.first) {
+		width: 700px;
+		padding-left: 5px;
 	}
 	
 	td.first {

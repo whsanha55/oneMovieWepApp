@@ -389,8 +389,15 @@
 		</tr>					
 		<tr>
 			<td class='last'>
-			<a class='booking' href='${pageContext.request.contextPath}/memberBooking.do?movieNo=${pageScope.movie.movieNo}'>예매하기</a>
-			 &nbsp;&nbsp;<a class='theater' href='#'>상영시간표</a>
+			<c:choose>
+            <c:when test="${param.keyfield =='end' }">
+                <a class='theater' href='#'>상영시간표</a>            
+            </c:when>
+            <c:otherwise>
+               <a class='booking' href='${pageContext.request.contextPath}/memberBooking.do?movieNo=${pageScope.movie.movieNo}'>예매하기</a>
+                &nbsp;&nbsp;<a class='theater' href='#'>상영시간표</a>
+            </c:otherwise>
+          </c:choose>
 		 	</td>
 		</tr>
 	</c:forEach>
