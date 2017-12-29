@@ -1,4 +1,4 @@
-<%-- listArticle.jsp --%>
+<%-- listStateMovie.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -6,14 +6,14 @@
   
 <!doctype html>
 <html>
- <head>
-  <meta charset="UTF-8">
-  <title>영화 목록 조회 화면</title>
- <style>
+<head>
+<meta charset="UTF-8">
+<title>상영상태에 따른 영화 조회 화면</title>
+<style>
 	#form, #form1 {
-   display: inline;
+   		display: inline;
 	}
-	
+		
 	#form {
 	   margin-left: 350px;
 	}
@@ -21,25 +21,23 @@
 	#form1 {
 	   margin-right: 100px;
 	}
-	.booking, .theater {
-    display: inline-block;
-    padding: 5px;
-     border-radius: 10px;
-     border-color: transparent;
-     font-size: 12px;
-     background: #bf0d0d;
-     color: #fff;
-     cursor: pointer;
+	
+	#keyfield {
+	   position: absolute;
+	   top: 155px;
+	   left: 770px;
 	}
+	
 	#findBtn, #selectAllBtn {
-   border-radius: 3px;
-   font-weight: 300;
-   border-color: transparent;
-   font-size: 15px;
-   background: #5c87b2;
-   color: #fff;
-   cursor: pointer;
-}
+	   border-radius: 3px;
+	   font-weight: 300;
+	   border-color: transparent;
+	   font-size: 15px;
+	   background: #5c87b2;
+	   color: #fff;
+	   cursor: pointer;
+	}
+	
 	#table {
 	   max-height: 800px;
 	   margin-left: auto;
@@ -50,11 +48,7 @@
 	   overflow-x: hidden;
 	   display: block;
 	}
-	 #keyfield {
-	   position: absolute;
-	   top: 155px;
-	   left: 770px;
-	}
+	
 	td:not(.first) {
 		width: 700px;
 		padding-left:5px;
@@ -63,20 +57,39 @@
 	tr, td {
 		border: 0;
 	}
-		
-	 td.first {
+			
+	td.first {
 		width: 100px;
 		padding:10px; 
-	 }
+	}
+		 
 	td.last, td.first {
 	   border-bottom: 1px solid #666c;
 	}
+	
+	.booking, .theater {
+		display: inline-block;
+		padding: 5px;
+		border-radius: 10px;
+		border-color: transparent;
+		font-size: 12px;
+		background: #bf0d0d;
+		color: #fff;
+		cursor: pointer;
+	}
+
 	.title {
 	   font-weight: bold;
   	   font-size: 20px;
 	}
+	
 	a {	
   	   text-decoration:none;
+	}
+	
+	#paging {
+		margin: auto; 
+		text-align: center;
 	}
   </style>
   
@@ -329,49 +342,34 @@
 	
 	} //end of goPage 
 	
-	
-	
 	$(document).ready(function() {
-	    //체크박스 전체 체크 및 해제 처리
-		$(':checkbox[name=all]').on('change', function() {		
-			if($(this).prop('checked'))  {
-				$(':checkbox[name=selected]').prop('checked', true)
-			} else {
-				$(':checkbox[name=selected]').prop('checked', false)
-			}
+		//전체 조회
+		$('#selectAllBtn').on('click', function() {
+			goPage(1, 1);			
 		});
 	    	
 		//검색
 		$('#findBtn').on('click', function() {
 			goPage(1, 2);		
-		});
-			
-		//전체 조회
-		$('#selectAllBtn').on('click', function() {
-			goPage(1, 1);			
-		});
-				
+		});		
 	});	
 	
-  </script>
+ </script>
  </head>
- <body>
- <br><br>
-  <form id="form">
-   		<select name="keyfield" id="keyfield">
-   				<option value="MovieTitle">제목</option>
-   				<option value="Director">감독</option>
-   		</select>
-   		<input type="text" name="keyword" size="20">
-   		<button id="findBtn" type="button">검색</button>
-   </form>
-    
-   <form id="form1">
-   			&nbsp;&nbsp;
-   			<button id="selectAllBtn" type="button">전체조회</button>
-    </form><br><br>
-
-	<table border="1" id="table" style="overflow-y:auto; overflow-x:hidden; display:block; max-height:800px;">
+ <body><br><br>
+ <form id="form">
+ 	<select name="keyfield" id="keyfield">
+		<option value="MovieTitle">제목</option>
+   		<option value="Director">감독</option>
+   	</select>
+   	<input type="text" name="keyword" size="20">
+   	<button id="findBtn" type="button">검색</button>
+ </form>
+ 
+ <form id="form1">&nbsp;&nbsp;
+ 	<button id="selectAllBtn" type="button">전체조회</button>
+ </form><br><br>
+ <table border="1" id="table" >
 	<c:forEach var="movie" items="${requestScope.movies }" varStatus="loop">
 		<tr>
 			<td rowspan= "6" class= "first"><img src="${pageContext.request.contextPath}/user/movie/upload/${pageScope.movie.photo.moviePhotoOriginalFileName}"></td>
@@ -395,9 +393,9 @@
 			 &nbsp;&nbsp;<a class='theater' href='#'>상영시간표</a>
 		 	</td>
 		</tr>
-</c:forEach>
-	</table><br><br>
-	
-    <div id="paging" style="margin:auto; text-align:center;"> </div>
- </body>
+	</c:forEach>
+</table><br><br>
+
+<div id="paging" > </div>
+</body>
 </html>
