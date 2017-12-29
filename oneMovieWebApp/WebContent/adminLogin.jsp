@@ -5,6 +5,45 @@
 <html>
 <head>
 <title>관리자 로그인</title>
+<style>
+
+	body {
+		background-color: #f7f4f4;
+	}
+
+
+	#lf {
+		position: absolute;
+		width: 300px;
+		height: 150px;
+		left: 50%;
+        top: 40%;
+        margin-left: -260px;
+        margin-top: -200px;
+        font-weight: bolder;
+        border: 1px solid #5b6a71;
+        padding: 15px;
+        padding-bottom: 5px;
+	}
+
+	#title {
+		border-bottom: 3px solid #5b6a71;
+		position: absolute;
+		font-size: 40px;
+	 	color: #4557bd;
+	 	left: 30%;
+	 	top: 10%;
+	}
+	
+	#alb {
+		text-align: center;
+	}
+	
+	
+	
+
+
+</style>
 <script src="https://code.jquery.com/jquery-3.2.1.js"></script> 
 <script>
 	$(document).ready(function(){
@@ -48,14 +87,24 @@
 </script>
 </head>
 <body>
-	<div id="title">관리자 로그인</div>
-	<div id="note">관리자 페이지로 접속합니다.</div>
+	<div id="title">OneMovie 관리자 로그인</div><br>
+	<table id="lf">	
+		<form>
+		<tr>
+			<th><label>아이디</label></th>
+			<td><input type="text" name="adminId" id="adminId" tabindex="1"></td>
+			<td rowspan="2"></td>
+		</tr>
+		<tr>
+			<th><label>비밀번호</label></th>
+			<td><input type="password" name="adminPwd" id="adminPwd" tabindex="2"></td>
+		</tr>
+		<tr>
+			<td id="alb" colspan="2"><button id="btn">Login</button></td>
+		</tr>
+		</form>
+	</table>
 	
-	<form>
-		<label>아이디<input type="text" name="adminId" id="adminId" tabindex="1"></label><br>
-		<label>비밀번호<input type="password" name="adminPwd" id="adminPwd" tabindex="2"></label><br>
-		<button id="btn">Login</button>		
-	</form>
 	
 
 </body>

@@ -11,6 +11,49 @@
 	body, div {
 		font-size: 12pt;
 	}
+	
+	#btns {
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	#mm th, #mm td {
+		border: 1px solid black;
+		verticla-align: middle;
+		padding-left : 5px;
+		padding-right : 5px;
+		padding-top: 5px;
+ 	   	padding-bottom: 5px;
+ 	   			word-break: keep-all;
+	}
+	
+	#mm th {
+		background-color: lightyellow;
+		text-align: center;
+
+	}
+	
+	#dimm th:nth-child(8) {
+		min-width: 200px;
+	}
+	
+	#mm td {
+		border: 1px solid black;
+		verticla-align: middle;
+		text-align: left;
+	}
+	
+	#mm {
+		border: 1px solid black;
+		border-collapse: collapse;
+		padding: 10px;
+	}
+
+	#dimm {
+		height: 600px;
+   	    overflow-x:scroll;
+	}
+
 
 </style>
 <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
@@ -74,7 +117,7 @@
 						success: function(data, textStatus, jqXHR){
 						
 							//데이터 뿌리는 부분
-							$('#table').find('tr:not(:first)').remove();
+							$('#mm').find('tr:not(:first)').remove();
 							var htmlStr = "";
 							for(var i=0; i<data.length; i++) {
 								htmlStr += "<tr>";
@@ -90,7 +133,7 @@
 								htmlStr += "<td>" + data[i].isWithdraw + "</td>"
 								htmlStr += "<td>" + data[i].withdrawDay + "</td>"
 								htmlStr += "</tr>";
-								$(htmlStr).appendTo('#table');
+								$(htmlStr).appendTo('#mm');
 								htmlStr = "";
 							}
 							
@@ -234,48 +277,48 @@
 </head>
    
 <body>
+	<br><table id="btns">
 	<form>
-		<select name="keyfield" id="keyfield">
+		<tr>
+		<td><button id="all">전체조회</button></td>
+		<td><select name="keyfield" id="keyfield">
 			<option value="name" selected>이름</option>
 			<option value="memberId">아이디</option>
-		</select>
-		<input type="text" name="keyword" id="keyword"> &nbsp;
-		<button id="search">검색</button> &nbsp;&nbsp;&nbsp;
-		<button id="all">전체조회</button>
-		
-		
-	</form>
-	
-	
-	<form>
-		<select name="sort" id="sort">
+			</select></td>
+		<td><input type="text" name="keyword" id="keyword"></td>
+		<td><button id="search">검색</button></td>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td><select name="sort" id="sort">
 			<option value="memberNo" selected>회원번호</option>
 			<option value="memberId">아이디</option>
 			<option value="name">이름</option>
 			<option value="email">이메일</option>			
-		</select> &nbsp;
-		<button type="button" id="asc" value="1">오름차순</button> &nbsp;
-		<button type="button" id="desc" value="2">내림차순</button>
+			</select></td>
+		<td><button type="button" id="asc" value="1">오름차순</button></td>
+		<td><button type="button" id="desc" value="2">내림차순</button></td>
+		</tr>	
 	</form>
+	</table><br>
+
+	<div id="dimm">
+		<table id="mm">
+			<tr>
+				<th>회원번호</th>
+				<th>아이디</th>
+				<th>비밀번호</th>
+				<th>이름</th>
+				<th>성별</th>
+				<th>전화번호</th>
+				<th>이메일</th>
+				<th>주소</th>
+				<th>우편번호</th>
+				<th>탈퇴여부</th>
+				<th>탈퇴일자</th>
+			</tr>
+		</table>
 	
-	<table id="table" border="1">
-		<tr>
-			<th>회원번호</th>
-			<th>아이디</th>
-			<th>비밀번호</th>
-			<th>이름</th>
-			<th>성별</th>
-			<th>전화번호</th>
-			<th>이메일</th>
-			<th>주소</th>
-			<th>우편번호</th>
-			<th>탈퇴여부</th>
-			<th>탈퇴일자</th>
-		</tr>
-	</table>
-	
-	<!-- 페이징 처리 -->
-	<div id="paging"></div>
-	
+		<!-- 페이징 처리 -->
+		<div id="paging"></div>
+	</div>
 </body>
 </html>

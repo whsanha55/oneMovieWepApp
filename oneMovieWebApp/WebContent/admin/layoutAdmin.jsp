@@ -60,7 +60,7 @@
 
         section article {
             width: 80%;
-            height: 720px;
+            min-height: 720px;
             background-color: powderblue;
             float: left;
             color: black;
