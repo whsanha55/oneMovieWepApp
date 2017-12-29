@@ -391,7 +391,7 @@ public class MovieDAO {
                detailMovie.setVideoUrl(rs.getString(10));
               
             }
-            
+             
             if(rs.getString(13) != null) {
                 GenreVO genre = new GenreVO();
                  ActorVO actor = new ActorVO();
