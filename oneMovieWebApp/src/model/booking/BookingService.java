@@ -30,7 +30,6 @@ public class BookingService {
 		try {
 			conn = DBConn.getConnection();
 			conn.setAutoCommit(false);
-
 			BookingDAO bookingDAO = BookingDAO.getInstance();
 			String ticketNo = bookingDAO.insertBooking(bookingVO, conn);
 			BookingSeatDAO bookingSeatDAO = BookingSeatDAO.getInstance();
