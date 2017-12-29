@@ -22,6 +22,12 @@
 		margin-right: auto;
 	}
 	
+	
+	#res {
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
 	#tif {
 		display: inline-block;
 		border-bottom: 2px solid skyblue;
@@ -103,7 +109,11 @@
 		
 	</form>
 	</table><br>
-	<div id="result"></div>
+	<table id="res">
+		<tr>
+		 <td><div id="result"></div></td>
+		</tr>
+	</table>
 
 </body>
 </html>
