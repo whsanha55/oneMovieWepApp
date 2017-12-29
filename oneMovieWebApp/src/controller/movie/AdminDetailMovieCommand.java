@@ -39,5 +39,4 @@ public class AdminDetailMovieCommand implements Command{
       }   
       
    }
-
 }

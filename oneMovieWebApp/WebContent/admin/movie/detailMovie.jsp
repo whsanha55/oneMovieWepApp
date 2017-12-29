@@ -159,6 +159,7 @@ ul.tabs li.active {
 							<c:forEach var="actor" items="${requestScope.movie.actors }"
 								varStatus="loop">
 								<c:if test="${loop.index%3==0}">
+								
 						</tr>
 						<tr>
 							</c:if>
@@ -196,7 +197,7 @@ ul.tabs li.active {
  	<form id="form1" action="${pageContext.request.contextPath}/admin/movie/modifyMovieForm.do?movieNo=${requestScope.movie.movieNo}" method="post">
    			<button id="modifyMovieBtn" type="submit">수정하기</button>
     </form>
-    <form id="form2" action="${pageContext.request.contextPath}/admin/movie/detailMovie.do" method="post">
+    <form id="form2" action="${pageContext.request.contextPath}/admin/movie/listMovie.do" method="post">
    			<button id="resetMovieBtn" type="submit">취소</button>
     </form>
  	

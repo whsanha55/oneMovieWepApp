@@ -68,6 +68,7 @@ public class CommandFactory {
 		map.put("/admin/movie/removeMovie.do", "controller.movie.RemoveMovieCommand");
 		map.put("/admin/movie/listAllMovie.do", "controller.movie.AdminListAllMovieCommand");
 		map.put("/admin/movie/modifyMovieForm.do", "controller.movie.ModifyMovieFormCommand");
+		map.put("/admin/movie/removeMoviePhoto.do", "controller.movie.RemoveMoviePhotoCommand");
 
 		// ¿µÈ­ ³¡====================================================
 

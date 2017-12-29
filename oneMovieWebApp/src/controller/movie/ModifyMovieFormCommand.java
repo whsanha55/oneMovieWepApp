@@ -29,7 +29,7 @@ public class ModifyMovieFormCommand implements Command {
 
 			req.setAttribute("movie", movie);
 
-			forward.setPath("/admin/movie/modifyMovieForm.jsp");
+			forward.setPath("/layoutAdmin.jsp?article=/admin/movie/modifyMovieForm.jsp");
 			forward.setRedirect(false);
 			return forward;
 
