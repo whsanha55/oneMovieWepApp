@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
   <title>영화 입력 화면</title>
   <style>
-     table {
+     table { 
         border-collapse: collapse;
      }
      
@@ -100,17 +100,6 @@
         배우  <br>
       <button id="actorAddBtn">배우추가하기</button>
       <p id="area">          
-        배우사진 : <input type="file" name="uploadactor"><br>
-        이    름 : <input type="text" name="actorName" size="20"><br> 
-        역    할 : <select name="roleNo">
-                   <option value="1">주연</option>
-                 <option value="2">조연</option>
-                 <option value="3">엑스트라</option>
-                </select><br>
-        캐릭터이름 : <input type="text" name="characterName" size="20"></p>
-      
-        
-       <p>          
         배우사진 : <input type="file" name="uploadactor"><br>
         이    름 : <input type="text" name="actorName" size="20"><br> 
         역    할 : <select name="roleNo">
