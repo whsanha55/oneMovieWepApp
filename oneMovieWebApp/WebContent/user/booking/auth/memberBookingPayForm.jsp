@@ -1,7 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style>
+	
+	form {
+		text-align: center;
+		margin: 30px;
+	}
+	form input[name^=serialCardNum] {
+		width:40px;
+	}
 
+	#bookingBtn {
+		margin-left: 20px;
+	}
+	#resultTable {
+		border: 1px solid black;
+		text-align:center;
+		width:60%;
+		margin-left: auto;
+		margin-right : auto;
+		
+	}
+	#resultTable td {
+		width:50%;
+		border: 1px solid black;
+	}
+	
+</style>
 <script>
 		
 	$(document).ready(function() {
@@ -33,8 +59,6 @@
 </script>
 
 	<form action="${pageContext.request.contextPath }/auth/memberExecuteBooking.do" method="post">
-		<div>
-		<span>카드사 선택</span>
 		<select name="cardCompany">
 			<option value="0"> 카드사 선택 
 			<option value="1"> 신한 
@@ -50,16 +74,15 @@
 		<input type="text" name="serialCardNum3"> -
 		<input type="text" name="serialCardNum4"> 
 		<input type="hidden" name="price" value="20000">
+		<button id="bookingBtn">결제하기</button>
 		
-		</div>
 	
 	
-	<button id="bookingBtn">결제</button>
 	</form>
 	
 	
 	
-	<table border="1">
+	<table id='resultTable'>
 		<tr>
      		<td>영화</td>
      		<td>${sessionScope.bookingSn.movieSn }</td>

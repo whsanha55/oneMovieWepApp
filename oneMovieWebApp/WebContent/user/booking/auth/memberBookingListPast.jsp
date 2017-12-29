@@ -1,17 +1,48 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style>
+	#listHrefDiv{
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+	#listHrefDiv{
+		text-decoration: underline;
+	}
+	#listHrefDiv a:hover {
+		color: black;
+		margin: 20px;
+	}
+	#listTable {
+		border: 1px solid black;
+		text-align:center;
+		width:100%;
+		
+	}
+	#listTable td, #listTable th {
+		border: 1px solid black;
+	}
+	#listTable th:first-child {
+		width: 30px;
+	}
+	#listTable th:nth-child(2) {
+		width:100px;
+	}
 
+	#pagingDiv {
+		text-align: center;
+	}
+</style>
 		<h3>지난 내역</h3>
 	<div>예매확인/취소 예매하신 영화 내역과 취소내역을 확인할 수 있습니다.</div>
 	
-	<div>
+	<div id='listHrefDiv'>
 	<a href="${pageContext.request.contextPath }/auth/memberBookingListCurr.do">My 예매내역</a>
 	<a href="${pageContext.request.contextPath }/auth/memberBookingListPast.do">지난 내역</a>
 	<a href="${pageContext.request.contextPath }/auth/memberBookingListCancel.do">취소 내역</a>
 	</div>
-	<table border="1">
-	<tr>
+	<table id='listTable'>
+	<tr >
 		<th>NO</th>
 		<th>예매번호</th>
 		<th>영화명</th>
@@ -42,6 +73,7 @@
 	</table>
 	
 		<%-- 페이지 네비게이션 처리 --%>
+	<div id="pagingDiv">
 	<c:if test="${requestScope.paging.prevPage >= 1 }">
 		<c:url var="prevUrl" value="memberBookingListPast.do" scope="page">
 			<c:param name="currentPage" value="${requestScope.paging.prevPage }"/>
@@ -52,6 +84,7 @@
 		[이전] &nbsp;&nbsp;
 	</c:if>
 
+	
 	<c:forEach var="i" begin="${requestScope.paging.startPage }" end="${requestScope.paging.endPage }" step="1">
 		<c:if test="${requestScope.paging.currentPage == pageScope.i }">
 			${pageScope.i }&nbsp;&nbsp;		
@@ -72,4 +105,4 @@
 	<c:if test="${requestScope.paging.pageBlock >= requestScope.paging.totalPage }">
 		[다음] &nbsp;&nbsp;
 	</c:if>
-	
+   </div>
