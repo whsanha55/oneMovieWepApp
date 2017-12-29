@@ -98,7 +98,22 @@
             
         }
         
-        
+        header > nav {
+        	height: 100px;
+        	width : auto;
+        	margin: 0px;
+        	float : right;
+          }
+         header > nav ul {
+         	list-style-type : none;
+         	display : inline-block;
+         	margin-top: 0px;
+         }
+        header > nav  li {
+        	display: inline-block;
+        	margin : 20px;
+        	text-align: right;
+        }
         footer {
             width: 960px;
             height: 100px;
