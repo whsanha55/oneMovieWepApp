@@ -27,7 +27,7 @@ public class AdminDetailMovieCommand implements Command{
          req.setAttribute("movie", movie);
           
          //4. 게시글 상세조회(detailArticle.jsp) 페이지로 이동한다.
-         forward.setPath("/layoutAdmin.jsp?article=/admin/movie/detailMovie.jsp");
+         forward.setPath("/admin/layoutAdmin.jsp?article=/admin/movie/detailMovie.jsp");
          forward.setRedirect(false);
          return forward;
          
