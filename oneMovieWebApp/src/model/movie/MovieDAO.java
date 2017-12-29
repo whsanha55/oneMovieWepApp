@@ -343,7 +343,7 @@ public class MovieDAO {
          StringBuffer sql = new StringBuffer();
          sql.append("select mp1.movie_photo_no, (select mp.movie_photo_original_file_name                         						  							  ");
          sql.append("from movie_photo mp                          																					   ");
-         sql.append("where mp.MOVIE_PHOTO_ORIGINAL_FILE_NAME like '%' || 'detail' ||  '%'                            					  ");
+         sql.append("where mp.movie_photo_original_file_name like '%' || 'detail' ||  '%'                            					  ");
          sql.append("and mp.movie_no = m.movie_no),  ");
          sql.append("m.movie_no, m.movie_title, m.director, m.running_time, g.grade_age, n.nation_name, m.story, m.video_url, gen.genre_name, ac.actor_original_file_name, r.role_name, a.actor_name, a.character_name, mp1.movie_photo_original_file_name                           ");
          sql.append("from movie m, genre gen, actor a , role r, grade g, nation n, actor_photo ac, movie_photo mp1, movie_genre mg                                   ");

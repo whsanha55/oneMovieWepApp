@@ -18,7 +18,7 @@ public class UploadFiles {
 		String moviePhotoOriginalFileName = getMoviePhotoOriginalFileName(part);
 		String moviePhotosystemFileName = "";
 		
-		String path = context.getRealPath("/admin/movie/upload");
+		String path = context.getRealPath("/user/movie/upload");
 		System.out.println("path : " + path);
 		System.out.println("moviePhotoOriginalFileName : " + moviePhotoOriginalFileName);
 		File file = new File(path + File.separator + moviePhotoOriginalFileName);
@@ -46,7 +46,7 @@ public class UploadFiles {
 		String actorOriginalFileName = getActorOriginalFileName(part);
 		String actorSystemFileName = "";
 		
-		String path = context.getRealPath("/admin/movie/upload");
+		String path = context.getRealPath("/user/movie/upload");
 		System.out.println("path : " + path);
 		File file = new File(path + File.separator + actorOriginalFileName);
 		if(file.exists()) {

@@ -8,7 +8,7 @@
 <html>
  <head>
   <meta charset="UTF-8">
-  <title>영화 목록 조회 화면</title>
+  <title>영화 상세조회 화면</title>
  <style>
 	#form, #form1 {
 		display: inline;

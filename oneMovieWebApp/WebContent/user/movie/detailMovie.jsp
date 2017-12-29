@@ -78,6 +78,12 @@
 	    width:600px; 
 	    height:100px;
 	}
+	#tab2 {
+		 width:100%; 
+		 height:350px; 
+		 overflow:auto;
+	}
+	
 	#tabTable3, #tab4 {
 		margin:auto; 
 		text-align:center;
@@ -157,7 +163,7 @@
 		</ul>
 		<div class="tab_container" >
         	<div id="tab1" class="tab_content">${fn:replace(requestScope.movie.story, LF, "<br>") }</div>
-        	<div id="tab2" class="tab_content" style="width:100%; height:350px; overflow:auto">
+        	<div id="tab2" class="tab_content">
 				<c:if test="${fn:length(requestScope.movie.actors) > 0 }">
              		<table>
             			 <tr> 
