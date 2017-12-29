@@ -54,9 +54,10 @@ public class CommandFactory {
 		map.put("/user/movie/listMovie.do", "controller.movie.ListMovieCommand");
 		map.put("/user/movie/findMovie.do", "controller.movie.FindMovieCommand");
 		map.put("/user/movie/detailMovie.do", "controller.movie.DetailMovieCommand");
-		map.put("/user/movie/removeMovie.do", "controller.movie.RemoveMovieCommand");
+		//map.put("/user/movie/removeMovie.do", "controller.movie.RemoveMovieCommand");
 		map.put("/user/movie/listAllMovie.do", "controller.movie.ListAllMovieCommand");
 		map.put("/user/movie/listAllMovieCount.do", "controller.movie.ListAllMovieCountCommand");
+		map.put("/user/movie/listMovieCount.do", "controller.movie.ListMovieCountCommand");
 		map.put("/user/movie/findMovieCount.do", "controller.movie.FindMovieCountCommand");
 		map.put("/user/movie/listStateMovie.do", "controller.movie.ListStateMovieCommand");
 		
@@ -64,9 +65,10 @@ public class CommandFactory {
 		map.put("/admin/movie/listMovie.do", "controller.movie.AdminListMovieCommand");
 		map.put("/admin/movie/findMovie.do", "controller.movie.AdminFindMovieCommand");
 		map.put("/admin/movie/detailMovie.do", "controller.movie.AdminDetailMovieCommand");
-		map.put("/admin/movie/removeMovie.do", "controller.movie.AdminRemoveMovieCommand");
+		map.put("/admin/movie/removeMovie.do", "controller.movie.RemoveMovieCommand");
 		map.put("/admin/movie/listAllMovie.do", "controller.movie.AdminListAllMovieCommand");
 		map.put("/admin/movie/modifyMovieForm.do", "controller.movie.ModifyMovieFormCommand");
+		map.put("/admin/movie/removeMoviePhoto.do", "controller.movie.RemoveMoviePhotoCommand");
 
 		// ¿µÈ­ ³¡====================================================
 

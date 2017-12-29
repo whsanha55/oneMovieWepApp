@@ -1,7 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style>
+	#listHrefDiv{
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+	#listHrefDiv{
+		text-decoration: underline;
+	}
+	#listHrefDiv a:hover {
+		color: black;
+		margin: 20px;
+	}
+	#listTable {
+		border: 1px solid black;
+		text-align:center;
+		width:100%;
+		
+	}
+	#listTable td, #listTable th {
+		border: 1px solid black;
+	}
+	
+	#listTable th:first-child {
+		width: 30px;
+	}
+	#listTable th:nth-child(2) {
+		width:100px;
+	}
+	
 
+	#pagingDiv {
+		text-align: center;
+	}
+</style>
 <script>
 	$(document).ready(function() {
 	
@@ -36,7 +69,7 @@
 								dataType : 'json',
 								success : function(data) {
 									alert("예매취소가 완료되었습니다 \n 확인을 누르시면 취소 내역으로 이동합니다");
-									location.href = "${pageContext.request.contextPath }/memberBookingListCancel.do";
+									location.href = "${pageContext.request.contextPath }/auth/memberBookingListCancel.do";
 									
 								},
 								error : function(jqXHR) {
@@ -71,12 +104,12 @@
 	<h3>MY 예매내역</h3>
 	<div>예매확인/취소 예매하신 영화 내역과 취소내역을 확인할 수 있습니다.</div>
 	
-	<div>
+	<div id='listHrefDiv'>
 	<a href="${pageContext.request.contextPath }/auth/memberBookingListCurr.do">My 예매내역</a>
 	<a href="${pageContext.request.contextPath }/auth/memberBookingListPast.do">지난 내역</a>
 	<a href="${pageContext.request.contextPath }/auth/memberBookingListCancel.do">취소 내역</a>
 	</div>
-	<table border="1">
+	<table id='listTable'>
 	<tr>
 		<th>NO</th>
 		<th>예매번호</th>
@@ -112,6 +145,7 @@
 	</c:forEach>
 	</table>
 	
+	<div id='pagingDiv'>
 		<%-- 페이지 네비게이션 처리 --%>
 	<c:if test="${requestScope.paging.prevPage >= 1 }">
 		<c:url var="prevUrl" value="memberBookingListCurr.do" scope="page">
@@ -143,3 +177,4 @@
 	<c:if test="${requestScope.paging.pageBlock >= requestScope.paging.totalPage }">
 		[다음] &nbsp;&nbsp;
 	</c:if>
+	</div>

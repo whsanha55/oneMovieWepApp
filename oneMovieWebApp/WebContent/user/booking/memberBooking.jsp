@@ -1,6 +1,84 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<style>
+	#movieFieldSet, #theaterFieldSet {
+		display: inline;
+		width: 100px;
+		margin-bottom: 10px;
+	}
+	#dateFieldSet {
+		displaty: inline-block;
+		float: right;
+		margin-right: 20px;
+	}
+	
+	#selectOptionMovie, #selectOptionTheater, #dateFileSet div {
+		width: 180px;
+		height: 242.32px;
+	}
+	
+	#movieFieldSet select, #theaterFieldSet select {
+		text-align:center;
+	}
+	
+	#theaterFieldSet option {
+		height: 50px;
+		font-size: 18px;
+	}
+	
+	#turnFieldSet {
+		margin-top:20px;
+		text-align: left;
+	}
+	
+	#turnFieldSet > div {
+	border-bottom : 5px dotted darkgrey;
+	}
+	
+	#turnFieldSet div:last-child {
+		border: none;
+	}
+	#turnFieldSet span {
+		font-size : 20px;
+		float: left;
+		
+	}
+	#turnFieldSet>span {
+		margin-left: 230px;
+	}
+	
+	#turnFieldSet button {
+		margin-left: 20px;
+		margin-top: 5px;
+		margin-bottom:5px;
+	}
+	#turnFieldSet div:last-child button {
+		margin-bottom:0px;
+	}
+	form {
+		text-align:center;
+		margin-top: 20px;
+	}
+	
+	#resultTable {
+		border: 1px solid black;
+		text-align:center;
+		width:60%;
+		margin-left: auto;
+		margin-right : auto;
+		
+	}
+	#resultTable td {
+		width:50%;
+		border: 1px solid black;
+	}
+	
+	legend {
+		text-align: center;
+		font-size : 20px;
+	}
+	
+</style>
 
 <script>
 	var movieSelectedName = "";
@@ -66,7 +144,7 @@
 			dataType : 'json',
 			success : function(data) {
 				var theaterText = " <legend>지점</legend>";
-				theaterText += "<select id='selectOptionTheater' size='10'>";
+				theaterText += "<select id='selectOptionTheater' size='3'>";
 				for(var i = 0; i<data.theaterList.length;i++) {
 					if(data.theaterList[i].theaterNo == "${requestScope.theaterNo}") {
 						theaterText += "<option value='" + data.theaterList[i].theaterNo +"' selected>" + data.theaterList[i].theaterName ;
@@ -154,7 +232,9 @@
 			        	}
 			       	 } , 
 			    	beforeShowDay: function(date){
-						
+						if(data.dateList.length == 0) {
+							return [false];
+						}
 			    		
 			    		for (var i = 0; i < data.dateList.length; i++) {
 			    			
@@ -376,7 +456,7 @@
      
      <fieldset id="turnFieldSet">
      	<legend>상영시간</legend>
-     	
+     	<span>영화, 지점, 날짜를 선택해 주세요</span>
      </fieldset>
      
      <form  action="${pageContext.request.contextPath }/auth/memberBookingSelectSeat.do" method="post">
@@ -388,7 +468,7 @@
      	<input type="submit" value="좌석선택하기"> 
      </form>
   
-     <table border="1" id="resultTable">
+     <table id="resultTable">
      	<tr>
      		<td>영화</td>
      		<td></td>

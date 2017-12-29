@@ -50,7 +50,7 @@
 		<servlet-name>WriteMovie</servlet-name>
 		<servlet-class>controller.movie.WriteMovieServlet</servlet-class>
 		<multipart-config>
-			<location>C:/tempUpload</location>
+			<location>C:/temp</location>
 			<max-file-size>2000000</max-file-size>
 			<max-request-size>100000000</max-request-size>
 			<file-size-threshold>100000</file-size-threshold>
@@ -59,11 +59,26 @@
 
 	<servlet-mapping>
 		<servlet-name>WriteMovie</servlet-name>
-		<url-pattern>/user/movie/writeMovie</url-pattern>
+		<url-pattern>/admin/movie/writeMovie</url-pattern>
 	</servlet-mapping>
 	
 	
+	<servlet>
+		<servlet-name>ModifyMovie</servlet-name>
+		<servlet-class>controller.movie.ModifyMovieServlet</servlet-class>
+		<multipart-config>
+			<location>C:/temp</location>
+			<max-file-size>2000000</max-file-size>
+			<max-request-size>100000000</max-request-size>
+			<file-size-threshold>100000</file-size-threshold>
+		</multipart-config>
+	</servlet>
 
-
+	<servlet-mapping>
+		<servlet-name>ModifyMovie</servlet-name>
+		<url-pattern>/admin/movie/modifyMovie</url-pattern>
+	</servlet-mapping>
+	
+	
 	
 </web-app>

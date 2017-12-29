@@ -1,6 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<style>
+.linkDiv {
+		display: inline-block;
+		margin-right: 50px;
+		margin-bottom: 50px;
+	}
 
+#divTable {
+	height: 600px;
+    overflow-x:scroll;
+
+}
+#bookingListTable {
+	text-align: center;
+	word-break: keep-all;
+	border-collapse: collapse;
+}
+#bookingListTable th {
+    background-color: lightseagreen;
+    color: white;
+ 	   padding-left: 10px;
+ 	   padding-right: 10px;
+ 	   padding-top: 10px;
+ 	   padding-bottom: 10px;
+}
+#bookingListTable th:nth-child(6) {
+		min-width:200px;
+	}
+#bookingListTable td {
+		padding-left : 5px;
+		padding-right : 5px;
+	}
+
+#paging {
+    text-align: center;
+    margin: auto;
+}
+
+</style>
 <script>
 	$(document).ready(function() {
 		
@@ -109,9 +147,9 @@
 								tempDate.setMinutes($(this).find(':nth-child(8)').text().substring(3,5));
 								
 								if($(this).find('td:last-child').text() != "") {	//취소
-									$(this).closest('tr').css('backgroundColor','yellow');
-								} else if(tempDate < new Date()) {		//지난내역
-									$(this).closest('tr').css('backgroundColor','green');
+									$(this).closest('tr').css('backgroundColor','#FF6699');
+								} else if(tempDate > new Date()) {		//상영예정
+									$(this).closest('tr').css('backgroundColor','aqua');										
 								}
 								
 							});
@@ -185,13 +223,9 @@
 
 		}
 </script>
-	<div><a href="${pageContext.request.contextPath }/admin/adminBookingByMember.do">회원 검색</a></div>
-	<div><a href="${pageContext.request.contextPath }/admin/adminBookingByTheater.do">극장  검색</a></div>
-	
-	<br>
-	<br>
-	<br>
-	
+	<div class='linkDiv'><a href="${pageContext.request.contextPath }/admin/adminBookingByMember.do">회원 검색</a></div>
+	<div class='linkDiv'><a href="${pageContext.request.contextPath }/admin/adminBookingByTheater.do">극장  검색</a></div>
+
      
            <select id="keyfield" >
             <option value="memberNo">회원번호</option>
@@ -200,7 +234,7 @@
             <input type="text" id="keyword">
             <button type="button" id="btn">조회</button>
       
-        
+        <div id='divTable'>
         <table border="1" id="bookingListTable">
         
             <tr>
@@ -219,6 +253,7 @@
             </tr>
             
         </table>
+        </div>
         
         
         	<div id="paging"></div>

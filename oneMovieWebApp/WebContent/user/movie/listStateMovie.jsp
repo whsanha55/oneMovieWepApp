@@ -1,4 +1,4 @@
-<%-- listArticle.jsp --%>
+<%-- listStateMovie.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -6,45 +6,78 @@
   
 <!doctype html>
 <html>
- <head>
-  <meta charset="UTF-8">
-  <title>영화 목록 조회 화면</title>
- <style>
+<head>
+<meta charset="UTF-8">
+<title>상영상태에 따른 영화 조회 화면</title>
+<style>
 	#form, #form1 {
-		display: inline;
+   		display: inline;
 	}
-	
+		
 	#form {
- 		  margin-left: 220px;
-	}
-	#form1 {
-		  margin-right: 100px;
+	   margin-left: 350px;
 	}
 	
-	#form2 > #deleteBtn{
-		position: fixed;
-		left: 500px;
+	#form1 {
+	   margin-right: 100px;
 	}
-	#table{
-   		margin-left: auto;
-  		margin-right: auto;  		
-		border-collapse:collapse;
+	
+	#keyfield {
+	   position: absolute;
+	   top: 155px;
+	   left: 770px;
 	}
-	table td:not(.first) {
-	   width: 500px;
-	   padding-left: 5px;
+	
+	#findBtn, #selectAllBtn {
+	   border-radius: 3px;
+	   font-weight: 300;
+	   border-color: transparent;
+	   font-size: 15px;
+	   background: #5c87b2;
+	   color: #fff;
+	   cursor: pointer;
 	}
+	
+	#table {
+	   max-height: 800px;
+	   margin-left: auto;
+	   margin-right: auto;
+	   border-collapse: collapse;
+	   border: 1px solid #666c;
+	   overflow-y: auto;
+	   overflow-x: hidden;
+	   display: block;
+	}
+	
+	td:not(.first) {
+		width: 700px;
+		padding-left:5px;
+	}
+
 	tr, td {
 		border: 0;
-	}	
-	 td.first {
+	}
+			
+	td.first {
 		width: 100px;
 		padding:10px; 
-	 }
-	td.last, td.first{	
-	   border-bottom: 2px solid black;
+	}
+		 
+	td.last, td.first {
+	   border-bottom: 1px solid #666c;
 	}
 	
+	.booking, .theater {
+		display: inline-block;
+		padding: 5px;
+		border-radius: 10px;
+		border-color: transparent;
+		font-size: 12px;
+		background: #bf0d0d;
+		color: #fff;
+		cursor: pointer;
+	}
+
 	.title {
 	   font-weight: bold;
   	   font-size: 20px;
@@ -53,12 +86,18 @@
 	a {	
   	   text-decoration:none;
 	}
+	
+	#paging {
+		margin: auto; 
+		text-align: center;
+	}
   </style>
+  
  <script src="../../js/jquery-3.2.1.min.js"></script> 
-<script>
-
+ <script>
 	//////////////////////////////페이징 처리  jqueryPager//////////////////////////////////////////////////		
-	function jqueryPager(subOption) {			   
+	function jqueryPager(subOption) {		
+		var key = subOption.key;
 		var currentPage = subOption.currentPage;		
 		var pageSize = subOption.pageSize;				
 		var pageBlock = subOption.pageBlock;			
@@ -85,239 +124,285 @@
 		}
 		
 		if (sPage > 1) {
-			html += '<a onclick="goPage(' + 1 + ');">[ 처음 ]   </a>';
-			html += '<a onclick="goPage(' + (sPage-pageBlock) + ');">[ 이전 ]   </a>';
+			html += '<a onclick="goPage(' + 1 + ', '+ key +');">[ 처음 ]   </a>';
+			html += '<a onclick="goPage(' + (sPage-pageBlock) + ', '+ key +');">[ 이전 ]   </a>';
 		}		
 		
 		for (var i=sPage; i<=ePage; i++) {						   
 			if (currentPage == i) {
 				html += "   " + i + "   ";
 			} else {
-				html += '<a onclick="goPage(' + i + ');">' + i + '</a>';
+				html += '<a onclick="goPage(' + i + ', '+ key +');">' + i + '</a>';
 			}
 		}					   
 		
 		if (ePage < pageTotalCnt) {
-			html += '<a onclick="goPage(' + (ePage+1) + ');">   [ 다음 ]   </a>';
-			html += '<a onclick="goPage(' + pageTotalCnt + ');">    [ 끝 ]</a>';
+			html += '<a onclick="goPage(' + (ePage+1) + ', '+ key +');">   [ 다음 ]   </a>';
+			html += '<a onclick="goPage(' + pageTotalCnt + ', '+ key +');">    [ 끝 ]</a>';
 		}	
 		
 		$("#paging").empty().append(html);		
 	
 	} //end of jqueryPager 
 			
-
-    //////////////////////////////페이징 처리 goPage //////////////////////////////////////////////////
-	function goPage(currentPageNo) {		
+	
+	//////////////////////////////페이징 처리 goPage //////////////////////////////////////////////////
+	function goPage(currentPageNo, key) {		
 		var totalRecordCount = 0;				//총 게시글 수		
 		var recordCountPerPage = 3;			//한 페이지당 게시되는 게시글 수
 		var pageSize = 2;				   		//페이지 리스트에 게시되는 페이지 수 
 		var startRow = 0;
 		var endRow = 0;
 		
-		$.ajax({
-			url: '${pageContext.request.contextPath}/user/movie/listAllMovieCount.do'
-			,
-			method: 'GET'
-			,
-			data: $('#form1').serialize()
-			,
-			cache: false
-			,
-			dataType: 'json'
-			,
-			success: function(data, textStatus, jqXHR) {
-				if (data.totalRecordCount > 0) {	  //총 게시글 수가 1개 이상인 경우
-				
-					totalRecordCount = data.totalRecordCount;  
-					console.log("총게시글수: " + totalRecordCount);
-					
-					startRow = (currentPageNo - 1) * recordCountPerPage + 1;				
-					endRow =  currentPageNo * recordCountPerPage;									
-					if (endRow > totalRecordCount) {
-						endRow = totalRecordCount;
-					}
-					
-					console.log("시작: " + startRow);
-					console.log("끝: " + endRow);
-											
-					$.ajax({
-						url: '${pageContext.request.contextPath}/user/movie/listAllMovie.do'
-						,
-						type: "get"
-						,
-						dataType: 'json' 
-						,
-						data: {
-							startRow: startRow,			
-							endRow: endRow	
-						}
-						,
-						success: function(data, textStatus, jqXHR) {	
-							//alert(data);
-							$('#table').find('tr').remove();
-							var htmlStr ="";
-							for(var i=0; i<data.length; i++) {
-								htmlStr += "<tr>";
-								htmlStr += "<td rowspan='6' class='first'><img src='${pageContext.request.contextPath}/user/movie/upload/" + data[i].moviePhotoOriginalFileName + "'></td>";
-								htmlStr += "<td class='title'><a href='${pageContext.request.contextPath}/user/movie/detailMovie.do?movieNo=" +data[i].movieNo +" '>" + data[i].movieTitle + "</a></td>";
-								htmlStr += "</tr>";
-								htmlStr += "<tr>";
-								htmlStr += "<td>상영시간: " + data[i].runningTime + "분</td>";
-								htmlStr += "</tr>";
-								htmlStr += "<tr>";
-								htmlStr += "<td>감독: " + data[i].director + "</td>";
-								htmlStr += "</tr>";
-								htmlStr += "<tr>";
-								htmlStr += "<td>등급: " + data[i].gradeAge+ "</td>";
-								htmlStr += "</tr>";
-								htmlStr += "<tr>";
-								htmlStr += "<td>국가: " + data[i].nationName+ "</td>";
-								htmlStr += "</tr>";					
-								htmlStr += "<tr>";
-								htmlStr += "<td class='last'><a href='#'>예매하기</a> &nbsp;&nbsp;<a href='#'>상영시간표</a></td>";
-								htmlStr += "</tr>";
-								
-								$(htmlStr).appendTo('#table');
-								htmlStr = "";
-							}
-							
-							/////////////// 페이징 처리 /////////////										
-							jqueryPager({
-								pageSize: recordCountPerPage, 
-								pageBlock: pageSize,
-								currentPage: currentPageNo,
-								pageTotal: totalRecordCount 
-							});
-						}
-						,
-						error: function(jqXHR, textStatus, error) {
-							alert("Error : " + jqXHR.status + ", " + error);
-							
-						}	
-					});
-	
-				}//end of if clause
-				
-			}
-			, 
-			error: function(jqXHR) {
-				alert('Error : ' + jqXHR.status);							
-			}				
-			
-		});
-	
-	} //end of goPage 
-	
-	
-	
-	$(document).ready(function() {
-	    //체크박스 전체 체크 및 해제 처리
-		$(':checkbox[name=all]').on('change', function() {		
-    		if($(this).prop('checked'))  {
-				$(':checkbox[name=selected]').prop('checked', true)
-			} else {
-				$(':checkbox[name=selected]').prop('checked', false)
-			}
-    	});
-	    	
-    	//검색
-		$('#findBtn').on('click', function() {
+		if(key == 1) {
 			$.ajax({
-				url: '${pageContext.request.contextPath}/user/movie/findMovie.do'
+				url: '${pageContext.request.contextPath}/user/movie/listAllMovieCount.do'
 				,
 				method: 'GET'
 				,
-				data: $('#form').serialize()
-				, 
+				data: $('#form1').serialize()
+				,
+				cache: false
+				,
 				dataType: 'json'
 				,
-				success: function(data) {
-					$('#table').find('tr').remove();
-					var htmlStr ="";
-					for(var i=0; i<data.length; i++) {
-						htmlStr += "<tr>";
-						htmlStr += "<td rowspan='6' class='first'><img src='${pageContext.request.contextPath}/user/movie/upload/" + data[i].moviePhotoOriginalFileName + "'></td>";
-						htmlStr += "<td class='title'><a href='${pageContext.request.contextPath}/user/movie/detailMovie.do?movieNo=" +data[i].movieNo +" '>" + data[i].movieTitle + "</a></td>";
-						htmlStr += "</tr>";
-						htmlStr += "<tr>";
-						htmlStr += "<td>상영시간: " + data[i].runningTime + "분</td>";
-						htmlStr += "</tr>";
-						htmlStr += "<tr>";
-						htmlStr += "<td>감독: " + data[i].director + "</td>";
-						htmlStr += "</tr>";
-						htmlStr += "<tr>";
-						htmlStr += "<td>등급: " + data[i].gradeAge+ "</td>";
-						htmlStr += "</tr>";
-						htmlStr += "<tr>";
-						htmlStr += "<td>국가: " + data[i].nationName+ "</td>";
-						htmlStr += "</tr>";					
-						htmlStr += "<tr>";
-						htmlStr += "<td class='last'><a href='#'>예매하기</a> &nbsp;&nbsp;<a href='#'>상영시간표</a></td>";
-						htmlStr += "</tr>";
+				success: function(data, textStatus, jqXHR) {
+					if (data.totalRecordCount > 0) {	  //총 게시글 수가 1개 이상인 경우
+					
+						totalRecordCount = data.totalRecordCount;  
+						console.log("총게시글수: " + totalRecordCount);
 						
-						$(htmlStr).appendTo('#table');
-						htmlStr = "";
-					}
+						startRow = (currentPageNo - 1) * recordCountPerPage + 1;				
+						endRow =  currentPageNo * recordCountPerPage;									
+						if (endRow > totalRecordCount) {
+							endRow = totalRecordCount;
+						}
+						
+						console.log("시작: " + startRow);
+						console.log("끝: " + endRow);
+												
+						$.ajax({
+							url: '${pageContext.request.contextPath}/user/movie/listAllMovie.do'
+							,
+							type: "get"
+							,
+							dataType: 'json' 
+							,
+							data: {
+								startRow: startRow,			
+								endRow: endRow	
+							}
+							,
+							success: function(data, textStatus, jqXHR) {	
+								//alert(data);
+								$('#table').find('tr').remove();
+								var htmlStr ="";
+								for(var i=0; i<data.length; i++) {
+									htmlStr += "<tr>";
+									htmlStr += "<td rowspan='6' class='first'><img src='${pageContext.request.contextPath}/user/movie/upload/" + data[i].moviePhotoOriginalFileName + "'></td>";
+									htmlStr += "<td class='title'><a href='${pageContext.request.contextPath}/user/movie/detailMovie.do?movieNo=" +data[i].movieNo +" '>" + data[i].movieTitle + "</a></td>";
+									htmlStr += "</tr>";
+									htmlStr += "<tr>";
+									htmlStr += "<td>상영시간: " + data[i].runningTime + "분</td>";
+									htmlStr += "</tr>";
+									htmlStr += "<tr>";
+									htmlStr += "<td>감독: " + data[i].director + "</td>";
+									htmlStr += "</tr>";
+									htmlStr += "<tr>";
+									htmlStr += "<td>등급: " + data[i].gradeAge+ "</td>";
+									htmlStr += "</tr>";
+									htmlStr += "<tr>";
+									htmlStr += "<td>국가: " + data[i].nationName+ "</td>";
+									htmlStr += "</tr>";					
+									htmlStr += "<tr>";
+									htmlStr += "<td class='last'><a class='booking' href='${pageContext.request.contextPath}/memberBooking.do?movieNo=${pageScope.movie.movieNo}'>예매하기</a> &nbsp;&nbsp;<a class='theater' href='#'>상영시간표</a></td>";
+									htmlStr += "</tr>";
+									
+									$(htmlStr).appendTo('#table');
+									htmlStr = "";
+								}
+								
+								/////////////// 페이징 처리 /////////////										
+								jqueryPager({
+									key: 1,
+									pageSize: recordCountPerPage, 
+									pageBlock: pageSize,
+									currentPage: currentPageNo,
+									pageTotal: totalRecordCount 
+								});
+							}
+							,
+							error: function(jqXHR, textStatus, error) {
+								alert("Error : " + jqXHR.status + ", " + error);
+								
+							}	
+						});
+		
+					}//end of if clause
+					
 				}
 				, 
 				error: function(jqXHR) {
 					alert('Error : ' + jqXHR.status);							
-				}
+				}				
+				
 			});
-		});
-			
+		} else if(key == 2) {
+			$.ajax({
+				url: '${pageContext.request.contextPath}/user/movie/findMovieCount.do'
+				,
+				method: 'GET'
+				,
+				data: $('#form').serialize()
+				,
+				cache: false
+				,
+				dataType: 'json'
+				,
+				success: function(data, textStatus, jqXHR) {
+					if (data.totalRecordCount > 0) {	  //총 게시글 수가 1개 이상인 경우
+					
+						totalRecordCount = data.totalRecordCount;  
+						console.log("총게시글수: " + totalRecordCount);
+						
+						startRow = (currentPageNo - 1) * recordCountPerPage + 1;				
+						endRow =  currentPageNo * recordCountPerPage;									
+						if (endRow > totalRecordCount) {
+							endRow = totalRecordCount;
+						}
+						console.log("keyfield: " + data.keyfield);
+						console.log("keyword: " + data.keyword);
+						console.log("시작: " + startRow);
+						console.log("끝: " + endRow);
+												
+						$.ajax({
+							url: '${pageContext.request.contextPath}/user/movie/findMovie.do'
+							,
+							method: 'GET'
+							,
+							data: $('#form').serialize(),
+								   startRow: startRow,			
+								   endRow: endRow	
+							, 
+							dataType: 'json'
+							,
+							success: function(data) {
+								$('#table').find('tr').remove();
+								var htmlStr ="";
+								for(var i=0; i<data.length; i++) {
+									htmlStr += "<tr>";
+									htmlStr += "<td rowspan='6' class='first'><img src='${pageContext.request.contextPath}/user/movie/upload/" + data[i].moviePhotoOriginalFileName + "'></td>";
+									htmlStr += "<td class='title'><a href='${pageContext.request.contextPath}/user/movie/detailMovie.do?movieNo=" +data[i].movieNo +" '>" + data[i].movieTitle + "</a></td>";
+									htmlStr += "</tr>";
+									htmlStr += "<tr>";
+									htmlStr += "<td>상영시간: " + data[i].runningTime + "분</td>";
+									htmlStr += "</tr>";
+									htmlStr += "<tr>";
+									htmlStr += "<td>감독: " + data[i].director + "</td>";
+									htmlStr += "</tr>";
+									htmlStr += "<tr>";
+									htmlStr += "<td>등급: " + data[i].gradeAge+ "</td>";
+									htmlStr += "</tr>";
+									htmlStr += "<tr>";
+									htmlStr += "<td>국가: " + data[i].nationName+ "</td>";
+									htmlStr += "</tr>";					
+									htmlStr += "<tr>";
+									htmlStr += "<td class='last'><a class='booking' href='${pageContext.request.contextPath}/memberBooking.do?movieNo=${pageScope.movie.movieNo}'>예매하기</a> &nbsp;&nbsp;<a class='theater' href='#'>상영시간표</a></td>";
+									htmlStr += "</tr>";
+									
+									$(htmlStr).appendTo('#table');
+									htmlStr = "";
+								}			
+								/////////////// 페이징 처리 /////////////										
+								jqueryPager({
+									key: 2,
+									pageSize: recordCountPerPage, 
+									pageBlock: pageSize,
+									currentPage: currentPageNo,
+									pageTotal: totalRecordCount 
+								});
+							}
+							,
+							error: function(jqXHR, textStatus, error) {
+								alert("Error : " + jqXHR.status + ", " + error);
+								
+							}	
+						});
+		
+					}//end of if clause
+					
+				}
+				, 
+				error: function(jqXHR) {
+					alert('Error : ' + jqXHR.status);							
+				}				
+				
+			});
+		}//end of if
+	
+	} //end of goPage 
+	
+	$(document).ready(function() {
 		//전체 조회
 		$('#selectAllBtn').on('click', function() {
-			goPage(1);			
+			goPage(1, 1);			
 		});
-				
+	    	
+		//검색
+		$('#findBtn').on('click', function() {
+			goPage(1, 2);		
+		});		
 	});	
 	
-  </script>
+ </script>
  </head>
- <body>
- <br><br>
-  <form id="form">
-   		검색조건 : <select name="keyfield">
-   					  		<option value="MovieTitle">제목</option>
-   							<option value="Director">감독</option>
-   					</select>
-   					<input type="text" name="keyword" size="20">
-   					<button id="findBtn" type="button">검색</button>
-   </form>
-    
-   <form id="form1">
-   			&nbsp;&nbsp;
-   			<button id="selectAllBtn" type="button">전체조회</button>
-    </form><br><br>
-  
-  	<%--전체 조회 OR 검색 리스트 나타남!!!얍!!! --%>
-	<table border="1" id="table" style="overflow-y:auto; overflow-x:hidden; display:block; max-height:800px;">
+ <body><br><br>
+ <form id="form">
+ 	<select name="keyfield" id="keyfield">
+		<option value="MovieTitle">제목</option>
+   		<option value="Director">감독</option>
+   	</select>
+   	<input type="text" name="keyword" size="20">
+   	<button id="findBtn" type="button">검색</button>
+ </form>
+ 
+ <form id="form1">&nbsp;&nbsp;
+ 	<button id="selectAllBtn" type="button">전체조회</button>
+ </form><br><br>
+ <table border="1" id="table" >
 	<c:forEach var="movie" items="${requestScope.movies }" varStatus="loop">
 		<tr>
-		<td rowspan= "6" class= "first"><img src="${pageContext.request.contextPath}/user/movie/upload/${pageScope.movie.photo.moviePhotoOriginalFileName}"></td>
-		<td class="title"><a href="${pageContext.request.contextPath}/user/movie/detailMovie.do?movieNo=${pageScope.movie.movieNo}">${pageScope.movie.movieTitle }</a></td>
+			<td rowspan= "6" class= "first"><img src="${pageContext.request.contextPath}/user/movie/upload/${pageScope.movie.photo.moviePhotoOriginalFileName}"></td>
+			<td class="title"><a href="${pageContext.request.contextPath}/user/movie/detailMovie.do?movieNo=${pageScope.movie.movieNo}">${pageScope.movie.movieTitle }</a></td>
+		</tr>  
+		<tr>
+			<td>상영시간: ${pageScope.movie.runningTime}분</td>
 		</tr>
 		<tr>
-		<td>상영시간: ${pageScope.movie.runningTime}분</td>
+			<td>감독: ${pageScope.movie.director }</td>
 		</tr>
 		<tr>
-		<td>감독: ${pageScope.movie.director }</td>
+			<td>등급: ${pageScope.movie.grade.gradeAge }</td>
 		</tr>
 		<tr>
-		<td>등급: ${pageScope.movie.grade.gradeAge }</td>
-		</tr>
-		<tr>
-		<td>국가: ${pageScope.movie.nation.nationName }</td>
+			<td>국가: ${pageScope.movie.nation.nationName }</td>
 		</tr>					
 		<tr>
-		<td class='last'><a href='#'>예매하기</a> &nbsp;&nbsp;<a href='#'>상영시간표</a></td>
+			<td class='last'>
+			<c:choose>
+            <c:when test="${param.keyfield =='end' }">
+                <a class='theater' href='#'>상영시간표</a>            
+            </c:when>
+            <c:otherwise>
+               <a class='booking' href='${pageContext.request.contextPath}/memberBooking.do?movieNo=${pageScope.movie.movieNo}'>예매하기</a>
+                &nbsp;&nbsp;<a class='theater' href='#'>상영시간표</a>
+            </c:otherwise>
+          </c:choose>
+		 	</td>
 		</tr>
-</c:forEach>
-	</table><br><br>
-	
-	<%--페이징 처리 나타남!!!얍!!! --%>
-    <div id="paging" style="margin:auto; text-align:center;"> </div>
- </body>
+	</c:forEach>
+</table><br><br>
+
+<div id="paging" > </div>
+</body>
 </html>

@@ -27,7 +27,7 @@ public class RemoveMovieCommand implements Command{
 			MovieService service = MovieService.getInstance();
 			service.deleteMovieList(movieNoList);
 				
-			forward.setPath("/user/movie/successRemoveMovie.jsp");
+			forward.setPath("/admin/movie/successRemoveMovie.jsp");
 			forward.setRedirect(true);
 			return forward;
 			

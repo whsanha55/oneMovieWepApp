@@ -28,7 +28,6 @@ public class MemberBookingPayFormCommand implements Command {
 		HttpSession session = req.getSession();
 		BookingVO bookingVO = (BookingVO) session.getAttribute("bookingVO");
 		bookingVO.setPrice(Integer.parseInt(req.getParameter("priceSelectedName")));
-		
 		BookingSnVO bookingSn = (BookingSnVO) session.getAttribute("bookingSn");
 		bookingSn.setSeatSn(req.getParameter("seatSelectedName"));
 		bookingSn.setPriceSn(Integer.parseInt(req.getParameter("priceSelectedName")));

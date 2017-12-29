@@ -9,11 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import controller.ActionForward;
 import controller.Command;
 import domain.movie.DetailMovieVO;
-import domain.movie.MovieVO;
 import model.movie.MovieService;
 
-
-//영화 수정 폼 요청을 처리할 커맨드 클래스 구현
 public class ModifyMovieFormCommand implements Command {
 
 	@Override
@@ -29,7 +26,7 @@ public class ModifyMovieFormCommand implements Command {
 
 			req.setAttribute("movie", movie);
 
-			forward.setPath("/admin/movie/modifyMovieForm.jsp");
+			forward.setPath("/admin/layoutAdmin.jsp?article=/admin/movie/modifyMovieForm.jsp");
 			forward.setRedirect(false);
 			return forward;
 

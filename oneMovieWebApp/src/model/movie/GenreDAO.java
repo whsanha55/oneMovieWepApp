@@ -10,7 +10,6 @@ import java.util.List;
 import conn.DBConn;
 import domain.movie.GenreVO;
 import domain.movie.MovieGenreVO;
-import domain.movie.PhotoVO;
 
 public class GenreDAO {
 
@@ -35,21 +34,15 @@ public class GenreDAO {
 			
 			for (MovieGenreVO genre : genres) {			
 				pstmt.setInt(1, genre.getGenreNo());
-				//pstmt.setInt(2, genre.getMovieNo());
-				pstmt.executeUpdate();
-				//pstmt.addBatch();
+				pstmt.addBatch();			
 			}	
-			
-			//pstmt.addBatch();
-			//pstmt.executeUpdate();		//??왜때문에 에러
-
+			pstmt.executeBatch();
+		
 		} finally {
-			if (pstmt != null)
-				pstmt.close();
+			if (pstmt != null) pstmt.close();
 		}
 	}
 	
-
 	// 영화장르 테이블의 정보를 가져온다.
 	public List<MovieGenreVO> selectMovieGenreList() throws Exception {
 		ArrayList<MovieGenreVO> movieGenres = new ArrayList<MovieGenreVO>();
@@ -63,9 +56,9 @@ public class GenreDAO {
 			stmt = conn.createStatement();
 
 			StringBuffer sql = new StringBuffer();
-			sql.append("select movieGenreNo, genreNo, movieNo												   ");
+			sql.append("select movieGenreNo, genreNo, movieNo							   ");
 			sql.append("from movie_genre 														   ");
-			sql.append("order by movieGenreNo asc    												   ");
+			sql.append("order by movieGenreNo asc    										   ");
 
 			System.out.println(sql.toString());
 
@@ -80,10 +73,8 @@ public class GenreDAO {
 			}
 
 		} finally {
-			if (stmt != null)
-				stmt.close();
-			if (conn != null)
-				conn.close();
+			if (stmt != null) stmt.close();
+			if (conn != null) conn.close();
 		}
 		return movieGenres;
 	}
@@ -101,9 +92,9 @@ public class GenreDAO {
 			stmt = conn.createStatement();
 
 			StringBuffer sql = new StringBuffer();
-			sql.append("select genreNo, genreName												   ");
+			sql.append("select genreNo, genreName									   ");
 			sql.append("from genre 														   ");
-			sql.append("order by genreName asc    												   ");
+			sql.append("order by genreName asc    									   ");
 
 			System.out.println(sql.toString());
 
@@ -117,10 +108,8 @@ public class GenreDAO {
 			}
 
 		} finally {
-			if (stmt != null)
-				stmt.close();
-			if (conn != null)
-				conn.close();
+			if (stmt != null) stmt.close();
+			if (conn != null) conn.close();
 		}
 		return genres;
 	}

@@ -7,6 +7,14 @@ public class DetailMovieVO {
 
 private int movieNo;
    private String movieTitle;
+   private String director;
+   private String story;
+   private String videoUrl;
+   private int runningTime;
+   private int gradeNo;
+   private int nationNo;
+   private int roleNo;
+   
    private List<GenreVO> genres = new ArrayList<GenreVO>();
    private List<ActorVO> actors = new ArrayList<ActorVO>();
    private List<PhotoVO> photos = new ArrayList<PhotoVO>();
@@ -15,13 +23,6 @@ private int movieNo;
    private PhotoVO photo = new PhotoVO();
    private GradeVO grade = new GradeVO();
    private NationVO nation = new NationVO();
-   private String director;
-   private int runningTime;
-   private int gradeNo;
-   private int nationNo;
-   private String story;
-   private int roleNo;
-   private String videoUrl;
 
    public DetailMovieVO() {
       super();
@@ -48,7 +49,6 @@ private int movieNo;
 	      for(int i = 0; i < genres.size(); i++) {
 	    	  GenreVO temp = genres.get(i);
 	         if(genre.getGenreName().equals(temp.getGenreName())) { //중복된 데이터가 있을 경우
-	            System.out.println("같다!!!"+genre.getGenreName());
 	            isExsit = true;
 	            break;
 	         }
@@ -73,17 +73,20 @@ private int movieNo;
    public List<ActorVO> getActors() {
       return actors;
    }
+   
+   public void addActor1(ActorVO actor) {
+		actors.add(actor);
+   }
 
+   
    public void addActor(ActorVO actor) {
       boolean isExsit = false;
       for(int i = 0; i < actors.size(); i++) {
          ActorVO temp = actors.get(i);
          if(actor.getActorName().equals(temp.getActorName())) { //중복된 데이터가 있을 경우
-            System.out.println("같다!!!"+actor.getActorName());
             isExsit = true;
-            break;
+           // break;
          }
-
       }
       if(isExsit) { //isExsit=true
 
@@ -103,7 +106,6 @@ private int movieNo;
       for(int i = 0; i < photos.size(); i++) {
          PhotoVO temp = photos.get(i);
          if(photo.getMoviePhotoOriginalFileName().equals(temp.getMoviePhotoOriginalFileName())) { //중복된 데이터가 있을 경우
-            System.out.println("같다!!!"+photo.getMoviePhotoOriginalFileName());
             isExsit = true;
             break;
          }
@@ -113,7 +115,7 @@ private int movieNo;
          //photos.add(obj);
       } else {
          photos.add(photo);
-         System.out.println(photos);
+         //System.out.println(photos);
       }
    }
 
@@ -121,11 +123,15 @@ private int movieNo;
       
       return photos;
    }
-
+ 
    public void setPhotos(List<PhotoVO> photos) {
       this.photos = photos;
    }
-
+   
+   public void addPhoto1(PhotoVO photo) {
+	      photos.add(photo);
+   }
+   
    public String getDirector() {
       return director;
    }

@@ -20,6 +20,7 @@ public class UploadFiles {
 		
 		String path = context.getRealPath("/user/movie/upload");
 		System.out.println("path : " + path);
+		System.out.println("moviePhotoOriginalFileName : " + moviePhotoOriginalFileName);
 		File file = new File(path + File.separator + moviePhotoOriginalFileName);
 		if(file.exists()) {
 			moviePhotosystemFileName = moviePhotoOriginalFileName.substring(0, moviePhotoOriginalFileName.lastIndexOf(".")) +
@@ -30,6 +31,8 @@ public class UploadFiles {
 			moviePhotosystemFileName = moviePhotoOriginalFileName;
 		}
 	
+		System.out.println("moviePhotosystemFileName : " + moviePhotosystemFileName);
+		
 		part.write(path + File.separator + moviePhotosystemFileName);
 		
 		PhotoVO photo = new PhotoVO();

@@ -1,12 +1,74 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style>
+	#datepicker {
+		text-align: center;
+		font-size: 20px;
+		
+	}
+	.linkDiv {
+		display: inline;
+		margin-right: 50px;
+	}
+	#dateFieldSet {
+		margin-top: 50px;
+	}
+	#theaterFieldSet {
+		margin-bottom: 50px;
+	}
+	
+	#divTable {
+		height: 600px;
+   	 overflow-x:scroll;
+   	 overflow-y:scroll;
+
+	}
+	#bookingListTable {
+		text-align: center;
+		word-break: keep-all;
+		border-collapse: collapse;
+	}
+	#bookingListTable th {
+ 	   background-color: lightseagreen;
+    	color: white;
+ 	   padding-left: 10px;
+ 	   padding-right: 10px;
+ 	   padding-top: 10px;
+ 	   padding-bottom: 10px;
+	}
+	
+	#bookingListTable th:nth-child(5) {
+		min-width:200px;
+	}
+	#bookingListTable td {
+		padding-left : 5px;
+		padding-right : 5px;
+	}
+	
+	#bookingListTable a {
+		font-size : 20px;
+	}
+	#bookingListTable a:hover {
+		color: black;
+	}
+	
+	.turnChb span{
+		width: 10%;
+	}
+	
+	#paging {
+    	text-align: center;
+   	 margin: auto;
+	}
+</style>
+
 <script>
 
 	$(document).ready(function() {
 		
 		$("#datepicker").datepicker({
-	    	dateFormat: 'yy년mm월dd일',
+	    	dateFormat: 'yy년 mm월 dd일',
 	        prevText: '이전 달',
 	        nextText: '다음 달',
 	        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
@@ -65,7 +127,7 @@
 		$('#screenCheckboxDiv').on('change',':checkbox[name=screenNo]', function() {
 
 			var screenNo = $(this).val();
-			var text = "<span>" + $(this).closest('span').text() + $(this).parent().text() + " :</span>";
+			var text = "<div class='turnChb'><span>" + $(this).closest('span').text() + $(this).parent().text() + " :</span>";
 			if($('#datepicker').datepicker("getDate") == null) {
 				alert("날짜를 선택하세요!!");
 				$(this).prop("checked",false);
@@ -83,12 +145,15 @@
 						},
 						dataType : 'json',
 						success : function(data) {
-							for(var i=0;i<data.length;i++) {
-								text += " <label><input type='checkbox' name='turnNo' value='" 
-											+ data[i].turnNo + "'>" + data[i].startTime + "~" + data[i].endTime + "</label> ";
-								
+							if(data != "") {
+								for(var i=0;i<data.length;i++) {
+									text += " <label><input type='checkbox' name='turnNo' value='" 
+												+ data[i].turnNo + "'>" + data[i].startTime + "~" + data[i].endTime + "</label> ";
+									
+								}
+								text += "</div>"
+									$('#turnCheckboxDiv').append("<div class='screen' id='screen_" + screenNo + "'>" +  text + "</div> ");
 							}
-								$('#turnCheckboxDiv').append("<div class='screen' id='screen_" + screenNo + "'>" +  text + "</div> ");
 						} ,
 						error : function(jqXHR) {
 							alert(jqXHR.status);
@@ -316,12 +381,9 @@
 	}
 </script>
 
-<div><a href="${pageContext.request.contextPath }/admin/adminBookingByMember.do">회원 검색</a></div>
-	<div><a href="${pageContext.request.contextPath }/admin/adminBookingByTheater.do">극장  검색</a></div>
-	
-	<br>
-	<br>
-	<br>
+	<div class='linkDiv'><a href="${pageContext.request.contextPath }/admin/adminBookingByMember.do">회원 검색</a></div>
+	<div class='linkDiv'><a href="${pageContext.request.contextPath }/admin/adminBookingByTheater.do">극장  검색</a></div>
+
 	<fieldset id="dateFieldSet">
 	<legend>날짜</legend>
 	<input type="text" id="datepicker" placeholder="날짜를 선택하세요">  
@@ -341,10 +403,13 @@
 	<div id="turnCheckboxDiv">
 	
 	</div>
-	</fieldset>
 	
 	<button id="btn">조회하기</button>
 	
+	</fieldset>
+	
+	
+	<div id='divTable'>
 	  <table border="1" id="bookingListTable">
         
             <tr>
@@ -361,5 +426,5 @@
             </tr>
             
         </table>
-                
+       </div>
         <div id="paging"></div>

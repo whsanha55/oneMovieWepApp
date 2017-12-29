@@ -1,31 +1,94 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<style>
+	#selectPeople {
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 20px;	
+		text-align: center;	
+	}
+	
+	#selectBookingSeat {
+		margin-left: auto;
+		margin-right: auto;
+		width:80%;
+		border: 3px groove burlywood;
+		
+		
+	}
+	#selectBookingSeat div {
+		text-align: center;
+	}
+	#selectBookingSeat div:first-child {
+		font-size: 50px;
+		border-bottom : 10px solid black;
+	}
+	#selectBookingSeat div:last-child {
+		font-weight: bolder;
+		margin-right: 120px;
+		font-size : 25px;
+	}
+	#selectBookingSeat span {
+		margin-left : 10px;
+	}
+	.lineName {
+		margin-right: 50px;
+		width:60px;
+		font-size: 35px;
+	}
+	
+	#selectBookingSeat a {
+		display:inline-block;
+	}
+	
+	form {
+		text-align:center;
+		margin-top: 20px;
+	}
+	
+	#resultTable {
+		border: 1px solid black;
+		text-align:center;
+		width:60%;
+		margin-left: auto;
+		margin-right : auto;
+		
+	}
+	#resultTable td {
+		width:50%;
+		border: 1px solid black;
+	}
+	
+</style>
+`	
 
 <script>
 	$(document).ready(function() {
-		var seatNum = 0;
-		var selectedSeatNum = 0;
+		var seatNum = 0;		//희망하는 관람인원 수
+		var selectedSeatNum = 0;		//실제 선택한 관람인원 수
 		var selectedSeatNo = [];
 		var selectedSeatName = [];
 		
 		$('#bookingNumVal').on('change',function() {
 			
-			if(seatNum <= $(this).val()) {
+			if(seatNum <= $(this).val() || selectedSeatNum <= $(this).val()) {
 				seatNum = $(this).val();
 				$('#resultTable').find('tr:nth-child(6)').find('td:nth-child(2)').text(seatNum * 10000);
 				
 				
 			} else {
-				seatNum = $(this).val();
-				selectedSeatNum = 0;
-				selectedSeatNo = [];
-				selectedSeatName = [];
-				$('#resultTable').find('tr:nth-child(5)').find('td:nth-child(2)').text("");
-				$('#resultTable').find('tr:nth-child(6)').find('td:nth-child(2)').text(seatNum * 10000);
-				$('.seatNo').removeAttr('style');
-				
+				if(confirm('선택하신 좌석보다 적은 인원입니다 \n 계속 진행하시겠습니까? ')) {
+					seatNum = $(this).val();
+					selectedSeatNum = 0;
+					selectedSeatNo = [];
+					selectedSeatName = [];
+					$('#resultTable').find('tr:nth-child(5)').find('td:nth-child(2)').text("");
+					$('#resultTable').find('tr:nth-child(6)').find('td:nth-child(2)').text(seatNum * 10000);
+					$('.seatNo').removeAttr('style');
+				} else {
+					$('#bookingNumVal').val(seatNum);					
+				}
 				
 			}
 		});
@@ -35,8 +98,10 @@
 				alert("인원을 선택해 주세요!!!");
 				return false;
 			} else if(seatNum > selectedSeatNum) {
+				if(!selectedSeatName.includes($(this).find('span').text()))  {
+					
 				selectedSeatNum++;
-				$(this).css('backgroundColor','black');
+				$(this).css('backgroundColor','aqua');
 				//$(this).off('click');
 				
 				selectedSeatNo.push($(this).find('a').attr('name'));
@@ -44,6 +109,7 @@
 				selectedSeatName.sort();
 				
 				$('#resultTable').find('tr:nth-child(5)').find('td:nth-child(2)').text(selectedSeatName.join());
+				}
 			} else {
 				alert("이미 좌석을 모두 선택하셨습니다!!");
 				return false;
@@ -69,7 +135,8 @@
 	
 
 </script>
-
+	<div id="selectPeople">
+		관람인원
 	<select id="bookingNumVal">
 		<option value="0"> 인원을 선택하세요
 		<option value="1"> 1명
@@ -77,6 +144,7 @@
 		<option value="3"> 3명
 		<option value="4"> 4명
 	</select>
+	</div>
 	
 	<div id="selectBookingSeat">
 		<div> SCREEN</div>
@@ -84,7 +152,7 @@
 			<c:forEach var="seat" items="${requestScope.seatList}">
 			
 				<c:if test="${pageScope.seat.firstSeatLine }">
-					<span>${fn:substring(pageScope.seat.seatName,0,1) }열</span>	
+					<span class='lineName'>${fn:substring(pageScope.seat.seatName,0,1) }열</span>	
 				</c:if>
 				
 				<c:choose>
@@ -114,10 +182,10 @@
 	
 	<form action="${pageContext.request.contextPath }/auth/memberBookingPayForm.do" method="post"  >
 		
-		<button id="payFormButton">결제</button>
+		<button id="payFormButton">결제하기</button>
 	</form>
 	
-	<table border="1" id="resultTable">
+	<table  id="resultTable">
 		<tr>
      		<td>영화</td>
      		<td>${sessionScope.bookingSn.movieSn }</td>
