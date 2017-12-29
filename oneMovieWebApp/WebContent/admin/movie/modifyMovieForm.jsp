@@ -46,7 +46,7 @@
                  <option value="3">15세 관람가</option>
                  <option value="4">19세 관람가</option>
                 </select></td>
-       	</tr>
+       	</tr> 
        	       	<tr>
        		<th>국    가</th>
        		<td><select name="nationNo">

@@ -5,6 +5,40 @@
 <html>
 <head>
 <title>회원 로그인</title>
+<style>
+	#lf {
+        border: 1px solid #5b6a71;
+        padding: 15px;
+        padding-bottom: 5px;
+        margin-left: auto;
+		margin-right: auto;
+	}
+	
+	#lf th, #lf td {
+		padding: 10px;
+	}
+	
+
+	#title {
+		border-bottom: 3px solid #5b6a71;
+		color: #4557bd;
+		font-size: 30px;
+		display: inline-block;
+	}
+	
+	#tt{
+        margin-left: auto;
+		margin-right: auto;
+	}
+	
+	#alb {
+		text-align: center;
+	}
+
+	
+</style>
+
+
 </head>
 <script src="js/jquery-3.2.1.min.js"></script>
 <script>
@@ -61,15 +95,30 @@
 
 </script> 
 <body>
-	<div>로그인</div>
-	<form>
-		<label>아이디<input type="text" name="memberId" id="memberId" tabindex="1"> </label><br>
-		<label>비밀번호<input type="password" name="memberPwd" id="memberPwd" tabindex="2"></label><br>
-	</form>
-	<button id="login">Login</button><br>
-	<button id="findId" onclick="location.href='${pageContext.request.contextPath}/findIdForm.do'">ID 찾기</button><br>
-	<button id="findPwd" onclick="location.href='${pageContext.request.contextPath}/findPwdForm.do'">비밀번호 찾기</button><br>
+	<br><br><table id="tt">
+		<tr>
+			<td><div id="title">회원 로그인</div></td>
+		</tr>
+	</table><br>
 	
+	<table id="lf">
+	<form>
+		<tr>
+			<th><label>아이디</label></th>
+			<td><input type="text" name="memberId" id="memberId" tabindex="1"></td>
+		</tr>
+		<tr>
+			<th><label>비밀번호</label></th>
+			<td><input type="password" name="memberPwd" id="memberPwd" tabindex="2"></td>
+		</tr>
+	</form>
+		<tr>
+			<td id="alb"><button id="login">Login</button></td>
+			<td><button id="findId" onclick="location.href='${pageContext.request.contextPath}/findIdForm.do'">ID 찾기</button>&nbsp;
+			<button id="findPwd" onclick="location.href='${pageContext.request.contextPath}/findPwdForm.do'">비밀번호 찾기</button></td>
+		</tr>
+		
+	</table>
 
 </body>
 </html>

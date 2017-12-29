@@ -4,6 +4,41 @@
 <html>
 <head>
 <title>회원가입</title>
+<style>
+	#jm {
+		border: 1px solid darkgray;
+		padding: 15px;
+		margin-left: auto;
+		margin-right: auto;
+
+	}
+
+	#jm th {
+		padding-left: 5px;
+		text-align: left;
+	}
+
+	#di {
+		font-size: 30px;
+		border-bottom: 3px solid skyblue;
+		display: inline-block;
+	}
+
+	#sp {
+		font-size: 12px;
+	}
+	
+		#btt	{
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	#btt td {
+		padding: 10px;
+	}
+	
+	
+</style>
 </head>
 <script src="https://code.jquery.com/jquery-3.2.1.js"></script> 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -408,23 +443,33 @@
 
 </script>
 <body>
-	<div>회원가입</div>
+	<div id="di">회원가입</div><br><br>
+	<table id="jm">
 	<form>
-		<label>아이디</label><input type="text" name="memberId" id="memberId" maxlength="15" tabindex="1">&nbsp;
-		<label><button id="checkId">중복확인</button></label>&nbsp;
-					<span>영문, 숫자 사용 가능 / 6~15자리로 입력해주세요.</span><br>
-			   <input type="hidden" id="idDuplication" value="unchecked">	
-					
-		<label>비밀번호<input type="password" name="memberPwd" id="memberPwd" maxlength="25" tabindex="2"></label>&nbsp;
-					<span>영문과 숫자를 포함하여 8~25자리로 입력해주세요.</span><br>
-					
-		<label>비밀번호 확인<input type="password" name="checkPwd" id="checkPwd" maxlength="25" tabindex="3"></label><br>
-		
-		<label>이름<input type="text" name="name" id="name" tabindex="4"></label><br>
-		
-		<label>이메일</label>
-			   <input type="text" name="emailId" id="emailId" tabindex="5">&nbsp;
-			   <span id="at">@</span>&nbsp;	  	
+		<tr>
+			<th><label>아이디</label></th>
+			<td><input type="text" name="memberId" id="memberId" size="11" maxlength="15" tabindex="1">&nbsp;
+				<button id="checkId">중복확인</button>&nbsp;
+				<span id="sp">영문, 숫자 사용 가능 / 6~15자리로 입력해주세요.</span>
+			    <input type="hidden" id="idDuplication" value="unchecked">
+		</tr>
+		<tr>
+			<th><label>비밀번호</label></th>
+			<td><input type="password" name="memberPwd" id="memberPwd" size="11" maxlength="25" tabindex="2">&nbsp;
+				<span id="sp">영문과 숫자를 혼합하여 8~25자리로 입력해주세요.</span></td>
+		</tr>
+		<tr>
+			<th><label>비밀번호 확인</label></th>
+			<td><input type="password" name="checkPwd" id="checkPwd" size="11" maxlength="25" tabindex="3"></td>
+		</tr>
+		<tr>
+		<th><label>이름</label></th>
+		<td><input type="text" name="name" id="name" size="11" tabindex="4"></td>
+		</tr>
+		<tr>
+			<th><label>이메일</label></th>
+			<td><input type="text" name="emailId" id="emailId" size="11" tabindex="5">&nbsp;
+			     <span id="at">@</span>&nbsp;	  	
 				   <select name="emailAd" id="emailAd" tabindex="6">
 				     <option value="gmail.com">gamil.com</option>
 				     <option value="daum.net">daum.net</option>
@@ -432,13 +477,17 @@
 				  	 <option value="write">직접 입력</option>
 				   </select>
 				   <input type="text" id="emailAdWrite" name="emailAdWrite" />
-				   &nbsp;<label><button id="checkEmail">중복확인</button></label><br>
-				   <input type="hidden" id="emailDuplication" value="unchecked">	
-				   
-		<label>성별<input type="radio" name="gender" id="M" value="M" checked tabindex="7">남성 &nbsp;
-				  <input type="radio" name="gender" id="F" value="F" tabindex="8">여성 </label><br>
-				  
-		<label>전화번호<select name="exchangeNumber" id="exchangeNumber" tabindex="9">
+				   &nbsp;<label><button id="checkEmail">중복확인</button></label>
+				   <input type="hidden" id="emailDuplication" value="unchecked"></td>	
+		</tr>
+		<tr>
+			<th><label>성별</label></th>
+			<td><input type="radio" name="gender" id="M" value="M" checked tabindex="7">여성 &nbsp;
+				<input type="radio" name="gender" id="F" value="F" tabindex="8">남성</td>
+		</tr>	
+		<tr>
+			<th><label>전화번호</label></th>
+			<td><select name="exchangeNumber" id="exchangeNumber" tabindex="9">
 				     <option value="02">02</option>
 				     <option value="010" selected>010</option>
 				     <option value="011">011</option>
@@ -463,17 +512,30 @@
 				     <option value="064">064</option> 
 				   </select>&nbsp;
 				   <span>-</span>&nbsp;
-				   <input type="text" name="tel1" id="tel1" tabindex="10">&nbsp;
+				   <input type="text" name="tel1" id="tel1" size="10" tabindex="10">&nbsp;
 				   <span>-</span>&nbsp;
-				   <input type="text" name="tel2" id="tel2" tabindex="11">					
-		</label><br>
-		<label>주소<input type="text" name="address1" id="address1" tabindex="12"><br>
-				  <input type="text" name="address2" id="address2" tabindex="13"></label><br>
-				  <input type="text" name="zipcode" id="zipcode" tabindex="14">&nbsp;&nbsp;&nbsp;
-				  <button id="findAdd">주소찾기</button><br><br>
-		
-		<button type="button" id="join">회원가입</button> &nbsp;&nbsp;&nbsp;
-		<button type="button" id="reset">취소</button><br>
+				   <input type="text" name="tel2" id="tel2" size="10" tabindex="11"></td>					
+		</tr>
+
+		<tr>
+			<th rowspan="3"><label>주소</label></th>
+			<td><input type="text" name="address1" id="address1" size="40" tabindex="12"></td>
+		</tr>
+		<tr>
+			<td><input type="text" name="address2" id="address2" size="40" tabindex="13"></td>
+		</tr>
+		<tr>
+			<td><input type="text" name="zipcode" id="zipcode" tabindex="14">
+				&nbsp;&nbsp;&nbsp;<button id="findAdd">주소찾기</button></td>
+		</tr>
+	</table><br>
+			<table id="btt">
+			<tr>
+				<td><button type="button" id="join">가입</button></td>
+				<td><button type="button" id="reset">취소</button></td>
+			</tr>
+	</table>
+			
 	</form>
 
 </body>

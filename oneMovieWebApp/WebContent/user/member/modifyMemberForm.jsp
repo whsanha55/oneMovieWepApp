@@ -4,7 +4,43 @@
 <html>
 <head>
 <title>회원 정보 수정</title>
-</head>
+<style>
+	#jm {
+		border: 1px solid darkgray;
+		padding: 15px;		
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	#jm th {
+		padding-left: 5px;
+		text-align: left;
+	}
+
+	#di {
+		font-size: 30px;
+		border-bottom: 3px solid skyblue;
+		display: inline-block;
+	}
+
+	#sp {
+		font-size: 12px;
+	}
+	
+	#btt	{
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	#btt td {
+		padding: 10px;
+	}
+	
+
+</style>
+
+
+
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
 	$(document).ready(function() {
@@ -395,77 +431,102 @@
 	});
 	
 </script>
-
+</head>
 
 
 
 
 <body>
-	<div>회원 정보 수정</div>
-	<form>
-		<label>아이디<input type="text" name="memberId" id="memberId" value="${requestScope.member.memberId }" readonly></label><br>
+	<div id="di">회원 정보 수정</div><br><br>
+	<table id="jm">
+		<form>
+			<tr>
+				<th><label>아이디</label></th>
+				<td><input type="text" name="memberId" id="memberId"  size="11" value="${requestScope.member.memberId }" readonly></td>
+			</tr>
 		
-		<label>비밀번호<input type="password" name="memberPwd" id="memberPwd" value="${requestScope.member.memberPwd }" maxlength="25" tabindex="1"></label>&nbsp;
-					<span>영문과 숫자를 포함하여 8~25자리로 입력해주세요.</span><br>
-		
-		<label>비밀번호 확인<input type="password" name="checkPwd" id="checkPwd" value="${requestScope.member.memberPwd }" maxlength="25" tabindex="2"></label><br>
-		
-		<label>이름<input type="text" name="name" id="name" value="${requestScope.member.name }" tabindex="3"></label><br>
-		
-		<label>이메일<input type="text" name="emailId" id="emailId" tabindex="4">&nbsp;
-				   <span id="at">@</span>&nbsp;
-				   <select name="emailAd" id="emailAd" tabindex="5">
-				     <option value="gmail.com">gmail.com</option>
-				     <option value="daum.com">daum.net</option>
-				     <option value="naver.com">naver.com</option>
-				     <option value="write">직접 입력</option>				     
+			<tr>
+				<th><label>비밀번호</label></th>
+			</td>
+				<td><input type="password" name="memberPwd" id="memberPwd"  size="11" value="${requestScope.member.memberPwd }" maxlength="25" tabindex="1">&nbsp;
+					<span id="sp">영문과 숫자를 혼합하여 8~25자리로 입력해주세요.</span><td>
+			</tr>
+			<tr>
+				<th><label>비밀번호 확인</label></th>
+				<td><input type="password" name="checkPwd" id="checkPwd" size="11" value="${requestScope.member.memberPwd }" maxlength="25" tabindex="2"></td>
+			<tr>
+				<th><label>이름</label></th>
+				<td><input type="text" name="name" id="name" value="${requestScope.member.name }" tabindex="3"></td>
+			</tr>
+			<tr>
+				<th><label>이메일</label></th>
+				<td><input type="text" name="emailId" id="emailId" size="11" tabindex="4">&nbsp;
+					<span id="at">@</span>&nbsp;
+					<select name="emailAd" id="emailAd" tabindex="5">
+						<option value="gmail.com">gmail.com</option>
+						<option value="daum.com">daum.net</option>
+						<option value="naver.com">naver.com</option>
+						<option value="write">직접입력</option>				     
 				   </select></label>&nbsp;
 				   <input type="text" id="emailAdWrite" name="emailAdWrite" />
-				   &nbsp;<label><button id="checkEmail">중복확인</button></label><br>
-				   <input type="hidden" id="emailDuplication" value="checked">	
-				   
-		<label>성별<input type="radio" name="gender" id="M" value="M" tabindex="6">남성 &nbsp;
-				  <input type="radio" name="gender" id="F" value="F" tabindex="7">여성 </label><br>
-				  
-		<label>전화번호<select name="exchangeNumber" id="exchangeNumber" tabindex="8"> 
-				     <option value="02">02</option>
-				     <option value="010" selected>010</option>
-				     <option value="011">011</option>
-				     <option value="016">016</option>
-				     <option value="017">017</option>
-				     <option value="019">019</option>
-				     <option value="031">031</option>
-				     <option value="032">032</option>
-				     <option value="033">033</option>
-				     <option value="041">041</option>
-				     <option value="042">042</option>
-				     <option value="043">043</option>
-				     <option value="044">044</option>
-				     <option value="051">051</option>
-				     <option value="052">052</option>
-				     <option value="053">053</option>
-				     <option value="054">054</option>
-				     <option value="055">055</option>
-				     <option value="061">061</option>
-				     <option value="062">062</option>
-				     <option value="063">063</option>
-				     <option value="064">064</option> 			     
-				   </select>&nbsp;
-				   <span>-</span>&nbsp;
-				   <input type="text" name="tel1" id="tel1" tabindex="9">&nbsp;
-				   <span>-</span>&nbsp;
-				   <input type="text" name="tel2" id="tel2" tabindex="10">					
-		</label><br>
-		
-		<label>주소<input type="text" name="address1" id="address1" value="${requestScope.member.address1 }" tabindex="11"><br>
-				  <input type="text" name="address2" id="address2" value="${requestScope.member.address2} " tabindex="12"></label><br>
-				  <input type="text" name="zipcode" id="zipcode" value="${requestScope.member.zipcode }" tabindex="13">&nbsp;&nbsp;&nbsp;
-				  <button id="findAdd">주소찾기</button><br><br>
-		
-		
-		<button type="button" id="modify">정보 수정</button> &nbsp;&nbsp;&nbsp;
-		<button type="button" id="reset">취소</button> &nbsp;&nbsp;&nbsp;
-		<button type="button" id="withdraw">회원 탈퇴</button><br>
+				   &nbsp;<label><button id="checkEmail">중복확인</button></label>
+				   <input type="hidden" id="emailDuplication" value="checked"></td>
+			</tr>
+			<tr>
+				<th><label>성별</label></th>
+				<td><input type="radio" name="gender" id="M" value="M" tabindex="6">남성 &nbsp;
+				    <input type="radio" name="gender" id="F" value="F" tabindex="7">여성</td>
+			</tr>
+			<tr>
+				<th><label>전화번호</label></th>
+				<td><select name="exchangeNumber" id="exchangeNumber" tabindex="8"> 
+						 <option value="02">02</option>
+						 <option value="010" selected>010</option>
+						 <option value="011">011</option>
+						 <option value="016">016</option>
+						 <option value="017">017</option>
+						 <option value="019">019</option>
+						 <option value="031">031</option>
+						 <option value="032">032</option>
+						 <option value="033">033</option>
+						 <option value="041">041</option>
+						 <option value="042">042</option>
+						 <option value="043">043</option>
+						 <option value="044">044</option>
+						 <option value="051">051</option>
+						 <option value="052">052</option>
+						 <option value="053">053</option>
+						 <option value="054">054</option>
+						 <option value="055">055</option>
+						 <option value="061">061</option>
+						 <option value="062">062</option>
+						 <option value="063">063</option>
+						 <option value="064">064</option> 			     
+					 </select>&nbsp;
+					 <span>-</span>&nbsp;
+				     <input type="text" name="tel1" id="tel1" size="10" tabindex="9">&nbsp;
+				     <span>-</span>&nbsp;
+				     <input type="text" name="tel2" id="tel2" size="10" tabindex="10"></td>
+			</tr>
+			<tr>
+				<th rowspan="3"><label>주소</label></th>
+				<td><input type="text" name="address1" id="address1" size="40" value="${requestScope.member.address1 }" tabindex="11"></td>
+			</tr>
+			<tr>
+				<td><input type="text" name="address2" id="address2" size="40" value="${requestScope.member.address2} " tabindex="12"></td>
+			</tr>
+			<tr>
+				<td><input type="text" name="zipcode" id="zipcode" value="${requestScope.member.zipcode }" tabindex="13">&nbsp;&nbsp;&nbsp;
+				  <button id="findAdd">주소찾기</button></td>
+			</tr>
+		</table><br>
+		<table id="btt">
+			<tr>
+				<td><button type="button" id="modify">회원정보 수정</button></td>
+				<td><button type="button" id="reset">취소</button></td>
+				<td><button type="button" id="withdraw">회원 탈퇴</button></td>
+			</tr>
+		</table>
 	</form>
 
 </body>

@@ -64,7 +64,7 @@ private int movieNo;
 
    public List<GenreVO> getGenres() {
       return genres;
-   }
+   } 
 
    public void setGenres(List<GenreVO> genres) {
       this.genres = genres;

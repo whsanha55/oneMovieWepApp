@@ -199,7 +199,7 @@ public class MovieService {
 	                  actorPhotoDAO.insertActorPhoto(conn, actorPhoto);
 	               }
 	            }
-	         }
+	         } 
 
 	         conn.commit();
 
